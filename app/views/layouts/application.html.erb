@@ -1,84 +1,78 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>ReferralSystem</title>
-  <%= stylesheet_link_tag    'application', media: 'all' %>
-  <%= javascript_include_tag 'application'%>
-  <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
-  <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300|Material+Icons' rel='stylesheet' type='text/css'>
-  <%= csrf_meta_tags %>
+	<title>ReferralSystem</title>
+	<%= stylesheet_link_tag    'application', media: 'all' %>
+	<%= javascript_include_tag 'application'%>
+	<link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+	<link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300|Material+Icons' rel='stylesheet' type='text/css'>
+	<%= csrf_meta_tags %>
 </head>
 <body>
 	<div class="wrapper">
 
-	    <div class="sidebar" data-color="purple" data-image="../assets/img/sidebar-1.jpg">
+		<div class="sidebar" data-color="purple" data-image="../assets/img/sidebar-1.jpg">
 			<!--
 		        Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
 
 		        Tip 2: you can also add an image using data-image tag
 		    -->
 
-			<div class="logo">
-				<a href="http://www.creative-tim.com" class="simple-text">
-					Creative Tim
-				</a>
-			</div>
+		    <div class="logo">
+		    	<a href="http://www.creative-tim.com" class="simple-text">
+		    		RECMAN
+		    	</a>
+		    </div>
 
-	    	<div class="sidebar-wrapper">
-	            <ul class="nav">
-	                <li class="active">
-	                    <a href="dashboard.html">
-	                        <i class="material-icons">dashboard</i>
-	                        <p>Dashboard</p>
-	                    </a>
-	                </li>
-	                <li>
-	                    <a href="user.html">
-	                        <i class="material-icons">person</i>
-	                        <p>User Profile</p>
-	                    </a>
-	                </li>
-	                <li>
-	                    <a href="table.html">
-	                        <i class="material-icons">content_paste</i>
-	                        <p>Table List</p>
-	                    </a>
-	                </li>
-	                <li>
-	                    <a href="typography.html">
-	                        <i class="material-icons">library_books</i>
-	                        <p>Typography</p>
-	                    </a>
-	                </li>
-	                <li>
-	                    <a href="icons.html">
-	                        <i class="material-icons">bubble_chart</i>
-	                        <p>Icons</p>
-	                    </a>
-	                </li>
-	                <li>
-	                    <a href="maps.html">
-	                        <i class="material-icons">location_on</i>
-	                        <p>Maps</p>
-	                    </a>
-	                </li>
-	                <li>
-	                    <a href="notifications.html">
-	                        <i class="material-icons text-gray">notifications</i>
-	                        <p>Notifications</p>
-	                    </a>
-	                </li>
-					<li class="active-pro">
-	                    <a href="upgrade.html">
-	                        <i class="material-icons">unarchive</i>
-	                        <p>Upgrade to PRO</p>
-	                    </a>
-	                </li>
-	            </ul>
-	    	</div>
-	    </div>
+		    <div class="sidebar-wrapper">
+		    	<ul class="nav">
+		    		<li class="active">
+		    			<a href="#">
+		    				<i class="material-icons">dashboard</i>
+		    				<p>Dashboard</p>
+		    			</a>
+		    		</li>
+		    		<li>
+		    			<a href="#">
+		    				<i class="material-icons">person</i>
+		    				<p>User Profile</p>
+		    			</a>
+		    		</li>
+		    		<li>
+		    			<a href="#">
+		    				<i class="material-icons">content_paste</i>
+		    				<p>Table List</p>
+		    			</a>
+		    		</li>
+		    		<li>
+		    			<a href="#">
+		    				<i class="material-icons">library_books</i>
+		    				<p>Typography</p>
+		    			</a>
+		    		</li>
+		    		<li>
+		    			<a href="#">
+		    				<i class="material-icons">bubble_chart</i>
+		    				<p>Icons</p>
+		    			</a>
+		    		</li>
+		    		<li>
+		    			<a href="#">
+		    				<i class="material-icons">location_on</i>
+		    				<p>Maps</p>
+		    			</a>
+		    		</li>
+		    		<li>
+		    			<a href="#">
+		    				<i class="material-icons text-gray">notifications</i>
+		    				<p>Notifications</p>
+		    			</a>
+		    		</li>
+		    	</ul>
+		    </div>
+		</div>
 
-	    <div class="main-panel">
+		<div class="main-panel">
 			<nav class="navbar navbar-transparent navbar-absolute">
 				<div class="container-fluid">
 					<div class="navbar-header">
@@ -114,9 +108,9 @@
 							</li>
 							<li>
 								<a href="#pablo" class="dropdown-toggle" data-toggle="dropdown">
-	 							   <i class="material-icons">person</i>
-	 							   <p class="hidden-lg hidden-md">Profile</p>
-		 						</a>
+									<i class="material-icons">person</i>
+									<p class="hidden-lg hidden-md">Profile</p>
+								</a>
 							</li>
 						</ul>
 
@@ -132,23 +126,92 @@
 					</div>
 				</div>
 			</nav>
+			<div class="content">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-lg-3 col-md-6 col-sm-6">
+							<div class="card card-stats">
+								<div class="card-header" data-background-color="green">
+									<i class="material-icons">store</i>
+								</div>
+								<div class="card-content">
+									<p class="category">Daily Revenue</p>
+									<h3 class="title">$34,245</h3>
+								</div>
+								<div class="card-footer">
+									<div class="stats">
+										<i class="material-icons">date_range</i> Last 24 Hours
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-3 col-md-6 col-sm-6">
+							<div class="card card-stats">
+								<div class="card-header" data-background-color="green">
+									<i class="material-icons">store</i>
+								</div>
+								<div class="card-content">
+									<p class="category">Total Revenue</p>
+									<h3 class="title">$34,245</h3>
+								</div>
+								<div class="card-footer">
+									<div class="stats">
+										<i class="material-icons">date_range</i> Since 3/4/2017
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-3 col-md-6 col-sm-6">
+							<div class="card card-stats">
+								<div class="card-header" data-background-color="red">
+									<i class="material-icons">info_outline</i>
+								</div>
+								<div class="card-content">
+									<p class="category">Business Deals</p>
+									<h3 class="title">75</h3>
+								</div>
+								<div class="card-footer">
+									<div class="stats">
+										<i class="material-icons">date_range</i> Since 3/4/2017
+									</div>
+								</div>
+							</div>
+						</div>
 
-<%= yield %>
+						<div class="col-lg-3 col-md-6 col-sm-6">
+							<div class="card card-stats">
+								<div class="card-header" data-background-color="blue">
+									<i class="fa fa-twitter"></i>
+								</div>
+								<div class="card-content">
+									<p class="category">Followers</p>
+									<h3 class="title">+245</h3>
+								</div>
+								<div class="card-footer">
+									<div class="stats">
+										<i class="material-icons">update</i> Just Updated
+									</div>
+								</div>
+							</div>
+						</div>
+						<%= yield %>
+					</div>
+				</div>
+			</div>
+		</body>
+		<%= javascript_include_tag "jquery-3.1.0.min" %>
+		<%= javascript_include_tag "bootstrap.min" %>
+		<%= javascript_include_tag "material.min" %>
+		<%= javascript_include_tag "chartist.min" %>
+		<%= javascript_include_tag "bootstrap-notify" %>
+		<%= javascript_include_tag "material-dashboard" %>
 
-</body>
-<%= javascript_include_tag "jquery-3.1.0.min" %>
-<%= javascript_include_tag "bootstrap.min" %>
-<%= javascript_include_tag "material.min" %>
-<%= javascript_include_tag "chartist.min" %>
-<%= javascript_include_tag "bootstrap-notify" %>
-<%= javascript_include_tag "material-dashboard" %>
-
-	<script type="text/javascript">
-    	$(document).ready(function(){
+		<script type="text/javascript">
+			$(document).ready(function(){
 
 			// Javascript method's body can be found in assets/js/demos.js
-        	demo.initDashboardPageCharts();
+			demo.initDashboardPageCharts();
 
-    	});
+		});
 	</script>
-</html>
+	</html>
