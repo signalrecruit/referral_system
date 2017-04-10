@@ -107,10 +107,9 @@
 								</ul>
 							</li>
 							<li>
-								<a href="#pablo" class="dropdown-toggle" data-toggle="dropdown">
-									<i class="material-icons">person</i>
-									<p class="hidden-lg hidden-md">Profile</p>
-								</a>
+								<%= link_to new_user_session_url do %>
+							      <i class="material-icons">person</i>
+								<% end %>
 							</li>
 						</ul>
 
@@ -194,6 +193,13 @@
 								</div>
 							</div>
 						</div>
+
+
+						<% flash.each do |key, message| %>
+						<div class="alert alert-<%= key %>">
+							<%= message %>
+						</div>
+						<% end %>
 						<%= yield %>
 					</div>
 				</div>

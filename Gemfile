@@ -57,5 +57,8 @@ end
 
 gem 'puma'
 gem 'hirb'
+gem 'simple_form'
+gem 'devise'
+
 
 
