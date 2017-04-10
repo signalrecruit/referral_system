@@ -29,9 +29,20 @@ class CompaniesController < ApplicationController
   end
 
   def update
+  	if @company.update(company_params)
+  	  @company.update(update_button: false)	
+  	  flash[:notice] = "you successfully updated #{@company.company_name} details"
+  	  redirect_to :back
+  	else
+  	  flash[:errors] = "ooops! something went wrong"
+  	  render :edit
+  	end
   end
 
   def destroy
+  	@company.destroy
+  	flash[:notice] = "succesfully deleted company"
+  	redirect_to :back
   end
 
   def update_button

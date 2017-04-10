@@ -1,4 +1,4 @@
-<div class="col-md-8">
+<div class="col-md-12">
 	<div class="card">
 		<div class="card-header" data-background-color="purple">
 		<h4 class="title">Company Details</h4>
@@ -37,7 +37,7 @@
 					<div class="col-md-4">
 						<div class="form-group label-floating">
 							<label class="control-label">Phonenumber</label>
-							<%= f.input :phonenumber, label: false, class: "form-control" %>
+							<%= f.input :phonenumber, maxlength: "10", label: false, class: "form-control" %>
 						</div>
 					</div>
 					<div class="col-md-4">
