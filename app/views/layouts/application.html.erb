@@ -19,10 +19,7 @@
 		    -->
 
 		    <div class="logo">
-		    	<a href="http://www.creative-tim.com" class="simple-text">
-		    		RECMAN
-		    	</a>
-		    </div>
+		    	<%= link_to "RECMAN", root_url, class: "simple-text" %>		    </div>
 
 		    <div class="sidebar-wrapper">
 		    	<ul class="nav">
@@ -32,13 +29,21 @@
 		    				<p>Dashboard</p>  
 		    			<% end %>	
 		    		</li>
+		    		<% if user_signed_in? %>
 		    		<li>
      	    		  <%= link_to edit_user_registration_url do %>
 		    		    <i class="material-icons">person</i>
 		    				<p>Your Profile</p>
 		    		  <% end %>
 		    		</li>
+		    		<% end %>
 		    		<li>
+		    		  <%= link_to activity_feed_url do %>
+		    		    <i class="material-icons">comment</i>
+		    		    <p>News Feed</p>
+		    		  <% end %>	
+		    		</li>
+		    		<!-- <li>
 		    			<a href="#">
 		    				<i class="material-icons">content_paste</i>
 		    				<p>Table List</p>
@@ -67,7 +72,7 @@
 		    				<i class="material-icons text-gray">notifications</i>
 		    				<p>Notifications</p>
 		    			</a>
-		    		</li>
+		    		</li> -->
 		    	</ul>
 		    </div>
 		</div>
@@ -86,12 +91,6 @@
 					</div>
 					<div class="collapse navbar-collapse">
 						<ul class="nav navbar-nav navbar-right">
-							<li>
-								<a href="#pablo" class="dropdown-toggle" data-toggle="dropdown">
-									<i class="material-icons">dashboard</i>
-									<p class="hidden-lg hidden-md">Dashboard</p>
-								</a>
-							</li>
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 									<i class="material-icons">notifications</i>
@@ -110,11 +109,12 @@
 							  <% if user_signed_in? %>
 							  <%= link_to destroy_user_session_url, method: :delete, data: { confirm: "Are you sure you want to sign out?" } do %>
 							    <i class="material-icons">person</i> 
+							    Log out,
 							    <%= current_user.username %>
 							  <% end %>
 							  <% else %>     
 								<%= link_to new_user_session_url do %>
-							      <i class="material-icons">person</i>
+							      <i class="material-icons">person</i>Log In
 								<% end %>
 							  <% end %>	
 							</li>
