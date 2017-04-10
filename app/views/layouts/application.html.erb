@@ -27,16 +27,16 @@
 		    <div class="sidebar-wrapper">
 		    	<ul class="nav">
 		    		<li class="active">
-		    			<a href="#">
-		    				<i class="material-icons">dashboard</i>
-		    				<p>Dashboard</p>
-		    			</a>
+		    			<%= link_to root_url do %>
+		    			  <i class="material-icons">dashboard</i>
+		    				<p>Dashboard</p>  
+		    			<% end %>	
 		    		</li>
 		    		<li>
-		    			<a href="#">
-		    				<i class="material-icons">person</i>
-		    				<p>User Profile</p>
-		    			</a>
+     	    		  <%= link_to edit_user_registration_url do %>
+		    		    <i class="material-icons">person</i>
+		    				<p>Your Profile</p>
+		    		  <% end %>
 		    		</li>
 		    		<li>
 		    			<a href="#">
@@ -82,7 +82,7 @@
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</button>
-						<a class="navbar-brand" href="#">Material Dashboard</a>
+						<a class="navbar-brand" href="#">Dashboard</a>
 					</div>
 					<div class="collapse navbar-collapse">
 						<ul class="nav navbar-nav navbar-right">
@@ -107,92 +107,24 @@
 								</ul>
 							</li>
 							<li>
+							  <% if user_signed_in? %>
+							  <%= link_to destroy_user_session_url, method: :delete, data: { confirm: "Are you sure you want to sign out?" } do %>
+							    <i class="material-icons">person</i> 
+							    <%= current_user.username %>
+							  <% end %>
+							  <% else %>     
 								<%= link_to new_user_session_url do %>
 							      <i class="material-icons">person</i>
 								<% end %>
+							  <% end %>	
 							</li>
 						</ul>
-
-						<form class="navbar-form navbar-right" role="search">
-							<div class="form-group  is-empty">
-								<input type="text" class="form-control" placeholder="Search">
-								<span class="material-input"></span>
-							</div>
-							<button type="submit" class="btn btn-white btn-round btn-just-icon">
-								<i class="material-icons">search</i><div class="ripple-container"></div>
-							</button>
-						</form>
 					</div>
 				</div>
 			</nav>
 			<div class="content">
 				<div class="container-fluid">
 					<div class="row">
-						<div class="col-lg-3 col-md-6 col-sm-6">
-							<div class="card card-stats">
-								<div class="card-header" data-background-color="green">
-									<i class="material-icons">store</i>
-								</div>
-								<div class="card-content">
-									<p class="category">Daily Revenue</p>
-									<h3 class="title">$34,245</h3>
-								</div>
-								<div class="card-footer">
-									<div class="stats">
-										<i class="material-icons">date_range</i> Last 24 Hours
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-3 col-md-6 col-sm-6">
-							<div class="card card-stats">
-								<div class="card-header" data-background-color="green">
-									<i class="material-icons">store</i>
-								</div>
-								<div class="card-content">
-									<p class="category">Total Revenue</p>
-									<h3 class="title">$34,245</h3>
-								</div>
-								<div class="card-footer">
-									<div class="stats">
-										<i class="material-icons">date_range</i> Since 3/4/2017
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-3 col-md-6 col-sm-6">
-							<div class="card card-stats">
-								<div class="card-header" data-background-color="red">
-									<i class="material-icons">info_outline</i>
-								</div>
-								<div class="card-content">
-									<p class="category">Business Deals</p>
-									<h3 class="title">75</h3>
-								</div>
-								<div class="card-footer">
-									<div class="stats">
-										<i class="material-icons">date_range</i> Since 3/4/2017
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="col-lg-3 col-md-6 col-sm-6">
-							<div class="card card-stats">
-								<div class="card-header" data-background-color="blue">
-									<i class="fa fa-twitter"></i>
-								</div>
-								<div class="card-content">
-									<p class="category">Followers</p>
-									<h3 class="title">+245</h3>
-								</div>
-								<div class="card-footer">
-									<div class="stats">
-										<i class="material-icons">update</i> Just Updated
-									</div>
-								</div>
-							</div>
-						</div>
 
 
 						<% flash.each do |key, message| %>
