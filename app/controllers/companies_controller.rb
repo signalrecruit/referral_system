@@ -50,6 +50,7 @@ class CompaniesController < ApplicationController
   	redirect_to :back
   end
 
+
   private
 
   def set_company
