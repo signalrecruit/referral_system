@@ -1,0 +1,51 @@
+<% if @companies.any? %>
+<div class="col-md-12">
+	<div class="card">
+		<div class="card-header" data-background-color="purple">
+			<h4 class="title">Companies</h4>
+			<p class="category">details of each company</p>
+		</div>
+		<div class="card-content table-responsive">
+			<table class="table">
+				<thead class="text-primary">
+					<th>Name Of Company</th>
+					<th>ClientName</th>
+					<th>Role</th>
+					<th>Email</th>
+					<th>Phonenumber</th>
+					<th>Url/Website</th>
+					<th>Description</th>
+					<th></th>
+				</thead>
+				<% @companies.each do |company| %>
+				<tbody>
+					<tr>
+						<td><%= company.company_name %></td>
+						<td><%= company.clientname %></td>
+						<td><%= company.role %></td>
+						<td><%= company.email %></td>
+						<td><%= company.phonenumber %></td>
+						<td class="text-primary"><%= company.url %></td>
+						<td><%= truncate(company.about, length: 15) %></td>
+						<td class="td-actions text-right">
+							<%= link_to update_button_url(company), method: :patch do %>
+							<button type="button" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
+								<i class="material-icons">edit</i>
+							</button>
+							<% end %>
+							<button type="button" title="Remove" class="btn btn-danger btn-simple btn-xs">
+								<i class="material-icons">close</i>
+							</button>
+						</td>  	
+					</tr>
+				</tbody>
+				<% end %>
+			</table>
+
+		</div>
+	</div>
+</div>
+<% else %>
+<h4>None at the moment</h4>
+<%= link_to "Add A Company", new_user_company_url(current_user), class: "btn btn-primary" %>
+<% end %>
