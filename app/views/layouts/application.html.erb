@@ -44,10 +44,12 @@
 		    		  <% end %>	
 		    		</li>
 		    		<li>
+		    		<% if current_user %>
 		    		  <%= link_to user_companies_url(current_user) do %>
 		    		    <i class="material-icons">business center</i>
 		    		    <p>My Portfolio</p>
 		    		  <% end %>	
+		    		<% end %>
 		    		</li>
 		    		<!-- <li>
 		    			<a href="#">

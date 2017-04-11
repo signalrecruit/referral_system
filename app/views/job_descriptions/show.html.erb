@@ -47,6 +47,7 @@
 			</div>
 			<%= link_to "Edit Job Description", update_button_for_jd_url(@job_description), method: :patch, class: "btn btn-primary pull-right" %>
 			<div class="clearfix"></div>
+			<%= link_to "Go To #{@job_description.company.company_name}", user_company_url(current_user, @job_description.company), class: "btn btn-primary pull-right" %>
 		</div>
 	</div>
 </div>

@@ -1,2 +1,225 @@
-<h1>Companies#show</h1>
-<p>Find me in app/views/companies/show.html.erb</p>
+<% if @company.updated? %>
+
+<%= render "companies/form", company: @company %>
+
+<% else %>
+
+<div class="col-lg-12 col-md-12">
+	<div class="card card-nav-tabs">
+		<div class="card-header" data-background-color="purple">
+			<div class="nav-tabs-navigation">
+				<div class="nav-tabs-wrapper">
+					<span class="nav-tabs-title">Toggle</span>
+					<ul class="nav nav-tabs" data-tabs="tabs">
+						<li class="active">
+							<a href="#profile" data-toggle="tab">
+								<i class="material-icons">business</i>
+								Company
+								<div class="ripple-container"></div></a>
+							</li>
+							<li class="">
+								<a href="#messages" data-toggle="tab">
+									<i class="material-icons"></i>
+									<%= pluralize(@company.job_descriptions.count, "Job Description") %>
+									<div class="ripple-container"></div></a>
+								</li>
+												<!-- <li class="">
+													<a href="#settings" data-toggle="tab">
+														<i class="material-icons">cloud</i>
+														Server
+													<div class="ripple-container"></div></a>
+												</li> -->
+											</ul>
+										</div>
+									</div>
+								</div>
+
+								<div class="card-content">
+									<div class="tab-content">
+										<div class="tab-pane active" id="profile">
+											<div class="card-content">
+												<div class="row">
+													<div class="col-md-3">
+														<div class="form-group label-floating">
+															<label class="control-label">Name Of Company</label>
+															<%= @company.company_name %>
+														</div>
+													</div>
+													<div class="col-md-4">
+														<div class="form-group label-floating">
+															<label class="control-label">Name Of Client</label>
+															<%= @company.clientname %> 
+														</div>
+													</div>
+													<div class="col-md-4">
+														<div class="form-group label-floating">
+															<label class="control-label">Role/Position Of Client</label>
+															<%= @company.role %>
+														</div>
+													</div>
+												</div>
+
+												<div class="row">
+													<div class="col-md-3">
+														<div class="form-group label-floating">
+															<label class="control-label">Email</label>
+															<%= @company.email %>
+														</div>
+													</div>
+													<div class="col-md-4">
+														<div class="form-group label-floating">
+															<label class="control-label">Phonenumber</label>
+															<%= @company.phonenumber %>
+														</div>
+													</div>
+													<div class="col-md-4">
+														<div class="form-group label-floating">
+															<label class="control-label">url/website of company</label>
+															<%= @company.url %>
+														</div>
+													</div>
+												</div>
+
+												<div class="row">
+													<div class="col-md-12">
+														<div class="form-group">
+															<label>Brief Description of Company</label>
+															<div class="form-group label-floating">
+																<%= @company.about %>
+															</div>
+														</div>
+													</div>
+												</div>
+												<%= link_to "Edit Company Details", update_button_for_company_url(@company), method: :patch, class: "btn btn-primary pull-right" %>
+												<div class="clearfix"></div>
+											</div>
+										</div>
+										
+										<div class="tab-pane" id="messages">
+											<table class="table">
+												<thead class="text-primary">
+													<th>Job Title</th>
+													<th>Experience(yrs)</th>
+													<th>Min Salary</th>
+													<th>Max Salary</th>
+													<th>Vacancies</th>
+													<th>Attachments</th>
+													<th></th>
+													<th></th>
+												</thead>
+												<tbody>
+													<% if @company.job_descriptions.any? %>
+													<% @company.job_descriptions.each do |jd| %>
+													<% if jd.updated? %>
+													<%= simple_form_for([@company, jd]) do |f| %>
+													<tr>
+														<td><%= f.input :job_title, label: false, class: "form-control" %></td>
+														<td><%= f.input :experience, label: false, class: "form-control" %> </td>
+														<td><%= f.input :min_salary, label: false, class: "form-control" %></td>
+														<td><%= f.input :max_salary, label: false, class: "form-control" %></td>
+														<td><%= f.input :vacancies, label: false, class: "form-control" %></td>
+														<td>Attachments Here</td>
+														<td><%= f.button :submit, "update",class: "btn btn-primary pull-right" %></td>
+													</tr>
+													<% end %>
+													<% else %>
+													<tr>
+														<td><%= jd.job_title %></td>
+														<td><%= jd.experience %></td>
+														<td><%= jd.min_salary %></td>
+														<td><%= jd.max_salary %></td>
+														<td><%= jd.vacancies %></td>
+														<td>Attachments Here</td>
+														<td>
+														<%= link_to update_button_for_jd_url(jd), method: :patch do %>
+							<button type="button" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
+								<i class="material-icons">edit</i>
+							</button>
+							<% end %>
+														</td>
+													</tr>
+													<% end %>
+													<% end %>	
+
+													<% else %>
+													<tr>
+														<td>No data</td>
+														<td>No data</td>
+														<td>No data</td>
+														<td>No data</td>
+														<td>No data</td>
+														<td>No data</td>
+													</tr>
+
+													<% end %>
+												</tbody>
+											</table>
+											<%= link_to "Add Job Description", new_company_job_description_url(@company), class: "btn btn-primary pull-right" %>
+										</div>
+										<div class="tab-pane" id="settings">
+											<!-- <table class="table">
+												<tbody>
+													<tr>
+														<td>
+															<div class="checkbox">
+																<label>
+																	<input type="checkbox" name="optionsCheckboxes">
+																</label>
+															</div>
+														</td>
+														<td>Lines From Great Russian Literature? Or E-mails From My Boss?</td>
+														<td class="td-actions text-right">
+															<button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
+																<i class="material-icons">edit</i>
+															</button>
+															<button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+																<i class="material-icons">close</i>
+															</button>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<div class="checkbox">
+																<label>
+																	<input type="checkbox" name="optionsCheckboxes" checked>
+																</label>
+															</div>
+														</td>
+														<td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
+														</td>
+														<td class="td-actions text-right">
+															<button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
+																<i class="material-icons">edit</i>
+															</button>
+															<button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+																<i class="material-icons">close</i>
+															</button>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<div class="checkbox">
+																<label>
+																	<input type="checkbox" name="optionsCheckboxes">
+																</label>
+															</div>
+														</td>
+														<td>Sign contract for "What are conference organizers afraid of?"</td>
+														<td class="td-actions text-right">
+															<button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
+																<i class="material-icons">edit</i>
+															</button>
+															<button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+																<i class="material-icons">close</i>
+															</button>
+														</td>
+													</tr>
+												</tbody>
+											</table> -->
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<% end %>

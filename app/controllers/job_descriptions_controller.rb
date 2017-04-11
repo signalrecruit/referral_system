@@ -33,7 +33,7 @@ class JobDescriptionsController < ApplicationController
   	if @job_description.update(job_params)
   	  @job_description.update(update_button: false)	
   	  flash[:notice] = "you successfully updated job description"
-  	  redirect_to [@company, @job_description]
+  	  redirect_to :back
   	else
   	  flash[:errors] = "oops! something went wrong"
   	  redirect_to :back
@@ -41,6 +41,8 @@ class JobDescriptionsController < ApplicationController
   end
 
   def destroy
+    @job_description.destroy
+    redirect_to :back
   end
 
   def update_button
