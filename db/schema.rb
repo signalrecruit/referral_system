@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170410163935) do
+ActiveRecord::Schema.define(version: 20170410222928) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,20 @@ ActiveRecord::Schema.define(version: 20170410163935) do
   end
 
   add_index "companies", ["user_id"], name: "index_companies_on_user_id", using: :btree
+
+  create_table "job_descriptions", force: :cascade do |t|
+    t.string   "job_title"
+    t.integer  "experience"
+    t.decimal  "min_salary"
+    t.decimal  "max_salary"
+    t.integer  "vacancies"
+    t.boolean  "update_button"
+    t.integer  "company_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "job_descriptions", ["company_id"], name: "index_job_descriptions_on_company_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",           null: false
@@ -52,4 +66,5 @@ ActiveRecord::Schema.define(version: 20170410163935) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "companies", "users"
+  add_foreign_key "job_descriptions", "companies"
 end

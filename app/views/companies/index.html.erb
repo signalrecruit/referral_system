@@ -45,7 +45,7 @@
 						<td class="text-primary"><%= company.url %></td>
 						<td><%= truncate(company.about, length: 15) %></td>
 						<td class="td-actions text-right">
-							<%= link_to update_button_url(company), method: :patch do %>
+							<%= link_to update_button_for_company_url(company), method: :patch do %>
 							<button type="button" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
 								<i class="material-icons">edit</i>
 							</button>

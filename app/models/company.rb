@@ -1,5 +1,6 @@
 class Company < ActiveRecord::Base
   belongs_to :user
+  has_many :job_descriptions, dependent: :destroy
 
   validates :company_name, :clientname, :role, :email, :phonenumber, :about, presence: true
 

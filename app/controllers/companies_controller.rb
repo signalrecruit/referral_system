@@ -18,7 +18,7 @@ class CompaniesController < ApplicationController
 
   	if @company.save
   	  flash[:notice] = "you succesfully created a company with name #{@company.company_name}"
-  	  redirect_to user_companies_url(current_user)
+  	  redirect_to new_company_job_description_url(company_id: @company)
   	else
   	  flash.now[:errors] = "oops! something went wrong"
   	  render :new

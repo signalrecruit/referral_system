@@ -1,0 +1,55 @@
+<% if @job_description.updated? %>
+<%= render "job_descriptions/form", company: @company, job_description: @job_description %>
+<% else %>
+<div class="col-md-8">
+	<div class="card">
+		<div class="card-header" data-background-color="purple">
+			<h4 class="title">Job Description For <%= @company.company_name %></h4>
+		</div>
+		<div class="card-content">
+			<div class="row">
+				<div class="col-md-4">
+					<div class="form-group label-floating">
+						<label class="control-label">Job Title</label>
+						<%= @job_description.job_title %>
+					</div>
+				</div>
+				<div class="col-md-2">
+					<div class="form-group label-floating">
+						<label class="control-label">Experience(yrs)</label>
+						<%= @job_description.experience %> 
+					</div>
+				</div>
+			</div>
+	
+			<div class="row">
+				<div class="col-md-4">
+					<div class="form-group label-floating">
+						<label class="control-label">Minimum Salary</label>
+						<%= @job_description.min_salary %>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group label-floating">
+						<label class="control-label">Maximum Salary</label>
+						<%= @job_description.max_salary %>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-4">
+					<div class="form-group label-floating">
+						<label class="control-label">Vacancies</label>
+						<%= @job_description.vacancies %>
+					</div>
+				</div>
+			</div>
+			<%= link_to "Edit Job Description", update_button_for_jd_url(@job_description), method: :patch, class: "btn btn-primary pull-right" %>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+</div>
+<% end %>
+
+
