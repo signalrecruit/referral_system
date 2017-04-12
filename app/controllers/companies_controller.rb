@@ -17,7 +17,7 @@ class CompaniesController < ApplicationController
   	@company = current_user.companies.build(company_params)
 
   	if @company.save
-  	  flash[:notice] = "you succesfully created a company with name #{@company.company_name}"
+  	  flash[:success] = "you succesfully created a company with name #{@company.company_name}"
   	  redirect_to new_company_job_description_url(company_id: @company)
   	else
   	  flash.now[:errors] = "oops! something went wrong"
@@ -31,7 +31,7 @@ class CompaniesController < ApplicationController
   def update
   	if @company.update(company_params)
   	  @company.update(update_button: false)	
-  	  flash[:notice] = "you successfully updated #{@company.company_name} details"
+  	  flash[:success] = "you successfully updated #{@company.company_name} details"
   	  redirect_to :back
   	else
   	  flash[:errors] = "ooops! something went wrong"
@@ -41,7 +41,7 @@ class CompaniesController < ApplicationController
 
   def destroy
   	@company.destroy
-  	flash[:notice] = "succesfully deleted company"
+  	flash[:success] = "succesfully deleted company"
   	redirect_to :back
   end
 

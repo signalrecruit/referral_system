@@ -1,0 +1,43 @@
+<div class="card-content">
+  <%= simple_form_for([:admin, :admin, admin]) do |f| %>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group label-floating">
+        <label class="control-label">Username</label>
+        <%= f.input :username, label: false, required: true, autofocus: true, class: "form-control" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group label-floating">
+        <label class="control-label">Email</label>
+        <%= f.input :email, label: false, required: true, class: "form-control" %>
+      </div>
+    </div>
+  </div>
+
+  <% if !admin.persisted? %>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group label-floating">
+        <label class="control-label">Password</label>
+        <%= f.input :password, label: false, required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length), class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-group label-floating">
+        <label class="control-label">Password Confirmation</label>
+        <%= f.input :password_confirmation, label: false, required: true, class: "form-control" %>
+      </div>
+    </div>
+  </div>
+  <% end %>
+
+  <div class="clearfix">
+  <%= f.button :submit, "Done", class: "btn btn-primary pull-right" %>
+  </div>
+  <% end %>
+</div>

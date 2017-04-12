@@ -1,0 +1,67 @@
+<div class="col-md-12">
+	<div class="card">
+		<div class="card-header" data-background-color="purple">
+		<h4 class="title">Company Details</h4>
+			<p class="category">Fill Out Details</p>
+		</div>
+		<div class="card-content">
+			<%= simple_form_for(company) do |f| %>
+				<div class="row">
+					<div class="col-md-3">
+						<div class="form-group label-floating">
+							<label class="control-label">Name Of Company</label>
+							<%= f.input :company_name, label: false, class: "form-control" %>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group label-floating">
+							<label class="control-label">Name Of Client</label>
+							<%= f.input :clientname, label: false, class: "form-control" %> 
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group label-floating">
+							<label class="control-label">Role/Position Of Client</label>
+							<%= f.input :role, label: false, class: "form-control" %>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-3">
+						<div class="form-group label-floating">
+							<label class="control-label">Email</label>
+							<%= f.input :email, label: false, class: "form-control" %>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group label-floating">
+							<label class="control-label">Phonenumber</label>
+							<%= f.input :phonenumber, maxlength: "10", label: false, class: "form-control" %>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group label-floating">
+							<label class="control-label">url/website of company</label>
+							<%= f.input :url, label: false, class: "form-control" %>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label>Brief Description of Company</label>
+							<div class="form-group label-floating">
+								<label class="control-label"> Should include a brief description of what company does</label>
+								<%= f.input :about, label: false, class: "form-control", rows: "5" %>
+							</div>
+						</div>
+					</div>
+				</div>
+				<%= f.button :submit, class: "btn btn-primary pull-right" %>
+				<div class="clearfix"></div>
+			<% end %>
+		</div>
+	</div>
+</div>

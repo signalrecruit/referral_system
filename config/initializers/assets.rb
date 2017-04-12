@@ -15,3 +15,14 @@ Rails.application.config.assets.precompile += %w( material.min.js )
 Rails.application.config.assets.precompile += %w( chartist.min.js )
 Rails.application.config.assets.precompile += %w( bootstrap-notify.js )
 Rails.application.config.assets.precompile += %w( material-dashboard.js )
+
+
+Rails.application.config.assets.precompile += %w( admin/application.css )
+Rails.application.config.assets.precompile += %w( admin/application.js )
+
+Rails.application.config.assets.precompile += %w( admin/jquery-3.1.0.min.js )
+Rails.application.config.assets.precompile += %w( admin/bootstrap.min.js )
+Rails.application.config.assets.precompile += %w( admin/material.min.js )
+Rails.application.config.assets.precompile += %w( admin/chartist.min.js )
+Rails.application.config.assets.precompile += %w( admin/bootstrap-notify.js )
+Rails.application.config.assets.precompile += %w( admin/material-dashboard.js )

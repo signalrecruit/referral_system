@@ -1,0 +1,92 @@
+<% if @admin.updated? %>
+<div class="col-md-8">
+  <div class="card">
+    <div class="card-header" data-background-color="purple">
+      <h4 class="title"><%= @admin.username %></h4>
+      <p class="category"></p>
+    </div>
+    <div class="card-content">
+     <%= simple_form_for([:admin, :admin, @admin]) do |f| %>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group label-floating">
+            <label class="control-label">Username</label>
+            <%= f.input :username, label: false, required: true, autofocus: true, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group label-floating">
+            <label class="control-label">Email</label>
+            <%= f.input :email, label: false, required: true, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group label-floating">
+          <label class="control-label">Status</label>
+            <% if @admin.normal_admin? %>
+              Admin
+            <% end %>
+          </div>
+        </div>
+      </div>
+      
+      <div class="clearfix">
+      <%= f.button :submit, "Done", class: "btn btn-primary pull-right" %>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<% else %>
+<div class="col-md-8">
+  <div class="card">
+    <div class="card-header" data-background-color="purple">
+      <h4 class="title"><%= @admin.username %></h4>
+      <p class="category"></p>
+    </div>
+    <div class="card-content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group label-floating">
+            <label class="control-label">Username</label>
+            <%= @admin.username %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group label-floating">
+            <label class="control-label">Email</label>
+            <%= @admin.email %>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group label-floating">
+          <label class="control-label">Status</label>
+            <% if @admin.normal_admin? %>
+              Admin
+            <% end %>
+          </div>
+        </div>
+      </div>
+      
+      <%= link_to "Edit Admin User", admin_update_button_for_admin_url(@admin), method: :patch, class: "btn btn-primary pull-right" %>
+      <div class="clearfix">
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>

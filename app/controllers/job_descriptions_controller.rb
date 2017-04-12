@@ -18,10 +18,10 @@ class JobDescriptionsController < ApplicationController
   	@job_description = @company.job_descriptions.build(job_params)
 
   	if @job_description.save 
-  	  flash[:notice] = "you have successfully created a job description"
+  	  flash[:success] = "you have successfully created a job description"
   	  redirect_to [@company, @job_description]
   	else
-  	  flash.now[:errors] = "oops! something went wrong"
+  	  flash.now[:alert] = "oops! sthg went wrong"
   	  render :new
   	end
   end
@@ -32,10 +32,10 @@ class JobDescriptionsController < ApplicationController
   def update
   	if @job_description.update(job_params)
   	  @job_description.update(update_button: false)	
-  	  flash[:notice] = "you successfully updated job description"
+  	  flash[:success] = "you successfully updated job description"
   	  redirect_to :back
   	else
-  	  flash[:errors] = "oops! something went wrong"
+  	  flash.now[:alert] = "oops! sthg went wrong"
   	  redirect_to :back
   	end
   end
