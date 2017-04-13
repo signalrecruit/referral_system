@@ -9,6 +9,7 @@
 		<div class="card-content table-responsive">
 			<table class="table">
 				<thead class="text-primary">
+				    <th>Referrer</th>
 					<th>Name Of Company</th>
 					<th>ClientName</th>
 					<th>Role</th>
@@ -23,6 +24,7 @@
 				    <% if company.updated? %>
 				    <%= simple_form_for([:admin, company]) do |f| %>
 				    <tr>
+				        <td><%= company.user.username %></td>
 						<td class="col-md-1"><%= f.input :company_name, label: false, class: "form-control" %></td>
 						<td class="col-md-2"><%= f.input :clientname, label: false, class: "form-control" %></td>
 						<td class="col-md-1"><%= f.input :role, label: false, class: "form-control" %></td>
@@ -37,6 +39,7 @@
 					</tr>
 				    <% else %>
 					<tr>
+					    <td><%= company.user.username %></td>
 						<td><%= company.company_name %></td>
 						<td><%= company.clientname %></td>
 						<td><%= company.role %></td>
