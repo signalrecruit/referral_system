@@ -1,4 +1,15 @@
 class RegistrationsController < Devise::RegistrationsController
+  layout :choose_layout
+
+  def edit
+  end
+
+
+  private
+
+  def choose_layout
+    resource.admin? ? "admin" : "application"
+  end
   
   protected
 
