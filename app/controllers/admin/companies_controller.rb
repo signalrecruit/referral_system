@@ -40,7 +40,7 @@ class Admin::CompaniesController < Admin::ApplicationController
   private
 
    def set_company
-  	@company = current_user.companies.find(params[:id])
+  	@company = Company.find(params[:id])
   end
 
   def company_params

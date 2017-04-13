@@ -99,7 +99,7 @@
 											<table class="table">
 												<thead class="text-primary">
 													<th>Job Title</th>
-													<th>Experience(yrs)</th>
+													<th>Exp(yrs)</th>
 													<th>Min Salary</th>
 													<th>Max Salary</th>
 													<th>Vacancies</th>
@@ -111,14 +111,14 @@
 													<% if @company.job_descriptions.any? %>
 													<% @company.job_descriptions.each do |jd| %>
 													<% if jd.updated? %>
-													<%= simple_form_for([@company, jd]) do |f| %>
+													<%= simple_form_for([:admin, @company, jd]) do |f| %>
 													<tr>
-														<td><%= f.input :job_title, label: false, class: "form-control" %></td>
-														<td><%= f.input :experience, label: false, class: "form-control" %> </td>
-														<td><%= f.input :min_salary, label: false, class: "form-control" %></td>
-														<td><%= f.input :max_salary, label: false, class: "form-control" %></td>
-														<td><%= f.input :vacancies, label: false, class: "form-control" %></td>
-														<td>Attachments Here</td>
+														<td class="col-md-3"><%= f.input :job_title, label: false, class: "form-control" %></td>
+														<td class="col-md-1"><%= f.input :experience, label: false, class: "form-control" %> </td>
+														<td class="col-md-2"><%= f.input :min_salary, label: false, class: "form-control" %></td>
+														<td class="col-md-2"><%= f.input :max_salary, label: false, class: "form-control" %></td>
+														<td class="col-md-1"><%= f.input :vacancies, label: false, class: "form-control" %></td>
+														<td class="col-md-2">Attachments Here</td>
 														<td><%= f.button :submit, "update",class: "btn btn-primary pull-right" %></td>
 													</tr>
 													<% end %>

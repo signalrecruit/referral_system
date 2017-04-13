@@ -21,7 +21,7 @@
 				<% @companies.each do |company| %>
 				<tbody>
 				    <% if company.updated? %>
-				    <%= simple_form_for([current_user, company]) do |f| %>
+				    <%= simple_form_for([:admin, company]) do |f| %>
 				    <tr>
 						<td class="col-md-1"><%= f.input :company_name, label: false, class: "form-control" %></td>
 						<td class="col-md-2"><%= f.input :clientname, label: false, class: "form-control" %></td>
