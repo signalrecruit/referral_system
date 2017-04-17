@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170412224608) do
+ActiveRecord::Schema.define(version: 20170417224214) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,8 @@ ActiveRecord::Schema.define(version: 20170412224608) do
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
     t.boolean  "update_button", default: false
+    t.boolean  "contacted",     default: false
+    t.boolean  "deal",          default: false
   end
 
   add_index "companies", ["user_id"], name: "index_companies_on_user_id", using: :btree
@@ -45,6 +47,16 @@ ActiveRecord::Schema.define(version: 20170412224608) do
   end
 
   add_index "job_descriptions", ["company_id"], name: "index_job_descriptions_on_company_id", using: :btree
+
+  create_table "requirements", force: :cascade do |t|
+    t.text     "content"
+    t.boolean  "update_button"
+    t.integer  "job_description_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "requirements", ["job_description_id"], name: "index_requirements_on_job_description_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",           null: false
@@ -70,4 +82,5 @@ ActiveRecord::Schema.define(version: 20170412224608) do
 
   add_foreign_key "companies", "users"
   add_foreign_key "job_descriptions", "companies"
+  add_foreign_key "requirements", "job_descriptions"
 end

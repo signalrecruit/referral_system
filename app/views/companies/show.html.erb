@@ -106,6 +106,7 @@
 													<th>Attachments</th>
 													<th></th>
 													<th></th>
+													<th></th>
 												</thead>
 												<tbody>
 													<% if @company.job_descriptions.any? %>
@@ -131,37 +132,42 @@
 														<td><%= jd.vacancies %></td>
 														<td>Attachments Here</td>
 														<td>
-														<%= link_to update_button_for_jd_url(jd), method: :patch do %>
-							<button type="button" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
-								<i class="material-icons">edit</i>
-							</button>
-							<% end %>
-							<%= link_to company_job_description_url(@company,  jd),  method: :delete, data: { confirm: "Are you sure?" } do %>
-							<button type="button" title="Remove" class="btn btn-primary btn-simple btn-xs">
-								<i class="material-icons">close</i>
-							</button>
-							<% end %>
+															<%= link_to update_button_for_jd_url(jd), method: :patch do %>
+															<button type="button" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
+																<i class="material-icons">edit</i>
+															</button>
+															<% end %>
 														</td>
-													</tr>
-													<% end %>
-													<% end %>	
+														<td>
+															<%= link_to company_job_description_url(@company,  jd),  method: :delete, data: { confirm: "Are you sure?" } do %>
+															<button type="button" title="Remove" class="btn btn-primary btn-simple btn-xs">
+																<i class="material-icons">close</i>
+															</button>
+															<% end %>
+														</td>
+														<td><%= link_to job_description_requirements_url(jd), class: "btn btn-primary btn-xs" do %>
+															<i class="material-icons">visibility</i><%= pluralize(jd.requirements.count, "Requirement") %>
+															<% end %></td>
+														</tr>
+														<% end %>
+														<% end %>	
 
-													<% else %>
-													<tr>
-														<td>No data</td>
-														<td>No data</td>
-														<td>No data</td>
-														<td>No data</td>
-														<td>No data</td>
-														<td>No data</td>
-													</tr>
+														<% else %>
+														<tr>
+															<td>No data</td>
+															<td>No data</td>
+															<td>No data</td>
+															<td>No data</td>
+															<td>No data</td>
+															<td>No data</td>
+														</tr>
 
-													<% end %>
-												</tbody>
-											</table>
-											<%= link_to "Add Job Description", new_company_job_description_url(@company), class: "btn btn-primary pull-right" %>
-										</div>
-										<div class="tab-pane" id="settings">
+														<% end %>
+													</tbody>
+												</table>
+												<%= link_to "Add Job Description", new_company_job_description_url(@company), class: "btn btn-primary pull-right" %>
+											</div>
+											<div class="tab-pane" id="settings">
 											<!-- <table class="table">
 												<tbody>
 													<tr>

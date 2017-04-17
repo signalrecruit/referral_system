@@ -1,0 +1,48 @@
+<div class="col-md-12">
+	<div class="card">
+		<div class="card-header" data-background-color="purple">
+			<h4 class="title">Requirements</h4>
+		</div>
+		<div class="card-content table-responsive">
+			<table class="table">
+				<thead class="text-primary">
+					<th></th>
+					<th>Requirement</th>
+					<th></th>
+				</thead>
+				<% if @requirements.any? %>
+				<tbody>
+					<% @no = 0 %>
+					<% @requirements.each do |requirement| %>
+					<% @no += 1 %>
+					<% if requirement.updated? %>
+					  	<%= simple_form_for([@jd, requirement]) do |f| %>
+					  	<tr>
+					  	  <td><%= @no %></td>
+					  	  <td><%= f.input :content, label: false, class: "form-control" %></td>
+					  	  <td><%= f.button :submit, "update", class: "btn btn-primary pull-right" %></td>
+					  	</tr>
+					  	<% end %>
+					<% else %>
+					<tr>
+						<td><%= @no %></td>
+						<td><%= requirement.content %></td>
+						<td></td>
+					</tr>
+					<% end %>
+					<% end %>
+					<% else %>
+					<tr>
+						<td></td>
+						<td>no content</td>
+						<td></td>	
+					</tr>					
+				</tbody>
+				<% end %>
+			</table>
+			<div class="row">
+				<%= link_to "Back to #{@jd.company.company_name}", admin_company_url(@jd.company), class: "btn btn-primary pull-right" %>
+			</div>
+		</div>
+	</div>
+</div>

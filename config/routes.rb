@@ -6,6 +6,8 @@ Rails.application.routes.draw do
     patch 'companies/:id/update_button', to: 'companies#update_button', as: :update_button_for_company
     patch 'job_descriptions/:id/update_button', to: 'job_descriptions#update_button', as: :update_button_for_jd
     patch 'admin_users/:id/update_button', to: 'admin_users#update_button', as: :update_button_for_admin
+    patch 'companies/:id/contact_company', to: 'companies#contact_company', as: :contact_company
+    patch 'companies/:id/deal_with_company', to: 'companies#deal_with_company', as: :deal_with_company
 
     # resources :users, only: [] do 
     #   resources :companies
@@ -14,6 +16,10 @@ Rails.application.routes.draw do
     
     resources :companies do 
       resources :job_descriptions
+    end
+
+    resources :job_descriptions, only: [] do 
+      resources :requirements, only: [:index, :show]
     end
   end
 
@@ -24,6 +30,7 @@ Rails.application.routes.draw do
   
   patch 'companies/:id/update_button', to: 'companies#update_button', as: :update_button_for_company
   patch 'job_descriptions/:id/update_button', to: 'job_descriptions#update_button', as: :update_button_for_jd
+  patch 'requirements/:id/update_button', to: 'requirements#update_button', as: :update_button_for_rq
 
   resources :user, only: [] do 
     resources :companies 
@@ -31,5 +38,9 @@ Rails.application.routes.draw do
 
   resources :companies do 
     resources :job_descriptions
+  end
+
+  resources :job_descriptions, only: [] do 
+    resources :requirements
   end
 end
