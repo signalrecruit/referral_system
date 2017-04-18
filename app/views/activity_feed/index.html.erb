@@ -11,23 +11,38 @@
 					<th>Timestamp</th>
 				</thead>
 				<tbody>
-				<% @feed.each do |activity| %>
-				  <% if activity.company_action = "deal" %>    
+					<% @feed.each do |activity| %>
+					<% if activity.company_action = "deal" %>    
 					<tr>
-						<td><span class="text-primary"><%= activity.user.username %></span> just brought in <span class="text-primary"><%= activity.trackable.company_name %></span></td>
+						<td><span class="text-primary"><%= activity.user.username %></span> just brought in <span class="text-primary"></span>
+						<% if activity.trackable.user != current_user %>
+							<span class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+									<%= activity.trackable.company_name %>
+								</a>
+								<ul class="dropdown-menu">
+									<li>
+									<% if activity.trackable.job_descriptions.any? %>
+									<%= link_to pluralize(activity.trackable.job_descriptions.count, "Job Description"), company_url(activity.trackable) %>
+									<% else %>
+									No Job Descriptions
+									<% end %>	
+									</li>
+								</ul>
+							</span>
+						<% else %>
+						  <span class="text-primary"><%= activity.trackable.company_name %>	
+						  </span>
+						<% end %>	
+						</td>
 						<td><%= activity.updated_at.strftime("%B %m, %Y") %> at <%= activity.updated_at.strftime("%r") %></td>
 					</tr>	
-				  <% end %>	
-				<% end %>
+					<% end %>	
+					<% end %>
 				</tbody>
 			</table>
 
 		</div>
 	</div>
 </div>
-<%= javascript_include_tag "jquery-3.1.0.min" %>
-<%= javascript_include_tag "bootstrap.min" %>
-<%= javascript_include_tag "material.min" %>
-<%= javascript_include_tag "chartist.min" %>
-<%= javascript_include_tag "bootstrap-notify" %>
-<%= javascript_include_tag "material-dashboard" %>
+

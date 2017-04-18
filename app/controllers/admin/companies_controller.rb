@@ -53,10 +53,11 @@ class Admin::CompaniesController < Admin::ApplicationController
   def deal_with_company
     if @company.deal?
       @company.no_deal
+      reverse_tracking_activity "deal", @company.id
     else
       if @company.contacted?
         @company.deal_true 
-        Activity.create! trackable: @company, company_action: "deal", user_id: @company.user.id
+        track_activity @company, "deal", @company.user.id
         flash[:success] = "you and #{@company.company_name} have a deal"
       else
         flash[:alert] = "not applicable. you haven't contacted #{@company.company_name} yet"

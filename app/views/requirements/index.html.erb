@@ -52,7 +52,9 @@
 				<% end %>
 			</table>
 			<div class="row">
+			<% if @jd.company.user == current_user %>
 				<%= link_to "Add Requirement", new_job_description_requirement_url(@jd), class: "btn btn-primary pull-right" %>
+			<% end %>	
 			</div>
 			<div class="row">
 				<%= link_to "Back to #{@jd.company.company_name}", company_url(@jd.company), class: "btn btn-primary pull-right" %>

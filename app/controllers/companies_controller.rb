@@ -54,7 +54,11 @@ class CompaniesController < ApplicationController
   private
 
   def set_company
-  	@company = current_user.companies.find(params[:id])
+    if current_user.companies.include? @company
+  	  @company = current_user.companies.find(params[:id])
+    else
+      @company = Company.find(params[:id])
+    end
   end
 
   def company_params

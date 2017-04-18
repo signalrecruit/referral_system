@@ -24,4 +24,15 @@ class ApplicationController < ActionController::Base
       root_url
     end
   end
+
+  private
+
+  def track_activity(trackable, company_action, user_id)
+    Activity.create! trackable: trackable, company_action: company_action, user_id: user_id
+  end
+
+  def reverse_tracking_activity(action, trackable_id)
+    activity = Activity.find_by company_action: action, trackable_id: trackable_id
+    activity.delete if !activity.nil?
+  end
 end
