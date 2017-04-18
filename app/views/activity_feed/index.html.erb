@@ -14,10 +14,10 @@
 					<% @feed.each do |activity| %>
 					<% if activity.company_action = "deal" %>    
 					<tr>
-						<td><span class="text-primary"><%= activity.user.username %></span> just brought in <span class="text-primary"></span>
+						<td><span class="text-primary"><%= activity.user.username %></span> just brought in 
 						<% if activity.trackable.user != current_user %>
 							<span class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+								<a href="#" class="dropdown-toggle btn btn-primary btn-xs btn-round" data-toggle="dropdown">
 									<%= activity.trackable.company_name %>
 								</a>
 								<ul class="dropdown-menu">
