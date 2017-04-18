@@ -56,16 +56,13 @@ class Admin::CompaniesController < Admin::ApplicationController
     else
       if @company.contacted?
         @company.deal_true 
+        Activity.create! trackable: @company, company_action: "deal", user_id: @company.user.id
         flash[:success] = "you and #{@company.company_name} have a deal"
       else
         flash[:alert] = "not applicable. you haven't contacted #{@company.company_name} yet"
       end
     end
     redirect_to :back
-  end
-
-  def post_to_activity_feed
-    # create activity instance with post default true
   end
  
 

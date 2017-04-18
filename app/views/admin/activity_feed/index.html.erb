@@ -1,0 +1,33 @@
+<div class="col-md-12">
+	<div class="card">
+		<div class="card-header" data-background-color="purple">
+			<h4 class="title">News Feed</h4>
+			<p class="category">Real life feed of activities</p>
+		</div>
+		<div class="card-content table-responsive">
+			<table class="table">
+				<thead class="text-primary">
+					<th>Stories</th>
+					<th>Timestamp</th>
+				</thead>
+				<tbody>
+				<% @feed.each do |activity| %>
+				  <% if activity.company_action = "create" %>    
+					<tr>
+						<td><span class="text-primary"><%= activity.user.username %></span> just brought in <span class="text-primary"><%= link_to activity.trackable.company_name, admin_company_url(activity.trackable) %></span></td>
+						<td><%= activity.updated_at.strftime("%B %m, %Y") %> at <%= activity.updated_at.strftime("%r") %></td>
+					</tr>	
+				  <% end %>	
+				<% end %>
+				</tbody>
+			</table>
+
+		</div>
+	</div>
+</div>
+<%= javascript_include_tag "admin/jquery-3.1.0.min" %>
+<%= javascript_include_tag "admin/bootstrap.min" %>
+<%= javascript_include_tag "admin/material.min" %>
+<%= javascript_include_tag "admin/chartist.min" %>
+<%= javascript_include_tag "admin/bootstrap-notify" %>
+<%= javascript_include_tag "admin/material-dashboard" %>
