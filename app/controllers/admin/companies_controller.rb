@@ -5,7 +5,7 @@ class Admin::CompaniesController < Admin::ApplicationController
 
 
   def index
-  	@companies = Company.all
+  	@companies = Company.all.order(deal: :desc, contacted: :desc)
   end
 
   def show
@@ -62,6 +62,10 @@ class Admin::CompaniesController < Admin::ApplicationController
       end
     end
     redirect_to :back
+  end
+
+  def post_to_activity_feed
+    # create activity instance with post default true
   end
  
 

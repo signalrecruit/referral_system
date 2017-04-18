@@ -53,18 +53,18 @@
 		    		</li>
 		    		<% end %>
 		    		<li>
-		    		  <%= link_to admin_activity_feed_url do %>
-		    		    <i class="material-icons">comment</i>
-		    		    <p>News Feed</p>
-		    		  <% end %>	
-		    		</li>
-		    		<li>
 		    		<% if current_user.admin? %>
 		    		  <%= link_to admin_companies_url do %>
 		    		    <i class="material-icons">business center</i>
 		    		    <p>All Companies</p>
 		    		  <% end %>	
 		    		<% end %>
+		    		</li>
+		    		<li>
+		    		  <%= link_to admin_activity_feed_url do %>
+		    		    <i class="material-icons">comment</i>
+		    		    <p>News Feed</p>
+		    		  <% end %>	
 		    		</li>
 		    	</ul>
 		    </div>
