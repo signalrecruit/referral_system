@@ -46,14 +46,14 @@
 				</div>
 			</div>
 			<div class="row">
-			<%= link_to "Edit Job Description", update_button_for_jd_url(@job_description), method: :patch, class: "btn btn-primary pull-right" %>
+			<%= link_to "Edit Job Description", edit_company_job_description_url(@company, @job_description), class: "btn btn-primary pull-right" %>
 			</div>
 			<div class="row">
 				<%= link_to "Add Requirement", new_job_description_requirement_url(@job_description), class: "btn btn-primary pull-right" %>
 			</div>
 			<div class="clearfix"></div>
 			<div class="row">
-			<%= link_to "Go To #{@job_description.company.company_name}", user_company_url(current_user, @job_description.company), class: "btn btn-primary pull-right" %>
+			<%= link_to "Go To #{@job_description.company.company_name}", user_company_url(current_user, @job_description.company, tab: "company"), class: "btn btn-primary pull-right" %>
 			</div>
 		</div>
 	</div>

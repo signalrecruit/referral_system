@@ -33,7 +33,11 @@ class JobDescriptionsController < ApplicationController
   	if @job_description.update(job_params)
   	  @job_description.update(update_button: false)	
   	  flash[:success] = "you successfully updated job description"
-  	  redirect_to :back
+  	  if request.referrer == edit_company_job_description_url(@company, @job_description)
+        redirect_to [@company, @job_description]
+      else
+        redirect_to :back 
+      end
   	else
   	  flash.now[:alert] = "oops! sthg went wrong"
   	  redirect_to :back
@@ -48,7 +52,7 @@ class JobDescriptionsController < ApplicationController
   def update_button
   	@job_description = JobDescription.find(params[:id])
   	@job_description.update(update_button: true)
-  	redirect_to :back
+  	redirect_to company_url(@job_description.company, tab: "job descriptions") + "#job descriptions"
   end
 
 

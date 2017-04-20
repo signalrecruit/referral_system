@@ -7,6 +7,7 @@ class CompaniesController < ApplicationController
   end
 
   def show
+    @tab = params[:tab]
   end
 
   def new
@@ -32,7 +33,8 @@ class CompaniesController < ApplicationController
   	if @company.update(company_params)
   	  @company.update(update_button: false)	
   	  flash[:success] = "you successfully updated #{@company.company_name} details"
-  	  redirect_to :back
+  	  # redirect_to :back
+      redirect_to company_url(@company, tab: "company") 
   	else
   	  flash[:errors] = "ooops! something went wrong"
   	  render :edit

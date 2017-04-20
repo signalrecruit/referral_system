@@ -23,7 +23,7 @@
 								<ul class="dropdown-menu">
 									<li>
 									<% if activity.trackable.job_descriptions.any? %>
-									<%= link_to pluralize(activity.trackable.job_descriptions.count, "Job Description"), company_url(activity.trackable) %>
+									<%= link_to pluralize(activity.trackable.job_descriptions.count, "Job Description"), company_url(activity.trackable, tab: "job descriptions") %>
 									<% else %>
 									No Job Descriptions
 									<% end %>	
