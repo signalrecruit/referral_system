@@ -9,6 +9,7 @@ class Admin::CompaniesController < Admin::ApplicationController
   end
 
   def show
+    @tab = params[:tab]
   end
 
   def edit

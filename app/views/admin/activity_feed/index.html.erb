@@ -14,7 +14,7 @@
 				<% @feed.each do |activity| %>
 				  <% if activity.company_action = "create" %>    
 					<tr>
-						<td><span class="text-primary"><%= activity.user.username %></span> just brought in <span class="text-primary"><%= link_to activity.trackable.company_name, admin_company_url(activity.trackable), class: "btn btn-primary btn-xs btn-round" %></span></td>
+						<td><span class="text-primary"><%= activity.user.username %></span> just brought in <span class="text-primary"><%= link_to activity.trackable.company_name, admin_company_url(activity.trackable ,tab: "company"), class: "btn btn-primary btn-xs btn-round" %></span></td>
 						<td><%= activity.updated_at.strftime("%B %m, %Y") %> at <%= activity.updated_at.strftime("%r") %></td>
 					</tr>	
 				  <% end %>	

@@ -26,7 +26,7 @@
 							<li class="<%= @tab == "job descriptions" ? "active" : "" %>">
 								<!-- <a href="#messages" data-toggle="tab">
 									<i class="material-icons"></i>
-									<%= pluralize(@company.job_descriptions.count, "Job Description") %>
+									<%#= pluralize(@company.job_descriptions.count, "Job Description") %>
 									<div class="ripple-container"></div></a> -->
 							    <%= link_to company_url(@company, tab: "job descriptions") do %>
 							      <i class="material-icons"></i>

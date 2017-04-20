@@ -1,6 +1,9 @@
 <% if @job_description.updated? %>
+
 <%= render "job_descriptions/form", company: @company, job_description: @job_description %>
+
 <% else %>
+
 <div class="col-md-8">
 	<div class="card">
 		<div class="card-header" data-background-color="purple">
