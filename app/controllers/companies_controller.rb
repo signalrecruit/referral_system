@@ -18,6 +18,10 @@ class CompaniesController < ApplicationController
   	@company = current_user.companies.build(company_params)
 
   	if @company.save
+      @random = SecureRandom.hex(2)
+      id = params[:company][:industry_id].to_i
+      @industry = Industry.find(id)
+      @company.update(alias_name: @industry.name + "-#{@random}")
   	  flash[:success] = "you succesfully created a company with name #{@company.company_name}"
   	  redirect_to new_company_job_description_url(company_id: @company)
   	else
@@ -65,6 +69,6 @@ class CompaniesController < ApplicationController
 
   def company_params
     params.require(:company).permit(:company_name, :clientname, :email, :phonenumber, :role,
-  	:url, :about)
+  	:url, :about, :alias_name, :industry_id)
   end
 end

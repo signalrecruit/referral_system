@@ -11,14 +11,16 @@
 					<th>Timestamp</th>
 				</thead>
 				<tbody>
+				<% if @feed.any? %>
 					<% @feed.each do |activity| %>
 					<% if activity.company_action = "deal" %>    
 					<tr>
+					    <% if !activity.trackable.nil? %>
 						<td><span class="text-primary"><%= activity.user.username %></span> just brought in 
 						<% if activity.trackable.user != current_user %>
 							<span class="dropdown">
 								<a href="#" class="dropdown-toggle btn btn-primary btn-xs btn-round" data-toggle="dropdown">
-									<%= activity.trackable.company_name %>
+									<%= activity.trackable.alias_name %>
 								</a>
 								<ul class="dropdown-menu">
 									<li>
@@ -31,14 +33,16 @@
 								</ul>
 							</span>
 						<% else %>
-						  <span class="text-primary"><%= activity.trackable.company_name %>	
+						  <span class="text-primary"><%= activity.trackable.alias_name %>	
 						  </span>
 						<% end %>	
 						</td>
-						<td><%= activity.updated_at.strftime("%B %m, %Y") %> at <%= activity.updated_at.strftime("%r") %></td>
+						<td><%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %></td>
+					  <% end %>	
 					</tr>	
 					<% end %>	
 					<% end %>
+				<% end %>	
 				</tbody>
 			</table>
 

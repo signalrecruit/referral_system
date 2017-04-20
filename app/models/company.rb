@@ -1,5 +1,6 @@
 class Company < ActiveRecord::Base
   belongs_to :user
+  belongs_to :industry
   has_many :job_descriptions, dependent: :destroy
   has_many :activities, as: :trackable, dependent: :destroy
 

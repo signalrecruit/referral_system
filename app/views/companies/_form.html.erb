@@ -13,16 +13,22 @@
 							<%= f.input :company_name, label: false, class: "form-control" %>
 						</div>
 					</div>
+					<div class="col-md-2">
+						<div class="form-group label-floating">
+							<label class="control-label">Industry</label>
+							<%= f.association :industry, label: false, class: "form-control" %>
+						</div>
+					</div>
 					<div class="col-md-4">
 						<div class="form-group label-floating">
 							<label class="control-label">Name Of Client</label>
 							<%= f.input :clientname, label: false, class: "form-control" %> 
 						</div>
 					</div>
-					<div class="col-md-4">
+					<div class="col-md-2">
 						<div class="form-group label-floating">
-							<label class="control-label">Role/Position Of Client</label>
-							<%= f.input :role, label: false, class: "form-control" %>
+							<label class="control-label">Role/Job Title</label>
+							<%= f.input :role, label: false, class: "form-control" %> 
 						</div>
 					</div>
 				</div>
