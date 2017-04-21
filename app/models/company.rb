@@ -3,6 +3,7 @@ class Company < ActiveRecord::Base
   belongs_to :industry
   has_many :job_descriptions, dependent: :destroy
   has_many :activities, as: :trackable, dependent: :destroy
+  has_many :applicants, dependent: :destroy
 
   validates :company_name, :clientname, :role, :email, :phonenumber, :about, presence: true
 

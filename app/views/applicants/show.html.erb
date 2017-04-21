@@ -1,0 +1,79 @@
+<div class="col-md-8">
+	<div class="card">
+		<div class="card-header" data-background-color="purple">
+		<h4 class="title"><%= @applicant.name %>'s details</h4>
+			<p class="category"></p>
+		</div>
+		<div class="card-content">
+
+			<div class="row">
+				<div class="col-md-4">
+					<div class="form-group label-floating">
+						<label class="control-label">Fullname</label>
+						<%= @applicant.name %>
+					</div>
+				</div>
+
+				<div class="col-md-3">
+					<div class="form-group label-floating">
+						<label class="control-label">Email</label>
+						<%= @applicant.email %>
+					</div>
+				</div>
+
+				<div class="col-md-2">
+					<div class="form-group label-floating">
+						<label class="control-label">Phonenumber</label>
+						<%= @applicant.phonenumber %>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="form-group label-floating">
+						<label class="control-label">Location</label>
+						<%= @applicant.location %>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group label-floating">
+						<label class="control-label">Mininum salary</label>
+						<%= @applicant.min_salary %>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group label-floating">
+						<label class="control-label">Maxinum salary</label>
+						<%= @applicant.max_salary %>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-3">
+					<div class="form-group label-floating">
+						<label class="control-label">Attachment</label>
+						<%= @applicant.attachment %>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+			  <%= link_to [:edit, @jd, @applicant], class: "btn btn-primary btn-round pull-right" do %>
+			    <i class="material-icons">edit</i> edit applicant
+			  <% end %>
+			</div>
+
+			<div class="row">
+			  <%= link_to "Go To #{@jd.company.company_name}'s job descriptions", company_url(@jd.company, tab: "job descriptions"), class: "btn btn-primary btn-round pull-right" %>
+			</div>
+			<div class="clearfix">
+			</div>
+		</div>
+	</div>
+</div>

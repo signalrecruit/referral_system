@@ -1,9 +1,5 @@
 Rails.application.routes.draw do
 
-  get 'activity_feed/index'
-
-  get 'activity_feed/show'
-
   namespace :admin do 
     get 'dashboard/dashboard', to: 'dashboard#dashboard', as: :dashboard
     # get 'dashboard/activity_feed', to: 'dashboard#activity_feed', as: :activity_feed
@@ -36,6 +32,7 @@ Rails.application.routes.draw do
   
   patch 'companies/:id/update_button', to: 'companies#update_button', as: :update_button_for_company
   patch 'job_descriptions/:id/update_button', to: 'job_descriptions#update_button', as: :update_button_for_jd
+  patch 'applicants/:id/update_button', to: 'applicants#update_button', as: :update_button_for_applicants
   patch 'requirements/:id/update_button', to: 'requirements#update_button', as: :update_button_for_rq
   get 'activity_feed/index', to: 'activity_feed#index', as: :activity_feed
   get 'activity_feed/show', to: 'activity_feed#show', as: :show_activity
@@ -50,5 +47,6 @@ Rails.application.routes.draw do
 
   resources :job_descriptions, only: [] do 
     resources :requirements
+    resources :applicants
   end
 end

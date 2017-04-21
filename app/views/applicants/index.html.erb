@@ -1,0 +1,89 @@
+	                    <div class="col-md-12">
+	                        <div class="card">
+	                            <div class="card-header" data-background-color="purple">
+	                                <h4 class="title"><%= @jd.company.company_name %>: <%= pluralize(@jd.applicants.count, "Applicant") %> for <%= @jd.job_title %></h4>
+	                            </div>
+	                            <div class="card-content table-responsive">
+	                                <table class="table">
+	                                    <thead class="text-primary">
+	                                    	<th>Name</th>
+	                                    	<th>Email</th>
+	                                    	<th>Phonenumber</th>
+											<th>Location</th>
+											<th>Min Salary</th>
+											<th>Max Salary</th>
+											<th>Attachments</th>
+											<th></th>
+	                                    </thead>
+	                                    <tbody>
+	                                    <% if @applicants.any? %>
+	                                    <% @applicants.each do |applicant| %>
+	                                      <% if applicant.updated? %>
+	                                      <%= simple_form_for([@jd, applicant]) do |f| %>
+													<tr>
+														<td><%= f.input :name, label: false, class: "form-control" %></td>
+														<td><%= f.input :email, label: false, class: "form-control" %> </td>
+														<td><%= f.input :phonenumber, label: false, class: "form-control" %></td>
+														<td><%= f.input :location, label: false, class: "form-control" %></td>
+														<td><%= f.input :min_salary, label: false, class: "form-control" %></td>
+														<td><%= f.input :max_salary, label: false, class: "form-control" %></td>
+														<td><%= f.input :attachment, label: false, class: "form-control" %></td>
+														<td><%= f.button :submit, "update",class: "btn btn-primary btn-round pull-right" %></td>
+													</tr>
+										  <% end %>			
+	                                      <% else %>
+	                                        <tr>
+	                                        	<td><%= applicant.name %></td>
+	                                        	<td><%= applicant.email %></td>
+	                                        	<td><%= applicant.phonenumber %></td>
+	                                        	<td><%= applicant.location %></td>
+	                                        	<td><%= applicant.min_salary %></td>
+	                                        	<td><%= applicant.max_salary %></td>
+	                                        	<td><%= applicant.attachment %></td>
+	                                        	<td>
+	                                        	<% if @jd.company.user == current_user %>
+	                                        	  <%= link_to update_button_for_applicants_url(applicant), method: :patch do %>
+	                                        	    <button type="button" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
+																<i class="material-icons">edit</i>
+															</button>
+	                                        	  <% end %>	
+
+	                                        	  <%= link_to job_description_applicant_url(@jd, applicant), method: :delete, data: { confirm: "are you sure?"}  do %>
+	                                        	     <button type="button" title="Remove" class="btn btn-primary btn-simple btn-xs">
+																<i class="material-icons">close</i>
+															</button>
+	                                        	  <% end %>
+	                                        	<% end %>  
+	                                        	</td>
+	                                        </tr>
+	                                      <% end %>  
+	                                    <% end %>
+	                                    <% else %>
+	                                      <tr>
+	                                      	<td>no data</td>
+	                                      	<td>no data</td>
+	                                      	<td>no data</td>
+	                                      	<td>no data</td>
+	                                      	<td>no data</td>
+	                                      	<td>no data</td>
+	                                      	<td>no data</td>
+	                                      	<td></td>
+	                                      </tr>   
+	                                    <% end %> 
+	                                    </tbody>
+	                                </table>
+	                                <% if @jd.company.user != current_user %>
+	                                <div class="row">
+	                                  <%= link_to new_job_description_applicant_url(@jd), class: "btn btn-primary btn-round pull-right" do %>
+	                                    <i class="material-icons">add</i> applicant
+	                                  <% end %>
+	                                </div> 
+	                                <% end %> 
+	                                <div class="row">
+	                                  <%= link_to company_url(@jd.company, tab: "job descriptions"), class: "btn btn-primary btn-round pull-right" do %>
+	                                    Go To <%= @jd.company.company_name %>'s job descriptions
+	                                  <% end %>
+	                                </div>  
+	                            </div>
+	                        </div>
+	                    </div>

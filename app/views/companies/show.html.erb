@@ -102,7 +102,9 @@
 													</div>
 												</div>
 												<% if @company.user == current_user %>
-												<%= link_to "Edit Company Details", update_button_for_company_url(@company), method: :patch, class: "btn btn-primary pull-right" %>
+												<%= link_to update_button_for_company_url(@company), method: :patch, class: "btn btn-primary btn-round pull-right" do %>
+												  <i class="material-icons">edit</i> edit company details
+												<% end %>
 												<% end %>
 												<div class="clearfix"></div>
 											</div>
@@ -120,6 +122,7 @@
 													<th></th>
 													<th></th>
 													<th></th>
+													<th></th>
 												</thead>
 												<tbody>
 													<% if @company.job_descriptions.any? %>
@@ -133,7 +136,7 @@
 														<td><%= f.input :max_salary, label: false, class: "form-control" %></td>
 														<td><%= f.input :vacancies, label: false, class: "form-control" %></td>
 														<td>Attachments Here</td>
-														<td><%= f.button :submit, "update",class: "btn btn-primary pull-right" %></td>
+														<td><%= f.button :submit, "update",class: "btn btn-primary btn-round pull-right" %></td>
 													</tr>
 													<% end %>
 													<% else %>
@@ -162,9 +165,27 @@
 															<% end %>
 															<% end %>
 														</td>
-														<td><%= link_to job_description_requirements_url(jd), class: "btn btn-primary btn-xs" do %>
+														<td><%= link_to job_description_requirements_url(jd), class: "btn btn-primary btn-xs btn-round" do %>
 															<i class="material-icons">visibility</i><%= pluralize(jd.requirements.count, "Requirement") %>
-															<% end %></td>
+															<% end %>
+															</td>
+															<td>
+															<% if jd.applicants.any? %>
+															<%= link_to job_description_applicants_url(jd), class: "btn btn-primary btn-xs btn-round" do %>
+																<i class="material-icons">visibility</i><%= pluralize(jd.applicants.count, "Applicant") %>
+															<% end %>																
+															<% else %>
+															<% if @company.user != current_user %>
+															  <%= link_to new_job_description_applicant_url(jd), class: "btn btn-primary btn-xs btn-round" do %>
+															  <i class="material-icons">add</i> applicant
+															  <% end %>
+															<% else %>
+															  <%= link_to job_description_applicants_url(jd), class: "btn btn-primary btn-xs btn-round" do %>
+																<i class="material-icons">visibility</i><%= pluralize(jd.applicants.count, "Applicant") %>
+															<% end %>										  
+															<% end %>  
+															<% end %>
+															</td>
 														</tr>
 														<% end %>
 														<% end %>	
@@ -183,9 +204,10 @@
 													</tbody>
 												</table>
 												<% if @company.user == current_user %>
-												<%= link_to "Add Job Description", new_company_job_description_url(@company), class: "btn btn-primary pull-right" %>
+												<%= link_to new_company_job_description_url(@company), class: "btn btn-primary btn-round pull-right" do %>
+												<i class="material-icons">add</i> job description
+												<% end %>
 												<% else %>
-												<%= link_to "Add Applicant", "#", class: "btn btn-primary pull-right" %>
 												<% end %>
 											</div>
 											<div class="tab-pane" id="settings">

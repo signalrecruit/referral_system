@@ -27,12 +27,12 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def track_activity(trackable, company_action, user_id)
-    Activity.create! trackable: trackable, company_action: company_action, user_id: user_id
+  def track_activity(trackable, action, user_id)
+    Activity.create! trackable: trackable, action: action, user_id: user_id
   end
 
   def reverse_tracking_activity(action, trackable_id)
-    activity = Activity.find_by company_action: action, trackable_id: trackable_id
+    activity = Activity.find_by action: action, trackable_id: trackable_id
     activity.delete if !activity.nil?
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170420112759) do
+ActiveRecord::Schema.define(version: 20170420211202) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,17 +20,33 @@ ActiveRecord::Schema.define(version: 20170420112759) do
     t.integer  "user_id"
     t.integer  "trackable_id"
     t.string   "trackable_type"
-    t.string   "user_action"
-    t.string   "company_action"
-    t.string   "jd_action"
-    t.string   "requirement_action"
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
-    t.boolean  "posted",             default: false
+    t.string   "action"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   add_index "activities", ["trackable_type", "trackable_id"], name: "index_activities_on_trackable_type_and_trackable_id", using: :btree
   add_index "activities", ["user_id"], name: "index_activities_on_user_id", using: :btree
+
+  create_table "applicants", force: :cascade do |t|
+    t.string   "name"
+    t.string   "email"
+    t.string   "phonenumber"
+    t.string   "location"
+    t.integer  "min_salary"
+    t.integer  "max_salary"
+    t.integer  "company_id"
+    t.integer  "job_description_id"
+    t.integer  "user_id"
+    t.string   "attachment"
+    t.boolean  "update_button",      default: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+  end
+
+  add_index "applicants", ["company_id"], name: "index_applicants_on_company_id", using: :btree
+  add_index "applicants", ["job_description_id"], name: "index_applicants_on_job_description_id", using: :btree
+  add_index "applicants", ["user_id"], name: "index_applicants_on_user_id", using: :btree
 
   create_table "companies", force: :cascade do |t|
     t.string   "company_name"
@@ -108,6 +124,9 @@ ActiveRecord::Schema.define(version: 20170420112759) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "activities", "users"
+  add_foreign_key "applicants", "companies"
+  add_foreign_key "applicants", "job_descriptions"
+  add_foreign_key "applicants", "users"
   add_foreign_key "companies", "users"
   add_foreign_key "job_descriptions", "companies"
   add_foreign_key "requirements", "job_descriptions"
