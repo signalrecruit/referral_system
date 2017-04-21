@@ -101,7 +101,9 @@
 														</div>
 													</div>
 												</div>
-												<%= link_to "Edit Company Details", admin_update_button_for_company_url(@company), method: :patch, class: "btn btn-primary pull-right" %>
+												<%= link_to admin_update_button_for_company_url(@company), method: :patch, class: "btn btn-primary btn-round pull-right" do %>
+												  <i class="material-icons">edit</i> company details
+												<% end %>
 												<div class="clearfix"></div>
 											</div>
 										</div>
@@ -117,6 +119,7 @@
 													<th>Attachments</th>
 													<th></th>
 													<th></th>
+													<th></th>
 												</thead>
 												<tbody>
 													<% if @company.job_descriptions.any? %>
@@ -130,7 +133,7 @@
 														<td class="col-md-2"><%= f.input :max_salary, label: false, class: "form-control" %></td>
 														<td class="col-md-1"><%= f.input :vacancies, label: false, class: "form-control" %></td>
 														<td class="col-md-2">Attachments Here</td>
-														<td><%= f.button :submit, "update",class: "btn btn-primary pull-right" %></td>
+														<td><%= f.button :submit, "update",class: "btn btn-primary btn-round pull-right" %></td>
 													</tr>
 													<% end %>
 													<% else %>
@@ -148,9 +151,14 @@
 															</button>
 															<% end %>
 														</td>
-														<td><%= link_to admin_job_description_requirements_url(jd), class: "btn btn-primary btn-xs" do %>
-															<i class="material-icons">visibility</i><%= pluralize(jd.requirements.count, "Requirement") %>
+														<td><%= link_to admin_job_description_requirements_url(jd), class: "btn btn-primary btn-xs btn-round" do %>
+															<i class="material-icons">visibility</i> <%= pluralize(jd.requirements.count, "Requirement") %>
 															<% end %>
+														</td>
+														<td>
+														  <%= link_to admin_job_description_applicants_url(jd), class: "btn btn-primary btn-xs btn-round" do  %>	
+														    <i class="material-icons">visibility</i><%= pluralize(jd.applicants.count, "Applicant") %>
+														  <% end %>
 														</td>
 													</tr>
 													<% end %>
