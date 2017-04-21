@@ -1,7 +1,13 @@
 	                    <div class="col-md-12">
 	                        <div class="card">
 	                            <div class="card-header" data-background-color="purple">
-	                                <h4 class="title"><%= @jd.company.company_name %>: <%= pluralize(@jd.applicants.count, "Applicant") %> for <%= @jd.job_title %></h4>
+	                                <h4 class="title">
+	                                <% if request.referrer == company_job_descriptions_url(@jd.company) %>	
+	                                <%= @jd.company.alias_name %>
+	                                <% else %>
+	                                <%= @jd.company.company_name %>
+	                                <% end %>
+	                                : <%= pluralize(@jd.applicants.count, "Applicant") %> for <%= @jd.job_title %></h4>
 	                            </div>
 	                            <div class="card-content table-responsive">
 	                                <table class="table">
@@ -80,9 +86,13 @@
 	                                </div> 
 	                                <% end %> 
 	                                <div class="row">
+	                                <% if request.referrer == company_job_descriptions_url(@jd.company) %>
+	                                <%= link_to "Back", :back, class: "btn btn-primary btn-round pull-right" %>
+	                                <% else %>
 	                                  <%= link_to company_url(@jd.company, tab: "job descriptions"), class: "btn btn-primary btn-round pull-right" do %>
 	                                    Go To <%= @jd.company.company_name %>'s job descriptions
 	                                  <% end %>
+	                                <% end %>
 	                                </div>  
 	                            </div>
 	                        </div>

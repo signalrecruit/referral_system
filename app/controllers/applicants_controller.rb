@@ -17,6 +17,7 @@ class ApplicantsController < ApplicationController
   	@applicant = @jd.applicants.build(applicant_params)
 
   	if @applicant.save 
+  	  @applicant.update(company_id: @jd.company.id)	
   	  track_activity @applicant, "added an applicant", current_user.id	
   	  @applicant.update(user_id: current_user.id)	
   	  flash[:success] = "you successfully added an applicant to this job description"

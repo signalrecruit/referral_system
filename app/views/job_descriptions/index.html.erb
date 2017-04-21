@@ -1,0 +1,114 @@
+<div class="content">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-header" data-background-color="purple">
+						<h4 class="title">Company: <%= @company.alias_name %></h4>
+						<p class="category"><%= pluralize(@company.job_descriptions.count, "Job Description") %></p>
+					</div>
+					<div class="card-content table-responsive">
+						<table class="table">
+							<thead class="text-primary">
+								<th>Job Title</th>
+								<th>Experience(yrs)</th>
+								<th>Min Salary</th>
+								<th>Max Salary</th>
+								<th>Vacancies</th>
+								<th>Attachments</th>
+								<th></th>
+								<th></th>
+								<th></th>
+								<th></th>
+							</thead>
+							<tbody>
+								<% if @company.job_descriptions.any? %>
+								<% @company.job_descriptions.each do |jd| %>
+								<% if jd.updated? %>
+								<%= simple_form_for([@company, jd]) do |f| %>
+								<tr>
+									<td><%= f.input :job_title, label: false, class: "form-control" %></td>
+									<td><%= f.input :experience, label: false, class: "form-control" %> </td>
+									<td><%= f.input :min_salary, label: false, class: "form-control" %></td>
+									<td><%= f.input :max_salary, label: false, class: "form-control" %></td>
+									<td><%= f.input :vacancies, label: false, class: "form-control" %></td>
+									<td>Attachments Here</td>
+									<td><%= f.button :submit, "update",class: "btn btn-primary btn-round pull-right" %></td>
+								</tr>
+								<% end %>
+								<% else %>
+								<tr>
+									<td><%= jd.job_title %></td>
+									<td><%= jd.experience %></td>
+									<td><%= jd.min_salary %></td>
+									<td><%= jd.max_salary %></td>
+									<td><%= jd.vacancies %></td>
+									<td>Attachments Here</td>
+									<td>
+										<% if @company.user == current_user %>
+										<%= link_to update_button_for_jd_url(jd), method: :patch do %>
+										<button type="button" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
+											<i class="material-icons">edit</i>
+										</button>
+										<% end %>
+										<% end %>
+									</td>
+									<td>
+										<% if @company.user == current_user %>
+										<%= link_to company_job_description_url(@company,  jd),  method: :delete, data: { confirm: "Are you sure?" } do %>
+										<button type="button" title="Remove" class="btn btn-primary btn-simple btn-xs">
+											<i class="material-icons">close</i>
+										</button>
+										<% end %>
+										<% end %>
+									</td>
+									<td><%= link_to job_description_requirements_url(jd), class: "btn btn-primary btn-xs btn-round" do %>
+										<i class="material-icons">visibility</i><%= pluralize(jd.requirements.count, "Requirement") %>
+										<% end %>
+									</td>
+									<td>
+										<% if jd.applicants.any? %>
+										<%= link_to job_description_applicants_url(jd), class: "btn btn-primary btn-xs btn-round" do %>
+										<i class="material-icons">visibility</i><%= pluralize(jd.applicants.count, "Applicant") %>
+										<% end %>																
+										<% else %>
+										<% if @company.user != current_user %>
+										<%= link_to new_job_description_applicant_url(jd), class: "btn btn-primary btn-xs btn-round" do %>
+										<i class="material-icons">add</i> applicant
+										<% end %>
+										<% else %>
+										<%= link_to job_description_applicants_url(jd), class: "btn btn-primary btn-xs btn-round" do %>
+										<i class="material-icons">visibility</i><%= pluralize(jd.applicants.count, "Applicant") %>
+										<% end %>										  
+										<% end %>  
+										<% end %>
+									</td>
+								</tr>
+								<% end %>
+								<% end %>	
+
+								<% else %>
+								<tr>
+									<td>No data</td>
+									<td>No data</td>
+									<td>No data</td>
+									<td>No data</td>
+									<td>No data</td>
+									<td>No data</td>
+								</tr>
+
+								<% end %>
+							</tbody>
+						</table>
+						<% if @company.user == current_user %>
+						<%= link_to new_company_job_description_url(@company), class: "btn btn-primary btn-round pull-right" do %>
+						<i class="material-icons">add</i> job description
+						<% end %>
+						<% else %>
+						<% end %>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div> 

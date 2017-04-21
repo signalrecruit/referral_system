@@ -59,7 +59,11 @@
 			<% end %>	
 			</div>
 			<div class="row">
-				<%= link_to "Back to #{@jd.company.company_name}", company_url(@jd.company, tab: "company"), class: "btn btn-primary btn-round pull-right" %>
+			    <% if request.referrer == company_job_descriptions_url(@jd.company) %>
+			    <%= link_to "Back", :back, class: "btn btn-primary btn-round pull-right" %>
+				<% else %>  
+				  <%= link_to "Back to #{@jd.company.company_name}", company_url(@jd.company, tab: "company"), class: "btn btn-primary btn-round pull-right" %>
+				<% end %>
 			</div>
 		</div>
 	</div>

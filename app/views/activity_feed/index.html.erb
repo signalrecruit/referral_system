@@ -25,7 +25,7 @@
 								<ul class="dropdown-menu">
 									<li>
 									<% if activity.trackable.job_descriptions.any? %>
-									<%= link_to pluralize(activity.trackable.job_descriptions.count, "Job Description"), company_url(activity.trackable, tab: "job descriptions") %>
+									<%= link_to pluralize(activity.trackable.job_descriptions.count, "Job Description"), company_job_descriptions_url(activity.trackable) %>
 									<% else %>
 									No Job Descriptions
 									<% end %>	
@@ -49,19 +49,10 @@
 								<a href="#" class="dropdown-toggle btn btn-primary btn-xs btn-round" data-toggle="dropdown">
 									<%= activity.trackable.name %>
 								</a>
-								<ul class="dropdown-menu">
-									<li>
-									<% if activity.trackable.job_descriptions.any? %>
-									<%= link_to pluralize(activity.trackable.job_descriptions.count, "Job Description"), company_url(activity.trackable, tab: "job descriptions") %>
-									<% else %>
-									No Job Descriptions
-									<% end %>	
-									</li>
-								</ul>
-							</span>
+							</span> to <span class="btn btn-primary btn-round btn-xs"><%= activity.trackable.company.alias_name %></span>
 						<% else %>
 						  <span class="text-primary btn btn-primary btn-xs btn-round"><%= activity.trackable.name %>	
-						  </span>
+						  </span> to <span class="btn btn-primary btn-round btn-xs"><%= activity.trackable.company.alias_name %></span>
 						<% end %>	
 						</td>
 						<td><%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %></td>

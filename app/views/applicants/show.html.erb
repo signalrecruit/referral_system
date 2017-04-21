@@ -70,7 +70,11 @@
 			</div>
 
 			<div class="row">
-			  <%= link_to "Go To #{@jd.company.company_name}'s job descriptions", company_url(@jd.company, tab: "job descriptions"), class: "btn btn-primary btn-round pull-right" %>
+			  <% if @applicant.company.user == current_user %>
+			    <%= link_to "Go To #{@jd.company.company_name}'s job descriptions", company_url(@jd.company, tab: "job descriptions"), class: "btn btn-primary btn-round pull-right" %>
+			  <% else %>
+			    <%= link_to "Go to #{@applicant.company.alias_name}'s job descriptions", company_job_descriptions_url(@applicant.company), class: "btn btn-primary btn-round pull-right" %>  
+			  <% end %>  
 			</div>
 			<div class="clearfix">
 			</div>
