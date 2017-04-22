@@ -28,6 +28,7 @@
 						<td><%= @no %></td>
 						<td><%= requirement.content %></td>
 						<td>
+						<% if @jd.company.user == current_user %>
 							<%= link_to update_button_for_rq_url(requirement), method: :patch do %>
 							<button type="button" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
 								<i class="material-icons">edit</i>
@@ -38,6 +39,7 @@
 								<i class="material-icons">close</i>
 							</button>  
 							<% end %>	
+						<% end %>	
 						</td>
 					</tr>
 					<% end %>

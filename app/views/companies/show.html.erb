@@ -5,7 +5,7 @@
 <% else %>
 
 <div class="col-lg-12 col-md-12">
-<a name="job descriptions"></a>
+	<a name="job descriptions"></a>
 	<div class="card card-nav-tabs">
 		<div class="card-header" data-background-color="purple">
 			<div class="nav-tabs-navigation">
@@ -18,8 +18,8 @@
 								Company
 								<div class="ripple-container"></div></a> -->
 								<%= link_to company_url(@company, tab: "company") do %>
-								  <i class="material-icons">business</i>
-								Company
+								<i class="material-icons">business</i>
+								Company: <%= @company.alias_name %>
 								<div class="ripple-container"></div>
 								<% end %>
 							</li>
@@ -28,11 +28,11 @@
 									<i class="material-icons"></i>
 									<%#= pluralize(@company.job_descriptions.count, "Job Description") %>
 									<div class="ripple-container"></div></a> -->
-							    <%= link_to company_url(@company, tab: "job descriptions") do %>
-							      <i class="material-icons"></i>
+									<%= link_to company_url(@company, tab: "job descriptions") do %>
+									<i class="material-icons"></i>
 									<%= pluralize(@company.job_descriptions.count, "Job Description") %>
 									<div class="ripple-container"></div></a>
-							    <% end %>
+									<% end %>
 								</li>
 												<!-- <li class="">
 													<a href="#settings" data-toggle="tab">
@@ -101,10 +101,21 @@
 														</div>
 													</div>
 												</div>
-												<% if @company.user == current_user %>
-												<%= link_to update_button_for_company_url(@company), method: :patch, class: "btn btn-primary btn-round pull-right" do %>
-												  <i class="material-icons">edit</i> edit company details
-												<% end %>
+												<div class="row">
+												  <% if @company.user == current_user %>
+												    <%= link_to update_button_for_company_url(@company), method: :patch, class: "btn btn-primary btn-round pull-right" do %>
+												    <i class="material-icons">edit</i> edit company details
+												  <% end %>
+												</div> 
+												
+												<div class="row"> 
+												  <%= link_to company_url(@company, tab: "job descriptions"), class: "btn btn-primary btn-round pull-right" do %>
+												   <i class="material-icons"></i>
+												  <%= pluralize(@company.job_descriptions.count, "Job Description") %>
+												  <div class="ripple-container"></div></a>
+												  <% end %>
+												</div>  
+
 												<% end %>
 												<div class="clearfix"></div>
 											</div>
@@ -136,7 +147,10 @@
 														<td><%= f.input :max_salary, label: false, class: "form-control" %></td>
 														<td><%= f.input :vacancies, label: false, class: "form-control" %></td>
 														<td>Attachments Here</td>
-														<td><%= f.button :submit, "update",class: "btn btn-primary btn-round pull-right" %></td>
+														<td><%= f.button :submit, "update",class: "btn btn-primary btn-xs btn-round pull-right" %></td>
+														<td></td>
+														<td></td>
+														<td></td>
 													</tr>
 													<% end %>
 													<% else %>
@@ -148,7 +162,7 @@
 														<td><%= jd.vacancies %></td>
 														<td>Attachments Here</td>
 														<td>
-														<% if @company.user == current_user %>
+															<% if @company.user == current_user %>
 															<%= link_to update_button_for_jd_url(jd), method: :patch do %>
 															<button type="button" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
 																<i class="material-icons">edit</i>
@@ -157,7 +171,7 @@
 															<% end %>
 														</td>
 														<td>
-														<% if @company.user == current_user %>
+															<% if @company.user == current_user %>
 															<%= link_to company_job_description_url(@company,  jd),  method: :delete, data: { confirm: "Are you sure?" } do %>
 															<button type="button" title="Remove" class="btn btn-primary btn-simple btn-xs">
 																<i class="material-icons">close</i>
@@ -168,49 +182,54 @@
 														<td><%= link_to job_description_requirements_url(jd), class: "btn btn-primary btn-xs btn-round" do %>
 															<i class="material-icons">visibility</i><%= pluralize(jd.requirements.count, "Requirement") %>
 															<% end %>
-															</td>
-															<td>
+														</td>
+														<td>
 															<% if jd.applicants.any? %>
 															<%= link_to job_description_applicants_url(jd), class: "btn btn-primary btn-xs btn-round" do %>
-																<i class="material-icons">visibility</i><%= pluralize(jd.applicants.count, "Applicant") %>
+															<i class="material-icons">visibility</i><%= pluralize(jd.applicants.count, "Applicant") %>
 															<% end %>																
 															<% else %>
 															<% if @company.user != current_user %>
-															  <%= link_to new_job_description_applicant_url(jd), class: "btn btn-primary btn-xs btn-round" do %>
-															  <i class="material-icons">add</i> applicant
-															  <% end %>
+															<%= link_to new_job_description_applicant_url(jd), class: "btn btn-primary btn-xs btn-round" do %>
+															<i class="material-icons">add</i> applicant
+															<% end %>
 															<% else %>
-															  <%= link_to job_description_applicants_url(jd), class: "btn btn-primary btn-xs btn-round" do %>
-																<i class="material-icons">visibility</i><%= pluralize(jd.applicants.count, "Applicant") %>
+															<%= link_to job_description_applicants_url(jd), class: "btn btn-primary btn-xs btn-round" do %>
+															<i class="material-icons">visibility</i><%= pluralize(jd.applicants.count, "Applicant") %>
 															<% end %>										  
 															<% end %>  
 															<% end %>
-															</td>
-														</tr>
-														<% end %>
-														<% end %>	
+														</td>
+														<td></td>
+													</tr>
+													<% end %>
+													<% end %>	
 
-														<% else %>
-														<tr>
-															<td>No data</td>
-															<td>No data</td>
-															<td>No data</td>
-															<td>No data</td>
-															<td>No data</td>
-															<td>No data</td>
-														</tr>
+													<% else %>
+													<tr>
+														<td>No data</td>
+														<td>No data</td>
+														<td>No data</td>
+														<td>No data</td>
+														<td>No data</td>
+														<td>No data</td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+													</tr>
 
-														<% end %>
-													</tbody>
-												</table>
-												<% if @company.user == current_user %>
-												<%= link_to new_company_job_description_url(@company), class: "btn btn-primary btn-round pull-right" do %>
-												<i class="material-icons">add</i> job description
-												<% end %>
-												<% else %>
-												<% end %>
-											</div>
-											<div class="tab-pane" id="settings">
+													<% end %>
+												</tbody>
+											</table>
+											<% if @company.user == current_user %>
+											<%= link_to new_company_job_description_url(@company), class: "btn btn-primary btn-round pull-right" do %>
+											<i class="material-icons">add</i> job description
+											<% end %>
+											<% else %>
+											<% end %>
+										</div>
+										<div class="tab-pane" id="settings">
 											<!-- <table class="table">
 												<tbody>
 													<tr>
@@ -274,12 +293,5 @@
 									</div>
 								</div>
 							</div>
-</div>
-<script type="text/javascript">
-  $(function(){
-    $("#target_edit").click(function(){
-        $("#messages").show();
-    });
-  });  	
-</script>
-<% end %>
+						</div>
+						<% end %>

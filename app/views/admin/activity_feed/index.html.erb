@@ -29,11 +29,11 @@
 								<a href="#" class="dropdown-toggle btn btn-primary btn-xs btn-round" data-toggle="dropdown">
 									<%= activity.trackable.name %>
 								</a>
-							</span> to <%=link_to activity.trackable.company.company_name, admin_company_url(activity.trackable ,tab: "company"), class: "btn btn-primary btn-xs btn-round" %>
+							</span> to <%=link_to activity.trackable.company.company_name, admin_company_url(activity.trackable ,tab: "company"), class: "btn btn-primary btn-xs btn-round" %> for a role as: <span class="btn btn-default btn-xs btn-round"><%= activity.trackable.job_description.job_title %></span>
 						<% else %>
 						  <span class="text-primary btn btn-primary btn-xs btn-round"><%= activity.trackable.name %>	
 						  </span>
-						  to <%=link_to activity.trackable.company.company_name, admin_company_url(activity.trackable ,tab: "company"), class: "btn btn-primary btn-xs btn-round" %>
+						  to <%=link_to activity.trackable.company.company_name, admin_company_url(activity.trackable ,tab: "company"), class: "btn btn-primary btn-xs btn-round" %> for a role as: <span class="btn btn-default btn-xs btn-round"><%= activity.trackable.job_description.job_title %></span>
 						<% end %>	
 						</td>
 						<td><%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %></td>

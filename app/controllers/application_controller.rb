@@ -24,6 +24,7 @@ class ApplicationController < ActionController::Base
       root_url
     end
   end
+  
 
   private
 

@@ -18,6 +18,7 @@ class JobDescriptionsController < ApplicationController
   	@job_description = @company.job_descriptions.build(job_params)
 
   	if @job_description.save 
+      track_activity @job_description, params[:action], current_user.id
   	  flash[:success] = "you have successfully created a job description"
   	  redirect_to [@company, @job_description]
   	else
