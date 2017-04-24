@@ -115,7 +115,7 @@
 						<td><%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %></td>
 					  <% end %>	
 					</tr>	
-					<% elsif activity.action == "create" && activity.trackable_type == "JobDescription" %>
+					<% elsif activity.action == "create" && (activity.trackable_type == "JobDescription" && activity.permitted? ) %>
 					<tr>
 					  <% if !activity.trackable.nil? %>
 					    <td><span class="btn btn-primary btn-xs btn-round"><%= activity.trackable.company.alias_name %></span> is looking for <%= pluralize(activity.trackable.vacancies, "applicant") %> to fill the role of

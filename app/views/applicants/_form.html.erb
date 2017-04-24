@@ -1,7 +1,13 @@
 <div class="col-md-8">
 	<div class="card">
 		<div class="card-header" data-background-color="purple">
-		<h4 class="title">Add Applicant</h4>
+		<h4 class="title">
+		<% if @applicant.persisted? %>
+		   Edit
+		<% else %>   	
+		   Add
+		<% end %>   
+		 Applicant for role as <%= @jd.job_title %> at <%= @jd.company.alias_name %></h4>
 			<p class="category"></p>
 		</div>
 		<div class="card-content">

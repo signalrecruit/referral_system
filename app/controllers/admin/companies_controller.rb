@@ -58,7 +58,11 @@ class Admin::CompaniesController < Admin::ApplicationController
     else
       if @company.contacted?
         @company.deal_true 
+
+        track_activity @company, "deal", @company.user.id if !Activity.find_by trackable_id: @company.id
+        
         update_activity "deal", @company.id
+        
         flash[:success] = "you and #{@company.company_name} have a deal"
       else
         flash[:alert] = "not applicable. you haven't contacted #{@company.company_name} yet"
@@ -71,7 +75,7 @@ class Admin::CompaniesController < Admin::ApplicationController
 
   private
 
-   def set_company
+  def set_company
   	@company = Company.find(params[:id])
   end
 

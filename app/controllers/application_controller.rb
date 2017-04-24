@@ -29,7 +29,12 @@ class ApplicationController < ActionController::Base
   private
 
   def track_activity(trackable, action, user_id)
-    Activity.create! trackable: trackable, action: action, user_id: user_id
+    activity = Activity.create! trackable: trackable, action: action, user_id: user_id
+
+    if activity.trackable_type == "JobDescription" && JobDescription.find(activity.trackable_id).
+      company.deal?
+      activity.update(permitted: true)
+    end
   end
 
   def reverse_tracking_activity(action, trackable_id)
@@ -40,5 +45,23 @@ class ApplicationController < ActionController::Base
   def update_activity(action, trackable_id)
     activity = Activity.find_by trackable_id: trackable_id
     activity.update(action: action)
+
+    if activity.trackable_type == "Company" && activity.action == "deal"
+      activity.update(permitted: true)
+      if Company.find(activity.trackable_id).job_descriptions.any?
+        Company.find(activity.trackable_id).job_descriptions.each do |jd|
+          activity = Activity.find_by trackable_id: jd.id
+          if activity.trackable_type == "JobDescription"
+            activity.update(permitted: true)
+          end
+        end
+      end
+    elsif activity.trackable_type == "JobDescription" && JobDescription.
+      find(activity.trackable_id).company.deal?
+      activity.update(permitted: true)
+    elsif activity.trackable_type == "Applicant" && Applicant.
+      find(activity.trackable_id).company.deal?
+      activity.update(permitted: true)  
+    end
   end
 end
