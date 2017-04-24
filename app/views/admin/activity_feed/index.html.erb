@@ -13,7 +13,7 @@
 				<tbody>
 				<% if @feed.any? %>
 				<% @feed.each do |activity| %>
-				  <% if activity.action == "deal" && activity.trackable_type == "Company" %>    
+				  <% if activity.action == "create" && activity.trackable_type == "Company" %>    
 					<tr>
 					<% if !activity.trackable.nil? %>
 						<td><span class="text-primary"><%= activity.user.username %></span> just brought in <span class="text-primary"><%= link_to activity.trackable.company_name, admin_company_url(activity.trackable ,tab: "company"), class: "btn btn-primary btn-xs btn-round" %></span></td>
@@ -29,7 +29,7 @@
 								<a href="#" class="dropdown-toggle btn btn-primary btn-xs btn-round" data-toggle="dropdown">
 									<%= activity.trackable.name %>
 								</a>
-							</span> to <%=link_to activity.trackable.company.company_name, admin_company_url(activity.trackable ,tab: "company"), class: "btn btn-primary btn-xs btn-round" %> for a role as: <span class="btn btn-default btn-xs btn-round"><%= activity.trackable.job_description.job_title %></span>
+							</span> to <%=link_to activity.trackable.company.company_name, admin_company_url(activity.trackable.company ,tab: "company"), class: "btn btn-primary btn-xs btn-round" %> for a role as: <span class="btn btn-default btn-xs btn-round"><%= activity.trackable.job_description.job_title %></span>
 						<% else %>
 						  <span class="text-primary btn btn-primary btn-xs btn-round"><%= activity.trackable.name %>	
 						  </span>
@@ -38,7 +38,42 @@
 						</td>
 						<td><%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %></td>
 					  <% end %>	
-					</tr>		
+					</tr>	
+					<% elsif activity.action == "deal" && activity.trackable_type == "Company" %>
+					  <tr>
+					    <% if !activity.trackable.nil? %>
+						<td><span class="text-primary">The Agency</span> just made a deal with
+						<% if activity.trackable.user != current_user %>
+							<span class="dropdown">
+								<a href="#" class="dropdown-toggle btn btn-primary btn-xs btn-round" data-toggle="dropdown">
+									<%= activity.trackable.company_name %>
+								</a>
+							</span>
+						<% else %>
+						  <span class="text-primary btn btn-primary btn-xs btn-round"><%= activity.trackable.company_name %>	
+						  </span>
+						<% end %> brought in by <span class="text-primary"><%= activity.trackable.user.username %></span>
+						</td>
+						<td><%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %></td>
+					  <% end %>	
+					</tr>
+					<% elsif activity.action == "create" && activity.trackable_type == "JobDescription" %>
+					<tr>
+					  <% if !activity.trackable.nil? %>
+					    <td><span class="btn btn-primary btn-xs btn-round"><%= activity.trackable.company.company_name %></span> is looking for <%= pluralize(activity.trackable.vacancies, "applicant") %> to fill the role of
+					    <% if activity.trackable.company.user != current_user %>
+					      <span class="dropdown">
+								<a href="#" class="dropdown-toggle btn btn-default btn-xs btn-round" data-toggle="dropdown">
+									<%= activity.trackable.job_title %>
+								</a>
+							</span>
+						<% else %>
+						  <span class="btn btn-default btn-xs btn-round"><%= activity.trackable.job_title %></span>
+					    <% end %>
+					    </td>
+					    <td><%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %></td>
+					  <% end %>	
+					</tr>	
 				  <% end %>	
 				<% end %>
 				<% else %>

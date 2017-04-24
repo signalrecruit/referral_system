@@ -13,10 +13,47 @@
 				<tbody>
 				<% if @feed.any? %>
 					<% @feed.each do |activity| %>
-					<% if activity.action == "deal" && activity.trackable_type == "Company" %>   
+					<% if activity.action == "create" && activity.trackable_type == "Company" %>   
 					<tr>
 					    <% if !activity.trackable.nil? %>
 						<td><span class="text-primary"><%= activity.user.username %></span> just brought in 
+						<% if activity.trackable.user != current_user %>
+							<span class="dropdown">
+								<a href="#" class="dropdown-toggle btn btn-primary btn-xs btn-round" data-toggle="dropdown">
+									<%= activity.trackable.alias_name %>
+								</a>
+							</span>
+						<% else %>
+						  <span class="text-primary btn btn-primary btn-xs btn-round"><%= activity.trackable.alias_name %>	
+						  </span>
+						<% end %>NOTE: no deal has been made yet!
+						</td>
+						<td><%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %></td>
+					  <% end %>	
+					</tr>
+
+					<% elsif activity.action == "update" && activity.trackable_type == "Company" %>   
+					<tr>
+					    <% if !activity.trackable.nil? %>
+						<td><span class="text-primary"><%= activity.user.username %></span> just brought in 
+						<% if activity.trackable.user != current_user %>
+							<span class="dropdown">
+								<a href="#" class="dropdown-toggle btn btn-primary btn-xs btn-round" data-toggle="dropdown">
+									<%= activity.trackable.alias_name %>
+								</a>
+							</span>
+						<% else %>
+						  <span class="text-primary btn btn-primary btn-xs btn-round"><%= activity.trackable.alias_name %>	
+						  </span>
+						<% end %>NOTE: no deal has been made yet!
+						</td>
+						<td><%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %></td>
+					  <% end %>	
+					</tr>
+					<% elsif activity.action == "deal" && activity.trackable_type == "Company" %>
+					  <tr>
+					    <% if !activity.trackable.nil? %>
+						<td><span class="text-primary">The Agency</span> just made a deal with
 						<% if activity.trackable.user != current_user %>
 							<span class="dropdown">
 								<a href="#" class="dropdown-toggle btn btn-primary btn-xs btn-round" data-toggle="dropdown">
@@ -27,7 +64,7 @@
 									<% if activity.trackable.job_descriptions.any? %>
 									<%= link_to pluralize(activity.trackable.job_descriptions.count, "Job Description"), company_job_descriptions_url(activity.trackable) %>
 									<% else %>
-									No Job Descriptions
+									No Role has been posted
 									<% end %>	
 									</li>
 								</ul>
@@ -35,16 +72,16 @@
 						<% else %>
 						  <span class="text-primary btn btn-primary btn-xs btn-round"><%= activity.trackable.alias_name %>	
 						  </span>
-						<% end %>	
+						<% end %> brought in by <span class="text-primary"><%= activity.trackable.user.username %></span>
 						</td>
 						<td><%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %></td>
 					  <% end %>	
-					</tr>	
+					</tr>
 					<% elsif activity.action == "added an applicant" && activity.trackable_type == "Applicant" %>
 					<tr>
 					    <% if !activity.trackable.nil? %>
 						<td><span class="text-primary"><%= activity.user.username %></span> just brought in 
-						<% if activity.trackable.user != current_user %>
+						<% if activity.trackable.company.user != current_user %>
 							<span class="dropdown">
 								<a href="#" class="dropdown-toggle btn btn-primary btn-xs btn-round" data-toggle="dropdown">
 									<%= activity.trackable.name %>
@@ -56,9 +93,14 @@
 								</a>
 								<ul class="dropdown-menu">
 									<li>
-									<%= link_to new_job_description_applicant_url(activity.trackable) do %>
-									  <i class="material-icons">add</i>applicant
-									<% end %>									
+									<% if activity.trackable.job_description.applicants.count != activity.trackable.job_description.vacancies %>
+
+									  <%= link_to new_job_description_applicant_url(activity.trackable.job_description) do %>
+									    <i class="material-icons">add</i>applicant
+									  <% end %>
+									<% else %>
+									<p>No more vacancies</p>  
+									<% end %>  									
 									</li>
 								</ul>
 							</span>
@@ -84,11 +126,52 @@
 								</a>
 								<ul class="dropdown-menu">
 									<li>
-									<% if activity.trackable.applicants.any? %>
+									<% if activity.trackable.applicants.any? && activity.trackable.applicants.count != activity.trackable.vacancies %>
+
 									<%= link_to new_job_description_applicant_url(activity.trackable) do %>
 									  <i class="material-icons">add</i>applicant
 									<% end %>
-									<% else %>									
+
+									<% elsif activity.trackable.applicants.any? && activity.trackable.applicants.count == activity.trackable.vacancies %>
+									<p>No more vacancies</p>
+
+									<% elsif activity.trackable.applicants.empty? %> 									
+									<%= link_to new_job_description_applicant_url(activity.trackable) do %>
+									  <i class="material-icons">add</i>applicant
+									<% end %>
+									<% end %>	
+									</li>
+								</ul>
+							</span>
+						<% else %>
+						  <span class="btn btn-default btn-xs btn-round"><%= activity.trackable.job_title %></span>
+					    <% end %>
+					    </td>
+					    <td><%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %></td>
+					  <% end %>	
+					</tr>
+
+					<% elsif activity.action == "update" && activity.trackable_type == "JobDescription" %>
+					<tr>
+					  <% if !activity.trackable.nil? %>
+					    <td><span class="btn btn-primary btn-xs btn-round"><%= activity.trackable.company.alias_name %></span> is looking for <%= pluralize(activity.trackable.vacancies, "applicant") %> to fill the role of
+					    <% if activity.trackable.company.user != current_user %>
+					      <span class="dropdown">
+								<a href="#" class="dropdown-toggle btn btn-default btn-xs btn-round" data-toggle="dropdown">
+									<%= activity.trackable.job_title %>
+								</a>
+								<ul class="dropdown-menu">
+									<li>
+									<% if activity.trackable.applicants.any? && activity.trackable.applicants.count != activity.trackable.vacancies %>
+
+									<%= link_to new_job_description_applicant_url(activity.trackable) do %>
+									  <i class="material-icons">add</i>applicant
+									<% end %>
+
+									<% elsif activity.trackable.applicants.any? && activity.trackable.applicants.count == activity.trackable.vacancies %>
+									<p>No more vacancies</p>
+
+									<% elsif activity.trackable.applicants.empty? %> 									
 									<%= link_to new_job_description_applicant_url(activity.trackable) do %>
 									  <i class="material-icons">add</i>applicant
 									<% end %>

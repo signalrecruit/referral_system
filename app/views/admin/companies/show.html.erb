@@ -101,9 +101,19 @@
 														</div>
 													</div>
 												</div>
-												<%= link_to admin_update_button_for_company_url(@company), method: :patch, class: "btn btn-primary btn-round pull-right" do %>
-												  <i class="material-icons">edit</i> company details
-												<% end %>
+												<div class="row">
+												  <%= link_to admin_update_button_for_company_url(@company), method: :patch, class: "btn btn-primary btn-round pull-right" do %>
+												    <i class="material-icons">edit</i> company details
+												  <% end %>
+												</div>
+												<div class="row"> 
+												  <%= link_to admin_company_url(@company, tab: "job descriptions"), class: "btn btn-primary btn-round pull-right" do %>
+												   <i class="material-icons"></i>
+												  <%= pluralize(@company.job_descriptions.count, "Job Description") %>
+												  <div class="ripple-container"></div></a>
+												  <% end %>
+												</div>  
+
 												<div class="clearfix"></div>
 											</div>
 										</div>

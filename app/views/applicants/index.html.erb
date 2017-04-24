@@ -5,7 +5,7 @@
 	                                <% if request.referrer == company_job_descriptions_url(@jd.company) %>	
 	                                Company:<%= @jd.company.alias_name %>
 	                                <% else %>
-	                                <%= @jd.company.company_name %>
+	                                <%= @jd.company.company_name %>/<%= @jd.company.alias_name %>
 	                                <% end %>
 	                                : </h4>
 	                                <p class="category"><%= pluralize(@jd.applicants.count, "Applicant") %> for <%= @jd.job_title %></p>
@@ -80,11 +80,13 @@
 	                                    </tbody>
 	                                </table>
 	                                <% if @jd.company.user != current_user %>
-	                                <div class="row">
-	                                  <%= link_to new_job_description_applicant_url(@jd), class: "btn btn-primary btn-round pull-right" do %>
-	                                    <i class="material-icons">add</i> applicant
+	                                  <% if @jd.vacancies != @jd.applicants.count %>
+	                                    <div class="row">
+	                                      <%= link_to new_job_description_applicant_url(@jd), class: "btn btn-primary btn-round pull-right" do %>
+	                                        <i class="material-icons">add</i> applicant
+	                                      <% end %>
+	                                    </div> 
 	                                  <% end %>
-	                                </div> 
 	                                <% end %> 
 	                                <div class="row">
 	                                <% if request.referrer == company_job_descriptions_url(@jd.company) %>

@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-   def after_sign_in_path_for(resource)
+  def after_sign_in_path_for(resource)
     if resource.admin?
       admin_dashboard_url
     else 
@@ -35,5 +35,10 @@ class ApplicationController < ActionController::Base
   def reverse_tracking_activity(action, trackable_id)
     activity = Activity.find_by action: action, trackable_id: trackable_id
     activity.delete if !activity.nil?
+  end
+
+  def update_activity(action, trackable_id)
+    activity = Activity.find_by trackable_id: trackable_id
+    activity.update(action: action)
   end
 end

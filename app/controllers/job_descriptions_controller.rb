@@ -33,6 +33,7 @@ class JobDescriptionsController < ApplicationController
   def update
   	if @job_description.update(job_params)
   	  @job_description.update(update_button: false)	
+      update_activity "update", @job_description.id
   	  flash[:success] = "you successfully updated job description"
   	  if request.referrer == edit_company_job_description_url(@company, @job_description)
         redirect_to [@company, @job_description]

@@ -19,7 +19,7 @@
 								<div class="ripple-container"></div></a> -->
 								<%= link_to company_url(@company, tab: "company") do %>
 								<i class="material-icons">business</i>
-								Company: <%= @company.alias_name %>
+								Company: <%= @company.company_name %>/<%= @company.alias_name %>
 								<div class="ripple-container"></div>
 								<% end %>
 							</li>

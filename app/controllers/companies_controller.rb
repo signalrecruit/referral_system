@@ -18,11 +18,12 @@ class CompaniesController < ApplicationController
   	@company = current_user.companies.build(company_params)
 
   	if @company.save
-      @random = SecureRandom.hex(2)
-      id = params[:company][:industry_id].to_i
-      @industry = Industry.find(id)
-      @company.update(alias_name: @industry.name + "-#{@random}")
-  	  flash[:success] = "you succesfully created a company with name #{@company.company_name}"
+      
+      create_alias_name_for_company @company
+
+      track_activity @company, params[:action], @company.user.id
+  	  
+      flash[:success] = "you succesfully created a company with name #{@company.company_name}"
   	  redirect_to new_company_job_description_url(company_id: @company)
   	else
   	  flash.now[:errors] = "oops! something went wrong"
@@ -36,6 +37,11 @@ class CompaniesController < ApplicationController
   def update
   	if @company.update(company_params)
   	  @company.update(update_button: false)	
+      
+      find_and_update_activity @company.id
+
+      create_alias_name_for_company @company
+
   	  flash[:success] = "you successfully updated #{@company.company_name} details"
   	  # redirect_to :back
       redirect_to company_url(@company, tab: "company") 
@@ -70,5 +76,23 @@ class CompaniesController < ApplicationController
   def company_params
     params.require(:company).permit(:company_name, :clientname, :email, :phonenumber, :role,
   	:url, :about, :alias_name, :industry_id)
+  end
+
+  def create_alias_name_for_company(company)
+    @random = SecureRandom.hex(2)
+    id = params[:company][:industry_id].to_i
+    @industry = Industry.find(id)
+    @company.update(alias_name: @industry.name + "-#{@random}")
+  end
+
+  def find_and_update_activity(trackable_id)
+    activity = Activity.find_by trackable_id: trackable_id
+
+    if activity.action == "deal"
+        update_activity "update", @company.id 
+        update_activity "deal", @company.id 
+    elsif activity.action == "create"
+        update_activity "update", @company.id
+    end
   end
 end

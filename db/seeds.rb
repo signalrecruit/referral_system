@@ -9,6 +9,13 @@
 User.create fullname: "Derek Owusu-Frimpong", email: "deepsky_5@live.com", password: "password",
  password_confirmation: "password", admin: true, admin_status: 2, phonenumber: "0204704427", username: "picaso"
 
+User.create fullname: "Scarlet Johanson", email: "scarlet@user.com", password: "password",
+ password_confirmation: "password", admin: false, admin_status: 0, phonenumber: "0000000000", username: "Scarlet"
+
+
+User.create fullname: "Ruth Affram", email: "ruth@user.com", password: "password",
+ password_confirmation: "password", admin: false, admin_status: 0, phonenumber: "0000000000", username: "Xose"
+
 
 10.times do |i| 
   Industry.create name: "industry#{i}00"
