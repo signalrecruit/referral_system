@@ -1,4 +1,5 @@
 class ApplicantsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_jd, except: [:update_button]
   before_action :set_applicant, only: [:show, :edit, :update, :destroy]
 
@@ -34,6 +35,7 @@ class ApplicantsController < ApplicationController
   def update
   	if @applicant.update(applicant_params)
   	  @applicant.update(update_button: false) 	
+      update_activity "update", @applicant.id 
   	  flash[:success] = "you successfully updated this applicant"
   	  if request.referrer == job_description_applicants_url(@jd)
   	  	redirect_to :back

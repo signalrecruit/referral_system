@@ -56,11 +56,9 @@ class ApplicationController < ActionController::Base
           end
         end
       end
-    elsif activity.trackable_type == "JobDescription" && JobDescription.
-      find(activity.trackable_id).company.deal?
+    elsif activity.trackable_type == "JobDescription" && JobDescription.find(activity.trackable_id).company.deal?
       activity.update(permitted: true)
-    elsif activity.trackable_type == "Applicant" && Applicant.
-      find(activity.trackable_id).company.deal?
+    elsif activity.trackable_type == "Applicant" && Applicant.find(activity.trackable_id).company.deal?
       activity.update(permitted: true)  
     end
   end
