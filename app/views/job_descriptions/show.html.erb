@@ -48,19 +48,39 @@
 					</div>
 				</div>
 			</div>
+
 			<div class="row">
-			<%= link_to edit_company_job_description_url(@company, @job_description), class: "btn btn-primary btn-round pull-right" do %>
+				<div class="col-md-6">
+					<div class="form-group label-floating">
+						<label class="control-label">Qualifications</label>
+						<% if @job_description.qualifications.any? %>
+						  <% @job_description.qualifications.each do |qualification| %>
+						    <%= qualification.certificate %> in <%= qualification.field_of_study %><br/>
+						  <% end %>
+						<% else %>
+						  No Qualifications Needed  
+						<% end %>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+			<%= link_to edit_company_job_description_url(@company, @job_description), class: "btn btn-primary btn-xs btn-round pull-right" do %>
 			<i class="material-icons">edit</i>job description
 			<% end %>
 			</div>
 			<div class="row">
-				<%= link_to new_job_description_requirement_url(@job_description), class: "btn btn-primary btn-round pull-right" do %>
+				<%= link_to new_job_description_requirement_url(@job_description), class: "btn btn-primary btn-xs btn-round pull-right" do %>
 				<i class="material-icons">add</i>requirement
 				<% end %>
 			</div>
+			<div class="row">
+			  <%= link_to new_job_description_qualification_url(@job_description), class: "btn btn-primary btn-xs btn-round pull-right" do %>
+			  <i class="material-icons">add</i>required qualification
+			  <% end %>	
+			</div>
 			<div class="clearfix"></div>
 			<div class="row">
-			<%= link_to "Go To #{@job_description.company.company_name}", user_company_url(current_user, @job_description.company, tab: "company"), class: "btn btn-primary btn-round pull-right" %>
+			<%= link_to "Go To #{@job_description.company.company_name}", user_company_url(current_user, @job_description.company, tab: "company"), class: "btn btn-primary btn-xs btn-round pull-right" %>
 			</div>
 		</div>
 	</div>

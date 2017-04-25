@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170424113352) do
+ActiveRecord::Schema.define(version: 20170425160854) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,11 +84,34 @@ ActiveRecord::Schema.define(version: 20170424113352) do
     t.integer  "vacancies"
     t.boolean  "update_button"
     t.integer  "company_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.text     "role_description"
   end
 
   add_index "job_descriptions", ["company_id"], name: "index_job_descriptions_on_company_id", using: :btree
+
+  create_table "qualifications", force: :cascade do |t|
+    t.string   "certificate"
+    t.string   "field_of_study"
+    t.integer  "job_description_id"
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.boolean  "update_button",      default: false
+  end
+
+  add_index "qualifications", ["job_description_id"], name: "index_qualifications_on_job_description_id", using: :btree
+
+  create_table "required_experiences", force: :cascade do |t|
+    t.string   "experience"
+    t.integer  "years"
+    t.integer  "job_description_id"
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.boolean  "update_button",      default: false
+  end
+
+  add_index "required_experiences", ["job_description_id"], name: "index_required_experiences_on_job_description_id", using: :btree
 
   create_table "requirements", force: :cascade do |t|
     t.text     "content"
@@ -130,5 +153,7 @@ ActiveRecord::Schema.define(version: 20170424113352) do
   add_foreign_key "applicants", "users"
   add_foreign_key "companies", "users"
   add_foreign_key "job_descriptions", "companies"
+  add_foreign_key "qualifications", "job_descriptions"
+  add_foreign_key "required_experiences", "job_descriptions"
   add_foreign_key "requirements", "job_descriptions"
 end

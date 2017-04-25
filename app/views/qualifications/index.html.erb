@@ -1,0 +1,92 @@
+<div class="col-md-12">
+	<div class="card">
+		<div class="card-header" data-background-color="purple">
+			<h4 class="title">Required Qualifications for role as <%= @jd.job_title %> at 
+		    <% if @jd.company.user == current_user %>		
+			  <%= @jd.company.company_name %>/<%= @jd.company.alias_name %>
+			<% else %>
+			  <%= @jd.company.alias_name %>  
+			<% end %>
+			 </h4>
+		</div>
+		<div class="card-content table-responsive">
+			<table class="table">
+				<thead class="text-primary">
+					<th></th>
+					<th>Certificate</th>
+					<th>Field Of Study</th>
+					<th></th>
+				</thead>
+				<% if @qualifications.any? %>
+				<tbody>
+					<% @no = 0 %>
+					<% @qualifications.each do |qualification| %>
+					<% @no += 1 %>
+					<% if qualification.updated? %>
+					  	<%= simple_form_for([@jd, qualification]) do |f| %>
+					  	<tr>
+					  	  <td><%= @no %></td>
+					  	  <td><%= f.input :certificate, label: false, class: "form-control" %></td>
+					  	  <td><%= f.input :field_of_study, label: false, class: "form-control" %></td>
+					  	  <td><%= f.button :submit, "update", class: "btn btn-primary  btn-xs btn-round pull-right" %></td>
+					  	</tr>
+					  	<% end %>
+					<% else %>
+					<tr>
+						<td><%= @no %></td>
+						<td><%= qualification.certificate %></td>
+						<td><%= qualification.field_of_study %></td>
+						<td>
+						<% if @jd.company.user == current_user %>
+							<%= link_to update_button_for_qualification_url(qualification), method: :patch do %>
+							<button type="button" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
+								<i class="material-icons">edit</i>
+							</button>  
+							<% end %>	
+							<%= link_to job_description_qualification_url(@jd, qualification), method: :delete, data: { confirm: "Are you sure?" } do %>
+							<button type="button" title="Remove" class="btn btn-primary btn-simple btn-xs">
+								<i class="material-icons">close</i>
+							</button>  
+							<% end %>	
+						<% end %>	
+						</td>
+					</tr>
+					<% end %>
+					<% end %>
+					<% else %>
+					<tr>
+						<td></td>
+						<td>no content</td>
+						<td></td>	
+					</tr>					
+				</tbody>
+				<% end %>
+			</table>
+			<div class="row">
+			<% if @jd.company.user == current_user %>
+			  <% if @jd.qualifications.any? %>
+				<%= link_to new_job_description_qualification_url(@jd), class: "btn btn-primary btn-xs btn-round pull-right" do %>
+				  <i class="material-icons">add</i>another qualification
+			    <% end %>
+			  <% else %>  
+			    <%= link_to new_job_description_qualification_url(@jd), class: "btn btn-primary btn-xs btn-round pull-right" do %>
+				  <i class="material-icons">add</i>qualification
+			    <% end %>
+			  <% end %>  
+			<% end %>	
+			</div>
+			<div class="row">
+			  <%= link_to new_job_description_requirement_url(@jd), class: "btn btn-primary btn-xs btn-round pull-right" do %>
+				  <i class="material-icons">add</i> requirement
+			    <% end %>				
+			</div>
+			<div class="row">
+			    <% if request.referrer == company_job_descriptions_url(@jd.company) %>
+			    <%= link_to "Back", :back, class: "btn btn-primary btn-xs btn-round pull-right" %>
+				<% else %>  
+				  <%= link_to "Back to #{@jd.company.company_name}", company_url(@jd.company, tab: "company"), class: "btn btn-primary btn-xs btn-round pull-right" %>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>

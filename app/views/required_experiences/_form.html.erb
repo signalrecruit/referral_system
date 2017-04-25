@@ -1,0 +1,34 @@
+<div class="col-md-8">
+	<div class="card">
+		<div class="card-header" data-background-color="purple">
+			<h4 class="title">
+		     <% if @experience.persisted? %>
+		       Edit 
+		     <% else %>
+		       Add  
+		     <% end %>		
+			 Required Experience for role: <%= @jd.job_title %> at <%= @jd.company.company_name %></h4>
+		</div>
+		<div class="card-content">
+			<%= simple_form_for([jd, experience]) do |f| %>
+			<div class="row">
+				<div class="col-md-4">
+					<div class="form-group label-floating">
+						<label class="control-label">Experience</label>
+						<%= f.input :experience, label: false, class: "form-control" %>
+					</div>
+				</div>
+				<div class="col-md-2">
+					<div class="form-group label-floating">
+						<label class="control-label">Years</label>
+						<%= f.input :years, label: false, class: "form-control" %>
+					</div>
+				</div>
+			</div>
+
+			<%= f.button :submit, "Done", class: "btn btn-primary btn-round pull-right" %>
+			<div class="clearfix"></div>
+			<% end %>
+		</div>
+	</div>
+</div>

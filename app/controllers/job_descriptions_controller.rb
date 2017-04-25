@@ -20,7 +20,7 @@ class JobDescriptionsController < ApplicationController
   	if @job_description.save 
       track_activity @job_description, params[:action], current_user.id
   	  flash[:success] = "you have successfully created a job description"
-  	  redirect_to [@company, @job_description]
+  	  redirect_to new_job_description_qualification_url(@job_description)
   	else
   	  flash.now[:alert] = "oops! sthg went wrong"
   	  render :new
@@ -70,6 +70,6 @@ class JobDescriptionsController < ApplicationController
   end
 
   def job_params
-  	params.require(:job_description).permit(:job_title, :experience, :min_salary, :max_salary, :vacancies, :update_button)
+  	params.require(:job_description).permit(:job_title, :role_description, :experience, :min_salary, :max_salary, :vacancies, :update_button)
   end
 end

@@ -12,15 +12,24 @@
 						<%= f.input :job_title, label: false, class: "form-control" %>
 					</div>
 				</div>
-				<div class="col-md-2">
-					<div class="form-group label-floating">
-						<label class="control-label">Experience(yrs)</label>
-						<%= f.input :experience, label: false, class: "form-control" %> 
-					</div>
-				</div>
+			</div>
+
+			<div class="row">
+			  <div class="col-md-4">
+			    <div class="form-group label-floating">
+			      <label class="control-label">Brief Description of Role</label>
+				    <%= f.input :role_description, label: false, class: "form-control" %>
+				 </div>
+			  </div>
 			</div>
 	
 			<div class="row">
+			   <div class="col-md-2">
+				  <div class="form-group label-floating">
+					<label class="control-label">Required Years of Experience</label>
+						<%= f.input :experience, label: false, class: "form-control" %> 
+					</div>
+				</div>
 				<div class="col-md-4">
 					<div class="form-group label-floating">
 						<label class="control-label">Minimum Salary</label>
@@ -43,7 +52,7 @@
 					</div>
 				</div>
 			</div>
-			<%= f.button :submit, class: "btn btn-primary btn-round pull-right" %>
+			<%= f.button :submit, "Continue", class: "btn btn-primary btn-round pull-right" %>
 			<div class="clearfix"></div>
 			<% end %>
 		</div>

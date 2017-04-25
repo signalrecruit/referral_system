@@ -155,7 +155,7 @@
 													<% end %>
 													<% else %>
 													<tr>
-														<td><%= jd.job_title %></td>
+														<td><%=link_to jd.job_title, company_job_description_url(@company, jd) %></td>
 														<td><%= jd.experience %></td>
 														<td><%= jd.min_salary %></td>
 														<td><%= jd.max_salary %></td>
