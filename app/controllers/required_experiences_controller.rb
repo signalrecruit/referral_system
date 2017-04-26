@@ -19,7 +19,7 @@ class RequiredExperiencesController < ApplicationController
 
   	if @experience.save 
   	  flash[:success] = "successufully added an experience"
-  	  redirect_to :back 
+  	  redirect_to company_job_description_url(@jd.company, @jd)
   	else
   	  flash.now[:alert] = "oops! something went wrong"
   	  render :new
@@ -50,6 +50,7 @@ class RequiredExperiencesController < ApplicationController
   def update_button
   	@experience = RequiredExperience.find(params[:id])
   	@experience.update(update_button: true)
+  	redirect_to :back
   end
 
 

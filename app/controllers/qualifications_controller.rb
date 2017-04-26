@@ -20,7 +20,7 @@ class QualificationsController < ApplicationController
 
   	if @qualification.save 
   	  flash[:success] = "added qualification successfully"
-  	  redirect_to job_description_qualifications_url(@jd)
+  	  redirect_to [@jd.company, @jd]
   	else
   	  flash.now[:alert] = "oops! something went wrong"
   	  render :new 	
@@ -34,7 +34,12 @@ class QualificationsController < ApplicationController
   	if @qualification.update(qualification_params)
   	   @qualification.update(update_button: false)	
   	  flash[:success] = "successfully updated qualification"
-  	  redirect_to job_description_qualifications_url(@jd)
+  	  
+  	  if request.referrer == company_job_description_url(@jd.company, @jd)
+  	  	redirect_to :back
+  	  else
+  	    redirect_to job_description_qualifications_url(@jd)
+  	  end
   	else 
   	  flash.now[:alert] = "oops! something went wrong"
   	  render :edit	

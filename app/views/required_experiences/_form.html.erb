@@ -12,16 +12,16 @@
 		<div class="card-content">
 			<%= simple_form_for([jd, experience]) do |f| %>
 			<div class="row">
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<div class="form-group label-floating">
 						<label class="control-label">Experience</label>
-						<%= f.input :experience, label: false, class: "form-control" %>
+						<%= f.input :experience, placeholder: "professional software development", label: false, class: "form-control" %>
 					</div>
 				</div>
 				<div class="col-md-2">
 					<div class="form-group label-floating">
 						<label class="control-label">Years</label>
-						<%= f.input :years, label: false, class: "form-control" %>
+						<%= f.input :years, label: false, placeholder: "4", class: "form-control" %>
 					</div>
 				</div>
 			</div>

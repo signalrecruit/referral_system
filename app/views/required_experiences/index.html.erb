@@ -75,11 +75,6 @@
 			<% end %>	
 			</div>
 			<div class="row">
-			  <%= link_to new_job_description_required_experience_url(@jd), class: "btn btn-primary btn-round pull-right" do %>
-			    <i class="material-icons">add</i>required experience
-			  <% end %>				
-			</div>
-			<div class="row">
 			    <% if request.referrer == company_job_descriptions_url(@jd.company) %>
 			    <%= link_to "Back", :back, class: "btn btn-primary btn-round pull-right" %>
 				<% else %>  

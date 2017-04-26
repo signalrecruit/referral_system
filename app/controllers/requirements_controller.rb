@@ -18,7 +18,7 @@ class RequirementsController < ApplicationController
     
     if @requirement.save 
       flash[:success] = "successfully created a requirement"
-      redirect_to job_description_requirements_url(@jd)
+      redirect_to company_job_description_url(@jd.company, @jd)
     else
       flash.now[:alert] = "oops! sthg went wrong"
       render :new  

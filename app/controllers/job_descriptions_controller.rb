@@ -54,7 +54,8 @@ class JobDescriptionsController < ApplicationController
   def update_button
   	@job_description = JobDescription.find(params[:id])
   	@job_description.update(update_button: true)
-  	redirect_to company_url(@job_description.company, tab: "job descriptions") + "#job descriptions"
+  	# redirect_to company_url(@job_description.company, tab: "job descriptions") + "#job descriptions"
+    redirect_to :back
   end
 
 
