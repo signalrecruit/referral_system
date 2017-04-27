@@ -1,0 +1,41 @@
+<% if @users.any? %>
+<div class="col-md-12">
+	<div class="card">
+		<div class="card-header" data-background-color="purple">
+			<h4 class="title">Users</h4>
+		</div>
+		<div class="card-content table-responsive">
+			<table class="table">
+				<thead class="text-primary">
+					<th>Username</th>
+					<th>Fullname</th>
+					<th>Number Companies Brought In</th>
+					<th>Number of Applicants Brought In</th>
+					<th>Total Earnings</th>
+				</thead>
+				<% @users.each do |user| %>
+				<tbody>
+					<tr>
+						<td><%= link_to user.username, [:admin, user], class: "btn btn-primary btn-xs btn-round" %></td>
+						<td class="text-primary"><%= user.fullname %></td>
+						<td><%= user.companies.count %></td>  	
+						<td><%= user.applicants.count %></td>
+						<td><span class="btn btn-success btn-xs btn-round">GHS 0.00</span></td>
+					</tr>
+				</tbody>
+				<% end %>
+			</table>
+
+		</div>
+	</div>
+</div>
+<% else %>
+<h4>None at the moment</h4>
+
+<% end %>
+<%= javascript_include_tag "admin/jquery-3.1.0.min" %>
+<%= javascript_include_tag "admin/bootstrap.min" %>
+<%= javascript_include_tag "admin/material.min" %>
+<%= javascript_include_tag "admin/chartist.min" %>
+<%= javascript_include_tag "admin/bootstrap-notify" %>
+<%= javascript_include_tag "admin/material-dashboard" %>

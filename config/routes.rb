@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     #   resources :companies
     # end
     resources :admin_users
+    resources :users, only: [:index, :show]
     
     resources :companies do 
       resources :job_descriptions

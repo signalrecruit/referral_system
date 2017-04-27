@@ -148,21 +148,14 @@
 													<% end %>
 													<% else %>
 													<tr>
-														<td><%= jd.job_title %></td>
+														<td><%= link_to jd.job_title, admin_company_job_description_url(jd.company, jd) %></td>
 														<td><%= jd.experience %></td>
 														<td><%= jd.min_salary %></td>
 														<td><%= jd.max_salary %></td>
 														<td><%= jd.vacancies %></td>
 														<td>Attachments Here</td>
-														<td>
-															<%= link_to admin_update_button_for_jd_url(jd), method: :patch do %>
-															<button type="button" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
-																<i class="material-icons">edit</i>
-															</button>
-															<% end %>
-														</td>
-														<td><%= link_to admin_job_description_requirements_url(jd), class: "btn btn-primary btn-xs btn-round" do %>
-															<i class="material-icons">visibility</i> <%= pluralize(jd.requirements.count, "Requirement") %>
+														<td><%= link_to admin_company_job_description_url(jd.company, jd), class: "btn btn-primary btn-xs btn-round" do %>
+															<i class="material-icons">visibility</i> Details of Job Description
 															<% end %>
 														</td>
 														<td>

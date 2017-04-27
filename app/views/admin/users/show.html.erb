@@ -1,0 +1,98 @@
+<div class="col-md-8">
+  <div class="card">
+    <div class="card-header" data-background-color="purple">
+      <h4 class="title"><%= @user.fullname %>'s Profile</h4>
+      <p class="category"></p>
+    </div>
+    <div class="card-content">
+     <h4 class="text-primary">Personal Details</h4>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group label-floating">
+            <label class="control-label">Username</label>
+            <%= @user.username %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group label-floating">
+            <label class="control-label">Fullname</label>
+            <%= @user.fullname %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group label-floating">
+            <label class="control-label">Email</label>
+            <%= @user.email %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group label-floating">
+            <label class="control-label">Phonenumber</label>
+            <%= @user.phonenumber %>
+          </div>
+        </div>
+      </div>
+
+      <br/>
+      <br/>
+      <hr>
+
+      <h4 class="text-primary">Work Details</h4>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group label-floating">
+            <label class="control-label">Companies Brought In</label>
+            <% @user.companies.each do |company| %>
+              <span class="text-primary"><%= company.company_name %></span>,
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group label-floating">
+            <label class="control-label">Applicants Brought In</label>
+            <% @user.applicants.each do |applicant| %>
+              <span class="text-primary"><%= applicant.name %></span>,
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group label-floating">
+            <label class="control-label">Total Earnings</label>
+              <span class="btn btn-success btn-xs btn-round">GHS 0.00</span>
+          </div>
+        </div>
+      </div>
+
+
+      
+      <div class="clearfix">
+      <div class="row">
+        <%= link_to "Back", :back, class: "btn btn-primary btn-round pull-right" %>	
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= javascript_include_tag "admin/jquery-3.1.0.min" %>
+<%= javascript_include_tag "admin/bootstrap.min" %>
+<%= javascript_include_tag "admin/material.min" %>
+<%= javascript_include_tag "admin/chartist.min" %>
+<%= javascript_include_tag "admin/bootstrap-notify" %>
+<%= javascript_include_tag "admin/material-dashboard" %>

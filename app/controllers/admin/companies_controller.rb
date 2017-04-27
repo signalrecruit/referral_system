@@ -81,6 +81,6 @@ class Admin::CompaniesController < Admin::ApplicationController
 
   def company_params
     params.require(:company).permit(:company_name, :clientname, :email, :phonenumber, :role,
-  	:url, :about, :contacted, :deal)
+  	:url, :about, :contacted, :deal, :worth)
   end
 end

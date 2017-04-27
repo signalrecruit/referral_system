@@ -51,6 +51,12 @@
 		    		    <p>Admins</p>
 		    		  <% end %>	  
 		    		</li>
+		    		<li>
+		    		  <%= link_to admin_users_url do %>
+		    		    <i class="material-icons">people</i>
+		    		    <p>Users</p>
+		    		  <% end %>	  
+		    		</li>
 		    		<% end %>
 		    		<li>
 		    		<% if current_user.admin? %>
