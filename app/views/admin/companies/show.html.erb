@@ -48,6 +48,16 @@
 								<div class="card-content">
 									<div class="tab-content">
 										<div class="tab-pane <%= @tab == "company" ? "active" : "" %>" id="profile">
+											<div class="row">
+												<button class="btn btn-success btn-xs btn-round pull-left">
+													worth: GHS <%= @company.worth %>	
+												</button>
+												<%#= link_to admin_update_button_for_company_url(@company), method: :patch do %>
+												<!-- <button type="button" title="Edit Worth" class="btn btn-primary btn-simple btn-xs">
+													<i class="material-icons">edit</i>
+												</button> -->
+												<%# end %>
+											</div>
 											<div class="card-content">
 												<div class="row">
 													<div class="col-md-3">
@@ -126,7 +136,7 @@
 													<th>Min Salary</th>
 													<th>Max Salary</th>
 													<th>Vacancies</th>
-													<th>Attachments</th>
+													<th colspan="2">Worth</th>
 													<th></th>
 													<th></th>
 													<th></th>
@@ -134,37 +144,46 @@
 												<tbody>
 													<% if @company.job_descriptions.any? %>
 													<% @company.job_descriptions.each do |jd| %>
-													<% if jd.updated? %>
-													<%= simple_form_for([:admin, @company, jd]) do |f| %>
-													<tr>
-														<td class="col-md-3"><%= f.input :job_title, label: false, class: "form-control" %></td>
-														<td class="col-md-1"><%= f.input :experience, label: false, class: "form-control" %> </td>
-														<td class="col-md-2"><%= f.input :min_salary, label: false, class: "form-control" %></td>
-														<td class="col-md-2"><%= f.input :max_salary, label: false, class: "form-control" %></td>
-														<td class="col-md-1"><%= f.input :vacancies, label: false, class: "form-control" %></td>
-														<td class="col-md-2">Attachments Here</td>
-														<td><%= f.button :submit, "update",class: "btn btn-primary btn-round pull-right" %></td>
-													</tr>
-													<% end %>
-													<% else %>
 													<tr>
 														<td><%= link_to jd.job_title, admin_company_job_description_url(jd.company, jd) %></td>
 														<td><%= jd.experience %></td>
 														<td><%= jd.min_salary %></td>
 														<td><%= jd.max_salary %></td>
 														<td><%= jd.vacancies %></td>
-														<td>Attachments Here</td>
-														<td><%= link_to admin_company_job_description_url(jd.company, jd), class: "btn btn-primary btn-xs btn-round" do %>
-															<i class="material-icons">visibility</i> Details of Job Description
+														<td class="col-md-2">
+														<% if jd.updated? %>
+															<%= simple_form_for([:admin, jd.company, jd]) do |f| %>
+															<%= f.input :worth, label: false %>
+															<td>
+																<%= f.button :submit, "submit", class: "btn btn-primary btn-xs btn-round pull-right" %>
+															</td>
 															<% end %>
+															<% else %>
+															<button class="btn btn-success btn-xs btn-round">
+																GHS <%= jd.worth %>
+															</button>	
+															<%= link_to admin_update_button_for_jd_url(jd), method: :patch do %>
+															<button type="button" title="Edit Worth" class="btn btn-primary btn-simple btn-xs">
+																<i class="material-icons">edit</i>
+															</button>
+															<% end %>
+															<% end %>  	
 														</td>
 														<td>
+														<% unless jd.updated? %>	
+														<%= link_to admin_company_job_description_url(jd.company, jd), class: "btn btn-primary btn-xs btn-round" do %>
+															<i class="material-icons">visibility</i> Details of Job Description
+															<% end %>
+														<% end %>	
+														</td>
+														<td>
+														<% unless jd.updated? %>
 														  <%= link_to admin_job_description_applicants_url(jd), class: "btn btn-primary btn-xs btn-round" do  %>	
 														    <i class="material-icons">visibility</i><%= pluralize(jd.applicants.count, "Applicant") %>
 														  <% end %>
+														<% end %>  
 														</td>
 													</tr>
-													<% end %>
 													<% end %>	
 
 													<% else %>

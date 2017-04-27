@@ -49,6 +49,11 @@
 									<div class="tab-content">
 										<div class="tab-pane <%= @tab == "company" ? "active" : "" %>" id="profile">
 											<div class="card-content">
+											  <div class="row">
+											    <button class="btn btn-success btn-xs btn-round pull-left">
+														GHS <%= @company.worth || "0.00" %>
+												</button> 	
+											  </div>
 												<div class="row">
 													<div class="col-md-3">
 														<div class="form-group label-floating">
@@ -124,6 +129,7 @@
 										<div class="tab-pane <%= @tab == "job descriptions" ? "active" : "" %>" id="messages">
 											<table class="table">
 												<thead class="text-primary">
+													<th>Worth</th>
 													<th>Job Title</th>
 													<th>Experience(yrs)</th>
 													<th>Min Salary</th>
@@ -139,6 +145,9 @@
 													<% if jd.updated? %>
 													<%= simple_form_for([@company, jd]) do |f| %>
 													<tr>
+														<button class="btn btn-success btn-xs btn-round pull-left">
+														GHS <%= jd.worth || "0.00" %>
+													</button> 
 														<td><%= f.input :job_title, label: false, class: "form-control" %></td>
 														<td><%= f.input :experience, label: false, class: "form-control" %> </td>
 														<td><%= f.input :min_salary, label: false, class: "form-control" %></td>
@@ -153,6 +162,11 @@
 													<% end %>
 													<% else %>
 													<tr>
+														<td>
+														  <button class="btn btn-success btn-xs btn-round pull-left">
+																GHS <%= jd.worth || "0.00" %>
+														  </button> 	
+														</td>
 														<td><%=link_to jd.job_title, company_job_description_url(@company, jd) %></td>
 														<td><%= jd.experience %></td>
 														<td><%= jd.min_salary %></td>

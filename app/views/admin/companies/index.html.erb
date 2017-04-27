@@ -14,6 +14,7 @@
 					<th>Role</th>
 					<th>Contacted?</th>
 					<th>Deal?</th>
+					<th colspan="2">Worth</th>
 					<th></th>
 				</thead>
 				<% @companies.each do |company| %>
@@ -65,7 +66,27 @@
 						</ul>
 						</div>
 						</td>
+						<td class="col-md-2">
+						<% if company.updated? %>
+						  <%= simple_form_for([:admin, company]) do |f| %>
+						    <%= f.input :worth, label: false %>
+						    <td>
+						    <%= f.button :submit, "submit", class: "btn btn-primary btn-xs btn-round pull-right" %>
+						    </td>
+						  <% end %>
+						<% else %>
+						  <button class="btn btn-success btn-xs btn-round">
+						  	GHS <%= company.worth %>
+						  </button>	
+						  <%= link_to admin_update_button_for_company_url(company), method: :patch do %>
+						     <button type="button" title="Edit Worth" class="btn btn-primary btn-simple btn-xs">
+								<i class="material-icons">edit</i>
+							</button>
+						  <% end %>
+						<% end %>  
+						</td>
 						<td class="td-actions text-right">
+						<% unless company.updated? %>
 							<%= link_to admin_company_url(company), method: :delete, data: { confirm: "Are you sure?" } do %>
 							<button type="button" title="Remove" class="btn btn-danger btn-simple btn-xs">
 								<i class="material-icons">close</i>
@@ -74,6 +95,7 @@
 							<%= link_to admin_company_url(company,  tab: "company") do %>
 								<i class="material-icons">visibility</i>
 							<% end %>
+						<% end %>	
 						</td>  	
 					</tr>
 				</tbody>

@@ -9,6 +9,7 @@
 		<div class="card-content table-responsive">
 			<table class="table">
 				<thead class="text-primary">
+					<th>Worth</th>
 					<th>Name Of Company</th>
 					<th>ClientName</th>
 					<th>Role</th>
@@ -23,6 +24,11 @@
 					<% if company.updated? %>
 					<%= simple_form_for([current_user, company]) do |f| %>
 					<tr>
+					    <td class="col-md-2">
+					    <button class="btn btn-success btn-xs btn-round">	
+					      GHS <%= company.worth || "0.00" %>
+					    </button>  
+					    </td>
 						<td class="col-md-1"><%= f.input :company_name, label: false, class: "form-control" %></td>
 						<td class="col-md-2"><%= f.input :clientname, label: false, class: "form-control" %></td>
 						<td class="col-md-1"><%= f.input :role, label: false, class: "form-control" %></td>
@@ -37,6 +43,11 @@
 					</tr>
 					<% else %>
 					<tr>
+					 	 <td>
+					 	   <button class="btn btn-success btn-xs btn-round">
+					        GHS <%= company.worth || "0.00" %>
+					       </button>  
+					 	 </td>
 						<td><%= link_to company.company_name, user_company_url(current_user, company, tab: "company") %></td>
 						<td><%= company.clientname %></td>
 						<td><%= company.role %></td>

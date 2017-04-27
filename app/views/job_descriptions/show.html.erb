@@ -11,6 +11,20 @@
 			<h4 class="title">Job Description For <%= @company.company_name %></h4>
 		</div>
 		<div class="card-content">
+		  <% if @job_description.completed? %>
+			<button class="btn btn-info btn-xs btn-round pull-right">
+				completed
+			</button>
+		  <% else %>
+			<button class="btn btn-default btn-xs btn-round pull-right">
+				not completed
+			</button> 
+		  <% end %>
+        
+        <button class="btn btn-success btn-xs btn-round pull-right">
+          worth: GHS<%= @job_description.worth || "0.00" %>	
+        </button>	  	
+
 		<span class="text-primary">Brief Description</span>
 			<div class="row">
 				<div class="col-md-4">
