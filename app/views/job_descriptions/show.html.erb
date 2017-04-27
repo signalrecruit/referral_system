@@ -8,7 +8,13 @@
 <div class="col-md-8">
 	<div class="card">
 		<div class="card-header" data-background-color="purple">
-			<h4 class="title">Job Description For <%= @company.company_name %></h4>
+			<h4 class="title">Job Description For 
+			<% if @company.user == current_user %>	
+			  <%= @company.company_name %>
+			<% else %>
+			  <%= @company.alias_name  %>  
+			<% end %>	
+			</h4>
 		</div>
 		<div class="card-content">
 		  <% if @job_description.completed? %>
@@ -274,7 +280,10 @@
 	    </div>
 	    <% end %>
 
+
+	    
 	    <div class="row">
+	      <% unless @company.user != current_user %>
 		  <% if @job_description.completed? %>
 		    <%= link_to "update job description?", update_jd_url(@job_description), method: :patch, data: {confirm: "Are you sure you want update this job description complete?"}, class: "btn btn-warning btn-xs btn-round" %> 
 
@@ -283,10 +292,12 @@
 		     </button>
 		  <% else %>
 		     <%= link_to "not completed", complete_jd_url(@job_description), method: :patch, data: {confirm: "Are you sure this job description is complete?"}, class: "btn btn-default btn-xs btn-round pull-right" %> 
-		  <% end %>	  
+		  <% end %>	 
+		  <% end %> 
 
 		  <%= link_to "Back", :back, class: "btn btn-primary btn-xs btn-round pull-right" %>
 	    </div>
+	    
 
 	</div>
 
