@@ -62,4 +62,9 @@ class ApplicationController < ActionController::Base
       activity.update(permitted: true)  
     end
   end
+
+  def activity_exists?(trackable_id, trackable_type)
+    activity = Activity.find_by trackable_id: trackable_id, trackable_type: trackable_type
+    return true if activity
+  end
 end

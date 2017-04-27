@@ -37,6 +37,8 @@ Rails.application.routes.draw do
   patch 'requirements/:id/update_button', to: 'requirements#update_button', as: :update_button_for_rq
   patch 'qualifications/:id/update_button', to: 'qualifications#update_button', as: :update_button_for_qualification
   patch 'required_experiences/:id/update_button', to: 'required_experiences#update_button', as: :update_button_for_exp
+  patch 'job_descriptions/:id/complete_job_description', to: 'job_descriptions#complete_job_description', as: :complete_jd
+  patch 'job_descriptions/:id/update_job_description', to: 'job_descriptions#update_job_description', as: :update_jd
   get 'activity_feed/index', to: 'activity_feed#index', as: :activity_feed
   get 'activity_feed/show', to: 'activity_feed#show', as: :show_activity
 

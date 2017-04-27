@@ -20,9 +20,9 @@
 				</thead>
 				<% @companies.each do |company| %>
 				<tbody>
-				    <% if company.updated? %>
-				    <%= simple_form_for([current_user, company]) do |f| %>
-				    <tr>
+					<% if company.updated? %>
+					<%= simple_form_for([current_user, company]) do |f| %>
+					<tr>
 						<td class="col-md-1"><%= f.input :company_name, label: false, class: "form-control" %></td>
 						<td class="col-md-2"><%= f.input :clientname, label: false, class: "form-control" %></td>
 						<td class="col-md-1"><%= f.input :role, label: false, class: "form-control" %></td>
@@ -31,13 +31,13 @@
 						<td class="text-primary col-md-2"><%= f.input :url, label: false, class: "form-control" %></td>
 						<td class="col-md-2"><%= f.input :about, label: false, class: "form-control", rows: "5" %></td>
 						<td class="td-actions text-right">
-						  <%= f.button :submit, "update", class: "btn btn-primary pull-right" %>				
+							<%= f.button :submit, "update", class: "btn btn-primary pull-right" %>				
 						</td>  	
-					<% end %>	
+						<% end %>	
 					</tr>
-				    <% else %>
+					<% else %>
 					<tr>
-						<td><%= company.company_name %></td>
+						<td><%= link_to company.company_name, user_company_url(current_user, company, tab: "company") %></td>
 						<td><%= company.clientname %></td>
 						<td><%= company.role %></td>
 						<td><%= company.email %></td>
@@ -45,18 +45,18 @@
 						<td class="text-primary"><%= company.url %></td>
 						<td><%= truncate(company.about, length: 15) %></td>
 						<td class="td-actions text-right">
-							<%= link_to update_button_for_company_url(company), method: :patch do %>
-							<button type="button" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
+							<%#= link_to update_button_for_company_url(company), method: :patch do %>
+							<!-- <button type="button" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
 								<i class="material-icons">edit</i>
-							</button>
-							<% end %>
-							<%= link_to user_company_url(current_user, company), method: :delete, data: { confirm: "Are you sure?" } do %>
-							<button type="button" title="Remove" class="btn btn-danger btn-simple btn-xs">
+							</button> -->
+							<%# end %>
+							<%#= link_to user_company_url(current_user, company), method: :delete, data: { confirm: "Are you sure?" } do %>
+							<!-- <button type="button" title="Remove" class="btn btn-danger btn-simple btn-xs">
 								<i class="material-icons">close</i>
-							</button>
-							<% end %>
+							</button> -->
+							<%# end %>
 							<%= link_to user_company_url(current_user, company, tab: "company") do %>
-								<i class="material-icons">visibility</i>
+							<i class="material-icons">visibility</i>
 							<% end %>
 						</td>  	
 					</tr>
@@ -68,7 +68,64 @@
 		</div>
 	</div>
 </div>
-<% else %>
-<h4>None at the moment</h4>
+<% end %>
 
+<% if current_user.applicants.any? %>
+<div class="col-md-12">
+	<div class="card">
+		<div class="card-header" data-background-color="purple">
+			<h4 class="title">	
+				Applicants and the roles they applied for
+			</h4>
+			<p class="category"></p>
+		</div>
+		<div class="card-content table-responsive">
+			<table>
+				<tbody>
+					<% if @applicants.any? %>
+					<% @count = 0 %>
+					<% @applicants.each do |applicant| %>
+					<% @count +=1 %>
+					<tr>
+						<td class="col-md-1"><%= @count %>.</td>
+						<td class="col-md-4"><%= link_to applicant.name, [applicant.job_description, applicant] %></td>
+						<td class="col-md-2">applied for</td>
+						<td class="col-md-4"><%= link_to applicant.job_description.job_title, [applicant.company, applicant.job_description] %></td>
+						<td>
+							<% if applicant.none? %>
+							<button class="btn btn-default btn-xs btn-round">
+								no status
+							</button>	
+							<% elsif applicant.interviewing? %>
+							<button class="btn btn-info btn-xs btn-round">
+								interviewing...
+							</button>	
+							<% elsif applicant.testing? %>
+							<button class="btn btn-info btn-xs btn-round">
+								testing...
+							</button>	
+							<% elsif applicant.hired? %>
+							<button class="btn btn-success btn-xs btn-round">
+								hired!
+							</button>
+							<% elsif applicant.not_hired? %>
+							<button class="btn btn-danger btn-xs btn-round">
+								not hired
+							</button>	  	     
+							<% end %>
+						</td>
+					</tr>                                       
+					<% end %>
+					<% else %>
+					<tr>
+						<td class="col-md-4">no</td>
+						<td class="col-md-2">data</td>
+						<td class="col-md-4">here</td>						
+					</tr>   
+					<% end %> 
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
 <% end %>

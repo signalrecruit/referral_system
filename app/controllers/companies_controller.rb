@@ -4,6 +4,7 @@ class CompaniesController < ApplicationController
 
   def index
   	@companies = current_user.companies
+    @applicants = current_user.applicants
   end
 
   def show

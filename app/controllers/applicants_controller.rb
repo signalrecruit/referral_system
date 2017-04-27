@@ -37,11 +37,7 @@ class ApplicantsController < ApplicationController
   	  @applicant.update(update_button: false) 	
       update_activity "update", @applicant.id 
   	  flash[:success] = "you successfully updated this applicant"
-  	  if request.referrer == job_description_applicants_url(@jd)
-  	  	redirect_to :back
-  	  else
-  	  	redirect_to [@jd, @applicant]
-  	  end
+  	  redirect_to :back
   	else
   	  flash.now[:alert] = "oops! something went wrong"
   	  render :edit

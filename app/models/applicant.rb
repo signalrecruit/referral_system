@@ -10,4 +10,24 @@ class Applicant < ActiveRecord::Base
   def updated?
   	return true if self.update_button?
   end 
+
+  def none?
+  	return true if self.status == "none"
+  end
+
+  def interviewing?
+  	return true if self.status == "interviewing"
+  end
+
+  def testing?
+  	return true if self.status == "testing"
+  end
+
+  def hired?
+  	return true if self.status == "hired"
+  end
+
+  def not_hired?
+  	return true if self.status == "not hired"
+  end
 end

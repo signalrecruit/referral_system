@@ -30,7 +30,7 @@
 									<div class="ripple-container"></div></a> -->
 									<%= link_to company_url(@company, tab: "job descriptions") do %>
 									<i class="material-icons"></i>
-									<%= pluralize(@company.job_descriptions.count, "Job Description") %>
+									<%= pluralize(@company.job_descriptions.count, "Role") %>
 									<div class="ripple-container"></div></a>
 									<% end %>
 								</li>
@@ -111,7 +111,7 @@
 												<div class="row"> 
 												  <%= link_to company_url(@company, tab: "job descriptions"), class: "btn btn-primary btn-round pull-right" do %>
 												   <i class="material-icons"></i>
-												  <%= pluralize(@company.job_descriptions.count, "Job Description") %>
+												  <%= pluralize(@company.job_descriptions.count, "Role") %>
 												  <div class="ripple-container"></div></a>
 												  <% end %>
 												</div>  
@@ -130,8 +130,6 @@
 													<th>Max Salary</th>
 													<th>Vacancies</th>
 													<th>Attachments</th>
-													<th></th>
-													<th></th>
 													<th></th>
 													<th></th>
 												</thead>
@@ -161,26 +159,26 @@
 														<td><%= jd.max_salary %></td>
 														<td><%= jd.vacancies %></td>
 														<td>Attachments Here</td>
-														<td>
-															<% if @company.user == current_user %>
-															<%= link_to update_button_for_jd_url(jd), method: :patch do %>
+														<!-- <td>
+															<%# if @company.user == current_user %>
+															<%#= link_to update_button_for_jd_url(jd), method: :patch do %>
 															<button type="button" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
 																<i class="material-icons">edit</i>
 															</button>
-															<% end %>
-															<% end %>
+															<%# end %>
+															<%# end %>
 														</td>
 														<td>
-															<% if @company.user == current_user %>
-															<%= link_to company_job_description_url(@company,  jd),  method: :delete, data: { confirm: "Are you sure?" } do %>
+															<%# if @company.user == current_user %>
+															<%#= link_to company_job_description_url(@company,  jd),  method: :delete, data: { confirm: "Are you sure?" } do %>
 															<button type="button" title="Remove" class="btn btn-primary btn-simple btn-xs">
 																<i class="material-icons">close</i>
 															</button>
-															<% end %>
-															<% end %>
-														</td>
-														<td><%= link_to job_description_requirements_url(jd), class: "btn btn-primary btn-xs btn-round" do %>
-															<i class="material-icons">visibility</i><%= pluralize(jd.requirements.count, "Requirement") %>
+															<%# end %>
+															<%# end %>
+														</td> -->
+														<td><%= link_to company_job_description_url(@company, jd), class: "btn btn-primary btn-xs btn-round" do %>
+															<i class="material-icons">visibility</i>Details of Job Description
 															<% end %>
 														</td>
 														<td>

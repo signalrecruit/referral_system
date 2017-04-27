@@ -1,15 +1,17 @@
+<div class="card-content table-responsive">
 <% if @job_description.updated? %>
 
 <%= render "job_descriptions/form", company: @company, job_description: @job_description %>
 
 <% else %>
-<div class="card-content table-responsive">
+
 <div class="col-md-8">
 	<div class="card">
 		<div class="card-header" data-background-color="purple">
 			<h4 class="title">Job Description For <%= @company.company_name %></h4>
 		</div>
 		<div class="card-content">
+		<span class="text-primary">Brief Description</span>
 			<div class="row">
 				<div class="col-md-4">
 					<div class="form-group label-floating">
@@ -49,11 +51,14 @@
 				</div>
 			</div>
 
+			<% if @job_description.completed? %>
+			<% else %>
 			<div class="row">
 			   <%= link_to update_button_for_jd_url(@job_description), method: :patch, class: "btn btn-primary btn-xs btn-round" do %>
 				 <i class="material-icons">edit</i> brief description 
                 <% end %>	
 			</div>
+			<% end %>
 
 			<br/>
 			<br/>
@@ -79,7 +84,11 @@
 								<br/>
 							<% else %>
 								<tr>
-								  <td class="col-md-1"><%= qualification.certificate %></td> <td class="col-md-1">in</td> <td class="col-md-4"><%= qualification.field_of_study %></td> <td class="col-md-1">
+								  <td class="col-md-1"><%= qualification.certificate %></td> <td class="col-md-1">in</td> <td class="col-md-4"><%= qualification.field_of_study %></td> 
+
+								  <% if @job_description.completed? %>
+								  <% else %>
+								  <td class="col-md-1">
 								    <%= link_to update_button_for_qualification_url(qualification), method: :patch do %>
 									<button type="button" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
 										<i class="material-icons">edit</i>
@@ -93,6 +102,8 @@
 									</button>
 									 <% end %>
 							 	  </td>
+							 	  <% end %>
+
 							    </tr>
 						      
 						    <% end %>
@@ -102,17 +113,20 @@
 						  <% end %>
 						  </table>
 						<% else %>
-						No Qualifications Needed  
+						<p>No Qualifications Provided</p>  
 						<% end %>
 					</div>
 				</div>
 			</div>
 
+			<% if @job_description.completed? %>
+			<% else %>
 			<div class="row">
 				<%= link_to new_job_description_qualification_url(@job_description), class: "btn btn-primary btn-xs btn-round" do %>
 				<i class="material-icons">add</i>required qualification
 				<% end %>	  
 			</div>
+			<% end %>
 
 			<br/>
 			<br/>
@@ -130,14 +144,16 @@
 						
 						    <tr>
 							  <%= simple_form_for([@job_description, required_experience]) do |f| %>
-							    <td class="col-md-4"><%= f.input :experience, label: false %></td> <td class="col-md-1">for</td>  <td class="col-md-2"><%= f.input :years, label: false %></td>
+							    <td class="col-md-2"><%= f.input :years, label: false %> <td class="col-md-1">years</td></td><td class="col-md-1">of</td><td class="col-md-4"><%= f.input :experience, label: false %></td>   
 								<td><%= f.button :submit, "update", class: "btn btn-primary btn-xs btn-round" %></td>
 								<% end %>
 							</tr>
 							<br/>
 						<% else %>
 						  <tr>
-							  <td class="col-md-4"><%= required_experience.experience %></td> <td class="col-md-1">for</td> <td class="col-md-2"><%= required_experience.years %> years</td> 
+							   <td class="col-md-2"><%= required_experience.years %> years</td><td class="col-md-1">of</td><td class="col-md-4"><%= required_experience.experience %></td>  
+							  <% if @job_description.completed? %>
+							  <% else %>
 							  <td class="col-md-1">
 								<%= link_to update_button_for_exp_url(required_experience), method: :patch do %>
 								<button type="button" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
@@ -152,6 +168,7 @@
 								</button>
 								<% end %>
 							  </td>
+							  <% end %>
 						    </tr>
 					      
 					<% end %>
@@ -162,17 +179,20 @@
 					<% end %>
 					</table>
 					<% else %>
-					No Experience Needed 
+					<p>No Experience Provided</p> 
 					<% end %>
 				</div>
 			</div>
 		</div>
 
+		<% if @job_description.completed? %>
+		<% else %>
 		<div class="row">
 		<%= link_to new_job_description_required_experience_url(@job_description), class: "btn btn-primary btn-xs btn-round" do %>
 		<i class="material-icons">add</i>required experience
 		<% end %>	  
 	    </div>
+	    <% end %>
 
 	    <br/>
 		<br/>
@@ -181,7 +201,7 @@
 	    <div class="row">
 			  <div class="col-md-12">
 			    <div class="form-group label-floating">
-				  <span class="text-primary">Non-Negotiable Requirements</span>
+				  <span class="text-primary">Compulsory Requirements</span>
 				    <% if @job_description.requirements.any? %>
 				    <table>
 					  <% @job_description.requirements.each do |requirement| %>
@@ -197,6 +217,8 @@
 						<% else %>
 						  <tr>
 							  <td class="col-md-4"><%= requirement.content %></td>  
+							  <% if @job_description.completed? %>
+							  <% else %>
 							  <td class="col-md-1">
 								<%= link_to update_button_for_rq_url(requirement), method: :patch do %>
 								<button type="button" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
@@ -211,6 +233,7 @@
 								</button>
 								<% end %>
 							  </td>
+							  <% end %>
 						    </tr>
 					      
 					<% end %>
@@ -221,25 +244,40 @@
 					<% end %>
 					</table>
 					<% else %>
-					No Requirements Listed
+					<p>No Requirements Listed</p>
 					<% end %>
 				</div>
 			</div>
 		</div>
 
+
+		<% if @job_description.completed? %>
+		<% else %>
 		<div class="row">
-		<%= link_to new_job_description_requirement_url(@job_description), class: "btn btn-primary btn-xs btn-round" do %>
-		<i class="material-icons">add</i>compulsory requirement
-		<% end %>	  
+		  <%= link_to new_job_description_requirement_url(@job_description), class: "btn btn-primary btn-xs btn-round" do %>
+		    <i class="material-icons">add</i>compulsory requirement
+		  <% end %>	  
+	    </div>
+	    <% end %>
+
+	    <div class="row">
+		  <% if @job_description.completed? %>
+		    <%= link_to "update job description?", update_jd_url(@job_description), method: :patch, data: {confirm: "Are you sure you want update this job description complete?"}, class: "btn btn-warning btn-xs btn-round" %> 
+
+		     <button class="btn btn-primary btn-xs btn-round pull-right">
+		     	completed
+		     </button>
+		  <% else %>
+		     <%= link_to "not completed", complete_jd_url(@job_description), method: :patch, data: {confirm: "Are you sure this job description is complete?"}, class: "btn btn-default btn-xs btn-round pull-right" %> 
+		  <% end %>	  
+
+		  <%= link_to "Back", :back, class: "btn btn-primary btn-xs btn-round pull-right" %>
 	    </div>
 
 	</div>
 
 
 
-	<br/>
-	<br/>
-	<hr>
 </div>
 </div>
 </div>

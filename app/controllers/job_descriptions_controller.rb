@@ -1,6 +1,6 @@
 class JobDescriptionsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_company, except: [:update_button]
+  before_action :set_company, except: [:update_button, :complete_job_description, :update_job_description]
   before_action :set_job_description, only: [:show, :edit, :update, :destroy]
 
 
@@ -18,7 +18,7 @@ class JobDescriptionsController < ApplicationController
   	@job_description = @company.job_descriptions.build(job_params)
 
   	if @job_description.save 
-      track_activity @job_description, params[:action], current_user.id
+      track_activity @job_description, params[:action], current_user.id if @job_description.completed?
   	  flash[:success] = "you have successfully created a job description"
   	  redirect_to new_job_description_qualification_url(@job_description)
   	else
@@ -58,6 +58,22 @@ class JobDescriptionsController < ApplicationController
     redirect_to :back
   end
 
+  def complete_job_description
+    @job_description = JobDescription.find(params[:id])
+    @job_description.update(completed: true)
+    track_activity @job_description, "create", current_user.id if !activity_exists? @job_description.id, "JobDescription"
+    flash[:success] = "you have successfully completed the job description for the role #{@job_description.job_title}"
+    redirect_to :back
+  end
+
+  def update_job_description
+    @job_description = JobDescription.find(params[:id])
+    @job_description.update(completed: false)
+    reverse_tracking_activity "create", @job_description.id
+    redirect_to :back
+  end
+
+
 
   private
 
@@ -71,6 +87,6 @@ class JobDescriptionsController < ApplicationController
   end
 
   def job_params
-  	params.require(:job_description).permit(:job_title, :role_description, :experience, :min_salary, :max_salary, :vacancies, :update_button)
+  	params.require(:job_description).permit(:job_title, :role_description, :experience, :min_salary, :max_salary, :vacancies, :update_button, :completed)
   end
 end
