@@ -12,7 +12,7 @@ class Applicant < ActiveRecord::Base
   end 
 
   def none?
-  	return true if self.status == "none"
+  	return true if self.status == "shortlisted"
   end
 
   def interviewing?
@@ -23,6 +23,10 @@ class Applicant < ActiveRecord::Base
   	return true if self.status == "testing"
   end
 
+  def salary_negotiation_successful?
+    return true if self.status == "yes"
+  end
+
   def hired?
   	return true if self.status == "hired"
   end
@@ -31,3 +35,4 @@ class Applicant < ActiveRecord::Base
   	return true if self.status == "not hired"
   end
 end
+
