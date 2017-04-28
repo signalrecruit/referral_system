@@ -35,7 +35,7 @@
 														<td><%= f.input :min_salary, label: false, class: "form-control" %></td>
 														<td><%= f.input :max_salary, label: false, class: "form-control" %></td>
 														<td><%= f.input :attachment, label: false, class: "form-control" %></td>
-														<td><%= f.button :submit, "update",class: "btn btn-primary btn-round pull-right" %></td>
+														<td><%= f.button :submit, "update",class: "btn btn-primary btn-xs btn-round pull-right" %></td>
 													</tr>
 										  <% end %>			
 	                                      <% else %>
@@ -82,7 +82,7 @@
 	                                <% if @jd.company.user != current_user %>
 	                                  <% if @jd.vacancies != @jd.applicants.count %>
 	                                    <div class="row">
-	                                      <%= link_to new_job_description_applicant_url(@jd), class: "btn btn-primary btn-round pull-right" do %>
+	                                      <%= link_to new_job_description_applicant_url(@jd), class: "btn btn-primary btn-xs btn-round pull-right" do %>
 	                                        <i class="material-icons">add</i> applicant
 	                                      <% end %>
 	                                    </div> 
@@ -90,9 +90,9 @@
 	                                <% end %> 
 	                                <div class="row">
 	                                <% if request.referrer == company_job_descriptions_url(@jd.company) %>
-	                                <%= link_to "Back", :back, class: "btn btn-primary btn-round pull-right" %>
+	                                <%= link_to "Back", :back, class: "btn btn-primary btn-xs btn-round pull-right" %>
 	                                <% else %>
-	                                  <%= link_to company_url(@jd.company, tab: "job descriptions"), class: "btn btn-primary btn-round pull-right" do %>
+	                                  <%= link_to company_url(@jd.company, tab: "job descriptions"), class: "btn btn-primary btn-xs btn-round pull-right" do %>
 	                                    Go To <%= @jd.company.company_name %>'s job descriptions
 	                                  <% end %>
 	                                <% end %>

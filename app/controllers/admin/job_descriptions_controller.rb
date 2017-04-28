@@ -47,7 +47,7 @@ class Admin::JobDescriptionsController < Admin::ApplicationController
   end
 
   def job_params
-  	params.require(:job_description).permit(:job_title, :experience, :min_salary, :max_salary, :vacancies, :update_button, :worth)
+  	params.require(:job_description).permit(:job_title, :experience, :min_salary, :max_salary, :vacancies, :update_button, :worth, :percent_worth, :earnings)
   end
 
 end

@@ -108,13 +108,13 @@
 												</div>
 												<div class="row">
 												  <% if @company.user == current_user %>
-												    <%= link_to update_button_for_company_url(@company), method: :patch, class: "btn btn-primary btn-round pull-right" do %>
+												    <%= link_to update_button_for_company_url(@company), method: :patch, class: "btn btn-primary btn-xs btn-round pull-right" do %>
 												    <i class="material-icons">edit</i> edit company details
 												  <% end %>
 												</div> 
 												
 												<div class="row"> 
-												  <%= link_to company_url(@company, tab: "job descriptions"), class: "btn btn-primary btn-round pull-right" do %>
+												  <%= link_to company_url(@company, tab: "job descriptions"), class: "btn btn-primary btn-xs btn-round pull-right" do %>
 												   <i class="material-icons"></i>
 												  <%= pluralize(@company.job_descriptions.count, "Role") %>
 												  <div class="ripple-container"></div></a>
@@ -235,7 +235,7 @@
 												</tbody>
 											</table>
 											<% if @company.user == current_user %>
-											<%= link_to new_company_job_description_url(@company), class: "btn btn-primary btn-round pull-right" do %>
+											<%= link_to new_company_job_description_url(@company), class: "btn btn-primary btn-xs btn-round pull-right" do %>
 											<i class="material-icons">add</i> job description
 											<% end %>
 											<% else %>

@@ -4,13 +4,13 @@
 			<div class="col-md-12">
 				<div class="card">
 					<div class="card-header" data-background-color="purple">
-						<h4 class="title">Company: <%= @company.alias_name %></h4>
+						<h4 class="title">Roles for Company: <%= @company.alias_name %></h4>
 						<p class="category"><%= pluralize(@company.job_descriptions.count, "Job Description") %></p>
 					</div>
 					<div class="card-content table-responsive">
 						<table class="table">
 							<thead class="text-primary">
-								<th>Job Title</th>
+								<th>Job Title/Role</th>
 								<th>Experience(yrs)</th>
 								<th>Min Salary</th>
 								<th>Max Salary</th>

@@ -50,7 +50,7 @@
 										<div class="tab-pane <%= @tab == "company" ? "active" : "" %>" id="profile">
 											<div class="row">
 												<button class="btn btn-success btn-xs btn-round pull-left">
-													worth: GHS <%= @company.worth %>	
+													worth: GHS <%= @company.worth || "0.00" %>	
 												</button>
 												<%#= link_to admin_update_button_for_company_url(@company), method: :patch do %>
 												<!-- <button type="button" title="Edit Worth" class="btn btn-primary btn-simple btn-xs">
@@ -112,14 +112,14 @@
 													</div>
 												</div>
 												<div class="row">
-												  <%= link_to admin_update_button_for_company_url(@company), method: :patch, class: "btn btn-primary btn-round pull-right" do %>
+												  <%= link_to admin_update_button_for_company_url(@company), method: :patch, class: "btn btn-primary btn-xs btn-round pull-right" do %>
 												    <i class="material-icons">edit</i> company details
 												  <% end %>
 												</div>
 												<div class="row"> 
-												  <%= link_to admin_company_url(@company, tab: "job descriptions"), class: "btn btn-primary btn-round pull-right" do %>
+												  <%= link_to admin_company_url(@company, tab: "job descriptions"), class: "btn btn-primary btn-xs btn-round pull-right" do %>
 												   <i class="material-icons"></i>
-												  <%= pluralize(@company.job_descriptions.count, "Job Description") %>
+												  <%= pluralize(@company.job_descriptions.count, "Role") %>
 												  <div class="ripple-container"></div></a>
 												  <% end %>
 												</div>  
@@ -160,7 +160,7 @@
 															<% end %>
 															<% else %>
 															<button class="btn btn-success btn-xs btn-round">
-																GHS <%= jd.worth %>
+																GHS <%= jd.worth || "0.00" %>
 															</button>	
 															<%= link_to admin_update_button_for_jd_url(jd), method: :patch do %>
 															<button type="button" title="Edit Worth" class="btn btn-primary btn-simple btn-xs">

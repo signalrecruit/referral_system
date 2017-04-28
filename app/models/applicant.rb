@@ -1,6 +1,6 @@
 class Applicant < ActiveRecord::Base
   belongs_to :company
-  belongs_to :job_description
+  belongs_to :job_description, counter_cache: :number_of_applicants
   belongs_to :user
    has_many :activities, as: :trackable, dependent: :destroy
 

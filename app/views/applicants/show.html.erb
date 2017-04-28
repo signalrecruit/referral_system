@@ -64,7 +64,7 @@
 				</div>
 			</div>
 			<div class="row">
-			  <%= link_to [:edit, @jd, @applicant], class: "btn btn-primary btn-round pull-right" do %>
+			  <%= link_to [:edit, @jd, @applicant], class: "btn btn-primary btn-xs btn-round pull-right" do %>
 			    <i class="material-icons">edit</i> edit applicant
 			  <% end %>
 			</div>
@@ -72,15 +72,15 @@
 			<div class="row">
 			  <% if @applicant.company.user == current_user %>
 			  <% if request.referrer == user_companies_url(current_user) %>
-			  <%= link_to "Back", :back, class: "btn btn-primary btn-round pull-right" %>
+			  <%= link_to "Back", :back, class: "btn btn-primary btn-xs btn-round pull-right" %>
 			  <% else %>
-			    <%= link_to "Go To #{@jd.company.company_name}'s job descriptions", company_url(@jd.company, tab: "job descriptions"), class: "btn btn-primary btn-round pull-right" %>
+			    <%= link_to "Go To #{@jd.company.company_name}'s job descriptions", company_url(@jd.company, tab: "job descriptions"), class: "btn btn-primary btn-xs btn-round pull-right" %>
 			  <% end %>  
 			  <% else %>
 			  <% if request.referrer == user_companies_url(current_user) %>
-			  <%= link_to "Back", :back, class: "btn btn-primary btn-round pull-right" %>
+			  <%= link_to "Back", :back, class: "btn btn-primary btn-xs btn-round pull-right" %>
 			  <% else %>
-			    <%= link_to "Go to #{@applicant.company.alias_name}'s job descriptions", company_job_descriptions_url(@applicant.company), class: "btn btn-primary btn-round pull-right" %>  
+			    <%= link_to "Go to #{@applicant.company.alias_name}'s job descriptions", company_job_descriptions_url(@applicant.company), class: "btn btn-primary btn-xs btn-round pull-right" %>  
 			  <% end %>  
 			  <% end %>  
 			</div>
