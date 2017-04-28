@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170428093932) do
+ActiveRecord::Schema.define(version: 20170428145444) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,10 +92,10 @@ ActiveRecord::Schema.define(version: 20170428093932) do
     t.datetime "updated_at",                           null: false
     t.text     "role_description"
     t.boolean  "completed",            default: false
-    t.integer  "worth"
-    t.integer  "percent_worth",        default: 0
     t.integer  "earnings",             default: 0
     t.integer  "number_of_applicants"
+    t.decimal  "worth",                default: 0.0
+    t.decimal  "percent_worth",        default: 0.0
   end
 
   add_index "job_descriptions", ["company_id"], name: "index_job_descriptions_on_company_id", using: :btree

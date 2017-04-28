@@ -20,10 +20,14 @@ class JobDescription < ActiveRecord::Base
   def all_applicants_hired?
     self.applicants.all? { |applicant| applicant.status == "hired"}
   end
-  
+
   def earning_algorithm
-    if self.vacancies == self.number_of_applicants && all_applicants_hired?
-      self.earnings = self.percent_worth * self.worth
+    if all_applicants_hired?  
+      if self.vacancies == self.number_of_applicants 
+        self.update(earnings: self.percent_worth/100 * self.worth)
+      end
+    else
+      self.update(earnings: 0.00)
     end
   end
 end

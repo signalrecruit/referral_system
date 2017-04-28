@@ -1,6 +1,6 @@
 class Admin::ApplicantsController < Admin::ApplicationController
   before_action :set_jd
-  before_action :set_applicant, only: [:show]	
+  before_action :set_applicant, only: [:show, :update]	
   layout "admin"
   	
   def index
@@ -8,6 +8,25 @@ class Admin::ApplicantsController < Admin::ApplicationController
   end
 
   def show
+  end
+
+  def update
+    if @applicant.update(applicant_params)
+      @applicant.update(update_button: false)   
+      update_activity "update", @applicant.id 
+      flash[:success] = "you successfully updated this applicant"
+
+      if request.referrer == (edit_job_description_applicant_url(@jd, @applicant) || job_description_applicants_url(@jd))
+        redirect_to [@jd, @applicant]
+      else
+        redirect_to :back
+      end
+
+      @jd.earning_algorithm 
+    else
+      flash.now[:alert] = "oops! something went wrong"
+      render :edit
+    end
   end
 
 
@@ -21,5 +40,10 @@ class Admin::ApplicantsController < Admin::ApplicationController
   def set_applicant
   	set_jd 
   	@applicant = @jd.applicants.find(params[:id])
+  end
+
+  def applicant_params
+    params.require(:applicant).permit(:name, :email, :phonenumber, :location, :min_salary,
+       :max_salary, :company_id, :job_description_id, :user_id, :attachment, :update_button, :status)
   end
 end

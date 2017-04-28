@@ -21,20 +21,6 @@
 					<tbody>
 						<% if @applicants.any? %>
 						<% @applicants.each do |applicant| %>
-						<% if applicant.updated? %>
-						<%= simple_form_for([@jd, applicant]) do |f| %>
-						<tr>
-							<td><%= f.input :name, label: false, class: "form-control" %></td>
-							<td><%= f.input :email, label: false, class: "form-control" %> </td>
-							<td><%= f.input :phonenumber, label: false, class: "form-control" %></td>
-							<td><%= f.input :location, label: false, class: "form-control" %></td>
-							<td><%= f.input :min_salary, label: false, class: "form-control" %></td>
-							<td><%= f.input :max_salary, label: false, class: "form-control" %></td>
-							<td><%= f.input :attachment, label: false, class: "form-control" %></td>
-							<td><%= f.button :submit, "update",class: "btn btn-primary btn-round pull-right" %></td>
-						</tr>
-						<% end %>			
-						<% else %>
 						<tr>
 							<td><%= applicant.name %></td>
 							<td><%= applicant.email %></td>
@@ -44,22 +30,39 @@
 							<td><%= applicant.max_salary %></td>
 							<td><%= applicant.attachment %></td>
 							<td>
-								<% if @jd.company.user == current_user %>
+								<% if applicant.updated? %>
+								  <%= simple_form_for([:admin, @jd, applicant]) do |f| %>
+								  <%= f.select :status, options_for_select([["shortlisted", "shortlisted"], ["interviewing", "interviewing"], ["testing", "testing"], ["hired", "hired"], ["not hired", "not hired"]], :selected => f.object.status),{}, class: "btn btn-primary btn-xs btn-round" %>
+								  <%= f.button :submit, "submit", class: "btn btn-primary btn-xs btn-round" %>
+								  <% end %>
+								<% else %>
+
+								  <% if applicant.none? %>
+								    <button class="btn btn-default btn-xs btn-round">
+								  <% elsif applicant.interviewing? || applicant.testing? || applicant.shortlisted? %>
+								    <button class="btn btn-default btn-xs btn-round">
+								  <% elsif applicant.hired? %>
+								    <button class="btn btn-info btn-xs btn-round">    	
+								  <% elsif applicant.not_hired? %>
+								    <button class="btn btn-danger btn-xs btn-round">  
+								  <% end %>
+
+								  <%= applicant.status %>	
+								</button>
 								<%= link_to update_button_for_applicants_url(applicant), method: :patch do %>
-								<button type="button" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
+								<button type="button" title="Edit Applicant" class="btn btn-primary btn-simple btn-xs">
 									<i class="material-icons">edit</i>
 								</button>
 								<% end %>	
 
-								<%= link_to job_description_applicant_url(@jd, applicant), method: :delete, data: { confirm: "are you sure?"}  do %>
-								<button type="button" title="Remove" class="btn btn-primary btn-simple btn-xs">
+								<%#= link_to job_description_applicant_url(@jd, applicant), method: :delete, data: { confirm: "are you sure?"}  do %>
+								<!-- <button type="button" title="Remove" class="btn btn-primary btn-simple btn-xs">
 									<i class="material-icons">close</i>
-								</button>
-								<% end %>
+								</button> -->
+								<%# end %>
 								<% end %>  
 							</td>
 						</tr>
-						<% end %>  
 						<% end %>
 						<% else %>
 						<tr>

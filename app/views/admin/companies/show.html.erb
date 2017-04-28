@@ -136,7 +136,8 @@
 													<th>Min Salary</th>
 													<th>Max Salary</th>
 													<th>Vacancies</th>
-													<th colspan="2">Worth</th>
+													<th>Worth</th>
+													<th>Percentage Worth</th>
 													<th></th>
 													<th></th>
 													<th></th>
@@ -145,12 +146,27 @@
 													<% if @company.job_descriptions.any? %>
 													<% @company.job_descriptions.each do |jd| %>
 													<tr>
-														<td><%= link_to jd.job_title, admin_company_job_description_url(jd.company, jd) %></td>
-														<td><%= jd.experience %></td>
-														<td><%= jd.min_salary %></td>
-														<td><%= jd.max_salary %></td>
-														<td><%= jd.vacancies %></td>
-														<td class="col-md-2">
+														<td>
+														  <%= link_to jd.job_title, admin_company_job_description_url(jd.company, jd) %>
+														</td>
+
+														<td>
+														  <%= jd.experience %>
+														</td>
+
+														<td>
+														  <%= jd.min_salary %>
+														</td>
+
+														<td>
+														  <%= jd.max_salary %>		  	
+														</td>
+
+														<td>
+														  <%= jd.vacancies %>
+														</td>
+
+														<td>
 														<% if jd.updated? %>
 															<%= simple_form_for([:admin, jd.company, jd]) do |f| %>
 															<%= f.input :worth, label: false %>
@@ -162,13 +178,37 @@
 															<button class="btn btn-success btn-xs btn-round">
 																GHS <%= jd.worth || "0.00" %>
 															</button>	
+															<%#= link_to admin_update_button_for_jd_url(jd), method: :patch do %>
+															<!-- <button type="button" title="Edit Worth" class="btn btn-primary btn-simple btn-xs">
+																<i class="material-icons">edit</i>
+															</button> -->
+															<%# end %>
+															<% end %>  	
+														</td>
+
+														<td>
+																<% if jd.updated? %>
+															<%= simple_form_for([:admin, jd.company, jd]) do |f| %>
+															<%= f.input :percent_worth, label: false %><td>%</td>
+															<td>
+																<%= f.button :submit, "submit", class: "btn btn-primary btn-xs btn-round pull-right" %>
+															</td>
+															<% end %>
+															<% else %>
+															<button class="btn btn-success btn-xs btn-round">
+																<%= jd.percent_worth || "0" %>%
+															</button>	
+
+															<td>
 															<%= link_to admin_update_button_for_jd_url(jd), method: :patch do %>
-															<button type="button" title="Edit Worth" class="btn btn-primary btn-simple btn-xs">
+															<button type="button" title="Edit Worth/percent worth" class="btn btn-primary btn-simple btn-xs">
 																<i class="material-icons">edit</i>
 															</button>
 															<% end %>
-															<% end %>  	
+															</td>
+															<% end %> 
 														</td>
+
 														<td>
 														<% unless jd.updated? %>	
 														<%= link_to admin_company_job_description_url(jd.company, jd), class: "btn btn-primary btn-xs btn-round" do %>
@@ -176,6 +216,7 @@
 															<% end %>
 														<% end %>	
 														</td>
+
 														<td>
 														<% unless jd.updated? %>
 														  <%= link_to admin_job_description_applicants_url(jd), class: "btn btn-primary btn-xs btn-round" do  %>	

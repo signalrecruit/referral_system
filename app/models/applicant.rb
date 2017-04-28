@@ -10,8 +10,12 @@ class Applicant < ActiveRecord::Base
   def updated?
   	return true if self.update_button?
   end 
+  
+  def none? 
+    return true if self.status == "none"
+  end 
 
-  def none?
+  def shortlisted?
   	return true if self.status == "shortlisted"
   end
 
