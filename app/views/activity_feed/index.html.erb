@@ -104,12 +104,12 @@
 						<td><span class="text-primary"><%= activity.user.username %></span> just brought in 
 						<% if activity.trackable.company.user != current_user %>
 							<span class="dropdown">
-								<a href="#" class="dropdown-toggle btn btn-primary btn-xs btn-round" data-toggle="dropdown">
+								<a href="#" class="dropdown-toggle btn btn-info btn-xs btn-round" data-toggle="dropdown">
 									<%= activity.trackable.name %>
 								</a>
 							</span> to <span class="btn btn-primary btn-round btn-xs"><%= activity.trackable.company.alias_name %></span> for a role as:
 							<span class="dropdown">
-								<a href="#" class="dropdown-toggle btn btn-default btn-xs btn-round" data-toggle="dropdown">
+								<a href="#" class="dropdown-toggle btn btn-info btn-xs btn-round" data-toggle="dropdown">
 									<%= activity.trackable.job_description.job_title %>
 								</a>
 								<ul class="dropdown-menu">
@@ -126,9 +126,9 @@
 								</ul>
 							</span>
 						<% else %>
-						  <span class="text-primary btn btn-primary btn-xs btn-round"><%= activity.trackable.name %>	
+						  <span class="text-primary btn btn-info btn-xs btn-round"><%= activity.trackable.name %>	
 						  </span> to <span class="btn btn-primary btn-round btn-xs"><%= activity.trackable.company.alias_name %></span>  for a role as: 
-						  <span class="text-primary btn btn-default btn-xs btn-round">
+						  <span class="text-primary btn btn-info btn-xs btn-round">
 									<%= activity.trackable.job_description.job_title %>
 						  </span>
 						<% end %>	

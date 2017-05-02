@@ -85,12 +85,7 @@ class Admin::CompaniesController < Admin::ApplicationController
 
   def permit_jds_of_company_in_activity(company)
     company.job_descriptions.each do |jd|
-      # if activity_exists? jd, "JobDescription", "create"
-      #   activity = Activity.find_by trackable_id: jd.id, trackable_type: "JobDescription", action: "create"
-      #   activity.update(permitted: true)
-      # else
-        track_activity jd, "create", jd.user_id
-      # end
+      track_activity jd, "create", jd.user_id
     end
   end
 

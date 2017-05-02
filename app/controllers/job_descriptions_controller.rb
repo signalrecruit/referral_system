@@ -34,7 +34,6 @@ class JobDescriptionsController < ApplicationController
   def update
   	if @job_description.update(job_params)
   	  @job_description.update(update_button: false)	
-      update_activity "update", @job_description.id
   	  flash[:success] = "you successfully updated job description"
   	  if request.referrer == edit_company_job_description_url(@company, @job_description)
         redirect_to [@company, @job_description]
@@ -63,7 +62,7 @@ class JobDescriptionsController < ApplicationController
   def complete_job_description
     @job_description = JobDescription.find(params[:id])
     @job_description.update(completed: true)
-    track_activity @job_description, "create", current_user.id if !activity_exists? @job_description.id, "JobDescription"
+    track_activity @job_description, "create", current_user.id if !activity_exists? @job_description.id, "JobDescription", "create"
     flash[:success] = "you have successfully completed the job description for the role #{@job_description.job_title}"
     redirect_to :back
   end
