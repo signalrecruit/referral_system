@@ -90,9 +90,9 @@ class CompaniesController < ApplicationController
     activity = Activity.find_by trackable_id: trackable_id
 
     if activity.action == "deal"
-      update_activity "update", @company.id 
+      update_activity "update", @company.id, @company  
     elsif activity.action == "create"
-        update_activity "update", @company.id
+        update_activity "update", @company.id, @company
     end
   end
 end

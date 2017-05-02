@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
     activity.delete if !activity.nil?
   end
 
-  def update_activity(action, trackable_id)
+  def update_activity(action, trackable_id, trackable)
     activity = Activity.find_by trackable_id: trackable_id
     activity.update(action: action)
 
@@ -50,12 +50,21 @@ class ApplicationController < ActionController::Base
       activity.update(permitted: true)
       if Company.find(activity.trackable_id).job_descriptions.any?
         Company.find(activity.trackable_id).job_descriptions.each do |jd|
-          activity = Activity.find_by trackable_id: jd.id
-          if activity.trackable_type == "JobDescription"
+          Company.find(activity.trackable_id).job_descriptions.each do |jd|
+            track_activity jd, "create", jd.user_id
             activity.update(permitted: true)
           end
         end
       end
+    # elsif activity.trackable_type == "Company" && activity.action == "no deal"
+    #   if Company.find(activity.trackable_id).job_descriptions.any?
+    #     Company.find(activity.trackable_id).job_descriptions.each do |jd|
+    #       jd_activity = Activity.find_by trackable_id: jd.id 
+    #       if jd_activity.trackable_type == "JobDescription"
+    #         reverse_tracking_activity "create", jd.id  
+    #       end  
+    #     end  
+    #   end   
     elsif activity.trackable_type == "JobDescription" && JobDescription.find(activity.trackable_id).company.deal?
       activity.update(permitted: true)
     elsif activity.trackable_type == "Applicant" && Applicant.find(activity.trackable_id).company.deal?

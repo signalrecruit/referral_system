@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170428145444) do
+ActiveRecord::Schema.define(version: 20170428230648) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,9 +66,6 @@ ActiveRecord::Schema.define(version: 20170428145444) do
     t.boolean  "deal",          default: false
     t.integer  "industry_id"
     t.string   "alias_name"
-    t.integer  "worth"
-    t.integer  "percent_worth", default: 0
-    t.integer  "earnings",      default: 0
   end
 
   add_index "companies", ["industry_id"], name: "index_companies_on_industry_id", using: :btree
@@ -96,9 +93,11 @@ ActiveRecord::Schema.define(version: 20170428145444) do
     t.integer  "number_of_applicants"
     t.decimal  "worth",                default: 0.0
     t.decimal  "percent_worth",        default: 0.0
+    t.integer  "user_id"
   end
 
   add_index "job_descriptions", ["company_id"], name: "index_job_descriptions_on_company_id", using: :btree
+  add_index "job_descriptions", ["user_id"], name: "index_job_descriptions_on_user_id", using: :btree
 
   create_table "qualifications", force: :cascade do |t|
     t.string   "certificate"
@@ -151,6 +150,7 @@ ActiveRecord::Schema.define(version: 20170428145444) do
     t.string   "fullname"
     t.string   "phonenumber"
     t.string   "username"
+    t.decimal  "cumulative_earnings",    default: 0.0
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
@@ -162,6 +162,7 @@ ActiveRecord::Schema.define(version: 20170428145444) do
   add_foreign_key "applicants", "users"
   add_foreign_key "companies", "users"
   add_foreign_key "job_descriptions", "companies"
+  add_foreign_key "job_descriptions", "users"
   add_foreign_key "qualifications", "job_descriptions"
   add_foreign_key "required_experiences", "job_descriptions"
   add_foreign_key "requirements", "job_descriptions"

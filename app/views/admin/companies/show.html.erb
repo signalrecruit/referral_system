@@ -49,9 +49,6 @@
 									<div class="tab-content">
 										<div class="tab-pane <%= @tab == "company" ? "active" : "" %>" id="profile">
 											<div class="row">
-												<button class="btn btn-success btn-xs btn-round pull-left">
-													worth: GHS <%= @company.worth || "0.00" %>	
-												</button>
 												<%#= link_to admin_update_button_for_company_url(@company), method: :patch do %>
 												<!-- <button type="button" title="Edit Worth" class="btn btn-primary btn-simple btn-xs">
 													<i class="material-icons">edit</i>

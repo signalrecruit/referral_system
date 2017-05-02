@@ -1,5 +1,6 @@
 class JobDescription < ActiveRecord::Base
   belongs_to :company
+  belongs_to :user
   has_many :requirements, dependent: :destroy
   has_many :activities, as: :trackable, dependent: :destroy
   has_many :applicants, dependent: :destroy
@@ -25,6 +26,8 @@ class JobDescription < ActiveRecord::Base
     if all_applicants_hired?  
       if self.vacancies == self.number_of_applicants 
         self.update(earnings: self.percent_worth/100 * self.worth)
+      else
+        self.update(earnings: 0.00)
       end
     else
       self.update(earnings: 0.00)

@@ -26,8 +26,4 @@ class Company < ActiveRecord::Base
   def deal_true
   	self.update(deal: true)
   end
-
-  def earning_algorithm
-    
-  end
 end

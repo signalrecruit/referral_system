@@ -9,7 +9,6 @@
 		<div class="card-content table-responsive">
 			<table class="table">
 				<thead class="text-primary">
-					<th>Worth</th>
 					<th>Name Of Company</th>
 					<th>ClientName</th>
 					<th>Role</th>
@@ -43,11 +42,6 @@
 					</tr>
 					<% else %>
 					<tr>
-					 	 <td>
-					 	   <button class="btn btn-success btn-xs btn-round">
-					        GHS <%= company.worth || "0.00" %>
-					       </button>  
-					 	 </td>
 						<td><%= link_to company.company_name, user_company_url(current_user, company, tab: "company") %></td>
 						<td><%= company.clientname %></td>
 						<td><%= company.role %></td>

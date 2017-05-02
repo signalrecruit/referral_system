@@ -40,6 +40,7 @@ class JobDescriptionsController < ApplicationController
       else
         redirect_to :back 
       end
+      @job_description.earning_algorithm
   	else
   	  flash.now[:alert] = "oops! sthg went wrong"
   	  redirect_to :back

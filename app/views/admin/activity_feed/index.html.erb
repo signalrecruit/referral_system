@@ -16,10 +16,23 @@
 				  <% if activity.action == "create" && activity.trackable_type == "Company" %>    
 					<tr>
 					<% if !activity.trackable.nil? %>
-						<td><span class="text-primary"><%= activity.user.username %></span> just brought in <span class="text-primary"><%= link_to activity.trackable.company_name, admin_company_url(activity.trackable ,tab: "company"), class: "btn btn-primary btn-xs btn-round" %></span></td>
-						<td><%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %></td>
+						<td><span class="text-primary"><%= activity.user.username %></span> just brought in <span class="text-primary"><%= link_to activity.trackable.company_name, admin_company_url(activity.trackable ,tab: "company"), class: "btn btn-primary btn-xs btn-round" %></span> 
+						NOTE: no deal has been made yet!
+						</td> 
+						<td><%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %></td> 
 					<% end %>	
 					</tr>
+
+				   <% elsif activity.action == "no deal" && activity.trackable_type == "Company" %>    
+					<tr>
+					<% if !activity.trackable.nil? %>
+						<td><span class="text-primary"><%= activity.user.username %></span> just brought in <span class="text-primary"><%= link_to activity.trackable.company_name, admin_company_url(activity.trackable ,tab: "company"), class: "btn btn-primary btn-xs btn-round" %></span> 
+						NOTE: This deal has been cancelled.!
+						</td> 
+						<td><%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %></td> 
+					<% end %>	
+					</tr>	
+
 				   <% elsif activity.action == "added an applicant" && activity.trackable_type == "Applicant" %>
 					<tr>
 					    <% if !activity.trackable.nil? %>
@@ -39,6 +52,7 @@
 						<td><%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %></td>
 					  <% end %>	
 					</tr>	
+					
 					<% elsif activity.action == "update" && activity.trackable_type == "Applicant" %>
 					<tr>
 					    <% if !activity.trackable.nil? %>
@@ -58,6 +72,7 @@
 						<td><%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %></td>
 					  <% end %>	
 					</tr>	
+					
 					<% elsif activity.action == "deal" && activity.trackable_type == "Company" %>
 					  <tr>
 					    <% if !activity.trackable.nil? %>
@@ -93,6 +108,7 @@
 					    <td><%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %></td>
 					  <% end %>	
 					</tr>	
+					
 					<% elsif activity.action == "update" && activity.trackable_type == "JobDescription" %>
 					<tr>
 					  <% if !activity.trackable.nil? %>
@@ -112,6 +128,7 @@
 					</tr>	
 				  <% end %>	
 				<% end %>
+
 				<% else %>
 			    <tr>
 			    	<td>no data</td>

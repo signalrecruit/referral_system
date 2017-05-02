@@ -20,7 +20,13 @@
 						<td class="text-primary"><%= user.fullname %></td>
 						<td><%= user.companies.count %></td>  	
 						<td><%= user.applicants.count %></td>
-						<td><span class="btn btn-success btn-xs btn-round">GHS 0.00</span></td>
+						<td><span class="btn btn-success btn-xs btn-round">
+						<% @total = [] %>
+						<% user.job_descriptions.each do |jd| %>
+						  <% @total << jd.earnings %>
+						<% end %>
+						GHS <%= @total.sum %>	
+						</span></td>
 					</tr>
 				</tbody>
 				<% end %>

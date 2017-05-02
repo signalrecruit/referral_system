@@ -54,15 +54,16 @@ class Admin::CompaniesController < Admin::ApplicationController
   def deal_with_company
     if @company.deal?
       @company.no_deal
-      reverse_tracking_activity "deal", @company.id
+      update_activity "no deal", @company.id      
     else
       if @company.contacted?
         @company.deal_true 
 
-        track_activity @company, "deal", @company.user.id if !Activity.find_by trackable_id: @company.id
-        
-        update_activity "deal", @company.id
-        
+        if Activity.find_by trackable_id: @company.id
+          update_activity "deal", @company.id, @company
+        else
+          track_activity @company, "deal", @company.user_id
+        end
         flash[:success] = "you and #{@company.company_name} have a deal"
       else
         flash[:alert] = "not applicable. you haven't contacted #{@company.company_name} yet"
@@ -81,6 +82,6 @@ class Admin::CompaniesController < Admin::ApplicationController
 
   def company_params
     params.require(:company).permit(:company_name, :clientname, :email, :phonenumber, :role,
-  	:url, :about, :contacted, :deal, :worth, :percent_worth, :earnings)
+  	:url, :about, :contacted, :deal)
   end
 end

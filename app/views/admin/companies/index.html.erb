@@ -14,8 +14,6 @@
 					<th>Role</th>
 					<th>Contacted?</th>
 					<th>Deal?</th>
-					<th>Worth</th>
-					<th>Percentage Worth</th>
 					<th></th>
 				</thead>
 				<% @companies.each do |company| %>
@@ -67,44 +65,7 @@
 						</ul>
 						</div>
 						</td>
-						<td>
-						<% if company.updated? %>
-						  <%= simple_form_for([:admin, company]) do |f| %>
-						    <%= f.input :worth, label: false %>
-						    <td>
-						    <%= f.button :submit, "submit", class: "btn btn-primary btn-xs btn-round pull-right" %>
-						    </td>
-						  <% end %>
-						<% else %>
-						  <button class="btn btn-success btn-xs btn-round">
-						  	GHS <%= company.worth || "0.00" %>
-						  </button>	
-						  <%= link_to admin_update_button_for_company_url(company), method: :patch do %>
-						     <button type="button" title="Edit Worth" class="btn btn-primary btn-simple btn-xs">
-								<i class="material-icons">edit</i>
-							</button>
-						  <% end %>
-						<% end %>  
-						</td>
-						<td>
-						  <% if company.updated? %>
-						  <%= simple_form_for([:admin, company]) do |f| %>
-						    <%= f.input :percent_worth, label: false %><td>%</td>
-						    <td>
-						    <%= f.button :submit, "submit", class: "btn btn-primary btn-xs btn-round pull-right" %>
-						    </td>
-						  <% end %>
-						<% else %>
-						  <button class="btn btn-success btn-xs btn-round">
-						  	<%= company.percent_worth || "0" %>%
-						  </button>	
-						  <%= link_to admin_update_button_for_company_url(company), method: :patch do %>
-						     <button type="button" title="Edit Worth" class="btn btn-primary btn-simple btn-xs">
-								<i class="material-icons">edit</i>
-							</button>
-						  <% end %>
-						<% end %>  	
-						</td>
+						
 						<td class="td-actions text-right">
 						<% unless company.updated? %>
 							<%= link_to admin_company_url(company), method: :delete, data: { confirm: "Are you sure?" } do %>

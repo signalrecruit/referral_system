@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   has_many :companies, dependent: :destroy
   has_many :activities, as: :trackable, dependent: :destroy
   has_many :applicants, dependent: :destroy
+  has_many :job_descriptions, dependent: :destroy
 
   def updated?
   	return true if self.update_button?
