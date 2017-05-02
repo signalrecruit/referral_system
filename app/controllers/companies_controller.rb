@@ -38,10 +38,9 @@ class CompaniesController < ApplicationController
   def update
   	if @company.update(company_params)
   	  @company.update(update_button: false)	
-      
-      find_and_update_activity @company.id
 
       create_alias_name_for_company @company
+      track_activity @company, params[:action], @company.user.id
 
   	  flash[:success] = "you successfully updated #{@company.company_name} details"
   	  # redirect_to :back
@@ -84,15 +83,5 @@ class CompaniesController < ApplicationController
     id = params[:company][:industry_id].to_i
     @industry = Industry.find(id)
     @company.update(alias_name: @industry.name + "-#{@random}")
-  end
-
-  def find_and_update_activity(trackable_id)
-    activity = Activity.find_by trackable_id: trackable_id
-
-    if activity.action == "deal"
-      update_activity "update", @company.id, @company  
-    elsif activity.action == "create"
-        update_activity "update", @company.id, @company
-    end
   end
 end

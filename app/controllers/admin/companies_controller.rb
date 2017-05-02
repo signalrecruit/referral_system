@@ -54,16 +54,14 @@ class Admin::CompaniesController < Admin::ApplicationController
   def deal_with_company
     if @company.deal?
       @company.no_deal
-      update_activity "no deal", @company.id      
+      track_activity @company, "no deal", @company.user_id 
+      update_jds_of_company_in_activity @company
+      update_company_in_activity @company
     else
       if @company.contacted?
         @company.deal_true 
-
-        if Activity.find_by trackable_id: @company.id
-          update_activity "deal", @company.id, @company
-        else
-          track_activity @company, "deal", @company.user_id
-        end
+        track_activity @company, "deal", @company.user_id 
+        permit_jds_of_company_in_activity @company
         flash[:success] = "you and #{@company.company_name} have a deal"
       else
         flash[:alert] = "not applicable. you haven't contacted #{@company.company_name} yet"
@@ -83,5 +81,32 @@ class Admin::CompaniesController < Admin::ApplicationController
   def company_params
     params.require(:company).permit(:company_name, :clientname, :email, :phonenumber, :role,
   	:url, :about, :contacted, :deal)
+  end
+
+  def permit_jds_of_company_in_activity(company)
+    company.job_descriptions.each do |jd|
+      # if activity_exists? jd, "JobDescription", "create"
+      #   activity = Activity.find_by trackable_id: jd.id, trackable_type: "JobDescription", action: "create"
+      #   activity.update(permitted: true)
+      # else
+        track_activity jd, "create", jd.user_id
+      # end
+    end
+  end
+
+  def update_jds_of_company_in_activity(company)
+    company.job_descriptions.each do |jd|
+      if activity_exists? jd, "JobDescription", "create"
+        activity = Activity.find_by trackable_id: jd.id, trackable_type: "JobDescription", action: "create"
+         activity.update(action: "inactive") 
+      end
+    end  
+  end
+
+  def update_company_in_activity(company)
+    if activity_exists? company, "Company", "deal"
+      activity = Activity.find_by trackable_id: company.id, trackable_type: "Company", action: "deal"
+      activity.update(action: "inactive")
+    end
   end
 end

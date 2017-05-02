@@ -37,43 +37,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def reverse_tracking_activity(action, trackable_id)
-    activity = Activity.find_by action: action, trackable_id: trackable_id
-    activity.delete if !activity.nil?
-  end
-
-  def update_activity(action, trackable_id, trackable)
-    activity = Activity.find_by trackable_id: trackable_id
-    activity.update(action: action)
-
-    if activity.trackable_type == "Company" && activity.action == "deal"
-      activity.update(permitted: true)
-      if Company.find(activity.trackable_id).job_descriptions.any?
-        Company.find(activity.trackable_id).job_descriptions.each do |jd|
-          Company.find(activity.trackable_id).job_descriptions.each do |jd|
-            track_activity jd, "create", jd.user_id
-            activity.update(permitted: true)
-          end
-        end
-      end
-    # elsif activity.trackable_type == "Company" && activity.action == "no deal"
-    #   if Company.find(activity.trackable_id).job_descriptions.any?
-    #     Company.find(activity.trackable_id).job_descriptions.each do |jd|
-    #       jd_activity = Activity.find_by trackable_id: jd.id 
-    #       if jd_activity.trackable_type == "JobDescription"
-    #         reverse_tracking_activity "create", jd.id  
-    #       end  
-    #     end  
-    #   end   
-    elsif activity.trackable_type == "JobDescription" && JobDescription.find(activity.trackable_id).company.deal?
-      activity.update(permitted: true)
-    elsif activity.trackable_type == "Applicant" && Applicant.find(activity.trackable_id).company.deal?
-      activity.update(permitted: true)  
-    end
-  end
-
-  def activity_exists?(trackable_id, trackable_type)
-    activity = Activity.find_by trackable_id: trackable_id, trackable_type: trackable_type
+  def activity_exists?(trackable_id, trackable_type, action)
+    activity = Activity.find_by trackable_id: trackable_id, trackable_type: trackable_type, action: action
     return true if activity
   end
 end

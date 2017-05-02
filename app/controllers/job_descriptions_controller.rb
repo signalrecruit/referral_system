@@ -18,6 +18,7 @@ class JobDescriptionsController < ApplicationController
   	@job_description = @company.job_descriptions.build(job_params)
 
   	if @job_description.save 
+      @job_description.update(user_id: current_user.id)
       track_activity @job_description, params[:action], current_user.id if @job_description.completed?
   	  flash[:success] = "you have successfully created a job description"
   	  redirect_to new_job_description_qualification_url(@job_description)
@@ -70,7 +71,7 @@ class JobDescriptionsController < ApplicationController
   def update_job_description
     @job_description = JobDescription.find(params[:id])
     @job_description.update(completed: false)
-    reverse_tracking_activity "create", @job_description.id
+    # reverse_tracking_activity "create", @job_description.id
     redirect_to :back
   end
 

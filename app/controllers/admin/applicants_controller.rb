@@ -13,7 +13,6 @@ class Admin::ApplicantsController < Admin::ApplicationController
   def update
     if @applicant.update(applicant_params)
       @applicant.update(update_button: false)   
-      update_activity "update", @applicant.id 
       flash[:success] = "you successfully updated this applicant"
 
       if request.referrer == (edit_job_description_applicant_url(@jd, @applicant) || job_description_applicants_url(@jd))
