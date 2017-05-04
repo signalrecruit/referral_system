@@ -1,0 +1,59 @@
+<%= link_to new_admin_message_url, class: "btn btn-primary btn-xs btn-round" do %>
+   <i class="material-icons">add</i>compose message
+<% end %>
+<% if @messages.any? %>
+<div class="col-md-12">
+	<div class="card">
+		<div class="card-header" data-background-color="purple">
+			<h4 class="title">Messages</h4>
+		</div>
+		<div class="card-content table-responsive">
+			<table class="table">
+				<thead class="text-primary">
+					<th>Recipient</th>
+					<th>Message</th>
+					<th>Status</th>
+					<th></th>
+				</thead>
+				<% @messages.each do |message| %>
+				<tbody>
+					<tr>
+						<td><%= link_to message.recipient_name, "#", class: "btn btn-primary btn-xs btn-round" %></td>
+						<td class="text-primary"><strong><%= message.title %></strong>***<%= truncate(message.content, length: 40) %></td>
+						<td>
+						  <% if message.save_as_draft? %>
+						    <button class="btn btn-warning btn-xs btn-round">
+						      saved as draft	
+						    </button>
+						  <% else %>	
+						    <button class="btn btn-info btn-xs btn-round">
+						      sent 	
+						    </button>
+						  <% end %>	
+						  </td>  	
+						<td>
+						<% if message.save_as_draft? %>	
+						<span class="btn btn-success btn-xs btn-round">
+						send?
+						</span>
+						<% else %>
+						<% end %>
+						</td>
+					</tr>
+				</tbody>
+				<% end %>
+			</table>
+
+		</div>
+	</div>
+</div>
+<% else %>
+<h4>None at the moment</h4>
+
+<% end %>
+<%= javascript_include_tag "admin/jquery-3.1.0.min" %>
+<%= javascript_include_tag "admin/bootstrap.min" %>
+<%= javascript_include_tag "admin/material.min" %>
+<%= javascript_include_tag "admin/chartist.min" %>
+<%= javascript_include_tag "admin/bootstrap-notify" %>
+<%= javascript_include_tag "admin/material-dashboard" %>

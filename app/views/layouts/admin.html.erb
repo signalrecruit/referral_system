@@ -76,7 +76,12 @@
 		    		<% end %>  
 		    		</li>
 		    		<li>
-		    			
+		    		  <% if current_user.admin? %>
+		    		  <%= link_to admin_messages_url do %>
+		    		    <i class="material-icons">email</i>
+		    		    <p>Messages</p>
+		    		  <% end %>	
+		    		<% end %>  	
 		    		</li>
 		    	</ul>
 		    </div>

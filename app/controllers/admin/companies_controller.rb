@@ -57,8 +57,6 @@ class Admin::CompaniesController < Admin::ApplicationController
       track_activity @company, "no deal", @company.user_id 
       update_jds_of_company_in_activity @company
       update_company_in_activity @company
-      # sleep 5
-      # delete_from_activity_on_deal_cancellation @company
     else
       if @company.contacted?
         @company.deal_true 
@@ -104,21 +102,6 @@ class Admin::CompaniesController < Admin::ApplicationController
     if activity_exists? company, "Company", "deal"
       activity = Activity.find_by trackable_id: company.id, trackable_type: "Company", action: "deal"
       activity.update(action: "inactive")
-    end
-  end
-
-  def delete_from_activity_on_deal_cancellation(company)
-    trackable_id = company.id
-    company_activity = Activity.find_by trackable_id: trackable_id, trackable_type: "Company"
-    company_activity.delete
-
-    company.applicants.each do |trackable_id|
-      applicant_activity = Activity.find_by trackable_id: trackable_id, trackable_type: "Applicant"
-      applicant_activity.delete 
-    end  
-
-    company.job_descriptions.each do |trackable_id|
-
     end
   end
 end

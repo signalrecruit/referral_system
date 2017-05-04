@@ -25,6 +25,8 @@ Rails.application.routes.draw do
       resources :requirements, only: [:index, :show]
       resources :applicants
     end
+
+    resources :messages
   end
 
   devise_for :users, controllers: { registrations: :registrations  }
