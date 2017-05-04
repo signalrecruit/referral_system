@@ -14,7 +14,11 @@
 				<% if @feed.any? %>
 				<% @feed.each do |activity| %>
 				  <% if activity.action == "create" && activity.trackable_type == "Company" %>    
-					<tr>
+					<% if activity.trackable.deal? %>
+					  <tr>
+					<% else %>
+					  <tr style="background: #999999;">  
+					<% end %>
 					<% if !activity.trackable.nil? %>
 						<td><span class="text-primary"><%= activity.user.username %></span> just brought in <span class="text-primary"><%= link_to activity.trackable.company_name, admin_company_url(activity.trackable ,tab: "company"), class: "btn btn-primary btn-xs btn-round" %></span> 
 						NOTE: no deal has been made yet!
@@ -24,7 +28,12 @@
 					</tr>
 
 				   <% elsif activity.action == "no deal" && activity.trackable_type == "Company" %>    
-					<tr>
+				   <% if activity.trackable.deal? %>
+					  <tr>
+					<% else %>
+					  <tr style="background: #999999;">  
+					<% end %>
+
 					<% if !activity.trackable.nil? %>
 						<td><span class="text-primary"><%= activity.user.username %></span> just brought in <span class="text-primary"><%= link_to activity.trackable.company_name, admin_company_url(activity.trackable ,tab: "company"), class: "btn btn-default btn-xs btn-round" %></span> 
 						NOTE: This deal has been cancelled.!
@@ -53,7 +62,11 @@
 					</tr>
 
 					<% elsif activity.action == "inactive" && activity.trackable_type == "Company" %>
+					  <% if activity.trackable.deal? %>
 					  <tr>
+					<% else %>
+					  <tr style="background: #999999;">  
+					<% end %>
 					    <% if !activity.trackable.nil? %>
 						<td><span class="text-primary">The Agency</span> just made a deal with
 						<% if activity.trackable.user != current_user %>
@@ -74,7 +87,11 @@
 
 
 					<% elsif activity.action == "create" && (activity.trackable_type == "JobDescription" && activity.permitted? ) %>
-					<tr>
+					<% if activity.trackable.company.deal? %>
+					  <tr>
+					<% else %>
+					  <tr style="background: #999999;">  
+					<% end %>
 					  <% if !activity.trackable.nil? %>
 					    <td><span class="btn btn-primary btn-xs btn-round"><%= activity.trackable.company.company_name %></span> is looking for <%= pluralize(activity.trackable.vacancies, "applicant") %> to fill the role of
 					    <% if activity.trackable.company.user != current_user %>
@@ -92,17 +109,45 @@
 					</tr>	
 
 				   <% elsif activity.action == "added an applicant" && activity.trackable_type == "Applicant" %>
-					<tr>
+					<% if activity.trackable.company.deal? %>
+					  <tr>
+					<% else %>
+					  <tr style="background: #999999;">  
+					<% end %>
 					    <% if !activity.trackable.nil? %>
 						<td><span class="text-primary"><%= activity.user.username %></span> just brought in
 						<% if activity.trackable.user != current_user %>
 							<span class="dropdown">
-								<a href="#" class="dropdown-toggle btn btn-info btn-xs btn-round" data-toggle="dropdown">
+								<% if activity.trackable.company.deal? %>
+								  <a href="#" class="dropdown-toggle btn btn-info btn-xs btn-round" data-toggle="dropdown">
+								<% else %>
+								   <a href="#" class="dropdown-toggle btn btn-default btn-xs btn-round" data-toggle="dropdown"> 	
+								<% end %>  
+
 									<%= activity.trackable.name %>
 								</a>
-							</span> to <%=link_to activity.trackable.company.company_name, admin_company_url(activity.trackable.company ,tab: "company"), class: "btn btn-primary btn-xs btn-round" %> for a role as: <span class="btn btn-info btn-xs btn-round"><%= activity.trackable.job_description.job_title %></span>
+							</span> to 
+							<% if activity.trackable.company.deal? %>
+							  <%=link_to activity.trackable.company.company_name, admin_company_url(activity.trackable.company ,tab: "company"), class: "btn btn-primary btn-xs btn-round" %>
+							<% else %>  
+							  <%=link_to activity.trackable.company.company_name, admin_company_url(activity.trackable.company ,tab: "company"), class: "btn btn-default btn-xs btn-round" %>
+							<% end %>  
+							   for a role as: 
+							<% if activity.trackable.company.deal? %>
+							  <span class="btn btn-info btn-xs btn-round">
+							<% else %>  
+							  	<span class="btn btn-default btn-xs btn-round">
+							<% end %>  	
+							  <%= activity.trackable.job_description.job_title %></span>
 						<% else %>
-						  <span class="text-primary btn btn-primary btn-xs btn-round"><%= activity.trackable.name %>	
+						  
+						    <% if activity.trackable.company.deal? %>
+							  <span class="btn btn-info btn-xs btn-round">
+							<% else %>  
+							  	<span class="btn btn-default btn-xs btn-round">
+							<% end %>  	
+
+						  <%= activity.trackable.name %>	
 						  </span>
 						  to <%=link_to activity.trackable.company.company_name, admin_company_url(activity.trackable ,tab: "company"), class: "btn btn-primary btn-xs btn-round" %> for a role as: <span class="btn btn-info btn-xs btn-round"><%= activity.trackable.job_description.job_title %></span>
 						<% end %>	
@@ -132,7 +177,11 @@
 					</tr>	
 					
 					<% elsif activity.action == "inactive" && activity.trackable_type == "JobDescription" %>
-					<tr>
+					<% if activity.trackable.company.deal? %>
+					  <tr>
+					<% else %>
+					  <tr style="background: #999999;">  
+					<% end %>
 					  <% if !activity.trackable.nil? %>
 					    <td>
 					    <% if activity.action = "inactive" %> 	
