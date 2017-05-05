@@ -1,0 +1,52 @@
+<%#= link_to new_admin_message_url, class: "btn btn-primary btn-xs btn-round" do %>
+   <!-- <i class="material-icons">add</i>compose message -->
+<%# end %>
+<div class="col-md-12">
+	<div class="card">
+		<div class="card-header" data-background-color="purple">
+			<h4 class="title">Messages</h4>
+		</div>
+		<div class="card-content table-responsive">
+			<table class="table">
+				<thead class="text-primary">
+					<th>Recipient</th>
+					<th>Message</th>
+					<th>Status</th>
+					<th>Timestamp</th>
+				</thead>
+				<tbody>
+				<% if @messages.any? %>
+				  <% @messages.each do |message| %>
+					<tr>
+						<td><%= link_to message.recipient_name, "#", class: "btn btn-primary btn-xs btn-round" %></td>
+						<td class="text-primary"><strong><%= message.title %></strong>***<%= link_to truncate(message.content, length: 40), [message] %>
+						</td>
+						<td>
+						  <% if message.read_message? %>
+						    <button class="btn btn-info btn-xs btn-round">
+						      read 	
+						    </button>
+						  <% else %>	
+						    <button class="btn btn-danger btn-xs btn-round">
+						      unread 	
+						    </button>
+						  <% end %>	
+						  </td>  	
+						<td><%= message.created_at.strftime("%B %d, %Y -%T") %></td>
+					</tr>
+					<% end %>
+				<% else %>
+                  <tr>
+                    <td>no data</td>
+                    <td>no data</td>
+                    <td>no data</td>
+                    <td>no data</td>
+                  </tr>
+                <% end %>  	
+				</tbody>
+			</table>
+
+		</div>
+	</div>
+</div>
+

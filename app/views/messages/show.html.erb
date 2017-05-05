@@ -1,0 +1,42 @@
+<div class="col-md-12">
+	<div class="card">
+		<div class="card-header" data-background-color="purple">
+			<h4 class="title">Message</h4>
+			<p class="category"></p>
+		</div>
+		<div class="card-content">
+		<div class="row">
+				<div class="col-md-3">
+					<div class="form-group label-floating">
+						<label class="control-label"><span class="btn btn-primary btn-xs btn-round">TO:</span></label>
+						<br>
+						<%= @message.recipient_name %>
+					</div>
+				</div>
+
+				<div class="col-md-4">
+					<div class="form-group label-floating">
+						<label class="control-label"><span class="btn btn-primary btn-xs btn-round">TITLE:</span></label>
+						<br>
+						<%= @message.title %>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="form-group label-floating">
+						<label class="control-label"><span class="btn btn-primary btn-xs btn-round">CONTENT:</span></label>
+						<br>
+						<%= @message.content %>
+					</div>
+				</div>
+			</div>
+
+			<div class="clearfix">
+			  <%= link_to "Back", :back, class: "btn btn-primary btn-xs btn-round pull-right" %>
+			</div>
+		</div>
+	</div>
+</div>
+
