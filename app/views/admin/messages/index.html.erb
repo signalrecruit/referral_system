@@ -1,7 +1,6 @@
 <%= link_to new_admin_message_url, class: "btn btn-primary btn-xs btn-round" do %>
    <i class="material-icons">add</i>compose message
 <% end %>
-<% if @messages.any? %>
 <div class="col-md-12">
 	<div class="card">
 		<div class="card-header" data-background-color="purple">
@@ -14,16 +13,30 @@
 					<th>Message</th>
 					<th>Status</th>
 					<th></th>
+					<th>Timestamp</th>
 				</thead>
-				<% @messages.each do |message| %>
 				<tbody>
+				<% if @messages.any? %>
+				  <% @messages.each do |message| %>
 					<tr>
 						<td><%= link_to message.recipient_name, "#", class: "btn btn-primary btn-xs btn-round" %></td>
-						<td class="text-primary"><strong><%= message.title %></strong>***<%= truncate(message.content, length: 40) %></td>
+						<td class="text-primary"><strong><%= message.title %></strong>***<%= link_to truncate(message.content, length: 40), [:admin, message] %>
+						  <%= link_to [:edit, :admin, message] do %>
+						  <button type="button" title="Edit Message" class="btn btn-primary btn-simple btn-xs">
+						    <i class="material-icons">edit</i>
+						  </button>
+						<% end %> 
+
+						<%= link_to [:admin, message], method: :delete, data: { confirm: "Are you sure you want to delete this message?" } do %>
+						  <button type="button" title="Remove" class="btn btn-primary btn-simple btn-xs">
+							<i class="material-icons">close</i>
+						  </button>  
+						<% end %>	
+						</td>
 						<td>
 						  <% if message.save_as_draft? %>
-						    <button class="btn btn-warning btn-xs btn-round">
-						      saved as draft	
+						    <button class="btn btn-default btn-xs btn-round">
+						      draft	
 						    </button>
 						  <% else %>	
 						    <button class="btn btn-info btn-xs btn-round">
@@ -33,24 +46,32 @@
 						  </td>  	
 						<td>
 						<% if message.save_as_draft? %>	
-						<span class="btn btn-success btn-xs btn-round">
-						send?
-						</span>
+						  <%= link_to admin_send_message_url(message), method: :patch, data: { confirm: "Are you sure you want to send this message to #{message.recipient_name}?" } do %>
+						    <span class="btn btn-success btn-xs btn-round">
+						      send?
+						    </span>
+						  <% end %> 
 						<% else %>
 						<% end %>
 						</td>
+						<td><%= message.created_at.strftime("%B %d, %Y -%T") %></td>
 					</tr>
+					<% end %>
+				<% else %>
+                  <tr>
+                    <td>no data</td>
+                    <td>no data</td>
+                    <td>no data</td>
+                    <td>no data</td>
+                  </tr>
+                <% end %>  	
 				</tbody>
-				<% end %>
 			</table>
 
 		</div>
 	</div>
 </div>
-<% else %>
-<h4>None at the moment</h4>
 
-<% end %>
 <%= javascript_include_tag "admin/jquery-3.1.0.min" %>
 <%= javascript_include_tag "admin/bootstrap.min" %>
 <%= javascript_include_tag "admin/material.min" %>

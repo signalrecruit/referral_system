@@ -4,7 +4,7 @@ class Message < ActiveRecord::Base
   validates :recipient_name, :content, :title, presence: true
 
   def save_as_draft?
-  	return true if !self.sent?
-  	return false if self.sent?
+  	return true if self.draft?
+  	return false if !self.draft?
   end
 end

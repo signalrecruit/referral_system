@@ -107,7 +107,7 @@ ActiveRecord::Schema.define(version: 20170504203706) do
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
     t.string   "title"
-    t.boolean  "sent",           default: false
+    t.boolean  "draft",          default: false
     t.string   "recipient_name"
   end
 

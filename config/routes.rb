@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     patch 'companies/:id/deal_with_company', to: 'companies#deal_with_company', as: :deal_with_company
     get 'activity_feed/index', to: 'activity_feed#index', as: :activity_feed
     get 'activity_feed/show', to: 'activity_feed#show', as: :show_activity
+    patch 'messages/:id/send_message', to: 'messages#send_message', as: :send_message
 
     # resources :users, only: [] do 
     #   resources :companies
