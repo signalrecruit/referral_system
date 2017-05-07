@@ -134,7 +134,8 @@
 													<th>Max Salary</th>
 													<th>Vacancies</th>
 													<th>Worth</th>
-													<th>Percentage Worth</th>
+													<th>Percentage Worth(PW) of JD</th>
+													<th>PW per each vacancy filled</th>
 													<th></th>
 													<th></th>
 													<th></th>
@@ -172,6 +173,9 @@
 															  <%= f.input :percent_worth, label: false %><td>%</td>
 															</td>
 															<td>
+																
+															</td>
+															<td>
 																<%= f.button :submit, "submit", class: "btn btn-primary btn-xs btn-round pull-right" %>
 															</td>
 															<td></td>
@@ -185,9 +189,10 @@
 															</td> 
 															<td>
 															   <button class="btn btn-success btn-xs btn-round">
-																GHS <%= jd.percent_worth || "0.00" %>
+															     <%= jd.percent_worth || "0.00" %>%
 															  </button>	
 															</td>  	
+															<td></td>
 															<td>
 															<%= link_to admin_update_button_for_jd_url(jd), method: :patch do %>
 															<button type="button" title="Edit Worth/percent worth" class="btn btn-primary btn-simple btn-xs">

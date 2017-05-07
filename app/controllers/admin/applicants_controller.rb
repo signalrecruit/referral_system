@@ -20,8 +20,7 @@ class Admin::ApplicantsController < Admin::ApplicationController
       else
         redirect_to :back
       end
-
-      # @jd.earning_algorithm 
+      @applicant.if_hired_pay_users
     else
       flash.now[:alert] = "oops! something went wrong"
       render :edit
