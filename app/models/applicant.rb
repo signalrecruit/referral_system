@@ -38,5 +38,13 @@ class Applicant < ActiveRecord::Base
   def not_hired?
   	return true if self.status == "not hired"
   end
+
+  def if_hired_pay_users
+    if hired?
+      self.job_description.update(earnings: self.job_description.percent_worth/100 * self.job_description.worth)  
+    else 
+      self.job_description.update(earnings: 0.0)  
+    end
+  end
 end
 
