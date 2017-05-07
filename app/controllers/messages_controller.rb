@@ -2,7 +2,7 @@ class MessagesController < ApplicationController
   before_action :set_message, only: [:show]
 
   def index
-    @messages = Message.all.where(recipient_id: current_user.id).order(created_at: :asc)
+    @messages = Message.all.where(recipient_id: current_user.id, draft: false).order(created_at: :asc)
   end
 
   def show

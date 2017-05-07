@@ -21,7 +21,7 @@ class Admin::ApplicantsController < Admin::ApplicationController
         redirect_to :back
       end
 
-      @jd.earning_algorithm 
+      # @jd.earning_algorithm 
     else
       flash.now[:alert] = "oops! something went wrong"
       render :edit

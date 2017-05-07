@@ -35,10 +35,15 @@ class ApplicationController < ActionController::Base
       company.deal?
       activity.update(permitted: true)
     end
+    create_notification(activity.action, activity.trackable_type)
   end
 
   def activity_exists?(trackable_id, trackable_type, action)
     activity = Activity.find_by trackable_id: trackable_id, trackable_type: trackable_type, action: action
     return true if activity
+  end
+
+  def create_notification(action, notification_type)
+    Notification.create! action: action, notification_type: notification_type  
   end
 end

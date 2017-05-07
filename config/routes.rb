@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'notifications/index'
+
   get 'messages/index'
 
   get 'messages/show'
@@ -49,6 +51,7 @@ Rails.application.routes.draw do
   patch 'job_descriptions/:id/update_job_description', to: 'job_descriptions#update_job_description', as: :update_jd
   get 'activity_feed/index', to: 'activity_feed#index', as: :activity_feed
   get 'activity_feed/show', to: 'activity_feed#show', as: :show_activity
+  get 'notifications/clicked', to: 'notifications#clicked', as: :clicked_notifications
 
 
   resources :user, only: [] do 
@@ -67,4 +70,5 @@ Rails.application.routes.draw do
   end
 
   resources :messages, only: [:index, :show]
+  resources :messages, only: [:index]
 end
