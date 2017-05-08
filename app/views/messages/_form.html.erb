@@ -1,0 +1,60 @@
+<div class="card-content">
+  <%= simple_form_for(message) do |f| %>
+   <div class="row">
+    <div class="col-md-3">
+      <div class="form-group label-floating">
+        <label class="control-label"><span class="btn btn-primary btn-xs btn-round">TO:</span></label>
+        <br>
+        Admin
+      </div>
+    </div>
+
+     <div class="col-md-4">
+      <div class="form-group label-floating">
+        <label class="control-label"><span class="btn btn-primary btn-xs btn-round">TITLE:</span></label>
+        <br>
+        <%= @reply_message.title %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group label-floating">
+        <label class="control-label"><span class="btn btn-primary btn-xs btn-round">CONTENT:</span></label>
+        <br>
+        <%= f.hidden_field :title, value: @reply_message.title %>
+        <%= f.hidden_field :recipient_name, value: @reply_message.recipient_name%>
+        <%= f.hidden_field :reply_id, value: @reply_message.id %>
+        <%= f.hidden_field :recipient_id, value: @reply_message.user_id %>
+        <%= f.hidden_field :user_id, value: current_user.id %>
+        <%= f.hidden_field :draft, value: false %>
+        <%= f.input :content, label: false, required: true, class: "form-control" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+     <div class="col-md-12">
+      <div class="form-group label-floating">
+        <span class="label label-primary">From:</span> Admin
+        <br>
+        <span class="label label-primary">Sent:</span> <%= @reply_message.created_at.strftime("%B %d, %Y") %>
+        <br>  
+        <span class="label label-primary">To:</span> <%= @recipient_email %>
+        <br>
+        <span class="label label-primary">Subject:</span> <%= @reply_message.title %>
+        <br>
+        <%= @reply_message.content %>
+
+      </div>
+    </div>
+  </div>
+
+ 
+
+  <div class="clearfix">
+  <%= f.button :submit, "Send", class: "btn btn-primary btn-round btn-xs pull-right" %>
+  </div>
+  <% end %>
+</div>

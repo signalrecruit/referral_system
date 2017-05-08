@@ -69,6 +69,5 @@ Rails.application.routes.draw do
     resources :required_experiences
   end
 
-  resources :messages, only: [:index, :show]
-  resources :messages, only: [:index]
+  resources :messages
 end
