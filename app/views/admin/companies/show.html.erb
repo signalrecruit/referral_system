@@ -135,8 +135,8 @@
 													<th>Vacancies</th>
 													<th>Worth</th>
 													<th>Percentage Worth(PW) of JD</th>
+													<th>Worth of Vacancy</th>
 													<th>PW per each vacancy filled</th>
-													<th></th>
 													<th></th>
 													<th></th>
 												</thead>
@@ -173,7 +173,10 @@
 															  <%= f.input :percent_worth, label: false %><td>%</td>
 															</td>
 															<td>
-																
+															  <%= f.input :applicant_worth, label: false %>		
+															</td>
+															<td>
+															  <%= f.input :applicant_percent_worth, label: false %><td>%</td>
 															</td>
 															<td>
 																<%= f.button :submit, "submit", class: "btn btn-primary btn-xs btn-round pull-right" %>
@@ -192,7 +195,16 @@
 																<%= jd.percent_worth || "0.00" %>%
 															  </button>	
 															</td>  	
-															<td></td>
+															<td>
+															  <button class="btn btn-success btn-xs btn-round">
+															    GHS <%= jd.applicant_worth || "0.00" %>	
+															  </button>	
+															</td>
+															<td>
+															  <button class="btn btn-success btn-xs btn-round">
+															    <%= jd.applicant_percent_worth || "0.00" %>%	
+															  </button>	
+															</td>
 															<td>
 															<%= link_to admin_update_button_for_jd_url(jd), method: :patch do %>
 															<button type="button" title="Edit Worth/percent worth" class="btn btn-primary btn-simple btn-xs">
@@ -201,14 +213,6 @@
 															<% end %>
 															</td>
 															<% end %>  	
-														<td>
-														<% unless jd.updated? %>	
-														<%= link_to admin_company_job_description_url(jd.company, jd), class: "btn btn-primary btn-xs btn-round" do %>
-															<i class="material-icons">visibility</i>Job Description
-															<% end %>
-														<% end %>	
-														</td>
-
 														<td>
 														<% unless jd.updated? %>
 														  <%= link_to admin_job_description_applicants_url(jd), class: "btn btn-primary btn-xs btn-round" do  %>	

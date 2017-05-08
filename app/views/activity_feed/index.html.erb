@@ -99,6 +99,7 @@
 						<td><%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %></td>
 					  <% end %>	
 					</tr>
+
 					<% elsif activity.action == "deal" && activity.trackable_type == "Company" %>
 					  <% if activity.trackable.deal? %>
 					    <tr>
@@ -123,12 +124,12 @@
 					</tr>
 
 					<% elsif activity.action == "added an applicant" && activity.trackable_type == "Applicant" %>
-					  <% if activity.trackable.company.deal? %>
-					    <tr>
-					  <% else %>
-					    <tr style="background: #999999;">  
-					  <% end %>
 					    <% if !activity.trackable.nil? %>
+					      <% if activity.trackable.company.deal? %>
+					      <tr>
+					      <% else %>
+					      <tr style="background: #999999;">  
+					      <% end %>
 						<td><span class="text-primary"><%= activity.user.username %></span> just brought in 
 						<% if activity.trackable.company.user != current_user %>
 							<span class="dropdown">

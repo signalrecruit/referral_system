@@ -21,11 +21,7 @@
 						<td><%= user.companies.count %></td>  	
 						<td><%= user.applicants.count %></td>
 						<td><span class="btn btn-success btn-xs btn-round">
-						<% @total = [] %>
-						<% user.job_descriptions.each do |jd| %>
-						  <% @total << jd.earnings %>
-						<% end %>
-						GHS <%= @total.sum %>	
+						  <%= user.cumulative_earnings %>
 						</span></td>
 					</tr>
 				</tbody>

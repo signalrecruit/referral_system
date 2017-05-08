@@ -39,12 +39,29 @@ class Applicant < ActiveRecord::Base
   	return true if self.status == "not hired"
   end
 
-  def if_hired_pay_users
-    if hired?
-      self.job_description.update(earnings: self.job_description.percent_worth/100 * self.job_description.worth)  
-    else 
-      self.job_description.update(earnings: 0.0)  
+
+  
+
+  def applicant_hired?
+    self.hired? ? true : false
+  end
+
+  def calculate_cumulative_earnings
+    @cumulative_earnings = 0
+    self.class.where(user_id: self.user).each do |applicant|
+      @cumulative_earnings += applicant.earnings
     end
+    @cumulative_earnings
+  end
+
+  def pay_user_when_applicant_is_hired
+    if applicant_hired?
+      self.update(earnings: self.job_description.applicant_percent_worth/100 * self.job_description.applicant_worth)
+      self.user.update(cumulative_earnings: calculate_cumulative_earnings)
+    else
+      self.update(earnings: 0.0)
+      self.user.update(cumulative_earnings: calculate_cumulative_earnings)
+    end   
   end
 end
 

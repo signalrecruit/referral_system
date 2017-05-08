@@ -13,24 +13,30 @@ class JobDescription < ActiveRecord::Base
   	return true if self.update_button?
   end
 
+  def all_vacancies_filled?
+    self.vacancies == self.applicants.count ? true : false
+  end
 
+   # all applicants are hired for this role
+  def all_applicants_are_hired?
+    self.applicants.all? { |applicant| applicant.hired? }    
+  end
 
+  def calculate_cumulative_earnings
+    @cumulative_earnings = 0
+    self.class.where(user_id: self.user.id).each do |job_description|
+      @cumulative_earnings += job_description.earnings
+    end
+    @cumulative_earnings
+  end
 
-  # algorithm
-  
-  # def all_applicants_hired?
-  #   self.applicants.all? { |applicant| applicant.status == "hired"}
-  # end
-
-  # def earning_algorithm
-  #   if all_applicants_hired?  
-  #     if self.vacancies == self.number_of_applicants 
-  #       self.update(earnings: self.percent_worth/100 * self.worth)
-  #     else
-  #       self.update(earnings: 0.00)
-  #     end
-  #   else
-  #     self.update(earnings: 0.00)
-  #   end
-  # end
+  def earning_algorithm
+    if all_applicants_are_hired? && all_vacancies_filled?
+      self.update(earnings: self.percent_worth/100 * self.worth)
+      self.user.update(cumulative_earnings: calculate_cumulative_earnings)
+    else
+      self.update(earnings: 0.0)
+      self.user.update(cumulative_earnings: calculate_cumulative_earnings)
+    end
+  end
 end
