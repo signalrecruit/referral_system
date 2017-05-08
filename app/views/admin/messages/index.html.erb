@@ -21,7 +21,7 @@
 					<tr>
 						<td><%= link_to message.recipient_name, "#", class: "btn btn-primary btn-xs btn-round" %></td>
 						<td class="text-primary"><strong><%= message.title %></strong>***<%= link_to truncate(message.content, length: 40), [:admin, message] %>
-						  <%= link_to [:edit, :admin, message] do %>
+						<%= link_to [:edit, :admin, message] do %>
 						  <button type="button" title="Edit Message" class="btn btn-primary btn-simple btn-xs">
 						    <i class="material-icons">edit</i>
 						  </button>
