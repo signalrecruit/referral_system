@@ -23,13 +23,17 @@
 						</td>
 						<td>
 						  <% if message.read_message? %>
-						    <button class="btn btn-info btn-xs btn-round">
-						      read 	
-						    </button>
+						    <%= link_to [message] do %>
+						      <button class="btn btn-info btn-xs btn-round">
+						        read 	
+						      </button>
+						    <% end %>  
 						  <% else %>	
-						    <button class="btn btn-danger btn-xs btn-round">
-						      unread 	
-						    </button>
+						    <%= link_to [message] do %>  
+						      <button class="btn btn-danger btn-xs btn-round">
+						        unread 	
+						      </button>
+						    <% end %>  
 						  <% end %>	
 						  </td>  	
 						<td><%= message.created_at.strftime("%B %d, %Y -%T") %></td>
