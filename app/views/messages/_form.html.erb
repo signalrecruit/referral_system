@@ -35,6 +35,10 @@
     </div>
   </div>
 
+  <div class="clearfix">
+  <%= f.button :submit, "Send", class: "btn btn-primary btn-round btn-xs pull-right" %>
+  </div>
+
  <!--  <div class="row">
      <div class="col-md-12">
       <div class="form-group label-floating">
@@ -69,11 +73,5 @@
       <h6 style="font-size: 10px;"><%= message.created_at.strftime("%B %d, %Y") %>(<%= time_ago_in_words message.created_at %> ago) | <%= message.created_at.strftime("%T") %></h6>
       <% end %>
       <hr>
-
- 
-
-  <div class="clearfix">
-  <%= f.button :submit, "Send", class: "btn btn-primary btn-round btn-xs pull-right" %>
-  </div>
   <% end %>
 </div>

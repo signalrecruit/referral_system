@@ -12,12 +12,14 @@
 			</h4>
 			<p class="category"></p>
 		</div>
-		<% if !@message.user.admin? %>
-		  <%= link_to new_admin_message_url(reply_id: @message.id) do %>
-			<button class="btn btn-primary btn-round btn-xs pull-right">
-			  <i class="material-icons">reply</i>reply
-			</button>
-		  <% end %>	
+		<% if @reply_thread.any? %>
+		  <% if !@reply_thread.first.user.admin? %>
+		    <%= link_to new_admin_message_url(reply_id: @message.id) do %>
+			  <button class="btn btn-primary btn-round btn-xs pull-right">
+			    <i class="material-icons">reply</i>reply
+			  </button>
+		    <% end %>
+		  <% end %>  	
 	    <% end %>		
 		<div class="card-content">
 		<% if @reply_thread.empty? %>

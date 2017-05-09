@@ -41,7 +41,7 @@ class Admin::MessagesController < Admin::ApplicationController
       @reply_message = Message.find(@message.reply_id.to_i) if params[:message][:reply_id]
     end
 
-  	find_recipient(@message)
+  	find_recipient(@message) if @reply_message.nil?
 
   	if @message.save
   	  flash[:success] = "successfully sent #{@message.recipient_name}"
