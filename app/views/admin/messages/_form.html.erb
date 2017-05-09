@@ -1,11 +1,13 @@
 <div class="card-content">
   <%= simple_form_for([:admin, message]) do |f| %>
+  <% if @reply_message.nil? %>
    <div class="row">
     <div class="col-md-3">
       <div class="form-group label-floating">
         <label class="control-label"><span class="btn btn-primary btn-xs btn-round">TO:</span></label>
         <br>
         <%= f.input :recipient_name, collection: User.where(admin: false).pluck(:fullname), label: false, required: true, autofocus: true, class: "form-control" %>
+        <%= f.hidden_field :from_messages_index, value: request.referrer %>
       </div>
     </div>
 
@@ -38,11 +40,68 @@
     </div>
   </div>
 
- 
+  <div class="clearfix">
+    <%= f.button :submit, "Send", class: "btn btn-primary btn-xs btn-round pull-right" %>
+  </div>
+<% else %>
+<div class="row">
+    <div class="col-md-3">
+      <div class="form-group label-floating">
+        <label class="control-label"><span class="btn btn-primary btn-xs btn-round">TO:</span></label>
+        <br>
+        <%= @reply_message.user.fullname %>
+      </div>
+    </div>
+
+     <div class="col-md-4">
+      <div class="form-group label-floating">
+        <label class="control-label"><span class="btn btn-primary btn-xs btn-round">TITLE:</span></label>
+        <br>
+        <%= @reply_message.title %>
+      </div>
+    </div>
+  </div>
+<div class="row">
+    <div class="col-md-12">
+      <div class="form-group label-floating">
+        <label class="control-label"><span class="btn btn-primary btn-xs btn-round">CONTENT:</span></label>
+        <br>
+        <%= f.hidden_field :title, value: @reply_message.title %>
+        <%= f.hidden_field :recipient_name, value: @reply_message.sent_by %>
+        <%= f.hidden_field :reply_id, value: @reply_message.id %>
+        <%= f.hidden_field :recipient_id, value: @reply_message.user_id %>
+        <%= f.hidden_field :user_id, value: current_user.id %>
+        <%= f.hidden_field :draft, value: false %>
+        <%= f.hidden_field :sent_by, value: current_user.fullname << "(User)" %>
+        <%= f.input :content, label: false, required: true, class: "form-control" %>
+      </div>
+    </div>
+  </div>
 
   <div class="clearfix">
-  <%= f.button :submit, "Done", class: "btn btn-primary btn-round pull-right" %>
+    <%= f.button :submit, "Send", class: "btn btn-primary btn-xs btn-round pull-right" %>
   </div>
+ <% @reply_thread.map do |message| %>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group label-floating">
+            <span class="label label-primary">From:</span> <%= message.user.fullname %>
+            <br>
+            <span class="label label-primary">Sent:</span> <%= message.created_at.strftime("%B %d, %Y") %>
+            <br>  
+            <span class="label label-primary">Subject:</span> <%= message.title %>
+            <br>
+            <%= message.content %>
+
+          </div>
+        </div>  
+      </div>
+      <% end %>
+      <hr>  
+<% end %>  
+ 
+
+ 
   <% end %>
 </div>
 <%= javascript_include_tag "admin/jquery-3.1.0.min" %>

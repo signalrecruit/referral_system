@@ -5,7 +5,7 @@
       <div class="form-group label-floating">
         <label class="control-label"><span class="btn btn-primary btn-xs btn-round">TO:</span></label>
         <br>
-        Admin
+        <%= @reply_message.sent_by %>
       </div>
     </div>
 
@@ -24,32 +24,51 @@
         <label class="control-label"><span class="btn btn-primary btn-xs btn-round">CONTENT:</span></label>
         <br>
         <%= f.hidden_field :title, value: @reply_message.title %>
-        <%= f.hidden_field :recipient_name, value: @reply_message.recipient_name%>
+        <%= f.hidden_field :recipient_name, value: @reply_message.sent_by %>
         <%= f.hidden_field :reply_id, value: @reply_message.id %>
         <%= f.hidden_field :recipient_id, value: @reply_message.user_id %>
         <%= f.hidden_field :user_id, value: current_user.id %>
         <%= f.hidden_field :draft, value: false %>
+        <%= f.hidden_field :sent_by, value: current_user.fullname << "(User)" %>
         <%= f.input :content, label: false, required: true, class: "form-control" %>
       </div>
     </div>
   </div>
 
-  <div class="row">
+ <!--  <div class="row">
      <div class="col-md-12">
       <div class="form-group label-floating">
-        <span class="label label-primary">From:</span> Admin
+        <span class="label label-primary">From:</span> <%#= @reply_message.user.fullname %>(Admin)
         <br>
-        <span class="label label-primary">Sent:</span> <%= @reply_message.created_at.strftime("%B %d, %Y") %>
+        <span class="label label-primary">Sent:</span> <%#= @reply_message.created_at.strftime("%B %d, %Y") %>
         <br>  
-        <span class="label label-primary">To:</span> <%= @recipient_email %>
+        <span class="label label-primary">To:</span> <%#= @recipient_email %>
         <br>
-        <span class="label label-primary">Subject:</span> <%= @reply_message.title %>
+        <span class="label label-primary">Subject:</span> <%#= @reply_message.title %>
         <br>
-        <%= @reply_message.content %>
+        <%#= @reply_message.content %>
 
       </div>
     </div>
-  </div>
+  </div> -->
+  <% @reply_thread.map do |message| %>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group label-floating">
+            <span class="label label-primary">From:</span> <%= message.user.fullname %>
+            <br>
+            <span class="label label-primary">Sent:</span> <%= message.created_at.strftime("%B %d, %Y") %>
+            <br>  
+            <span class="label label-primary">Subject:</span> <%= message.title %>
+            <br>
+            <%= message.content %>
+
+          </div>
+        </div>  
+      </div>
+      <h6 style="font-size: 10px;"><%= message.created_at.strftime("%B %d, %Y") %>(<%= time_ago_in_words message.created_at %> ago) | <%= message.created_at.strftime("%T") %></h6>
+      <% end %>
+      <hr>
 
  
 

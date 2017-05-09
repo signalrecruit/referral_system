@@ -7,6 +7,7 @@ class MessagesController < ApplicationController
 
   def show
   	@message.update(read: true)
+    set_reply_thread @message
   end
 
   def new
@@ -15,6 +16,7 @@ class MessagesController < ApplicationController
     @reply_message = Message.find(@reply_id) 
     @recipient_id = @reply_message.recipient_id
     @recipient_email = User.find(@recipient_id).email 
+    set_reply_thread @reply_message
   end
 
   def create
@@ -24,6 +26,7 @@ class MessagesController < ApplicationController
     @message.recipient_name = params[:message][:recipient_name]
     @message.recipient_id = params[:message][:recipient_id]
     @message.user_id = params[:message][:user_id]
+    @message.sent_by = params[:message][:sent_by]
     @reply_message = Message.find(@message.reply_id.to_i) 
 
     if @message.save
@@ -31,6 +34,7 @@ class MessagesController < ApplicationController
       redirect_to @message
     else
       flash[:alert] = "oops! something went wrong"
+      set_reply_thread @reply_message
       render :new 
     end
 
@@ -62,6 +66,17 @@ class MessagesController < ApplicationController
   end
 
   def message_params
-    params.require(:message).permit(:content, :recipient_id, :read, :title, :draft, :recipient_name, :reply_id)
+    params.require(:message).permit(:content, :recipient_id, :read, :title, :draft, :recipient_name, :reply_id, :sent_by)
+  end
+
+  def set_reply_thread(message)
+    @reply_thread = []
+    Message.where(recipient_id: current_user.id, user_id: message.user_id).each do |msg|
+      @reply_thread << msg
+    end
+    Message.where(recipient_id: message.user_id, user_id: current_user.id).each do |msg|
+      @reply_thread << msg
+    end
+    @reply_thread.sort! { |a, b| b.created_at <=> a.created_at }
   end
 end

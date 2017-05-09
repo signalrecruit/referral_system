@@ -20,7 +20,7 @@
 				  <% @messages.each do |message| %>
 					<tr>
 						<td><%= link_to message.recipient_name, "#", class: "btn btn-primary btn-xs btn-round" %></td>
-						<td class="text-primary"><strong><%= message.title %></strong>***<%= link_to truncate(message.content, length: 40), [:admin, message] %>
+						<td class="text-primary"><strong><%= message.title %></strong>***<%= link_to truncate(message.content, length: 40), admin_message_url(message) %>
 						<%= link_to [:edit, :admin, message] do %>
 						  <button type="button" title="Edit Message" class="btn btn-primary btn-simple btn-xs">
 						    <i class="material-icons">edit</i>
@@ -38,10 +38,14 @@
 						    <button class="btn btn-default btn-xs btn-round">
 						      draft	
 						    </button>
-						  <% else %>	
+						  <% elsif !message.save_as_draft? && message.user.admin? %>	
 						    <button class="btn btn-info btn-xs btn-round">
 						      sent 	
 						    </button>
+						  <% elsif !message.save_as_draft? && !message.user.admin? %>
+						    <button class="btn btn-warning btn-xs btn-round">
+						      received	
+						    </button>  
 						  <% end %>	
 						  </td>  	
 						<td>

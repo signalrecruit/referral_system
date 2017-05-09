@@ -3,55 +3,74 @@
 		<div class="card-header" data-background-color="purple">
 			<h4 class="title">Message STATUS:
 				<% if @message.save_as_draft? %>
-					DRAFT	
-				<% else %>	
-					SENT 	
-				<% end %>		
+				draft	
+				<% elsif !@message.save_as_draft? && @message.user.admin? %>	
+				sent 	
+				<% elsif !@message.save_as_draft? && !@message.user.admin? %>
+				received	
+				<% end %>			
 			</h4>
 			<p class="category"></p>
 		</div>
+		<% if !@message.user.admin? %>
+		  <%= link_to new_admin_message_url(reply_id: @message.id) do %>
+			<button class="btn btn-primary btn-round btn-xs pull-right">
+			  <i class="material-icons">reply</i>reply
+			</button>
+		  <% end %>	
+	    <% end %>		
 		<div class="card-content">
+		<% if @reply_thread.empty? %>
 		<div class="row">
-				<div class="col-md-3">
+				<div class="col-md-12">
 					<div class="form-group label-floating">
-						<label class="control-label"><span class="btn btn-primary btn-xs btn-round">TO:</span></label>
+						<span class="label label-primary">From:</span> <%= @message.user.fullname %>
 						<br>
-						<%= @message.recipient_name %>
-					</div>
-				</div>
+						<span class="label label-primary">Sent:</span> <%= @message.created_at.strftime("%B %d, %Y") %>
+						<br>  
+						<span class="label label-primary">Subject:</span> <%= @message.title %>
+						<br>
+						<%= @message.content %>
 
-				<div class="col-md-4">
-					<div class="form-group label-floating">
-						<label class="control-label"><span class="btn btn-primary btn-xs btn-round">TITLE:</span></label>
-						<br>
-						<%= @message.title %>
 					</div>
-				</div>
+				</div>	
 			</div>
-
+			<% else %>
+			<% @reply_thread.map do |message| %>
 			<div class="row">
 				<div class="col-md-12">
 					<div class="form-group label-floating">
-						<label class="control-label"><span class="btn btn-primary btn-xs btn-round">CONTENT:</span></label>
+						<span class="label label-primary">From:</span> <%= message.user.fullname %>
 						<br>
-						<%= @message.content %>
+						<span class="label label-primary">Sent:</span> <%= message.created_at.strftime("%B %d, %Y") %>
+						<br>  
+						<span class="label label-primary">Subject:</span> <%= message.title %>
+						<br>
+						<%= message.content %>
+
 					</div>
-				</div>
+				</div>	
 			</div>
+			<h6 style="font-size: 10px;"><%= message.created_at.strftime("%B %d, %Y") %>(<%= time_ago_in_words message.created_at %> ago) | <%= message.created_at.strftime("%T") %></h6>
+			<% end %>
+			<% end %>
+			<hr>
 
 			<div class="clearfix">
 			  <div class="pull-right">
-				<%= link_to edit_admin_message_url(@message, page: "from show") do %>
-				<button type="button" title="Edit Message" class="btn btn-primary btn-simple btn-xs">
-					<i class="material-icons">edit</i>
-				</button>
-				<% end %> 
+			    <% if @message.user.admin? && @message.draft? %>
+				  <%= link_to edit_admin_message_url(@message, page: "from show") do %>
+				    <button type="button" title="Edit Message" class="btn btn-primary btn-simple btn-xs">
+					  <i class="material-icons">edit</i>
+				    </button>
+				  <% end %> 
 
-				<%= link_to [:admin, @message], method: :delete, data: { confirm: "Are you sure you want to delete this message?" } do %>
-				<button type="button" title="Remove" class="btn btn-primary btn-simple btn-xs">
-					<i class="material-icons">close</i>
-				</button>  
-				<% end %>	
+				  <%= link_to [:admin, @message], method: :delete, data: { confirm: "Are you sure you want to delete this message?" } do %>
+				    <button type="button" title="Remove" class="btn btn-primary btn-simple btn-xs">
+					  <i class="material-icons">close</i>
+				    </button>  
+				  <% end %>	
+				<% end %>  
 			  </div>	
 			</div>
 		</div>
