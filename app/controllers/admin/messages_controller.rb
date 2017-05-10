@@ -1,17 +1,19 @@
 class Admin::MessagesController < Admin::ApplicationController
-  before_action :set_message, only: [:show, :edit, :update, :destroy, :send_message]	
+  before_action :set_message, only: [:show, :edit, :update, :destroy, :send_message, :archive_message, :unarchive_message]	
   layout "admin"
 
 
   def index
   	if params[:category] == "received"
-      @messages = Message.received_messages_for_admin
+      @messages = Message.received_messages_for_admin.where(recipient_id: current_user.id)
     elsif params[:category] == "sent"
-      @messages = Message.sent_messages_for_admin
+      @messages = Message.sent_messages_for_admin.where(user_id: current_user.id)
     elsif params[:category] == "draft"
-      @messages = Message.drafted_by_admin
+      @messages = Message.drafted_by_admin.where(user_id: current_user.id)
+    elsif params[:category] == "archived"
+      @messages = Message.archived_by_admin.where(user_id: current_user.id)
     else 
-      @messages = Message.all.order(created_at: :asc)  
+      retrieve_all_messages   
     end  
   end
 
@@ -99,11 +101,21 @@ class Admin::MessagesController < Admin::ApplicationController
     redirect_to admin_messages_url
   end
 
+  def archive_message
+    @message.update(archived: true)
+    redirect_to :back
+  end 
+
+  def unarchive_message
+    @message.update(archived: false)
+    redirect_to :back 
+  end
+
 
   private 
 
   def message_params
-  	params.require(:message).permit(:recipient_name, :content, :read, :title, :user_id, :recipient_id, :draft, :sent_by)
+  	params.require(:message).permit(:recipient_name, :content, :read, :title, :user_id, :recipient_id, :draft, :sent_by, :archived)
   end
 
   def find_recipient(message)
@@ -127,5 +139,16 @@ class Admin::MessagesController < Admin::ApplicationController
       @reply_thread << msg
     end
     @reply_thread.sort! { |a, b| b.created_at <=> a.created_at }
+  end
+
+  def retrieve_all_messages
+    @messages = []
+    Message.where(recipient_id: current_user.id).each do |msg|
+      @messages << msg
+    end
+    Message.where(user_id: current_user.id).each do |msg|
+      @messages << msg 
+    end
+    @messages.sort! { |a, b| a.created_at <=> b.created_at }
   end
 end

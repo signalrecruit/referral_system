@@ -26,6 +26,12 @@
   </button>
 <% end %>
 
+<%= link_to admin_messages_url(category: "archived") do %>
+  <button class="btn btn-danger btn-xs btn-round">
+  	Archived Messages
+  </button>
+<% end %>
+
 <div class="col-md-12">
 	<div class="card">
 		<div class="card-header" data-background-color="purple">
@@ -48,7 +54,7 @@
 						<td class="text-primary"><strong><%= message.title %></strong>***<%= link_to truncate(message.content, length: 40), admin_message_url(message) %>
 						<% unless params[:category] == "received" || !message.user.admin? %>
 						  <%= link_to [:edit, :admin, message] do %>
-						    <button type="button" title="Edit Message" class="btn btn-primary btn-simple btn-xs">
+						    <button type="button" title="Edit" class="btn btn-primary btn-simple btn-xs">
 						      <i class="material-icons">edit</i>
 						    </button>
 						  <% end %> 
@@ -58,7 +64,21 @@
 							  <i class="material-icons">close</i>
 						    </button>  
 						  <% end %>	
-						<% end %>
+
+						  <% if message.archived? %>
+						    <%= link_to [:admin, :unarchive, message], method: :patch, data: { confirm: "Are you sure you want to unarchive this message?"} do %>
+						      <button type="button" title="Unarchive" class="btn btn-primary btn-simple btn-xs">  
+						        <i class="material-icons">unarchive</i>
+						      </button>  
+						    <% end %> 
+						  <% else %> 
+						    <%= link_to [:admin, :archive, message], method: :patch, data: { confirm: "Are you sure you want to archive this message?"} do %>
+						      <button type="button" title="Archive" class="btn btn-primary btn-simple btn-xs">  
+						        <i class="material-icons">archive</i>
+						      </button>  
+						    <% end %>
+						  <% end %>
+						<% end %>  
 						</td>
 						<td>
 						  <% if message.save_as_draft? %>
