@@ -22,10 +22,17 @@ class Message < ActiveRecord::Base
   end
 
   def self.drafted_by_admin
-    Message.where(draft: true, archived: false).joins(:user).where(users: { admin: true } )
+    Message.where(draft: true, archived: false).joins(:user).where(users: { admin: true })
   end
 
   def self.archived_by_admin
-    Message.where(archived: true).joins(:user).where(users: { admin: true })
+    @messages = []
+    Message.where(archived: true).joins(:user).where(users: { admin: true }).each do |message|
+      @messages << message
+    end
+    Message.where(archived: true).joins(:user).where(users: { admin: false }).each do |message|
+      @messages << message
+    end
+    @messages
   end
 end

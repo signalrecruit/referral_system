@@ -11,7 +11,7 @@ class Admin::MessagesController < Admin::ApplicationController
     elsif params[:category] == "draft"
       @messages = Message.drafted_by_admin.where(user_id: current_user.id)
     elsif params[:category] == "archived"
-      @messages = Message.archived_by_admin.where(user_id: current_user.id)
+      @messages = Message.archived_by_admin
     else 
       retrieve_all_messages   
     end  
@@ -19,6 +19,7 @@ class Admin::MessagesController < Admin::ApplicationController
 
   def show
     set_reply_thread @message
+    @message_id = params[:message_id].to_i
   end
 
   def new
@@ -143,10 +144,10 @@ class Admin::MessagesController < Admin::ApplicationController
 
   def retrieve_all_messages
     @messages = []
-    Message.where(recipient_id: current_user.id).each do |msg|
+    Message.where(recipient_id: current_user.id, archived: false).each do |msg|
       @messages << msg
     end
-    Message.where(user_id: current_user.id).each do |msg|
+    Message.where(user_id: current_user.id, archived: false).each do |msg|
       @messages << msg 
     end
     @messages.sort! { |a, b| a.created_at <=> b.created_at }

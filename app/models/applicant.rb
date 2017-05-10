@@ -59,7 +59,7 @@ class Applicant < ActiveRecord::Base
       self.update(earnings: self.job_description.applicant_percent_worth/100 * self.job_description.applicant_worth)
       self.user.update(cumulative_earnings: calculate_cumulative_earnings)
     else
-      self.update(earnings: 0.0)
+      # self.update(earnings: 0.0)
       self.user.update(cumulative_earnings: calculate_cumulative_earnings)
     end   
   end

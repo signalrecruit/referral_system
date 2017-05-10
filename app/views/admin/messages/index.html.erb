@@ -40,7 +40,7 @@
 		<div class="card-content table-responsive">
 			<table class="table">
 				<thead class="text-primary">
-					<th>Recipient</th>
+					<th>From</th>
 					<th>Message</th>
 					<th>Status</th>
 					<th></th>
@@ -50,20 +50,29 @@
 				<% if @messages.any? %>
 				  <% @messages.each do |message| %>
 					<tr>
-						<td><%= link_to message.recipient_name, "#", class: "btn btn-primary btn-xs btn-round" %></td>
-						<td class="text-primary"><strong><%= message.title %></strong>***<%= link_to truncate(message.content, length: 40), admin_message_url(message) %>
-						<% unless params[:category] == "received" || !message.user.admin? %>
-						  <%= link_to [:edit, :admin, message] do %>
-						    <button type="button" title="Edit" class="btn btn-primary btn-simple btn-xs">
-						      <i class="material-icons">edit</i>
-						    </button>
-						  <% end %> 
+						<td>
+						  <% if message.user == current_user %>
+						    <%= link_to "Me", "#", class: "btn btn-primary btn-xs btn-round" %>
+						  <% else %>
+						    <%= link_to message.user.fullname, "#", class: "btn btn-primary btn-xs btn-round" %>
+						  <% end %>  
+						</td>
+						<td class="text-primary"><strong><%= message.title %></strong>***<%= link_to truncate(message.content, length: 40), admin_message_url(message, message_id: message.id) %>
 
-						  <%= link_to [:admin, message], method: :delete, data: { confirm: "Are you sure you want to delete this message?" } do %>
-						    <button type="button" title="Remove" class="btn btn-primary btn-simple btn-xs">
-							  <i class="material-icons">close</i>
-						    </button>  
-						  <% end %>	
+						<% unless params[:category] == "received" || !message.user.admin? %>
+						  <% unless !message.draft? %>
+						    <%= link_to [:edit, :admin, message] do %>
+						      <button type="button" title="Edit" class="btn btn-primary btn-simple btn-xs">
+						        <i class="material-icons">edit</i>
+						      </button>
+						    <% end %> 
+
+						    <%= link_to [:admin, message], method: :delete, data: { confirm: "Are you sure you want to delete this message?" } do %>
+						      <button type="button" title="Remove" class="btn btn-primary btn-simple btn-xs">
+							    <i class="material-icons">close</i>
+						      </button>  
+						    <% end %>
+						  <% end %>  	
 
 						  <% if message.archived? %>
 						    <%= link_to [:admin, :unarchive, message], method: :patch, data: { confirm: "Are you sure you want to unarchive this message?"} do %>
@@ -79,6 +88,24 @@
 						    <% end %>
 						  <% end %>
 						<% end %>  
+
+						<% if !message.user.admin? %>
+						<% if message.archived? %>
+						    <%= link_to [:admin, :unarchive, message], method: :patch, data: { confirm: "Are you sure you want to unarchive this message?"} do %>
+						      <button type="button" title="Unarchive" class="btn btn-primary btn-simple btn-xs">  
+						        <i class="material-icons">unarchive</i>
+						      </button>  
+						    <% end %> 
+						  <% else %> 
+						    <%= link_to [:admin, :archive, message], method: :patch, data: { confirm: "Are you sure you want to archive this message?"} do %>
+						      <button type="button" title="Archive" class="btn btn-primary btn-simple btn-xs">  
+						        <i class="material-icons">archive</i>
+						      </button>  
+						    <% end %>
+						  <% end %>
+						  <% end %>
+
+
 						</td>
 						<td>
 						  <% if message.save_as_draft? %>
