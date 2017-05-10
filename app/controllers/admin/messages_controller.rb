@@ -4,7 +4,11 @@ class Admin::MessagesController < Admin::ApplicationController
 
 
   def index
-  	@messages = Message.all.order(created_at: :asc)
+  	if params[:category] == "received"
+      @messages = Message.received_messages_for_admin
+    elsif params[:category] == "sent"
+      @messages = Message.sent_messages_for_admin
+    end  
   end
 
   def show

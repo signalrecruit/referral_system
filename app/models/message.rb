@@ -12,4 +12,12 @@ class Message < ActiveRecord::Base
   	return true if self.read?
   	return false if !self.read?
   end
+
+  def self.received_messages_for_admin
+    Message.joins(:user).where(users: { admin: false })
+  end
+
+  def self.sent_messages_for_admin
+    Message.joins(:user).where(users: { admin: true })
+  end
 end

@@ -1,11 +1,5 @@
 Rails.application.routes.draw do
 
-  get 'notifications/index'
-
-  get 'messages/index'
-
-  get 'messages/show'
-
   namespace :admin do 
     get 'dashboard/dashboard', to: 'dashboard#dashboard', as: :dashboard
     # get 'dashboard/activity_feed', to: 'dashboard#activity_feed', as: :activity_feed
