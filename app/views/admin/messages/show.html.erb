@@ -37,6 +37,7 @@
 					</div>
 				</div>	
 			</div>
+			<h6 style="font-size: 10px;"><%= @message.created_at.strftime("%B %d, %Y") %>(<%= time_ago_in_words @message.created_at %> ago) | <%= @message.created_at.strftime("%T") %></h6>
 			<% else %>
 			<% @reply_thread.map do |message| %>
 			<div class="row">

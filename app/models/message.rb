@@ -18,7 +18,7 @@ class Message < ActiveRecord::Base
   end
 
   def self.sent_messages_for_admin
-    Message.joins(:user).where(users: { admin: true })
+    Message.where(draft: false).joins(:user).where(users: { admin: true })
   end
 
   def self.drafted_by_admin
