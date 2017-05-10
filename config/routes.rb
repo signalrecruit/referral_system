@@ -48,6 +48,7 @@ Rails.application.routes.draw do
   get 'activity_feed/index', to: 'activity_feed#index', as: :activity_feed
   get 'activity_feed/show', to: 'activity_feed#show', as: :show_activity
   get 'notifications/clicked', to: 'notifications#clicked', as: :clicked_notifications
+  
 
 
   resources :user, only: [] do 
