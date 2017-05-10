@@ -20,4 +20,8 @@ class Message < ActiveRecord::Base
   def self.sent_messages_for_admin
     Message.joins(:user).where(users: { admin: true })
   end
+
+  def self.drafted_by_admin
+    Message.where(draft: true).joins(:user).where(users: { admin: true } )
+  end
 end

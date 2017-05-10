@@ -8,6 +8,10 @@ class Admin::MessagesController < Admin::ApplicationController
       @messages = Message.received_messages_for_admin
     elsif params[:category] == "sent"
       @messages = Message.sent_messages_for_admin
+    elsif params[:category] == "draft"
+      @messages = Message.drafted_by_admin
+    else 
+      @messages = Message.all.order(created_at: :asc)  
     end  
   end
 
@@ -18,7 +22,7 @@ class Admin::MessagesController < Admin::ApplicationController
   def new
   	@message = current_user.messages.build
     
-    if request.referrer == admin_messages_url
+    if URI(request.referrer).path == URI(admin_messages_url).path
       session[:from_messages_index] = request.referrer  
     else  
       @reply_id = params[:reply_id].to_i
