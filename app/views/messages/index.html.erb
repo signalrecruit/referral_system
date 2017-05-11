@@ -52,7 +52,7 @@
 						    <%= link_to message.sent_by, "#", class: "btn btn-primary btn-xs btn-round" %>
 						  <% end %>  
 						</td>
-						<td class="text-primary"><strong><%= message.title %></strong>***<%= link_to truncate(message.content, length: 40), [message] %>
+						<td class="text-primary"><strong><%= message.title %></strong>***<%= link_to truncate(message.content, length: 40), message_url(message, message_id: message.id) %>
 
 						<% unless params[:category] == "received" || message.user.admin? %>
 						  <% unless !message.draft? %>
@@ -69,7 +69,7 @@
 						    <% end %>
 						  <% end %>  	
 
-						  <% if message.archived? %>
+						  <% if message.archived_by_user? %>
 						    <%= link_to [:unarchive, message], method: :patch, data: { confirm: "Are you sure you want to unarchive this message?"} do %>
 						      <button type="button" title="Unarchive" class="btn btn-primary btn-simple btn-xs">  
 						        <i class="material-icons">unarchive</i>
@@ -85,7 +85,7 @@
 						<% end %>  
 
 						<% if message.user.admin? %>
-						  <% if message.archived? %>
+						  <% if message.archived_by_user? %>
 						    <%= link_to [:unarchive, message], method: :patch, data: { confirm: "Are you sure you want to unarchive this message?"} do %>
 						      <button type="button" title="Unarchive" class="btn btn-primary btn-simple btn-xs">  
 						        <i class="material-icons">unarchive</i>

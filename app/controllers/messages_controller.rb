@@ -10,7 +10,7 @@ class MessagesController < ApplicationController
     elsif params[:category] == "draft"
       @messages = Message.drafted_by_user.where(user_id: current_user.id)
     elsif params[:category] == "archived"
-      @messages = Message.archived_by_user
+      @messages = Message.messages_archived_by_user
     else 
       retrieve_all_messages   
     end  
@@ -19,6 +19,7 @@ class MessagesController < ApplicationController
   def show
   	@message.update(read: true)
     set_reply_thread @message
+    @message_id = params[:message_id].to_i
   end
 
   def new
@@ -75,12 +76,12 @@ class MessagesController < ApplicationController
   end
 
   def archive_message
-    @message.update(archived: true)
+    @message.update(archived_by_user: true)
     redirect_to :back
   end 
 
   def unarchive_message
-    @message.update(archived: false)
+    @message.update(archived_by_user: false)
     redirect_to :back 
   end
 

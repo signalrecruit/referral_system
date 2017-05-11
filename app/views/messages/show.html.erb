@@ -33,21 +33,45 @@
 			<!-- <hr> -->
 			<% else %>
 			<% @reply_thread.map do |message| %>
-			<div class="row">
+			<% if @message_id == message.id %>
+			<div class="row" style="background-color: #ffff99; ">
 				<div class="col-md-12">
 					<div class="form-group label-floating">
-						<span class="label label-primary">From:</span> <%= message.user.fullname %>
+						<span class="label label-primary">From:</span>
+						<% if message.user == current_user %>
+						  Me
+						<% else %>  
+						  <%= message.user.fullname %>
+						<% end %>  
 						<br>
 						<span class="label label-primary">Sent:</span> <%= message.created_at.strftime("%B %d, %Y") %>
 						<br>  
 						<span class="label label-primary">Subject:</span> <%= message.title %>
 						<br>
 						<%= message.content %>
-
 					</div>
 				</div>	
 			</div>
-
+			<% else %>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="form-group label-floating">
+						<span class="label label-primary">From:</span> 
+						<% if message.user == current_user %>
+						  Me
+						<% else %>  
+						  <%= message.user.fullname %>
+						<% end %>  
+						<br>
+						<span class="label label-primary">Sent:</span> <%= message.created_at.strftime("%B %d, %Y") %>
+						<br>  
+						<span class="label label-primary">Subject:</span> <%= message.title %>
+						<br>
+						<%= message.content %>
+					</div>
+				</div>	
+			</div>
+			<% end %>
 			<h6 style="font-size: 10px;"><%= message.created_at.strftime("%B %d, %Y") %>(<%= time_ago_in_words message.created_at %> ago) | <%= message.created_at.strftime("%T") %></h6>
 			<% end %>
 			<% end %>

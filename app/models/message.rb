@@ -20,7 +20,7 @@ class Message < ActiveRecord::Base
   end
 
   def self.received_messages_for_user
-    Message.where(archived: false).joins(:user).where(users: { admin: true })
+    Message.where(archived_by_user: false).joins(:user).where(users: { admin: true })
   end
 
 
@@ -30,7 +30,7 @@ class Message < ActiveRecord::Base
   end
 
   def self.sent_messages_for_user
-    Message.where(draft: false, archived: false).joins(:user).where(users: { admin: false })  
+    Message.where(draft: false, archived_by_user: false).joins(:user).where(users: { admin: false })  
   end
 
 
@@ -40,12 +40,12 @@ class Message < ActiveRecord::Base
   end
 
   def self.drafted_by_user
-    Message.where(draft: true, archived: false).joins(:user).where(users: { admin: false })
+    Message.where(draft: true, archived_by_user: false).joins(:user).where(users: { admin: false })
   end
 
 
 
-  def self.archived_by_admin
+  def self.messages_archived_by_admin
     @messages = []
     Message.where(archived: true).joins(:user).where(users: { admin: true }).each do |message|
       @messages << message
@@ -56,12 +56,12 @@ class Message < ActiveRecord::Base
     @messages
   end
 
-  def self.archived_by_user
+  def self.messages_archived_by_user
     @messages = []
-    Message.where(archived: true).joins(:user).where(users: { admin: true }).each do |message|
+    Message.where(archived_by_user: true).joins(:user).where(users: { admin: true }).each do |message|
       @messages << message
     end
-    Message.where(archived: true).joins(:user).where(users: { admin: false }).each do |message|
+    Message.where(archived_by_user: true).joins(:user).where(users: { admin: false }).each do |message|
       @messages << message
     end
     @messages
