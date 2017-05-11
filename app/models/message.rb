@@ -13,19 +13,50 @@ class Message < ActiveRecord::Base
   	return false if !self.read?
   end
 
+
+
   def self.received_messages_for_admin
     Message.where(archived: false).joins(:user).where(users: { admin: false })
   end
+
+  def self.received_messages_for_user
+    Message.where(archived: false).joins(:user).where(users: { admin: true })
+  end
+
+
 
   def self.sent_messages_for_admin
     Message.where(draft: false, archived: false).joins(:user).where(users: { admin: true })
   end
 
+  def self.sent_messages_for_user
+    Message.where(draft: false, archived: false).joins(:user).where(users: { admin: false })  
+  end
+
+
+
   def self.drafted_by_admin
     Message.where(draft: true, archived: false).joins(:user).where(users: { admin: true })
   end
 
+  def self.drafted_by_user
+    Message.where(draft: true, archived: false).joins(:user).where(users: { admin: false })
+  end
+
+
+
   def self.archived_by_admin
+    @messages = []
+    Message.where(archived: true).joins(:user).where(users: { admin: true }).each do |message|
+      @messages << message
+    end
+    Message.where(archived: true).joins(:user).where(users: { admin: false }).each do |message|
+      @messages << message
+    end
+    @messages
+  end
+
+  def self.archived_by_user
     @messages = []
     Message.where(archived: true).joins(:user).where(users: { admin: true }).each do |message|
       @messages << message

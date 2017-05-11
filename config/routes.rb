@@ -48,6 +48,9 @@ Rails.application.routes.draw do
   get 'activity_feed/index', to: 'activity_feed#index', as: :activity_feed
   get 'activity_feed/show', to: 'activity_feed#show', as: :show_activity
   get 'notifications/clicked', to: 'notifications#clicked', as: :clicked_notifications
+  patch 'messages/:id/send_message', to: 'messages#send_message', as: :send_message
+  patch  'messages/:id/archive_message', to: 'messages#archive_message', as: :archive_message
+  patch  'messages/:id/unarchive_message', to: 'messages#unarchive_message', as: :unarchive_message
   
 
 
