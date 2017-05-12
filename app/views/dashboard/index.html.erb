@@ -9,7 +9,7 @@
 					</div>
 					<div class="card-content">
 						<p class="category">Total Revenue</p>
-						<h3 class="title"> GHS <%= @total_revenue %></h3>
+						<h3 class="title"> GHS <%= @total_revenue.nil? ? "0.0" : @total_revenue %></h3>
 					</div>
 					<div class="card-footer">
 						<div class="stats">
@@ -58,7 +58,7 @@
 					</div>
 					<div class="card-content">
 						<p class="category">Top Earner</p>
-						<h3 class="title"><%= @top_earner.username %></h3>
+						<h3 class="title"><%= @top_earner.nil? ? "-" : @top_earner.fullname %></h3>
 					</div>
 					<div class="card-footer">
 						<div class="stats">
