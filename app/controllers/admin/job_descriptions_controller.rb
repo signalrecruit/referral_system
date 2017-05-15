@@ -14,6 +14,7 @@ class Admin::JobDescriptionsController < Admin::ApplicationController
 
   def update
   	if @job_description.update(job_params)
+      @job_description.calculate_jd_worth
   	  @job_description.update(update_button: false)	
   	  flash[:success] = "you successfully updated job description"
   	  redirect_to :back
@@ -47,6 +48,7 @@ class Admin::JobDescriptionsController < Admin::ApplicationController
   end
 
   def job_params
-  	params.require(:job_description).permit(:job_title, :experience, :min_salary, :max_salary, :vacancies, :update_button, :worth, :percent_worth, :applicant_worth, :applicant_percent_worth, :earnings)
+  	params.require(:job_description).permit(:job_title, :experience, :min_salary, :max_salary, :vacancies, :update_button, :worth, :percent_worth, :applicant_worth,
+     :applicant_percent_worth, :earnings, :vacancy_worth, :vacancy_percent_worth)
   end
 end
