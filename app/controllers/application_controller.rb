@@ -47,7 +47,7 @@ class ApplicationController < ActionController::Base
     Notification.create! action: action, notification_type: notification_type  
   end
 
-   def display_analytics
+  def display_analytics
     total_revenue
     total_number_of_hired_applicants
     total_number_of_company_deals
