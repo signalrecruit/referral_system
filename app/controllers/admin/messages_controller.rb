@@ -2,7 +2,6 @@ class Admin::MessagesController < Admin::ApplicationController
   before_action :set_message, only: [:show, :edit, :update, :destroy, :send_message, :archive_message, :unarchive_message]	
   layout "admin"
 
-
   def index
   	if params[:category] == "received"
       @messages = Message.received_messages_for_admin.where(recipient_id: current_user.id)
