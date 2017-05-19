@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     patch 'messages/:id/send_message', to: 'messages#send_message', as: :send_message
     patch  'messages/:id/archive_message', to: 'messages#archive_message', as: :archive_message
     patch  'messages/:id/unarchive_message', to: 'messages#unarchive_message', as: :unarchive_message
+    patch 'applicants/:id/update_salary', to: 'applicants#update_salary', as: :update_salary
     
     # resources :users, only: [] do 
     #   resources :companies

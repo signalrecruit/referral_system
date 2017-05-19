@@ -17,6 +17,17 @@
 						<th>Max Salary</th>
 						<th>Attachments</th>
 						<th></th>
+						<% if @applicants.any? { |applicant| !applicant.update_salary_button? } %>
+						  <th></th>
+						<% end %>  
+						<% if @applicants.any? { |applicant| applicant.salary_negotiation? && !applicant.update_salary_button? } %>
+						  <th></th>
+						<% end %>
+						  
+						<% if @applicants.any? { |applicant| applicant.update_salary_button? } %>
+						  <th></th>
+						  <th></th>
+						<% end %>
 					</thead>
 					<tbody>
 						<% if @applicants.any? %>
@@ -29,18 +40,21 @@
 							<td><%= applicant.min_salary %></td>
 							<td><%= applicant.max_salary %></td>
 							<td><%= applicant.attachment %></td>
-							<td>
 								<% if applicant.updated? %>
 								  <%= simple_form_for([:admin, @jd, applicant]) do |f| %>
-								  <%= f.select :status, options_for_select([["shortlisted", "shortlisted"], ["interviewing", "interviewing"], ["testing", "testing"], ["hired", "hired"], ["not hired", "not hired"]], :selected => f.object.status),{}, class: "btn btn-primary btn-xs btn-round" %>
-								  <%= f.button :submit, "submit", class: "btn btn-primary btn-xs btn-round" %>
+								  <td><%= f.select :status, options_for_select([["shortlisted", "shortlisted"], ["interviewing", "interviewing"], ["testing", "testing"], ["salary negotiation", "salary negotiation" ], ["hired", "hired"], ["not hired", "not hired"]], :selected => f.object.status),{}, class: "btn btn-primary btn-xs btn-round" %></td>
+
+								  <td><%= f.button :submit, "submit", class: "btn btn-primary btn-xs btn-round" %></td>
 								  <% end %>
 								<% else %>
 
+								<td>
 								  <% if applicant.none? %>
 								    <button class="btn btn-default btn-xs btn-round">
 								  <% elsif applicant.interviewing? || applicant.testing? || applicant.shortlisted? %>
 								    <button class="btn btn-default btn-xs btn-round">
+								  <% elsif applicant.salary_negotiation? %>
+								    <button class="btn btn-warning btn-xs btn-round">  
 								  <% elsif applicant.hired? %>
 								    <button class="btn btn-info btn-xs btn-round">    	
 								  <% elsif applicant.not_hired? %>
@@ -49,19 +63,42 @@
 
 								  <%= applicant.status %>	
 								</button>
-								<%= link_to update_button_for_applicants_url(applicant), method: :patch do %>
-								<button type="button" title="Edit Applicant" class="btn btn-primary btn-simple btn-xs">
-									<i class="material-icons">edit</i>
-								</button>
-								<% end %>	
+								</td>
+								<% if !applicant.update_salary_button? %>
+								<td>
+								  <%= link_to update_button_for_applicants_url(applicant), method: :patch do %>
+								  <button type="button" title="Edit Applicant" class="btn btn-primary btn-simple btn-xs">
+								    <i class="material-icons">edit</i>
+								  </button>
+								  <% end %>
+								</td>
+								<% end %>  	
+								
 
+								
+								<% if applicant.salary_negotiation? && !applicant.update_salary_button? %>
+								<td>
+								  <%= link_to admin_update_salary_url(applicant), method: :patch, data: { confirm: "Are you sure you want to edit applicant salary?" } do %>
+								    <button type="button" title="Edit Applicant Salary" class="btn btn-primary btn-simple btn-xs">
+								      <i class="material-icons">help</i>
+								    </button>
+								  <% end %>  
+								</td>
+								<% end %>  
+								
+
+								<% if applicant.update_salary_button? %>
+								  <%= simple_form_for([:admin, @jd, applicant]) do |f| %>
+								    <td><%= f.input :salary, label: false %></td>
+								    <td><%= f.button :submit, "submit", class: "btn btn-primary btn-xs btn-round" %></td>
+								  <% end %>
+								<% end %>
 								<%#= link_to job_description_applicant_url(@jd, applicant), method: :delete, data: { confirm: "are you sure?"}  do %>
 								<!-- <button type="button" title="Remove" class="btn btn-primary btn-simple btn-xs">
 									<i class="material-icons">close</i>
 								</button> -->
 								<%# end %>
 								<% end %>  
-							</td>
 						</tr>
 						<% end %>
 						<% else %>

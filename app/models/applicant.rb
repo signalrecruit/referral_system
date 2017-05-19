@@ -27,8 +27,8 @@ class Applicant < ActiveRecord::Base
   	return true if self.status == "testing"
   end
 
-  def salary_negotiation_successful?
-    return true if self.status == "yes"
+  def salary_negotiation?
+    return true if self.status == "salary negotiation"
   end
 
   def hired?
@@ -59,9 +59,12 @@ class Applicant < ActiveRecord::Base
       self.update(earnings: self.job_description.vacancy_percent_worth/100 * self.salary)
       self.user.update(cumulative_earnings: calculate_cumulative_earnings)
     else
-      # self.update(earnings: 0.0)
+      self.update(earnings: 0.0)
       self.user.update(cumulative_earnings: calculate_cumulative_earnings)
     end   
+  end
+
+  def re_negotiate_salary
   end
 end
 
