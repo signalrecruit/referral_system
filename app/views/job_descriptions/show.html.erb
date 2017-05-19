@@ -28,7 +28,7 @@
 		  <% end %>
         
         <button class="btn btn-success btn-xs btn-round pull-right">
-          worth: GHS<%= @job_description.worth || "0.00" %>	
+          Potential Worth: <%= @job_description.actual_worth == 0.0 ? "GHS #{@job_description.potential_worth}" : "GHS #{@job_description.actual_worth}" %>	
         </button>	  	
 
 		<span class="text-primary">Brief Description</span>

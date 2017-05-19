@@ -9,11 +9,11 @@
 User.create fullname: "Derek Owusu-Frimpong", email: "deepsky_5@live.com", password: "password",
  password_confirmation: "password", admin: true, admin_status: 2, phonenumber: "0204704427", username: "picaso"
 
-User.create fullname: "Scarlet Johanson", email: "scarlet@user.com", password: "password",
+User.create fullname: "Elliot Alderson", email: "elliot@alderson.com", password: "password",
  password_confirmation: "password", admin: false, admin_status: 0, phonenumber: "0000000000", username: "Scarlet"
 
 
-User.create fullname: "Ruth Affram", email: "ruth@user.com", password: "password",
+User.create fullname: "Darlene Alderson", email: "darlene@alderson.com", password: "password",
  password_confirmation: "password", admin: false, admin_status: 0, phonenumber: "0000000000", username: "Xose"
 
 

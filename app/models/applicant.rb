@@ -56,7 +56,7 @@ class Applicant < ActiveRecord::Base
 
   def pay_user_when_applicant_is_hired
     if applicant_hired?
-      self.update(earnings: self.job_description.applicant_percent_worth/100 * self.job_description.applicant_worth)
+      self.update(earnings: self.job_description.vacancy_percent_worth/100 * self.salary)
       self.user.update(cumulative_earnings: calculate_cumulative_earnings)
     else
       # self.update(earnings: 0.0)

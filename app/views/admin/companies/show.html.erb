@@ -133,12 +133,13 @@
 													<th>Min Salary</th>
 													<th>Max Salary</th>
 													<th>Vacancies</th>
-													<th>Worth</th>
-													<th>Percentage Worth(PW) of JD</th>
+													<th>Potential Worth</th>
+													<th>Percentage Of Actual Worth</th>
 													<% if @company.job_descriptions.any? { |jd| jd.updated? } %>
 													<th></th>
 													<% end %>
-													<th>Worth of Vacancy</th>
+													<th>Actual Worth</th>
+													<th>Vacancy Worth</th>
 													<th>PW per each vacancy filled</th>
 													<th></th>
 													<th></th>
@@ -170,15 +171,18 @@
 														<% if jd.updated? %>
 															<%= simple_form_for([:admin, jd.company, jd]) do |f| %>
 															<td>
-															  <button class="btn btn-warning btn-xs btn-round">
-																GHS <%= jd.worth || "0.00" %>
-															  </button>
+															  <%= f.input :potential_worth, label: false %>
 															</td>
 															<td>  
 															  <%= f.input :percent_worth, label: false %><td>%</td>
 															</td>
 															<td>
-															  <%= f.input :vacancy_worth, label: false %>		
+															  <button class="btn btn-success btn-xs btn-round">
+															    GHS <%= jd.actual_worth %>	
+															  </button>		
+															</td>
+															<td>
+															  <%= f.input :vacancy_worth, label: false %>	
 															</td>
 															<td>
 															  <%= f.input :vacancy_percent_worth, label: false %><td>%</td>
@@ -192,7 +196,7 @@
 															<% else %>
 															<td>
 															  <button class="btn btn-warning btn-xs btn-round">
-																GHS <%= jd.worth || "0.00" %>
+																GHS <%= jd.potential_worth || "0.00" %>
 															  </button>
 															</td> 
 															<td>
@@ -202,8 +206,13 @@
 															</td>  	
 															<td>
 															  <button class="btn btn-success btn-xs btn-round">
-															    GHS <%= jd.vacancy_worth || "0.00" %>	
+															    GHS <%= jd.actual_worth || "0.00" %>	
 															  </button>	
+															</td>
+															<td>
+																<button class="btn btn-success btn-xs btn-round">
+																  GHS <%= jd.vacancy_worth %>		
+																</button>
 															</td>
 															<td>
 															  <button class="btn btn-success btn-xs btn-round">
