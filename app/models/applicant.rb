@@ -65,7 +65,15 @@ class Applicant < ActiveRecord::Base
     end   
   end
 
-  def re_negotiate_salary
+  def applicant_re_negotiated?
+    self.salary != self.job_description.vacancy_worth
+  end
+
+  def update_salary
+    if !self.hired? && !applicant_re_negotiated?
+      self.update(salary: self.job_description.vacancy_worth)  
+    end
+    self.update(salary: self.job_description.vacancy_worth) if !self.hired? && !self.salary_negotiation?
   end
 end
 

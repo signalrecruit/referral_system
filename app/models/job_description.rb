@@ -30,6 +30,10 @@ class JobDescription < ActiveRecord::Base
     self.applicants.all? { |applicant| !applicant.hired? }
   end
 
+  def any_applicant_re_negotiated_salary?
+    self.applicants.any? { |applicant| applicant.salary != self.vacancy_worth }
+  end
+
   def calculate_cumulative_earnings
     @cumulative_earnings = 0
     self.class.where(user_id: self.user.id).each do |job_description|
@@ -83,5 +87,9 @@ class JobDescription < ActiveRecord::Base
     self.applicants.each do |applicant|
       applicant.pay_user_when_applicant_is_hired
     end
+  end
+
+  def average_vacancy_worth
+    self.applicants.sum(:salary).to_f/self.applicants.count
   end
 end
