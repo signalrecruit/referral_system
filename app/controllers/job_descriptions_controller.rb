@@ -20,6 +20,7 @@ class JobDescriptionsController < ApplicationController
   	if @job_description.save 
       @job_description.update(user_id: current_user.id)
       track_activity @job_description, params[:action], current_user.id if @job_description.completed?
+      @job_description.update_applicants_salary
   	  flash[:success] = "you have successfully created a job description"
   	  redirect_to new_job_description_qualification_url(@job_description)
   	else

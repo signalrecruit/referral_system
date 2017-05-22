@@ -16,6 +16,7 @@
 						<th>Min Salary</th>
 						<th>Max Salary</th>
 						<th>Attachments</th>
+						<th>Agreed salary</th>
 						<th></th>
 						<% if @applicants.any? { |applicant| !applicant.update_salary_button? } %>
 						  <th></th>
@@ -40,6 +41,15 @@
 							<td><%= applicant.min_salary %></td>
 							<td><%= applicant.max_salary %></td>
 							<td><%= applicant.attachment %></td>
+							<td>
+							  <button class="btn btn-success btn-xs btn-round">
+							    <% if !applicant.hired? %>	
+							  	  <%= applicant.salary %>**
+							  	<% else %>
+							  	  <%= applicant.salary %>  
+							  	<% end %>  
+							  </button>  	
+							</td>
 								<% if applicant.updated? %>
 								  <%= simple_form_for([:admin, @jd, applicant]) do |f| %>
 								  <td><%= f.select :status, options_for_select([["shortlisted", "shortlisted"], ["interviewing", "interviewing"], ["testing", "testing"], ["salary negotiation", "salary negotiation" ], ["hired", "hired"], ["not hired", "not hired"]], :selected => f.object.status),{}, class: "btn btn-primary btn-xs btn-round" %></td>

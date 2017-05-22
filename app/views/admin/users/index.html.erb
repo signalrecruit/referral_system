@@ -21,7 +21,11 @@
 						<td><%= user.companies.count %></td>  	
 						<td><%= user.applicants.count %></td>
 						<td><span class="btn btn-success btn-xs btn-round">
-						  <%= user.cumulative_earnings %>
+						  <% if user.job_descriptions.any? { |jd| jd.applicants.any? { |applicant| !applicant.hired? } } %>
+						    <%= user.cumulative_earnings %>**
+						  <% else %>
+						    <%= user.cumulative_earnings %>  
+						  <% end %>  
 						</span></td>
 					</tr>
 				</tbody>

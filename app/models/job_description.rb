@@ -23,7 +23,11 @@ class JobDescription < ActiveRecord::Base
   end
 
   def any_applicant_hired?
-    self.applicants.any?  { |applicant| applicant.hired? }
+    self.applicants.any? { |applicant| applicant.hired? }
+  end
+
+  def no_applicant_hired?
+    self.applicants.all? { |applicant| !applicant.hired? }
   end
 
   def calculate_cumulative_earnings
@@ -34,19 +38,28 @@ class JobDescription < ActiveRecord::Base
     @cumulative_earnings
   end
 
+ 
   def calculate_jd_actual_worth
-    self.update(actual_worth: self.vacancy_worth * vacancies)
+    self.update(actual_worth: self.applicants.sum(:salary).to_f)
   end
 
   def update_applicants_salary
+    if no_applicant_hired?
+      self.applicants.update_all(salary: self.potential_worth/self.vacancies)
+      self.update(vacancy_worth: self.potential_worth/self.vacancies)
+    end
+
     if self.applicants.any?
       self.applicants.each do |applicant|
         if applicant.salary == 0.0
           applicant.update(salary: self.vacancy_worth)
+        elsif self.vacancy_worth == 0.0
+          applicant.update(salary: vacancy_worth)  
         end  
       end  
     end
   end
+
 
   def earning_per_jd
     @earnings = 0.0
@@ -62,6 +75,13 @@ class JobDescription < ActiveRecord::Base
     else
       self.update(earnings: 0.0)
       self.user.update(cumulative_earnings: calculate_cumulative_earnings)
+    end
+    update_applicant_earnings
+  end
+
+  def update_applicant_earnings
+    self.applicants.each do |applicant|
+      applicant.pay_user_when_applicant_is_hired
     end
   end
 end

@@ -126,7 +126,8 @@
 										<div class="tab-pane <%= @tab == "job descriptions" ? "active" : "" %>" id="messages">
 											<table class="table">
 												<thead class="text-primary">
-													<th>Worth</th>
+													<th>Potential Worth</th>
+													<th>Actual Worth</th>
 													<th>Job Title</th>
 													<th>Experience(yrs)</th>
 													<th>Min Salary</th>
@@ -161,8 +162,13 @@
 													<tr>
 														<td>
 														  <button class="btn btn-success btn-xs btn-round pull-left">
-																GHS <%= jd.worth || "0.00" %>
+																GHS <%= jd.potential_worth || "0.00" %>
 														  </button> 	
+														</td>
+														<td>
+														  <button class="btn btn-success btn-xs btn-round pull-left">
+																GHS <%= jd.actual_worth || "0.00" %>
+														  </button> 		
 														</td>
 														<td><%=link_to jd.job_title, company_job_description_url(@company, jd) %></td>
 														<td><%= jd.experience %></td>

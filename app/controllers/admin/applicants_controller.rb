@@ -12,8 +12,9 @@ class Admin::ApplicantsController < Admin::ApplicationController
 
   def update
     if @applicant.update(applicant_params)
-      @applicant.re_negotiate_salary
       @applicant.update(update_button: false, update_salary_button: false)   
+      @applicant.job_description.calculate_jd_actual_worth
+      # @applicant.job_description.update_vacancy_worth
       flash[:success] = "you successfully updated this applicant"
 
       if request.referrer == (edit_job_description_applicant_url(@jd, @applicant) || job_description_applicants_url(@jd))
@@ -50,6 +51,6 @@ class Admin::ApplicantsController < Admin::ApplicationController
 
   def applicant_params
     params.require(:applicant).permit(:name, :email, :phonenumber, :location, :min_salary,
-       :max_salary, :company_id, :job_description_id, :user_id, :attachment, :update_button, :status, :update_salary_button)
+       :max_salary, :company_id, :job_description_id, :user_id, :attachment, :update_button, :status, :salary, :update_salary_button)
   end
 end

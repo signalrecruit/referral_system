@@ -14,8 +14,9 @@ class Admin::JobDescriptionsController < Admin::ApplicationController
 
   def update
   	if @job_description.update(job_params)
-      @job_description.calculate_jd_actual_worth
       @job_description.update_applicants_salary
+      @job_description.calculate_jd_actual_worth
+      @job_description.earning_algorithm
   	  @job_description.update(update_button: false)	
   	  flash[:success] = "you successfully updated job description"
   	  redirect_to :back

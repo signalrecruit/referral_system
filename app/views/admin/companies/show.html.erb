@@ -206,12 +206,19 @@
 															</td>  	
 															<td>
 															  <button class="btn btn-success btn-xs btn-round">
-															    GHS <%= jd.actual_worth || "0.00" %>	
+															    GHS <%= jd.actual_worth || "0.00" %>
+															    <% if jd.applicants.any? { |applicant| applicant.salary == 0.0 } %>
+															      **
+															    <% end %>	
 															  </button>	
 															</td>
 															<td>
 																<button class="btn btn-success btn-xs btn-round">
+																<% if jd.applicants.any? { |applicant| applicant.salary == 0.0 } %>
+																<%= jd.actual_worth/jd.vacancies %>
+																<% else %>
 																  GHS <%= jd.vacancy_worth %>		
+																<% end %> 
 																</button>
 															</td>
 															<td>
