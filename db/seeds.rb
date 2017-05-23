@@ -7,14 +7,14 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 User.create fullname: "Derek Owusu-Frimpong", email: "deepsky_5@live.com", password: "password",
- password_confirmation: "password", admin: true, admin_status: 2, phonenumber: "0204704427", username: "picaso"
+ password_confirmation: "password", admin: true, admin_status: 2, phonenumber: "0204704427", username: "Picaso"
 
 User.create fullname: "Elliot Alderson", email: "elliot@alderson.com", password: "password",
- password_confirmation: "password", admin: false, admin_status: 0, phonenumber: "0000000000", username: "Scarlet"
+ password_confirmation: "password", admin: false, admin_status: 0, phonenumber: "0000000000", username: "Mr. Robot"
 
 
 User.create fullname: "Darlene Alderson", email: "darlene@alderson.com", password: "password",
- password_confirmation: "password", admin: false, admin_status: 0, phonenumber: "0000000000", username: "Xose"
+ password_confirmation: "password", admin: false, admin_status: 0, phonenumber: "0000000000", username: "Darlene"
 
 
 10.times do |i| 
