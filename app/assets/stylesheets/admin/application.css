@@ -48,3 +48,13 @@
     font-size: 14px;
  }
 
+ .font-adjustment {
+    font-size: 15px;
+ }
+
+ .percent-adjustment {
+    float: right;
+    margin-right: -13px;
+    margin-top: -40px;
+ }
+

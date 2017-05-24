@@ -60,6 +60,13 @@
 		    			<% end %>	
 		    		  <% end %>  	
 		    		</li>
+		    		<li>
+		    			<% if user_signed_in? %>
+		    			  <%= link_to user_stats_url do %>
+		    			    <p><i class="material-icons">show_chart</i>my stats</p>
+		    			  <% end %>
+		    			<% end %>
+		    		</li>
 		    	</ul>
 		    </div>
 		</div>

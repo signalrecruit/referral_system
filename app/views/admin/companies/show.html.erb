@@ -135,9 +135,6 @@
 													<th>Vacancies</th>
 													<th>Potential Worth</th>
 													<th>Percentage Of Actual Worth</th>
-													<% if @company.job_descriptions.any? { |jd| jd.updated? } %>
-													<th></th>
-													<% end %>
 													<th>Actual Worth</th>
 													<th>Vacancy Worth</th>
 													<th>PW per each vacancy filled</th>
@@ -174,7 +171,7 @@
 															  <%= f.input :potential_worth, label: false %>
 															</td>
 															<td>  
-															  <%= f.input :percent_worth, label: false %><td>%</td>
+															  <%= f.input :percent_worth, label: false %><span class="percent-adjustment">%</span>
 															</td>
 															<td>
 															  <button class="btn btn-success btn-xs btn-round">
@@ -185,13 +182,11 @@
 															  <%= f.input :vacancy_worth, label: false %>	
 															</td>
 															<td>
-															  <%= f.input :vacancy_percent_worth, label: false %><td>%</td>
+															  <%= f.input :vacancy_percent_worth, label: false %><span class="percent-adjustment">%</span>
 															</td>
 															<td>
 																<%= f.button :submit, "submit", class: "btn btn-primary btn-xs btn-round pull-right" %>
 															</td>
-															<td></td>
-															<td></td>
 															<% end %>
 															<% else %>
 															<td>

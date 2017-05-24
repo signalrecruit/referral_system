@@ -52,9 +52,23 @@
         <div class="col-md-12">
           <div class="form-group label-floating">
             <label class="control-label">Companies Brought In</label>
-            <% @user.companies.each do |company| %>
-              <span class="text-primary"><%= company.company_name %></span>,
-            <% end %>
+            <% if @user.companies.any? %>
+              <% @user.companies.each do |company| %>
+              <span class="dropdown">  
+                <a href="#" class="dropdown-toggle btn btn-primary btn-xs btn-round" data-toggle="dropdown">
+                  <%= company.company_name %>  
+                </a>
+                <ul class="dropdown-menu">
+                <% @user.job_descriptions.where(company_id: company.id).each do |jd| %>
+                  <li><%= jd.job_title %></li>
+                <% end %>    
+                </ul>             
+              </span>
+                ,
+              <% end %>
+            <% else %>
+              None  
+            <% end %>  
           </div>
         </div>
       </div>
@@ -63,9 +77,15 @@
         <div class="col-md-12">
           <div class="form-group label-floating">
             <label class="control-label">Applicants Brought In</label>
-            <% @user.applicants.each do |applicant| %>
-              <span class="text-primary"><%= applicant.name %></span>,
-            <% end %>
+            <% if @user.applicants.any? %>  
+              <% @user.applicants.each do |applicant| %>
+                <button class="btn btn-primary btn-xs btn-round">
+                  <%= applicant.name %>
+                </button>,
+              <% end %>
+            <% else %>
+              None  
+            <% end %>  
           </div>
         </div>
       </div>
@@ -79,11 +99,29 @@
         </div>
       </div>
 
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group label-floating">
+            <label class="control-label">Earnings From Job Descriptions</label>
+              <span class="btn btn-success btn-xs btn-round">GHS <%= @user.cumulative_earnings_from_jd %></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group label-floating">
+            <label class="control-label">Earnings From Job Applicants</label>
+              <span class="btn btn-success btn-xs btn-round">GHS <%= @user.cumulative_earnings_from_applicants %></span>
+          </div>
+        </div>
+      </div>
+
 
       
       <div class="clearfix">
       <div class="row">
-        <%= link_to "Back", :back, class: "btn btn-primary btn-round pull-right" %>	
+        <%= link_to "Back", :back, class: "btn btn-primary btn-xs btn-round pull-right" %>	
       </div>
       </div>
     </div>

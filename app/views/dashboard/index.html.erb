@@ -5,11 +5,11 @@
 			<div class="col-lg-3 col-md-6 col-sm-6">
 				<div class="card card-stats">
 					<div class="card-header" data-background-color="green">
-						<i class="material-icons">store</i>
+						<i class="material-icons">monetization_on</i>
 					</div>
 					<div class="card-content">
 						<p class="category">Total Revenue</p>
-						<h3 class="title"> GHS <%= @total_revenue.nil? ? "0.0" : @total_revenue %></h3>
+						<h3 class="title"> GHS <%= current_user.cumulative_earnings %></h3>
 					</div>
 					<div class="card-footer">
 						<div class="stats">
@@ -20,12 +20,12 @@
 			</div>
 			<div class="col-lg-3 col-md-6 col-sm-6">
 				<div class="card card-stats">
-					<div class="card-header" data-background-color="green">
-						<i class="material-icons">store</i>
+					<div class="card-header" data-background-color="default">
+						<i class="material-icons">people</i>
 					</div>
 					<div class="card-content">
 						<p class="category">Total Hired Applicants</p>
-						<h3 class="title"><%= @number_of_hired_applicants %></h3>
+						<h3 class="title"><%= current_user.total_number_of_hired_applicants %></h3>
 					</div>
 					<div class="card-footer">
 						<div class="stats">
@@ -36,12 +36,12 @@
 			</div>
 			<div class="col-lg-3 col-md-6 col-sm-6">
 				<div class="card card-stats">
-					<div class="card-header" data-background-color="red">
-						<i class="material-icons">info_outline</i>
+					<div class="card-header" data-background-color="blue">
+						<i class="material-icons">business_center</i>
 					</div>
 					<div class="card-content">
 						<p class="category">Business Deals</p>
-						<h3 class="title"><%= @number_of_deals %></h3>
+						<h3 class="title"><%= current_user.number_of_successful_deals %></h3>
 					</div>
 					<div class="card-footer">
 						<div class="stats">
@@ -53,8 +53,8 @@
 
 			<div class="col-lg-3 col-md-6 col-sm-6">
 				<div class="card card-stats">
-					<div class="card-header" data-background-color="blue">
-						<i class="fa fa-twitter"></i>
+					<div class="card-header" data-background-color="red">
+						<i class="material-icons">person</i>
 					</div>
 					<div class="card-content">
 						<p class="category">Top Earner</p>

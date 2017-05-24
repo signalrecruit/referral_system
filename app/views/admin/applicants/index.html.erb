@@ -44,9 +44,9 @@
 							<td>
 							  <button class="btn btn-success btn-xs btn-round">
 							    <% if !applicant.hired? %>	
-							  	  <%= applicant.salary %>**
+							  	  <%= number_with_precision(applicant.salary, precision: 2) %>**
 							  	<% else %>
-							  	  <%= applicant.salary %>  
+							  	  <%= number_with_precision(applicant.salary, precision: 2) %>  
 							  	<% end %>  
 							  </button>  	
 							</td>

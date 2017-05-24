@@ -1,0 +1,152 @@
+<div class="col-md-8">
+  <div class="card">
+    <div class="card-header" data-background-color="purple">
+      <h4 class="title">My Statistics</h4>
+      <p class="category"></p>
+    </div>
+    <div class="card-content">
+     <h4 class="text-primary">Earning Statistics</h4>
+
+     <div class="row">
+     	<div class="col-md-12">
+     		<div class="form-group label-floating">
+     			<label class="control-label"><%= pluralize(current_user.number_of_successful_deals, "successful deal") %></label>
+     			<% if current_user.has_any_successful_deals? %>
+     			<% current_user.job_descriptions.where(completed: true).each do |role| %>
+     			<button class="btn btn-primary btn-xs btn-round">
+     				<%= role.job_title %>>>earned: GHS <%= role.earnings %>
+     			</button>,
+     			<% end %>
+     			<% end %>
+     		</div>
+     	</div>
+     </div>
+     <div class="row">
+     	<div class="col-md-12">
+     		<div class="form-group label-floating">
+     			<label class="control-label">Total Earnings From Successful Deals</label>
+     			<button class="btn btn-success btn-xs btn-round">
+     				GHS <%= current_user.earning_from_roles %>
+     			</button>
+     		</div>
+     	</div>
+     </div>
+     <div class="row">
+     	<div class="col-md-12">
+     		<div class="form-group label-floating">
+     			<label class="control-label"><%= pluralize(current_user.applicants.count, "Applicant") %> Brought In</label>
+     			<% if current_user.applicants.any? %>  
+     			<% current_user.applicants.each do |applicant| %>
+     			<button class="btn btn-primary btn-xs btn-round">
+     				<%= applicant.name %>>>earned: GHS <%= applicant.earnings %>
+     			</button>,
+     			<% end %>
+     			<% else %>
+     			None  
+     			<% end %>  
+     		</div>
+     	</div>
+     </div>
+     
+     <div class="row">
+     	<div class="col-md-12">
+     		<div class="form-group label-floating">
+     			<label class="control-label">Total Earnings From Applicants</label>
+     			<button class="btn btn-success btn-xs btn-round">
+     				GHS <%= current_user.earning_from_applicants %>
+     			</button>
+     		</div>
+     	</div>
+     </div>
+
+
+      <h4 class="text-primary">Acquisition Statistics</h4>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group label-floating">
+            <label class="control-label"><%= pluralize(current_user.companies.count, "Company") %> Brought In</label>
+            <% if current_user.companies.any? %>
+              <% current_user.companies.each do |company| %>
+              <span class="dropdown">  
+                <a href="#" class="dropdown-toggle btn btn-primary btn-xs btn-round" data-toggle="dropdown">
+                  <%= company.company_name %>  
+                </a>
+                <ul class="dropdown-menu">
+                <% current_user.job_descriptions.where(company_id: company.id).each do |jd| %>
+                  <li><%= jd.job_title %></li>
+                <% end %>    
+                </ul>             
+              </span>
+                ,
+              <% end %>
+            <% else %>
+              None  
+            <% end %>  
+          </div>
+        </div>
+      </div>
+
+
+     
+
+       
+
+      
+
+     
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group label-floating">
+            <label class="control-label">Number of Hired Applicants</label>
+              <button class="btn btn-success btn-xs btn-round">
+              	<%= current_user.number_of_hired_applicants %>
+              </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group label-floating">
+            <label class="control-label">Number of Applicants Not Hired</label>
+              <button class="btn btn-danger btn-xs btn-round">
+              	<%= current_user.number_of_applicants_not_hired %>
+              </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group label-floating">
+            <label class="control-label">Rate of Company Acquisition</label>
+              <button class="btn btn-info btn-xs btn-round">
+              	<%= current_user.company_acquisition_rate %> per day
+              </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group label-floating">
+            <label class="control-label">Rate of Applicant Acquisition</label>
+              <button class="btn btn-info btn-xs btn-round">
+              	<%= current_user.applicant_acquisition_rate %> per day
+              </button>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="clearfix">
+      <div class="row">
+        <%= link_to "Back", :back, class: "btn btn-primary btn-xs btn-round pull-right" %>	
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -43,3 +43,14 @@
  .new-font {
     font-size: 14px;
  }
+
+ .font-adjustment {
+    font-size: 15px;
+    color: black;
+ }
+
+ .percent-adjustment {
+    float: right;
+    margin-right: -13px;
+    margin-top: -40px;
+ }

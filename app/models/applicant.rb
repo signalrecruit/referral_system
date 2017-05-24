@@ -51,12 +51,12 @@ class Applicant < ActiveRecord::Base
     self.class.where(user_id: self.user).each do |applicant|
       @cumulative_earnings += applicant.earnings
     end
-    @cumulative_earnings
+    @cumulative_earnings.round(2)
   end
 
   def pay_user_when_applicant_is_hired
     if applicant_hired?
-      self.update(earnings: self.job_description.vacancy_percent_worth/100 * ( self.salary == 0.0 ? self.job_description.vacancy_worth : self.salary))
+      self.update(earnings: (self.job_description.vacancy_percent_worth/100 * ( self.salary == 0.0 ? self.job_description.vacancy_worth : self.salary)).round(2))
       self.user.update(cumulative_earnings: calculate_cumulative_earnings)
     else
       self.update(earnings: 0.0)
@@ -71,9 +71,9 @@ class Applicant < ActiveRecord::Base
 
   def update_salary
     if !self.hired? && !applicant_re_negotiated?
-      self.update(salary: self.job_description.vacancy_worth)  
+      self.update(salary: self.job_description.vacancy_worth.round(2))  
     end
-    self.update(salary: self.job_description.vacancy_worth) if !self.hired? && !self.salary_negotiation?
+    self.update(salary: self.job_description.vacancy_worth.round(2)) if !self.hired? && !self.salary_negotiation?
   end
 end
 
