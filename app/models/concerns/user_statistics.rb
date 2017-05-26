@@ -25,7 +25,7 @@ module UserStatistics
   
   def number_of_roles
     self.job_descriptions.count
-  end
+  end    
 
   def earning_from_roles
     (self.job_descriptions.where(completed: true).sum(:earnings).to_f).round(2)  
@@ -47,8 +47,16 @@ module UserStatistics
     self.applicants.where(status: "not hired").count
   end
   
-  def time_frame(date)
-    date.nil? ? 0 : (Time.now.to_date - date.to_date).to_f
+  def time_frame(date, obj)
+    if date.nil?
+      0
+    else 
+      if !obj.nil? && (Time.now.to_date - date.to_date).to_f == 0.0
+        1
+      else
+      	(Time.now.to_date - date.to_date).to_f
+      end	
+    end
   end
 
   def return_date_if_present(x)
@@ -57,7 +65,7 @@ module UserStatistics
 
   def company_acquisition_rate
     begin
-      self.companies.count/time_frame(return_date_if_present(self.companies.first))
+      self.companies.count/time_frame(return_date_if_present(self.companies.first), self.companies.first)
     rescue ZeroDivisionError
       0 
     end
@@ -65,7 +73,7 @@ module UserStatistics
 
   def applicant_acquisition_rate
     begin
-      self.applicants.count/time_frame(return_date_if_present(self.applicants.first))
+      self.applicants.count/time_frame(return_date_if_present(self.applicants.first), self.applicants.first)
     rescue ZeroDivisionError
       0
     end

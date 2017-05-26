@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  include UserStatistics
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -10,8 +11,6 @@ class User < ActiveRecord::Base
   has_many :applicants, dependent: :destroy
   has_many :job_descriptions, dependent: :destroy
   has_many :messages, dependent: :destroy
-
-  include UserStatistics
 
   def updated?
   	return true if self.update_button?
