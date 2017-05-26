@@ -1,4 +1,13 @@
-<%= link_to "Add A Company", new_user_company_url(current_user), class: "btn btn-primary" %>
+<%= link_to new_user_company_url(current_user) do %>
+  <button class="btn btn-primary btn-xs btn-round">
+    <% if @companies.any? %>
+      <i class="material-icons">add</i>Add Another Company
+    <% else %>
+      <i class="material-icons">add</i>Add Company  
+    <% end %>	
+  </button>
+<% end %>  
+
 <% if @companies.any? %>
 <div class="col-md-12">
 	<div class="card">

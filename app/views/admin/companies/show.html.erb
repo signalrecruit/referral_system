@@ -212,7 +212,7 @@
 																  <% if jd.any_applicant_re_negotiated_salary? %>
 																  <span class="dropdown">
 																     <a href="#" class="dropdown-toggle btn btn-success btn-xs btn-round" data-toggle="dropdown">
-																      avg <%= jd.average_vacancy_worth %><i class="material-icons">keyboard_arrow_down</i>	
+																      avg GHS<%= jd.average_vacancy_worth %><i class="material-icons">keyboard_arrow_down</i>	
 																    </a>
 																    <ul class="dropdown-menu">
 																      <% jd.applicants.each do |applicant| %>
@@ -222,7 +222,7 @@
 																    </span>
 																  <% else %>
 																    <button class="btn btn-success btn-xs btn-round">
-																      <%= jd.vacancy_worth %>	
+																      GHS <%= jd.vacancy_worth %>	
 																    </button>  
 																  <% end %>
 																

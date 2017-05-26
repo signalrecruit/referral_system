@@ -50,7 +50,7 @@
 				<div class="col-md-4">
 					<div class="form-group label-floating">
 						<label class="control-label">Vacancies</label>
-						<%= @jdvacancies %>
+						<%= @jd.vacancies %>
 					</div>
 				</div>
 			</div>
@@ -271,7 +271,7 @@
 </div>
 
 
-
+<% if @jd.vacancies < @jd.applicants.count %>
 <div class="col-md-6">
 	<div class="card">
 		<div class="card-header" data-background-color="purple">
@@ -356,4 +356,33 @@
 		</div>
 	</div>
 </div>
+<% else %>
+<div class="col-md-6">
+	<div class="card">
+		<div class="card-header" data-background-color="blue">
+		<h4 class="title">
+		  No more Vacancies. You have filled up available vacancies for <%= @jd.job_title %>
+		</div>
+		<div class="card-content">
+			<div class="row">
+				<div class="col-md-4">
+					<div class="form-group label-floating">
+						<label class="control-label"><%= pluralize(@jd.applicants.count, "Applicant") %></label>
+						<% @jd.applicants.each do |applicant| %>
+						  <% if applicant.persisted? %>
+						    <%= link_to [@jd, applicant] do %>
+						      <button class="btn btn-primary btn-xs btn-round">
+						        <%= applicant.name %>
+						      </button>
+						    <% end %>
+						  <% end %>
+						  <br>
+						<% end %>
+				</div>
+				</div>
+			</div>			
+		</div>
+	</div>
+</div>
+<% end %>
 
