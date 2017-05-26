@@ -59,6 +59,7 @@ gem 'puma'
 gem 'hirb'
 gem 'simple_form'
 gem 'devise'
-
+gem 'therubyracer'
+gem 'rails_12factor'
 
 
