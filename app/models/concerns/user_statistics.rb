@@ -65,7 +65,7 @@ module UserStatistics
 
   def company_acquisition_rate
     begin
-      self.companies.count/time_frame(return_date_if_present(self.companies.first), self.companies.first)
+      (self.companies.count/time_frame(return_date_if_present(self.companies.first), self.companies.first)).round(2)
     rescue ZeroDivisionError
       0 
     end
@@ -73,7 +73,7 @@ module UserStatistics
 
   def applicant_acquisition_rate
     begin
-      self.applicants.count/time_frame(return_date_if_present(self.applicants.first), self.applicants.first)
+      (self.applicants.count/time_frame(return_date_if_present(self.applicants.first), self.applicants.first)).round(2)
     rescue ZeroDivisionError
       0
     end
