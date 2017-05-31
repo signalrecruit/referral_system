@@ -46,7 +46,6 @@ module AlgorithmForApplicant
     else
       self.update(earnings: 0.0)
       self.user.update(cumulative_earnings: calculate_cumulative_earnings)
-      # byebug
     end   
   end
 
