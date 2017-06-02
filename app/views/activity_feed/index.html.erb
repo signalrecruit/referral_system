@@ -134,12 +134,21 @@
 						<% if activity.trackable.company.user != current_user %>
 							<span class="dropdown">
 								<% if activity.trackable.company.deal? %>
-								  <a href="#" class="dropdown-toggle btn btn-info btn-xs btn-round" data-toggle="dropdown">
-								<% else %>
-								   <a href="#" class="dropdown-toggle btn btn-default btn-xs btn-round" data-toggle="dropdown"> 	
+								<% @applicant = Applicant.find_by name: activity.trackable.name %>
+								<% @jd = (Applicant.find_by name: activity.trackable.name).job_description %>
+
+								<%= link_to job_description_applicant_url(@jd, @applicant) do %>
+								  <button class="dropdown-toggle btn btn-info btn-xs btn-round">
+								    <%= activity.trackable.name %>
+								  </button>
 								<% end %>  
-									<%= activity.trackable.name %>
-								</a>
+								<% else %>
+								<%= link_to job_description_applicant_url(@jd, @applicant) do %>
+								   <button class="dropdown-toggle btn btn-default btn-xs btn-round"> 	
+								     <%= activity.trackable.name %>
+								   </button>
+								<% end %>  
+								<% end %>  
 							</span> to 
 							<% if activity.trackable.company.deal? %>
 							  <span class="btn btn-primary btn-round btn-xs">

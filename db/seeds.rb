@@ -24,6 +24,11 @@ User.create fullname: "Darlene Alderson", email: "darlene@alderson.com", passwor
   admin: false, admin_status: 0, phonenumber: "0000000000", username: "user#{n}"
 end
 
-10.times do |i| 
-  Industry.create name: "industry#{i}00"
+industries = ["Travel&Tours", "Retail/Wholesale", "Power/Energy", "Oil&amp/Mining", "Logistics/Transportation", "Legal/Insurance", "Food Services", "FMCG", "Engineering", 
+ "Ecommerce/Internet", "Creative Art/Design", "Agric/Poultry/Fishing", "Advertising/Marketing/Communications", "Banking/Financial Services", "Construction/Real Estate", 
+ "Consulting", "Education", "Governent/Defense", "Healthcare", "Hospitality/Leisure", "ICT/Telecom", "Manufacturing/Production", "Media", "NGO", "Trade/Services", "Blue Collar",
+ "Science/Research&Development"]
+
+industries.each do |industry|
+  Industry.create name: industry 
 end
