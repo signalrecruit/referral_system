@@ -179,7 +179,10 @@
 															  </button>		
 															</td>
 															<td>
-															  <%= f.input :vacancy_worth, label: false %>	
+															  <%#= f.input :vacancy_worth, label: false %>
+															  <button class="btn btn-success btn-xs btn-round">
+															    GHS <%= jd.vacancy_worth %>
+															  </button>  	
 															</td>
 															<td>
 															  <%= f.input :vacancy_percent_worth, label: false %><span class="percent-adjustment">%</span>
