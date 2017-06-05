@@ -155,6 +155,66 @@
 						<td><%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %></td>
 					  <% end %>	
 					</tr>	
+
+					<% elsif (activity.action == "not hired" || activity.action == "hired") && activity.trackable_type == "Applicant" %>
+					<% if !activity.trackable.nil? %>
+				     <% if activity.trackable.company.deal? %>
+				     <tr>
+				   	 <% else %>
+				   	 <tr style="background: #999999;">  
+				   	 <% end %>
+						<td>
+						<% if activity.trackable.user != current_user %>
+							<span class="dropdown">
+								<% if activity.trackable.company.deal? %>
+								  <a href="#" class="dropdown-toggle btn btn-info btn-xs btn-round" data-toggle="dropdown">
+								<% else %>
+								   <a href="#" class="dropdown-toggle btn btn-default btn-xs btn-round" data-toggle="dropdown"> 	
+								<% end %>  
+
+									<%= activity.trackable.name %>w
+								</a>
+							</span> 
+							<% if activity.action == "hired" %> 
+							just got
+							<button class="btn btn-success btn-xs btn-round">
+							<% elsif activity.action == "not hired" %>
+							was
+							<button class="btn btn-danger btn-xs btn-round">
+							<% end %>	
+							  <%= activity.action %>
+							</button>
+							<% if activity.trackable.company.deal? %>
+							  <%=link_to activity.trackable.company.company_name, admin_company_url(activity.trackable.company ,tab: "company"), class: "btn btn-primary btn-xs btn-round" %>
+							<% else %>  
+							  <%=link_to activity.trackable.company.company_name, admin_company_url(activity.trackable.company ,tab: "company"), class: "btn btn-default btn-xs btn-round" %>
+							<% end %>  
+							   for a role as: 
+							<% if activity.trackable.company.deal? %>
+							  <span class="btn btn-info btn-xs btn-round">
+							<% else %>  
+							  	<span class="btn btn-default btn-xs btn-round">
+							<% end %>  	
+							  <%= activity.trackable.job_description.job_title %></span>
+						<% else %>
+						  
+						    <% if activity.trackable.company.deal? %>
+							  <span class="btn btn-info btn-xs btn-round">
+							<% else %>  
+							  	<span class="btn btn-default btn-xs btn-round">
+							<% end %>  	
+
+						  <%= activity.trackable.name %>	
+						  </span>
+						  to <%=link_to activity.trackable.company.company_name, admin_company_url(activity.trackable ,tab: "company"), class: "btn btn-primary btn-xs btn-round" %> for a role as: <span class="btn btn-info btn-xs btn-round"><%= activity.trackable.job_description.job_title %></span>
+						<% end %>	
+						</td>
+						<td><%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %></td>
+					  <% end %>	
+					</tr>	
+
+
+
 					
 					<% elsif activity.action == "update" && activity.trackable_type == "Applicant" %>
 					<tr>

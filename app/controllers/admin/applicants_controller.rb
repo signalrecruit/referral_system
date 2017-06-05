@@ -25,6 +25,7 @@ class Admin::ApplicantsController < Admin::ApplicationController
       end
       @jd.earning_algorithm
       @applicant.pay_user_when_applicant_is_hired
+      track_applicant_hiring_status
     else
       flash.now[:alert] = "oops! something went wrong"
       render :edit
@@ -40,6 +41,22 @@ class Admin::ApplicantsController < Admin::ApplicationController
 
 
   private
+
+  def track_applicant_hiring_status
+    if @applicant.hired?
+      if activity_exists? @applicant.id, "Applicant"
+        @activity.update(action: @applicant.status)
+      else
+       track_activity @applicant, "hired", current_user.id
+      end 
+    elsif @applicant.not_hired? 
+      if activity_exists? @applicant.id, "Applicant"
+        @activity.update(action: @applicant.status)
+      else
+        track_activity @applicant, "not hired", current_user.id 
+      end
+    end
+  end
 
   def set_jd
   	@jd = JobDescription.find(params[:job_description_id])

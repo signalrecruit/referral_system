@@ -34,13 +34,22 @@ class ApplicationController < ActionController::Base
     if activity.trackable_type == "JobDescription" && JobDescription.find(activity.trackable_id).
       company.deal?
       activity.update(permitted: true)
+    # elsif activity_exists? activity.trackable_id, activity.trackable_type, activity.action
+    #   activity.update(action: Applicant.find(activity.trackable_id).status)
     end
     create_notification(activity.action, activity.trackable_type)
   end
 
-  def activity_exists?(trackable_id, trackable_type, action)
-    activity = Activity.find_by trackable_id: trackable_id, trackable_type: trackable_type, action: action
-    return true if activity
+  def activity_exists?(trackable_id, trackable_type, action=nil)
+    if action.nil?
+      activity = Activity.find_by trackable_id: trackable_id, trackable_type: trackable_type
+      @activity = activity
+      return true if activity 
+    else
+      activity = Activity.find_by trackable_id: trackable_id, trackable_type: trackable_type, action: action
+      @activity = activity
+      return true if activity
+    end
   end
 
   def create_notification(action, notification_type)
