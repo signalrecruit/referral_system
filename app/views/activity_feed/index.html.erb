@@ -247,6 +247,46 @@
 					  <% end %>	
 					</tr>	
 
+					<% elsif (activity.action == "not hired" || activity.action == "hired") && activity.trackable_type == "Applicant" %>
+					<% if !activity.trackable.nil? %>
+				     <% if activity.trackable.company.deal? %>
+				     <tr>
+				   	 <% else %>
+				   	 <tr style="background: #999999;">  
+				   	 <% end %>
+						<td>
+							<span class="dropdown">
+								<% if activity.trackable.company.deal? %>
+								  <a href="#" class="dropdown-toggle btn btn-info btn-xs btn-round" data-toggle="dropdown">
+								<% else %>
+								   <a href="#" class="dropdown-toggle btn btn-default btn-xs btn-round" data-toggle="dropdown"> 	
+								<% end %>  
+
+									<%= activity.trackable.name %>w
+								</a>
+							</span> 
+							<% if activity.action == "hired" %> 
+							just got
+							<button class="btn btn-success btn-xs btn-round">
+							<% elsif activity.action == "not hired" %>
+							was
+							<button class="btn btn-danger btn-xs btn-round">
+							<% end %>	
+							  <%= activity.action %>
+							</button> 
+							   for a role as: 
+							<% if activity.trackable.company.deal? %>
+							  <span class="btn btn-info btn-xs btn-round">
+							<% else %>  
+							  	<span class="btn btn-default btn-xs btn-round">
+							<% end %>  	
+							  <%= activity.trackable.job_description.job_title %></span>
+						 						    
+						</td>
+						<td><%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %></td>
+					  <% end %>	
+					</tr>	
+
 					<% elsif activity.action == "create" && (activity.trackable_type == "JobDescription" && activity.permitted? ) %>
 					  <% if activity.trackable.company.deal? %>
 					    <tr>
