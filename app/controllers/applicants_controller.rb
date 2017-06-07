@@ -12,6 +12,7 @@ class ApplicantsController < ApplicationController
 
   def new
   	@applicant = @jd.applicants.build
+    @applicant.requirement_scores.build   
   end
 
   def create
@@ -27,9 +28,11 @@ class ApplicantsController < ApplicationController
   	  flash.now[:alert] = "oops! something went wrong"
   	  render :new	
   	end
+    byebug
   end
 
   def edit
+    @applicant.requirement_scores.build
   end
 
   def update
@@ -37,7 +40,7 @@ class ApplicantsController < ApplicationController
   	  @applicant.update(update_button: false) 	
   	  flash[:success] = "you successfully updated this applicant"
 
-      if request.referrer == (edit_job_description_applicant_url(@jd, @applicant) || job_description_applicants_url(@jd))
+      if request.referrer == edit_job_description_applicant_url(@jd, @applicant) || request.referrer == job_description_applicants_url(@jd)
         redirect_to [@jd, @applicant]
       else
   	    redirect_to :back
@@ -74,6 +77,6 @@ class ApplicantsController < ApplicationController
 
   def applicant_params
   	params.require(:applicant).permit(:name, :email, :phonenumber, :location, :min_salary,
-  		 :max_salary, :company_id, :job_description_id, :user_id, :attachment, :update_button)
+  		 :max_salary, :company_id, :job_description_id, :user_id, :attachment, :update_button, requirement_scores_attributes: [:input, :score, :requirement_content])
   end
 end

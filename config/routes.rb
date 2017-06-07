@@ -72,4 +72,7 @@ Rails.application.routes.draw do
   end
 
   resources :messages
+  resources :applicants, only: [] do 
+    resources :requirement_scores
+  end
 end
