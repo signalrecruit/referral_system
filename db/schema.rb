@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170606163709) do
+ActiveRecord::Schema.define(version: 20170607125557) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -160,17 +160,16 @@ ActiveRecord::Schema.define(version: 20170606163709) do
   add_index "required_experiences", ["job_description_id"], name: "index_required_experiences_on_job_description_id", using: :btree
 
   create_table "requirement_scores", force: :cascade do |t|
-    t.boolean  "input",               default: false
     t.integer  "score",               default: 0
     t.integer  "applicant_id"
-    t.integer  "job_description_id"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.string   "requirement_content"
+    t.integer  "requirement_id"
   end
 
   add_index "requirement_scores", ["applicant_id"], name: "index_requirement_scores_on_applicant_id", using: :btree
-  add_index "requirement_scores", ["job_description_id"], name: "index_requirement_scores_on_job_description_id", using: :btree
+  add_index "requirement_scores", ["requirement_id"], name: "index_requirement_scores_on_requirement_id", using: :btree
 
   create_table "requirements", force: :cascade do |t|
     t.text     "content"
@@ -218,6 +217,6 @@ ActiveRecord::Schema.define(version: 20170606163709) do
   add_foreign_key "qualifications", "job_descriptions"
   add_foreign_key "required_experiences", "job_descriptions"
   add_foreign_key "requirement_scores", "applicants"
-  add_foreign_key "requirement_scores", "job_descriptions"
+  add_foreign_key "requirement_scores", "requirements"
   add_foreign_key "requirements", "job_descriptions"
 end

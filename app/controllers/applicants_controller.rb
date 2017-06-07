@@ -12,11 +12,12 @@ class ApplicantsController < ApplicationController
 
   def new
   	@applicant = @jd.applicants.build
-    @applicant.requirement_scores.build   
+    @requirement_score = @applicant.requirement_scores.build   
   end
 
   def create
   	@applicant = @jd.applicants.build(applicant_params)
+
 
   	if @applicant.save 
   	  @applicant.update(company_id: @jd.company.id)	
@@ -28,7 +29,6 @@ class ApplicantsController < ApplicationController
   	  flash.now[:alert] = "oops! something went wrong"
   	  render :new	
   	end
-    byebug
   end
 
   def edit
@@ -77,6 +77,7 @@ class ApplicantsController < ApplicationController
 
   def applicant_params
   	params.require(:applicant).permit(:name, :email, :phonenumber, :location, :min_salary,
-  		 :max_salary, :company_id, :job_description_id, :user_id, :attachment, :update_button, requirement_scores_attributes: [:input, :score, :requirement_content])
+  		 :max_salary, :company_id, :job_description_id, :user_id, :attachment, :update_button,
+        requirement_scores_attributes: [:score, :requirement_content, :requirement_id])
   end
 end
