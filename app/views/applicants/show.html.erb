@@ -64,6 +64,14 @@
 				</div>
 			</div>
 			<div class="row">
+				<div class="col-md-3">
+					<div class="form-group label-floating">
+						<label class="control-label">Applicant Score</label>
+						<%= @applicant.scores.find_by(job_description_id: @jd.id ).applicant_score.to_f %>
+					</div>
+				</div>
+			</div>
+			<div class="row">
 			  <%= link_to [:edit, @jd, @applicant], class: "btn btn-primary btn-xs btn-round pull-right" do %>
 			    <i class="material-icons">edit</i> edit applicant
 			  <% end %>
@@ -92,3 +100,4 @@
 		</div>
 	</div>
 </div>
+
