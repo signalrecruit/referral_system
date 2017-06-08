@@ -78,6 +78,6 @@ class ApplicantsController < ApplicationController
   def applicant_params
   	params.require(:applicant).permit(:name, :email, :phonenumber, :location, :min_salary,
   		 :max_salary, :company_id, :job_description_id, :user_id, :attachment, :update_button,
-        requirement_scores_attributes: [:score, :requirement_content, :requirement_id])
+        requirement_scores_attributes: [:score, :requirement_content, :requirement_id, :job_description_id])
   end
 end

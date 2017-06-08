@@ -7,6 +7,6 @@ class RequirementScore < ActiveRecord::Base
 
 
   def calculate_applicant_score
-   	# self.applicant.update(requirement_score: self.applicant.requirement_scores.where(.sum(:score))
+   	self.class.where(applicant_id: self.applicant_id, job_description_id: self.job_description_id).sum(:score)
   end
 end
