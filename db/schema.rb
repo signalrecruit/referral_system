@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170608111902) do
+ActiveRecord::Schema.define(version: 20170608122847) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -160,10 +160,10 @@ ActiveRecord::Schema.define(version: 20170608111902) do
   add_index "required_experiences", ["job_description_id"], name: "index_required_experiences_on_job_description_id", using: :btree
 
   create_table "requirement_scores", force: :cascade do |t|
-    t.integer  "score",               default: 0
+    t.decimal  "score",               default: 0.0
     t.integer  "applicant_id"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.string   "requirement_content"
     t.integer  "requirement_id"
     t.integer  "job_description_id"
@@ -182,6 +182,17 @@ ActiveRecord::Schema.define(version: 20170608111902) do
   end
 
   add_index "requirements", ["job_description_id"], name: "index_requirements_on_job_description_id", using: :btree
+
+  create_table "scores", force: :cascade do |t|
+    t.integer  "job_description_id"
+    t.integer  "applicant_id"
+    t.decimal  "applicant_score"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "scores", ["applicant_id"], name: "index_scores_on_applicant_id", using: :btree
+  add_index "scores", ["job_description_id"], name: "index_scores_on_job_description_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false
@@ -222,4 +233,6 @@ ActiveRecord::Schema.define(version: 20170608111902) do
   add_foreign_key "requirement_scores", "job_descriptions"
   add_foreign_key "requirement_scores", "requirements"
   add_foreign_key "requirements", "job_descriptions"
+  add_foreign_key "scores", "applicants"
+  add_foreign_key "scores", "job_descriptions"
 end
