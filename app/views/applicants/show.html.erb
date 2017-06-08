@@ -67,7 +67,13 @@
 				<div class="col-md-3">
 					<div class="form-group label-floating">
 						<label class="control-label">Applicant Score</label>
-						<%= @applicant.scores.find_by(job_description_id: @jd.id ).applicant_score.to_f %>
+						  <% if @applicant.scores.find_by(job_description_id: @jd.id ).applicant_score.to_f > 50.0 %>
+						  <h3><button class="btn btn-success btn-sm btn-round">
+						  <% else %>
+						  <h3><button class="btn btn-danger btn-sm btn-round">
+						  <% end %>
+						  <span class="badge">
+						  <%= @applicant.scores.find_by(job_description_id: @jd.id ).applicant_score.to_f %>%</span></button></h3>
 					</div>
 				</div>
 			</div>
