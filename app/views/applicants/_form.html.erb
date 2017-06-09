@@ -271,7 +271,7 @@
 </div>
 
 
-<% if @jd.vacancies > @jd.applicants.count %>
+<% if @jd.vacancies > @jd.applicants.count && !@applicant.updated? %>
 <div class="col-md-6">
 	<div class="card">
 		<div class="card-header" data-background-color="purple">
@@ -348,16 +348,16 @@
 			  <div class="col-md-6">
 			    <div class="form-group label-floating">
 			      <label class="control-label">Requirement Score</label>
-			      <% @jd.requirements.each do |requirement| %>
-			        <p><%= requirement.content %></p>   
-			          <%= f.simple_fields_for :requirement_scores do |ff| %>
-			            <div class="rs"><%= ff.input :score, label: false, as: :boolean, checked_value: 1.0, unchecked_value: 0.0 %>
-			            	<%= ff.hidden_field :requirement_content, :value => requirement.content %>
-			            	<%= ff.hidden_field :requirement_id, :value => requirement.id %>
-			            	<%= ff.hidden_field :job_description_id, :value => requirement.job_description_id %>
-			            </div>
+			      <%# @jd.requirements.each do |requirement| %>
+			        <p><%#= requirement.content %></p>   
+			          <%= f.simple_fields_for :requirement_scores, @applicant.requirement_scores do |ff| %>
+			            <%= ff.object.requirement_content %>
+			            <%= ff.input :score, label: false, as: :boolean, checked_value: 1.0, unchecked_value: 0.0 %>
+			            <%= ff.hidden_field :requirement_content, :value => ff.object.requirement_content %>
+			            <%= ff.hidden_field :requirement_id, :value => ff.object.requirement_id %>
+			            <%= ff.hidden_field :job_description_id, :value => ff.object.job_description_id %>
 			          <% end %>	
-			      <% end %>    
+			      <%# end %>    
 			    </div>				  	
 			  </div>	
 			</div>
@@ -373,7 +373,105 @@
 		</div>
 	</div>
 </div>
-<% else %>
+<% elsif @applicant.updated? %>
+  <div class="col-md-6">
+	<div class="card">
+		<div class="card-header" data-background-color="purple">
+		<h4 class="title">
+		<% if @applicant.persisted? %>
+		   Edit
+		<% else %>   	
+		   Add
+		<% end %>   
+		 Applicant for role as <%= @jd.job_title %> at <%= @jd.company.alias_name %></h4>
+			<p class="category"></p>
+		</div>
+		<div class="card-content">
+			<%= simple_form_for([jd, applicant]) do |f| %>
+
+			<div class="row">
+				<div class="col-md-4">
+					<div class="form-group label-floating">
+						<label class="control-label">Fullname</label>
+						<%= f.input :name, label: false, required: true, autofocus: true, placeholder: "full name", class: "form-control" %>
+					</div>
+				</div>
+
+				<div class="col-md-3">
+					<div class="form-group label-floating">
+						<label class="control-label">Email</label>
+						<%= f.input :email, label: false, required: true, placeholder: "email", class: "form-control" %>
+					</div>
+				</div>
+
+				<div class="col-md-4">
+					<div class="form-group label-floating">
+						<label class="control-label">Phonenumber</label>
+						<%= f.input :phonenumber, label: false, required: true, placeholder: "phonenumber", maxlength: "10", class: "form-control" %>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="form-group label-floating">
+						<label class="control-label">Location</label>
+						<%= f.input :location, label: false, required: true, placeholder: "your location/place of residence", class: "form-control" %>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group label-floating">
+						<label class="control-label">Mininum salary</label>
+						<%= f.input :min_salary, label: false, required: true, class: "form-control" %>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="form-group label-floating">
+						<label class="control-label">Maxinum salary</label>
+						<%= f.input :max_salary, label: false, required: true, class: "form-control" %>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-3">
+					<div class="form-group label-floating">
+						<label class="control-label">Attachment</label>
+						<%= f.input :attachment, label: false %>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+			  <div class="col-md-6">
+			    <div class="form-group label-floating">
+			      <label class="control-label">Requirement Score</label> 
+			      <%= f.simple_fields_for :requirement_scores do |ff| %>
+			          <%= ff.object.requirement_content %>
+			          <%= ff.input :score, label: false, as: :boolean, checked_value: 1.0, unchecked_value: 0.0 %>
+			          <%#= ff.hidden_field :requirement_id, :value => ff.object.requirement_id %>
+			          <%#= ff.hidden_field :job_description_id, :value => ff.object.job_description_id %>  
+			       <% end %>	
+			    </div>				  	
+			  </div>	
+			</div>
+			<div class="clearfix">
+			  <div class="row">
+				<%= f.button :submit, "Done", class: "btn btn-primary btn-xs btn-round pull-right" %>
+			  </div>	
+			  <div class="row">	
+				<%= link_to "Back", :back, class: "btn btn-primary btn-xs btn-round pull-right" %>
+			  </div>	
+			</div>
+			<% end %>
+		</div>
+	</div>
+</div>
+<% elsif @jd.vacancies == @jd.applicants.count && !@applicant.updated? %>
 <div class="col-md-6">
 	<div class="card">
 		<div class="card-header" data-background-color="blue">

@@ -11,8 +11,15 @@ class ApplicantsController < ApplicationController
   end
 
   def new
+    @count = 0
   	@applicant = @jd.applicants.build
-    @requirement_score = @applicant.requirement_scores.build   
+    @jd.requirements.count.times { @applicant.requirement_scores.build }  
+    @applicant.requirement_scores.each do |score|
+      score.requirement_content = @jd.requirements[@count].content
+      score.requirement_id = @jd.requirements[@count].id
+      score.job_description_id = @jd.id
+      @count += 1
+    end 
   end
 
   def create
@@ -23,6 +30,7 @@ class ApplicantsController < ApplicationController
   	  @applicant.update(company_id: @jd.company.id)	
   	  track_activity @applicant, "added an applicant", current_user.id	
   	  @applicant.update(user_id: current_user.id)	
+      @applicant.calculate_applicant_score
   	  flash[:success] = "you successfully added an applicant to this job description"
   	  redirect_to [@jd, @applicant]
   	else
@@ -32,12 +40,12 @@ class ApplicantsController < ApplicationController
   end
 
   def edit
-    @applicant.requirement_scores.build
   end
 
   def update
   	if @applicant.update(applicant_params)
   	  @applicant.update(update_button: false) 	
+      @applicant.calculate_applicant_score(applicant_params)
   	  flash[:success] = "you successfully updated this applicant"
 
       if request.referrer == edit_job_description_applicant_url(@jd, @applicant) || request.referrer == job_description_applicants_url(@jd)
@@ -60,7 +68,7 @@ class ApplicantsController < ApplicationController
   def update_button
   	@applicant = Applicant.find(params[:id])
   	@applicant.update(update_button: true)
-  	redirect_to :back
+  	redirect_to [:edit, @applicant.job_description, @applicant]
   end
 
 
@@ -78,6 +86,6 @@ class ApplicantsController < ApplicationController
   def applicant_params
   	params.require(:applicant).permit(:name, :email, :phonenumber, :location, :min_salary,
   		 :max_salary, :company_id, :job_description_id, :user_id, :attachment, :update_button,
-        requirement_scores_attributes: [:score, :requirement_content, :requirement_id, :job_description_id])
+        requirement_scores_attributes: [:id, :score, :requirement_content, :requirement_id, :job_description_id, :_destroy])
   end
 end
