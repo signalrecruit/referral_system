@@ -14,8 +14,8 @@ class Applicant < ActiveRecord::Base
   validates :name, :email, :phonenumber, :location, :min_salary, :max_salary, presence: true
 
 
-  def calculate_applicant_score(applicant_params)
-    applicant_score = (self.requirement_scores.where(applicant_id: self.id, job_description_id: self.job_description_id).sum(:score)/self.requirement_scores.count) * 100
+  def calculate_applicant_score
+    applicant_score = ((self.requirement_scores.where(applicant_id: self.id, job_description_id: self.job_description_id).sum(:score)/self.requirement_scores.count) * 100).round(2)
     score = Score.find_by applicant_id: self.id, job_description_id: self.job_description_id
       if score 
         score.update(applicant_score: applicant_score)
@@ -23,7 +23,7 @@ class Applicant < ActiveRecord::Base
        score = Score.new
        score.job_description_id = self.job_description_id
        score.applicant_id = self.id
-       score.applicant_score = applicant_score
+       score.applicant_score = applicant_score.round
        score.save
      end
   end

@@ -45,7 +45,7 @@ class ApplicantsController < ApplicationController
   def update
   	if @applicant.update(applicant_params)
   	  @applicant.update(update_button: false) 	
-      @applicant.calculate_applicant_score(applicant_params)
+      @applicant.calculate_applicant_score
   	  flash[:success] = "you successfully updated this applicant"
 
       if request.referrer == edit_job_description_applicant_url(@jd, @applicant) || request.referrer == job_description_applicants_url(@jd)

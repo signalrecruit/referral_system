@@ -73,7 +73,7 @@
 						  <h3><button class="btn btn-danger btn-sm btn-round">
 						  <% end %>
 						  <span class="badge">
-						  <%= @applicant.scores.find_by(job_description_id: @jd.id ).applicant_score.to_f %>%</span></button></h3>
+						  <%= @applicant.scores.find_by(job_description_id: @jd.id ).applicant_score.to_f.round(2) %>%</span></button></h3>
 					</div>
 				</div>
 			</div>
