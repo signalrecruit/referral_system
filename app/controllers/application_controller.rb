@@ -44,7 +44,7 @@ class ApplicationController < ActionController::Base
     if action.nil?
       activity = Activity.find_by trackable_id: trackable_id, trackable_type: trackable_type
       @activity = activity
-      return true if activity 
+      return false if activity 
     else
       activity = Activity.find_by trackable_id: trackable_id, trackable_type: trackable_type, action: action
       @activity = activity
