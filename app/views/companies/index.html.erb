@@ -1,3 +1,6 @@
+<%unless @companies.any? %>
+  <h3>Your porfolio is empty</h3>
+<% end %>
 <%= link_to new_user_company_url(current_user) do %>
   <button class="btn btn-primary btn-xs btn-round">
     <% if @companies.any? %>
