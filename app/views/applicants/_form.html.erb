@@ -54,16 +54,7 @@
 					</div>
 				</div>
 			</div>
-.
-			<% if @jd.completed? %>
-			<% else %>
-			<div class="row">
-			   <%= link_to update_button_for_jd_url(@jd), method: :patch, class: "btn btn-primary btn-xs btn-round" do %>
-				 <i class="material-icons">edit</i> brief description 
-                <% end %>	
-			</div>
-			<% end %>
-
+			
 			<br/>
 			<br/>
 			<hr>
@@ -76,42 +67,12 @@
 					  <span class="text-primary">Required Qualifications</span>
 					    <% if @jd.qualifications.any? %>
 					       <table>
-						  <% @jd.qualifications.each do |qualification| %>
-						    
-						    <% if qualification.updated? %>
-							    <tr>
-								  <%= simple_form_for([@jd, qualification]) do |f| %>
-								    <td class="col-md-1"><%= f.input :certificate, label: false %></td> <td class="col-md-1">in</td>  <td class="col-md-4"><%= f.input :field_of_study, label: false %></td>
-									<td class="col-md-2"><%= f.button :submit, "update", class: "btn btn-primary btn-xs btn-round" %></td>
-									<% end %>
-								</tr>
-								<br/>
-							<% else %>
+					       <% @q = 0 %>
+						  <% @jd.qualifications.each do |qualification| %>		
+						  <% @q += 1 %>					   
 								<tr>
-								  <td class="col-md-1"><%= qualification.certificate %></td> <td class="col-md-1">in</td> <td class="col-md-4"><%= qualification.field_of_study %></td> 
-
-								  <% if @jd.completed? %>
-								  <% else %>
-								  <td class="col-md-1">
-								    <%= link_to update_button_for_qualification_url(qualification), method: :patch do %>
-									<button type="button" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
-										<i class="material-icons">edit</i>
-									</button>
-									<% end %>
-								  </td>	
-								  <td class="col-md-1">
-								    <%= link_to job_description_qualification_url(@jd, qualification), method: :delete, data: { confirm: "Are you sure you want to delete this qualification?"} do %>
-									<button type="button" title="Remove" class="btn btn-primary btn-simple btn-xs">
-										<i class="material-icons">close</i>
-									</button>
-									 <% end %>
-							 	  </td>
-							 	  <% end %>
-
+								  <td class="col-md-1"><%= @q %>. <%= qualification.certificate %></td> <td class="col-md-1">in</td> <td class="col-md-4"><%= qualification.field_of_study %></td> 				 	  
 							    </tr>
-						      
-						    <% end %>
-
 						<br/>
 
 						  <% end %>
@@ -122,15 +83,6 @@
 					</div>
 				</div>
 			</div>
-
-			<% if @jd.completed? %>
-			<% else %>
-			<div class="row">
-				<%= link_to new_job_description_qualification_url(@jd), class: "btn btn-primary btn-xs btn-round" do %>
-				<i class="material-icons">add</i>required qualification
-				<% end %>	  
-			</div>
-			<% end %>
 
 			<br/>
 			<br/>
@@ -143,43 +95,13 @@
 				  <span class="text-primary">Required Experiences</span>
 				    <% if @jd.required_experiences.any? %>
 				    <table>
+				    <% @re = 0 %>
 					  <% @jd.required_experiences.each do |required_experience| %>
-					    <% if required_experience.updated? %>
-						
-						    <tr>
-							  <%= simple_form_for([@jd, required_experience]) do |f| %>
-							    <td class="col-md-2"><%= f.input :years, label: false %> <td class="col-md-1">years</td></td><td class="col-md-1">of</td><td class="col-md-4"><%= f.input :experience, label: false %></td>   
-								<td><%= f.button :submit, "update", class: "btn btn-primary btn-xs btn-round" %></td>
-								<% end %>
-							</tr>
-							<br/>
-						<% else %>
+					  <% @re += 1 %>
 						  <tr>
-							   <td class="col-md-2"><%= required_experience.years %> years</td><td class="col-md-1">of</td><td class="col-md-4"><%= required_experience.experience %></td>  
-							  <% if @jd.completed? %>
-							  <% else %>
-							  <td class="col-md-1">
-								<%= link_to update_button_for_exp_url(required_experience), method: :patch do %>
-								<button type="button" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
-									<i class="material-icons">edit</i>
-								</button>
-								<% end %>
-							  </td>	
-							  <td class="col-md-1">
-							    <%= link_to job_description_required_experience_url(@jd, required_experience), method: :delete, data: { confirm: "Are you sure you want to delete this experience?"} do %>
-								<button type="button" title="Remove" class="btn btn-primary btn-simple btn-xs">
-									<i class="material-icons">close</i>
-								</button>
-								<% end %>
+							   <td class="col-md-2"><%= @re %>. <%= required_experience.years %> years</td><td class="col-md-1">of</td><td class="col-md-4"><%= required_experience.experience %></td>  
 							  </td>
-							  <% end %>
-						    </tr>
-					      
-					<% end %>
-					<br/>
-					
-					
-
+						  </tr>
 					<% end %>
 					</table>
 					<% else %>
@@ -188,15 +110,6 @@
 				</div>
 			</div>
 		</div>
-
-		<% if @jd.completed? %>
-		<% else %>
-		<div class="row">
-		<%= link_to new_job_description_required_experience_url(@jd), class: "btn btn-primary btn-xs btn-round" do %>
-		<i class="material-icons">add</i>required experience
-		<% end %>	  
-	    </div>
-	    <% end %>
 
 	    <br/>
 		<br/>
@@ -208,43 +121,12 @@
 				  <span class="text-primary">Compulsory Requirements</span>
 				    <% if @jd.requirements.any? %>
 				    <table>
+				    <% @c = 0 %>
 					  <% @jd.requirements.each do |requirement| %>
-					    <% if requirement.updated? %>
-						
-						    <tr>
-							  <%= simple_form_for([@jd, requirement]) do |f| %>
-							    <td class="col-md-4"><%= f.input :content, label: false %></td> 
-								<td class="col-md-2"><%= f.button :submit, "update", class: "btn btn-primary btn-xs btn-round" %></td>
-								<% end %>
-							</tr>
-							<br/>
-						<% else %>
+					  <% @c+= 1 %>
 						  <tr>
-							  <td class="col-md-4"><%= requirement.content %></td>  
-							  <% if @jd.completed? %>
-							  <% else %>
-							  <td class="col-md-1">
-								<%= link_to update_button_for_rq_url(requirement), method: :patch do %>
-								<button type="button" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
-									<i class="material-icons">edit</i>
-								</button>
-								<% end %>
-							  </td>	
-							  <td class="col-md-1">
-							    <%= link_to job_description_requirement_url(@jd, requirement), method: :delete, data: { confirm: "Are you sure you want to delete this experience?"} do %>
-								<button type="button" title="Remove" class="btn btn-primary btn-simple btn-xs">
-									<i class="material-icons">close</i>
-								</button>
-								<% end %>
-							  </td>
-							  <% end %>
+							  <td class="col-md-4"><%= @c %>.<%= requirement.content %></td>  
 						    </tr>
-					      
-					<% end %>
-					<br/>
-					
-					
-
 					<% end %>
 					</table>
 					<% else %>
@@ -253,16 +135,6 @@
 				</div>
 			</div>
 		</div>
-
-
-		<% if @jd.completed? %>
-		<% else %>
-		<div class="row">
-		  <%= link_to new_job_description_requirement_url(@jd), class: "btn btn-primary btn-xs btn-round" do %>
-		    <i class="material-icons">add</i>compulsory requirement
-		  <% end %>	  
-	    </div>
-	    <% end %>
 	</div>
 
 
