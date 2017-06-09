@@ -14,6 +14,8 @@ Rails.application.routes.draw do
     patch  'messages/:id/archive_message', to: 'messages#archive_message', as: :archive_message
     patch  'messages/:id/unarchive_message', to: 'messages#unarchive_message', as: :unarchive_message
     patch 'applicants/:id/update_salary', to: 'applicants#update_salary', as: :update_salary
+    patch 'applicants/:id/update_button', to: 'applicants#update_button', as: :update_button_for_applicants
+
 
     
     # resources :users, only: [] do 

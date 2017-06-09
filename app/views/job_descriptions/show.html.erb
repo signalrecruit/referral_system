@@ -92,7 +92,9 @@
 					  <span class="text-primary">Required Qualifications</span>
 					    <% if @job_description.qualifications.any? %>
 					       <table>
+					      <% @q = 0 %>
 						  <% @job_description.qualifications.each do |qualification| %>
+						  <% @q += 1 %>
 						    
 						    <% if qualification.updated? %>
 							    <tr>
@@ -104,7 +106,7 @@
 								<br/>
 							<% else %>
 								<tr>
-								  <td class="col-md-1"><%= qualification.certificate %></td> <td class="col-md-1">in</td> <td class="col-md-4"><%= qualification.field_of_study %></td> 
+								  <td class="col-md-1"><%= @q %>. <%= qualification.certificate %></td> <td class="col-md-1">in</td> <td class="col-md-4"><%= qualification.field_of_study %></td> 
 
 								  <% if @job_description.completed? %>
 								  <% else %>
@@ -159,7 +161,9 @@
 				  <span class="text-primary">Required Experiences</span>
 				    <% if @job_description.required_experiences.any? %>
 				    <table>
+				    <% @re = 0 %>
 					  <% @job_description.required_experiences.each do |required_experience| %>
+					  <% @re += 1 %>
 					    <% if required_experience.updated? %>
 						
 						    <tr>
@@ -171,7 +175,7 @@
 							<br/>
 						<% else %>
 						  <tr>
-							   <td class="col-md-2"><%= required_experience.years %> years</td><td class="col-md-1">of</td><td class="col-md-4"><%= required_experience.experience %></td>  
+							   <td class="col-md-2"><%= @re %>. <%= required_experience.years %> years</td><td class="col-md-1">of</td><td class="col-md-4"><%= required_experience.experience %></td>  
 							  <% if @job_description.completed? %>
 							  <% else %>
 							  <td class="col-md-1">
@@ -224,7 +228,9 @@
 				  <span class="text-primary">Compulsory Requirements</span>
 				    <% if @job_description.requirements.any? %>
 				    <table>
+				    <% @r = 0 %>
 					  <% @job_description.requirements.each do |requirement| %>
+					  <% @r += 1 %>
 					    <% if requirement.updated? %>
 						
 						    <tr>
@@ -236,7 +242,7 @@
 							<br/>
 						<% else %>
 						  <tr>
-							  <td class="col-md-4"><%= requirement.content %></td>  
+							  <td class="col-md-4"><%= @r %>. <%= requirement.content %></td>  
 							  <% if @job_description.completed? %>
 							  <% else %>
 							  <td class="col-md-1">

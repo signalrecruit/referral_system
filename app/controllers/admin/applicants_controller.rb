@@ -1,5 +1,5 @@
 class Admin::ApplicantsController < Admin::ApplicationController
-  before_action :set_jd, except: [:update_salary]
+  before_action :set_jd, except: [:update_salary, :update_button]
   before_action :set_applicant, only: [:show, :update]	
   layout "admin"
   	
@@ -35,6 +35,12 @@ class Admin::ApplicantsController < Admin::ApplicationController
   def update_salary
     @applicant = Applicant.find(params[:id])
     @applicant.update(update_salary_button: true)
+    redirect_to :back
+  end
+
+  def update_button
+    @applicant = Applicant.find(params[:id])
+    @applicant.update(update_button: true)
     redirect_to :back
   end
 

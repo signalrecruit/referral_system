@@ -76,7 +76,7 @@
 								</td>
 								<% if !applicant.update_salary_button? %>
 								<td>
-								  <%= link_to update_button_for_applicants_url(applicant), method: :patch do %>
+								  <%= link_to admin_update_button_for_applicants_url(applicant), method: :patch do %>
 								  <button type="button" title="Edit Applicant" class="btn btn-primary btn-simple btn-xs">
 								    <i class="material-icons">edit</i>
 								  </button>
