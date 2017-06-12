@@ -1,5 +1,5 @@
 class Admin::ApplicantsController < Admin::ApplicationController
-  before_action :set_jd, except: [:update_salary, :update_button]
+  before_action :set_jd, except: [:update_salary, :update_button, :all_applicants]
   before_action :set_applicant, only: [:show, :update]	
   layout "admin"
   	
@@ -42,6 +42,10 @@ class Admin::ApplicantsController < Admin::ApplicationController
     @applicant = Applicant.find(params[:id])
     @applicant.update(update_button: true)
     redirect_to :back
+  end
+
+  def all_applicants
+    @all_applicants = Applicant.all.order(created_at: :asc)
   end
 
 
