@@ -1,8 +1,7 @@
 	                    <div class="col-md-12">
 	                        <div class="card">
 	                            <div class="card-header" data-background-color="purple">
-	                                <h4 class="title">Simple Table</h4>
-	                                <p class="category">Here is a subtitle for this table</p>
+	                                <h4 class="title"><%= pluralize(@all_applicants.count, "Applicant") %></h4>
 	                            </div>
 	                            <div class="card-content table-responsive">
 	                                <table class="table">
@@ -10,15 +9,96 @@
 	                                    	<th>Name of Applicant</th>
 	                                    	<th>Company</th>
 	                                    	<th>Role</th>
+
+	                                    	<% if @all_applicants.any? { |applicant| applicant.updated? } %>
+	                                    	<th></th>
 											<th>Status</th>
+											<% else %>
+											<th>Status</th>
+											<% end %>
+	                                    	
+	                                    	<th></th>
+	                                    	<% if @all_applicants.any? { |applicant| applicant.salary_negotiation? && !applicant.update_salary_button? } %>
+	                                    	<th></th>
+	                                    	<% end %>
+
+	                                    	<% if @all_applicants.any? { |applicant| applicant.update_salary_button? } %>
+	                                    	<th></th>
+	                                    	<th></th>
+	                                    	<% end %>
 	                                    </thead>
 	                                    <tbody>
+	                                    <% if @all_applicants.any? %>
+	                                    <% @all_applicants.each do |applicant| %>
 	                                        <tr>
-	                                        	<td>Dakota Rice</td>
-	                                        	<td>Niger</td>
-	                                        	<td>Oud-Turnhout</td>
-												<td>status?</td>
+	                                        	<td><%= link_to applicant.name, [:admin, applicant.job_description, applicant] %></td>
+	                                        	<td><%= link_to applicant.company.company_name, [:admin, applicant.company, tab: "company"] %></td>
+	                                        	<td><%= applicant.job_description.job_title %></td>
+												<td>
+												<% if applicant.updated? %>
+													<%= simple_form_for([:admin, applicant.job_description, applicant]) do |f| %>
+													<td><%= f.select :status, options_for_select([["shortlisted", "shortlisted"], ["interviewing", "interviewing"], ["testing", "testing"], ["salary negotiation", "salary negotiation" ], ["hired", "hired"], ["not hired", "not hired"]], :selected => f.object.status),{}, class: "btn btn-primary btn-xs btn-round" %></td>
+
+													<td><%= f.button :submit, "submit", class: "btn btn-primary btn-xs btn-round" %></td>
+													<% end %>
+												<% else %>
+												  <% if applicant.none? %>
+								                  <button class="btn btn-default btn-xs btn-round">
+								                  <% elsif applicant.interviewing? || applicant.testing? || applicant.shortlisted? %>
+								                  <button class="btn btn-default btn-xs btn-round">
+								                  <% elsif applicant.salary_negotiation? %>
+								                  <button class="btn btn-warning btn-xs btn-round">  
+								                  <% elsif applicant.hired? %>
+								                  <button class="btn btn-info btn-xs btn-round">    	
+								                  <% elsif applicant.not_hired? %>
+								                  <button class="btn btn-danger btn-xs btn-round">  
+								                  <% end %>
+
+								                  <%= applicant.status %>	
+								                  </button>
+												</td>
+											    <% end %>
+
+											    <% if !applicant.updated? && applicant.updated? %>
+											    <td></td>
+											    <% elsif !applicant.updated? && !applicant.update_salary_button? %>											    
+											    <td>
+											    	<%= link_to admin_update_button_for_applicants_url(applicant), method: :patch do %>
+											    	<button type="button" title="Edit Applicant" class="btn btn-primary btn-simple btn-xs">
+											    		<i class="material-icons">edit</i>
+											    	</button>
+											    	<% end %>
+											    </td>
+											    <% end %> 
+
+											    <% if applicant.update_salary_button? %>
+											    <%= simple_form_for([:admin, applicant.job_description, applicant]) do |f| %>
+											      <td><%= f.input :salary, label: false %></td>
+											      <td><%= f.button :submit, "submit", class: "btn btn-primary btn-xs btn-round" %></td>
+											    <% end %>
+											    <% end %>
+
+											    <% if applicant.salary_negotiation? && !applicant.update_salary_button? %>
+											    <td>
+											    	<%= link_to admin_update_salary_url(applicant), method: :patch, data: { confirm: "Are you sure you want to edit applicant salary?" } do %>
+											    	<button type="button" title="Edit Applicant Salary" class="btn btn-primary btn-simple btn-xs">
+											    		<i class="material-icons">help</i>
+											    	</button>
+											    	<% end %>  
+											    </td>
+											    <% elsif applicant.updated? && (applicant.salary_negotiation? || !applicant.salary_negotiation?) %>
+											      <td></td>
+											    <% end %>  	
 	                                        </tr>
+	                                    <% end %>    
+	                                    <% else %>
+	                                    <tr>
+	                                    	<td>no data</td>
+	                                    	<td>no data</td>
+	                                    	<td>no data</td>
+	                                    	<td>no data</td>
+	                                    </tr>    
+	                                    <% end %>    
 	                                    </tbody>
 	                                </table>
 
