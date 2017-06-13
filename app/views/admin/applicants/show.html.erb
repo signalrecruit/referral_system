@@ -1,2 +1,123 @@
-<h1>Admin::Applicants#show</h1>
-<p>Find me in app/views/admin/applicants/show.html.erb</p>
+<div class="card-content table-responsive">
+	<div class="col-md-8">
+		<div class="card">
+			<div class="card-header" data-background-color="purple">
+				<h4 class="title">Applicant's Detail & History</h4>
+			</div>
+			<div class="card-content">
+				<span class="text-primary">Personal Information</span>
+				<div class="row">
+					<div class="col-md-4">
+						<div class="form-group label-floating">
+							<label class="control-label">Fullanme</label>
+							<%= @applicant.name %>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="form-group label-floating">
+							<label class="control-label">Email</label>
+							<%= @applicant.email %> 
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4">
+						<div class="form-group label-floating">
+							<label class="control-label">Phonenumber</label>
+							<%= @applicant.phonenumber %>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="form-group label-floating">
+							<label class="control-label">Location</label>
+							<%= @applicant.location %>
+						</div>
+					</div>
+				</div>
+				<br/>
+				<br/>
+				<hr>
+
+
+
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group label-floating">
+							<span class="text-primary">Application Details/Qualifications</span>
+							<div class="row">
+								<div class="col-md-4">
+									<div class="form-group label-floating">
+									<label class="control-label">Minimum Salary</label>
+										GHS <%= @applicant.min_salary %>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group label-floating">
+										<label class="control-label">Maximum Salary</label>
+										GHS <%= @applicant.max_salary %>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group label-floating">
+									<label class="control-label">Attachment(CV/resume)</label>
+									
+									</div>
+								</div>
+							</div>
+							<table>
+								<tr>
+									<td class="col-md-1"></td> <td class="col-md-1"></td>
+									<td class="col-md-4"></td> 
+								</tr>
+								<br/>
+
+
+							</table>
+
+						</div>
+					</div>
+				</div>
+
+				<br/>
+				<br/>
+				<hr>
+
+
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group label-floating">
+							<span class="text-primary">Applicant's Interview History</span>
+							<table>
+								<tr>
+									<td class="col-md-2"></td><td class="col-md-1"></td><td class="col-md-4"></td>  
+								</tr>
+
+								<br/>
+
+
+
+
+							</table>
+
+						</div>
+					</div>
+				</div>
+
+				<br/>
+				<br/>
+				<hr>
+
+				<div class="row">
+					<%= link_to "Back", :back, class: "btn btn-primary btn-xs btn-round pull-right" %>
+				</div>
+
+			</div>
+
+
+
+		</div>
+	</div>
+</div>
+
+

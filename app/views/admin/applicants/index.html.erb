@@ -34,7 +34,7 @@
 						<% if @applicants.any? %>
 						<% @applicants.each do |applicant| %>
 						<tr>
-							<td><%= applicant.name %></td>
+							<td><%= link_to applicant.name, [:admin, applicant.job_description, applicant] %></td>
 							<td><%= applicant.email %></td>
 							<td><%= applicant.phonenumber %></td>
 							<td><%= applicant.location %></td>
