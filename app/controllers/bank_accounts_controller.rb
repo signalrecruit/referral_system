@@ -1,6 +1,6 @@
 class BankAccountsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_account, only: [:show, :edit, :update, :destroy]
+  before_action :set_account, only: [:show, :edit, :update, :destroy, :edit_bank_details]
 
 
   def index
@@ -19,7 +19,7 @@ class BankAccountsController < ApplicationController
 
   	if @bank_account.save 
   	  flash[:success] = "your bank details have been saved successfully!"
-  	  redirect_to root_url 
+  	  redirect_to edit_user_registration_url
   	else 
   	  flash[:alert] = "oops! something went wrong"
   	  render :new	
@@ -31,8 +31,9 @@ class BankAccountsController < ApplicationController
 
   def update
   	if @bank_account.update(account_params)
+  	   @bank_account.update(update_button: false)
   	  flash[:success] = "your bank details have been updated successfully"
-  	  redirect_to @bank_account
+  	  redirect_to :back
   	else 
   	  flash[:alert] = "oops! something went wrong. your bank details failed to update."
   	  render :edit	
@@ -43,6 +44,11 @@ class BankAccountsController < ApplicationController
   	@bank_account.destroy 
   	flash[:success] = "you successfully deleted your bank account details"
   	redirect_to :new
+  end
+
+  def edit_bank_details
+    @bank_account.update(update_button: true) 
+    redirect_to :back
   end
 
 

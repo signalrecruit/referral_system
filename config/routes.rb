@@ -1,13 +1,4 @@
 Rails.application.routes.draw do
-
-  get 'bank_accounts/index'
-
-  get 'bank_accounts/show'
-
-  get 'bank_accounts/new'
-
-  get 'bank_accounts/edit'
-
   namespace :admin do 
     get 'dashboard/dashboard', to: 'dashboard#dashboard', as: :dashboard
     # get 'dashboard/activity_feed', to: 'dashboard#activity_feed', as: :activity_feed
@@ -65,6 +56,8 @@ Rails.application.routes.draw do
   patch  'messages/:id/archive_message', to: 'messages#archive_message', as: :archive_message
   patch  'messages/:id/unarchive_message', to: 'messages#unarchive_message', as: :unarchive_message
   get 'user_stats/statistics', to: 'user_stats#statistics', as: :user_stats
+  patch 'users/edit_user_profile', to: 'users#edit_user_profile', as: :edit_user_profile
+  patch 'bank_accounts/:id/edit_bank_details', to: 'bank_accounts#edit_bank_details', as: :edit_bank_details
 
 
   resources :user, only: [] do 

@@ -21,7 +21,8 @@ class RegistrationsController < Devise::RegistrationsController
     if resource.admin?
       admin_dashboard_url
     else
-      root_url
+      resource.update(update_button: false)
+      edit_user_registration_url
     end
   end
 end

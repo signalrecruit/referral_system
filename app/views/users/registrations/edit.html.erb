@@ -1,14 +1,55 @@
 
-
 <div class="col-md-8">
   <div class="card">
     <div class="card-header" data-background-color="purple">
-      <h4 class="title">Edit User Profile</h4>
+      <h4 class="title"><%= @user.fullname %>'s Profile</h4>
       <p class="category"></p>
     </div>
     <div class="card-content">
-  <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= f.error_notification %>
+     <h4 class="text-primary">Personal Details</h4>
+     <% if !@user.updated? %>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group label-floating">
+            <label class="control-label">Username</label>
+            <%= @user.username %>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group label-floating">
+            <label class="control-label">Fullname</label>
+            <%= @user.fullname %>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group label-floating">
+            <label class="control-label">Email</label>
+            <%= @user.email %>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group label-floating">
+            <label class="control-label">Phonenumber</label>
+            <%= @user.phonenumber %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <%= link_to edit_user_profile_url(current_user), method: :patch, class: "btn btn-primary btn-xs btn-round" do %>
+          <i class="material-icons">edit</i>edit profile
+        <% end %>
+      </div>
+
+      <% else %>
+        <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+        <%= f.error_notification %>
       <div class="row">
         <div class="col-md-6">
           <div class="form-group label-floating">
@@ -72,10 +113,288 @@
         </div>
       </div>
       <div class="clearfix">
-        <%= f.button :submit, "edit user profile", class: "btn btn-primary btn-round pull-right" %>
+        <%= f.button :submit, "edit user profile", class: "btn btn-primary btn-xs btn-round pull-right" %>
       </div>
       <% end %>
+
+      <% end %>
+     
+      <br/>
+      <br/>
+      <hr>
+
+      <h4 class="text-primary">Work Details</h4>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group label-floating">
+            <label class="control-label">Companies Brought In</label>
+            <% if @user.companies.any? %>
+              <% @user.companies.each do |company| %>
+              <span class="dropdown">  
+                <a href="#" class="dropdown-toggle btn btn-primary btn-xs btn-round" data-toggle="dropdown">
+                  <%= company.company_name %>  
+                </a>
+                <ul class="dropdown-menu">
+                <% @user.job_descriptions.where(company_id: company.id).each do |jd| %>
+                  <li><%= jd.job_title %></li>
+                <% end %>    
+                </ul>             
+              </span>
+                ,
+              <% end %>
+            <% else %>
+              None  
+            <% end %>  
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group label-floating">
+            <label class="control-label">Applicants Brought In</label>
+            <% if @user.applicants.any? %>  
+              <% @user.applicants.each do |applicant| %>
+                <button class="btn btn-primary btn-xs btn-round">
+                  <%= applicant.name %>
+                </button>,
+              <% end %>
+            <% else %>
+              None  
+            <% end %>  
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group label-floating">
+            <label class="control-label">Total Earnings</label>
+              <span class="btn btn-success btn-xs btn-round">GHS <%= @user.cumulative_earnings %></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group label-floating">
+            <label class="control-label">Earnings From Job Descriptions</label>
+              <span class="btn btn-success btn-xs btn-round">GHS <%= @user.cumulative_earnings_from_jd %></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group label-floating">
+            <label class="control-label">Earnings From Job Applicants</label>
+              <span class="btn btn-success btn-xs btn-round">GHS <%= @user.cumulative_earnings_from_applicants %></span>
+          </div>
+        </div>
+      </div>
+
+      <h4 class="text-primary">Bank Details(<%= pluralize(@user.bank_accounts.count, "bank account") %> registered)</h4>
+
+      <% @user.bank_accounts.order(update_button: :desc).each do |bank| %>
+      <% if bank.updated? %>
+      <%= simple_form_for([current_user, bank]) do |f| %>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group label-floating">
+            <label class="control-label">Bank Name</label>
+            <%= f.input :bank_name, label: false, required: true, class: "form-control" %>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group label-floating">
+            <label class="control-label">Account Holder's Name</label>
+            <%= f.input :account_holder, label: false, required: true, autofocus: true, placeholder: "exactly as it looks on your bank statement", class: "form-control" %>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group label-floating">
+            <label class="control-label">Account Number</label>
+            <%= f.input :account_number, label: false, required: true, class: "form-control" %>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group label-floating">
+            <label class="control-label">Sort Code</label>
+            <%= f.input :sort_code, label: false, required: true, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group label-floating">
+          <label class="control-label">Account Holder's Address</label>
+            <%= f.input :account_holder_address, label: false, required: true, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+
+      <div class="clearfix">
+        <%= f.button :submit, "update account", class: "btn btn-primary btn-xs btn-round pull-right" %>
+      </div>
+      <% end %>
+      <% else %>
+       <div class="row">
+        <div class="col-md-6">
+          <div class="form-group label-floating">
+            <label class="control-label">Bank Name</label>
+            <%= bank.bank_name %>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group label-floating">
+            <label class="control-label">Account Holder's Name</label>
+            <%= bank.account_holder %>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+         <div class="col-md-6">
+          <div class="form-group label-floating">
+            <label class="control-label">Account Number</label>
+            <%= bank.account_number %>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group label-floating">
+            <label class="control-label">Sort Code</label>
+            <%= bank.sort_code %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group label-floating">
+            <label class="control-label">Account Holder's Address</label>
+            <%= bank.account_holder_address %>
+          </div>
+        </div>
+      </div>
+     
+      <% end %>
+
+      <% if bank.updated? %>
+      <% else %>
+        <div class="row">
+          <%= link_to edit_bank_details_url(bank), method: :patch, class: "btn btn-primary btn-xs btn-round" do %>
+            <i class="material-icons">edit</i>edit bank details
+          <% end %>  
+        </div> 
+      <% end %>
+
+     
+      <br/>
+      <br/>
+      <hr>
+      <% end %>
+
+
+
+      
+      <div class="clearfix">
+      <div class="row">
+        <%= link_to "Back", :back, class: "btn btn-primary btn-xs btn-round pull-right" %>  
+      </div>
+      </div>
     </div>
   </div>
 </div>
 
+
+
+<!-- 
+<div class="col-md-8">
+  <div class="card">
+    <div class="card-header" data-background-color="purple">
+      <h4 class="title">Edit User Profile</h4>
+      <p class="category"></p>
+    </div>
+    <div class="card-content">
+  <%#= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+  <%#= f.error_notification %>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group label-floating">
+            <label class="control-label">Username</label>
+            <%#= f.input :username, label: false, required: true, autofocus: true, class: "form-control" %>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group label-floating">
+            <label class="control-label">Fullname</label>
+            <%#= f.input :fullname, label: false, required: true, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+
+       <div class="row">
+        <div class="col-md-6">
+          <div class="form-group label-floating">
+            <label class="control-label">Email</label>
+            <%#= f.input :email, label: false, required: true, class: "form-control" %>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group label-floating">
+            <label class="control-label">Phonenumber</label>
+            <%#= f.input :phonenumber, label: false, required: true, maxlength: "10", class: "form-control" %>
+          </div>
+        </div>
+      </div>
+
+
+      <%# if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+      <p>Currently waiting confirmation for: <%#= resource.unconfirmed_email %></p>
+      <%# end %>
+
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group label-floating">
+          <label class="control-label">Password</label>
+             <%#= f.input :password, label: false, autocomplete: "off", hint: "leave it blank if you don't want to change it", required: false, class: "form-control" %>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group label-floating">
+            <label class="control-label">Password Confirmation</label>
+           <%#= f.input :password_confirmation, label: false, required: false, class: "format-control" %>
+          </div>
+        </div>
+      </div>
+
+       <div class="row">
+        <div class="col-md-12">
+          <div class="form-group label-floating">
+            <label class="control-label">Current Password</label>
+            <%#= f.input :current_password, label: false, required: true, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+      <div class="clearfix">
+        <%#= f.button :submit, "edit user profile", class: "btn btn-primary btn-round pull-right" %>
+      </div>
+      <%# end %>
+    </div>
+  </div>
+</div>
+
+ -->
