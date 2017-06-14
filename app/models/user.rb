@@ -16,4 +16,8 @@ class User < ActiveRecord::Base
   def updated?
   	return true if self.update_button?
   end
+
+  def profile_completed?
+    return true if self.done?
+  end
 end

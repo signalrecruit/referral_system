@@ -58,6 +58,8 @@ Rails.application.routes.draw do
   get 'user_stats/statistics', to: 'user_stats#statistics', as: :user_stats
   patch 'users/edit_user_profile', to: 'users#edit_user_profile', as: :edit_user_profile
   patch 'bank_accounts/:id/edit_bank_details', to: 'bank_accounts#edit_bank_details', as: :edit_bank_details
+  patch 'users/:id/complete_profile', to: 'users#complete_profile', as: :complete_profile
+  patch 'users/:id/update_profile', to: 'users#update_profile', as: :update_profile
 
 
   resources :user, only: [] do 

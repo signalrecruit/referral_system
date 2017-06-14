@@ -7,6 +7,16 @@ class UsersController < ApplicationController
   	redirect_to :back
   end
 
+  def complete_profile
+    @current_user.update(done: true)
+    redirect_to :back
+  end
+
+  def update_profile
+  	@current_user.update(done: false)
+  	redirect_to :back
+  end
+
 
   private 
 
