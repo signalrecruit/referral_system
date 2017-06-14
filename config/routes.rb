@@ -1,5 +1,13 @@
 Rails.application.routes.draw do
 
+  get 'bank_accounts/index'
+
+  get 'bank_accounts/show'
+
+  get 'bank_accounts/new'
+
+  get 'bank_accounts/edit'
+
   namespace :admin do 
     get 'dashboard/dashboard', to: 'dashboard#dashboard', as: :dashboard
     # get 'dashboard/activity_feed', to: 'dashboard#activity_feed', as: :activity_feed
@@ -61,6 +69,7 @@ Rails.application.routes.draw do
 
   resources :user, only: [] do 
     resources :companies 
+    resources :bank_accounts
   end
 
   resources :companies do 

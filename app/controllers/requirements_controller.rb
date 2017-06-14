@@ -1,4 +1,5 @@
 class RequirementsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_jd, except: [:update_button]
   before_action :set_requirement, only: [:show, :edit, :update, :destroy]
 

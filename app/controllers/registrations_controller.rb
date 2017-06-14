@@ -13,6 +13,10 @@ class RegistrationsController < Devise::RegistrationsController
   
   protected
 
+  def after_sign_up_path_for(resource)
+    new_user_bank_account_url(resource)
+  end
+
   def after_update_path_for(resource)
     if resource.admin?
       admin_dashboard_url

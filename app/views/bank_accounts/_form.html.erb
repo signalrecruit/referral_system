@@ -1,0 +1,55 @@
+<div class="col-md-8">
+  <div class="card">
+    <div class="card-header" data-background-color="purple">
+      <h4 class="title">Fill In Your Bank Details</h4>
+      <p class="category"></p>
+    </div>
+    <div class="card-content">
+      <%= simple_form_for([current_user, bank_account]) do |f| %>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group label-floating">
+            <label class="control-label">Bank Name</label>
+            <%= f.input :bank_name, label: false, required: true, class: "form-control" %>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group label-floating">
+            <label class="control-label">Account Holder's Name</label>
+            <%= f.input :account_holder, label: false, required: true, autofocus: true, placeholder: "exactly as it looks on your bank statement", class: "form-control" %>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group label-floating">
+            <label class="control-label">Account Number</label>
+            <%= f.input :account_number, label: false, required: true, class: "form-control" %>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group label-floating">
+            <label class="control-label">Sort Code</label>
+            <%= f.input :sort_code, label: false, required: true, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group label-floating">
+          <label class="control-label">Account Holder's Address</label>
+            <%= f.input :account_holder_address, label: false, required: true, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+
+      <div class="clearfix">
+        <%= f.button :submit, "create an account", class: "btn btn-primary btn-xs btn-round pull-right" %>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</div>
