@@ -12,11 +12,22 @@
 					<th>Number Companies Brought In</th>
 					<th>Number of Applicants Brought In</th>
 					<th>Total Earnings</th>
+					<th></th>
 				</thead>
 				<% @users.each do |user| %>
 				<tbody>
 					<tr>
-						<td><%= link_to user.username, [:admin, user], class: "btn btn-primary btn-xs btn-round" %></td>
+						<td>
+						  <%= link_to [:admin, user] do %>
+						    <% if user.approved? %>
+						      <button class="btn btn-info btn-xs btn-round">
+						    <% else %>
+						      <button class="btn btn-danger btn-xs btn-round">  
+						    <% end %>
+						      <%= user.username %>
+						      </button>
+						  <% end %>	
+						</td>
 						<td class="text-primary"><%= user.fullname %></td>
 						<td><%= user.companies.count %></td>  	
 						<td><%= user.applicants.count %></td>
@@ -27,6 +38,17 @@
 						    <%= user.cumulative_earnings %>  
 						  <% end %>  
 						</span></td>
+						<td>
+						  <% if user.approved? %>
+						    <%= link_to admin_disapprove_user_url(user), method: :patch, class: "btn btn-default btn-xs btn-round" do %>
+						      <i class="material-icons">thumb_down</i>
+						    <% end %>
+						  <% else %>
+						    <%= link_to admin_approve_user_url(user), method: :patch, class: "btn btn-default btn-xs btn-round" do %>
+						      <i class="material-icons">thumb_up</i>
+						    <% end %>  
+						  <% end %>	
+						</td>
 					</tr>
 				</tbody>
 				<% end %>

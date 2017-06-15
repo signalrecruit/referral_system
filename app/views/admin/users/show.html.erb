@@ -1,8 +1,12 @@
-
 <div class="col-md-8">
   <div class="card">
     <div class="card-header" data-background-color="purple">
-      <h4 class="title"><%= @user.fullname %>'s Profile</h4>
+      <h4 class="title"><%= @user.fullname %>'s Profile
+      <% if @user.approved? %>
+        <span class="pull-right"><i class="material-icons">thumb_up</i></span></h4>
+      <% else %>
+        <span class="pull-right"><i class="material-icons">thumb_down</i></span></h4>  
+      <% end %>  
       <p class="category"></p>
     </div>
     <div class="card-content">
@@ -174,6 +178,7 @@
 
      
       <div class="clearfix">
+      <%= link_to "Back", :back, class: "btn btn-primary btn-xs btn-round pull-right" %>
       
       </div>
     </div>

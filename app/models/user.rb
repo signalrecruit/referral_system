@@ -20,4 +20,12 @@ class User < ActiveRecord::Base
   def profile_completed?
     return true if self.done?
   end
+
+  def approved?
+    return true if self.approval?
+  end
+
+  def disapproved?
+    return true if !self.approval?
+  end
 end

@@ -38,7 +38,7 @@
 		    		</li>
 		    		<% end %>
 		    		<li>
-		    		<% if current_user %>
+		    		<% if current_user && current_user.approved? %>
 		    		  <%= link_to activity_feed_url do %>
 		    		    <i class="material-icons">comment</i>
 		    		    <p>News Feed</p>
@@ -46,7 +46,7 @@
 		    		<% end %>  
 		    		</li>
 		    		<li>
-		    		<% if current_user %>
+		    		<% if current_user && current_user.approved? %>
 		    		  <%= link_to user_companies_url(current_user) do %>
 		    		    <i class="material-icons">business center</i>
 		    		    <p>My Portfolio</p>
@@ -54,14 +54,14 @@
 		    		<% end %>
 		    		</li>
 		    		<li>
-		    		  <% if user_signed_in? %>
+		    		  <% if user_signed_in? && current_user.approved? %>
 		    		    <%= link_to messages_url do %>
 		    			    <p><i class="material-icons">email</i><span class="badge"><%= Message.where(recipient_id: current_user.id, draft: false, read: false).count %></span> Unread Messages</p>
 		    			<% end %>	
 		    		  <% end %>  	
 		    		</li>
 		    		<li>
-		    			<% if user_signed_in? %>
+		    			<% if user_signed_in? && current_user.approved? %>
 		    			  <%= link_to user_stats_url do %>
 		    			    <p><i class="material-icons">show_chart</i>my stats</p>
 		    			  <% end %>

@@ -1,4 +1,4 @@
-<% if user_signed_in? %>
+<% if user_signed_in? && current_user.approved? %>
 <div class="content">
 	<div class="container-fluid">
 		<div class="row">
@@ -70,6 +70,8 @@
 		</div>
 	</div>
 </div>
+<% elsif current_user.disapproved? %>
+ <h2><span class="btn btn-danger btn-lg btn-round">NOTE!! Your Account Is Yet To Be Approved By Admin.</span></h2>
 <% else %>
-<%= link_to "create an account", new_user_registration_url, class: "btn btn-default" %> OR <%= link_to "Log In", new_user_session_url, class: "btn btn-primary" %> to gain access. 
+<%= link_to "create an account", new_user_registration_url, class: "btn btn-default btn-round" %> OR <%= link_to "Log In", new_user_session_url, class: "btn btn-primary btn-round" %> to gain access. 
 <% end %>

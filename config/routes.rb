@@ -15,6 +15,8 @@ Rails.application.routes.draw do
     patch 'applicants/:id/update_salary', to: 'applicants#update_salary', as: :update_salary
     patch 'applicants/:id/update_button', to: 'applicants#update_button', as: :update_button_for_applicants
     get 'applicants/all_applicants', to: 'applicants#all_applicants', as: :manage_all_applicants
+    patch 'users/:id/approve', to: 'users#approve', as: :approve_user
+    patch 'users/:id/disapprove', to: 'users#disapprove', as: :disapprove_user
 
 
     
