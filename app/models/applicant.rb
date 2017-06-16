@@ -8,6 +8,7 @@ class Applicant < ActiveRecord::Base
   has_many :activities, as: :trackable, dependent: :destroy
   has_many :requirement_scores, dependent: :destroy
   has_many :scores, dependent: :destroy
+  has_many :comments, dependent: :destroy
 
   accepts_nested_attributes_for :requirement_scores, reject_if: :all_blank
 

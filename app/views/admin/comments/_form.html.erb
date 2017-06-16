@@ -1,0 +1,23 @@
+<div class="col-md-8">
+	<div class="card">
+		<div class="card-header" data-background-color="purple">
+			<h4 class="title">Reason for <%= @applicant.job_description.company.company_name %> rejecting <%= @applicant.name %> for role as: <%= @applicant.job_description.job_title %></h4>
+		</div>
+		<div class="card-content">
+			<%= simple_form_for([:admin, applicant, comment]) do |f| %>
+			<div class="row">
+				<div class="col-md-4">
+					<div class="form-group label-floating">
+						<label class="control-label">Reason for rejection</label>
+						<%= f.input :feedback, label: false, class: "form-control" %>
+					</div>
+				</div>
+			</div>
+
+			<%= f.button :submit, "Done", class: "btn btn-primary btn-xs btn-round pull-right" %>
+			<div class="clearfix"></div>
+			<%= link_to "Back", :back, class: "btn btn-primary btn-xs btn-round pull-right" %>
+			<% end %>
+		</div>
+	</div>
+</div>

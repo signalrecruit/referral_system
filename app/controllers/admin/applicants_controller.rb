@@ -21,7 +21,7 @@ class Admin::ApplicantsController < Admin::ApplicationController
       if request.referrer == (edit_job_description_applicant_url(@jd, @applicant) || job_description_applicants_url(@jd))
         redirect_to [@jd, @applicant]
       else
-        @applicant.not_hired? ? "#{redirect_to admin_dashboard_url}" : "#{redirect_to :back}"
+        @applicant.not_hired? ? "#{redirect_to new_admin_applicant_comment_url(@applicant)}" : "#{redirect_to :back}"
       end
       @jd.earning_algorithm
       @applicant.pay_user_when_applicant_is_hired

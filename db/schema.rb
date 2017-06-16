@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170615101405) do
+ActiveRecord::Schema.define(version: 20170615162139) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,19 @@ ActiveRecord::Schema.define(version: 20170615101405) do
   end
 
   add_index "bank_accounts", ["user_id"], name: "index_bank_accounts_on_user_id", using: :btree
+
+  create_table "comments", force: :cascade do |t|
+    t.string   "feedback"
+    t.integer  "applicant_id"
+    t.integer  "job_description_id"
+    t.integer  "score_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "comments", ["applicant_id"], name: "index_comments_on_applicant_id", using: :btree
+  add_index "comments", ["job_description_id"], name: "index_comments_on_job_description_id", using: :btree
+  add_index "comments", ["score_id"], name: "index_comments_on_score_id", using: :btree
 
   create_table "companies", force: :cascade do |t|
     t.string   "company_name"
@@ -239,6 +252,9 @@ ActiveRecord::Schema.define(version: 20170615101405) do
   add_foreign_key "applicants", "job_descriptions"
   add_foreign_key "applicants", "users"
   add_foreign_key "bank_accounts", "users"
+  add_foreign_key "comments", "applicants"
+  add_foreign_key "comments", "job_descriptions"
+  add_foreign_key "comments", "scores"
   add_foreign_key "companies", "users"
   add_foreign_key "job_descriptions", "companies"
   add_foreign_key "job_descriptions", "users"

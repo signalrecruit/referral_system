@@ -36,6 +36,10 @@ Rails.application.routes.draw do
     end
 
     resources :messages
+
+    resources :applicants, only: [] do 
+      resources :comments
+    end
   end
 
   devise_for :users, controllers: { registrations: :registrations  }
