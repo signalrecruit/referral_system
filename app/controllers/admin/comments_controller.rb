@@ -23,6 +23,7 @@ class Admin::CommentsController < Admin::ApplicationController
   	@comment.job_description_id = @applicant.job_description_id
 
   	if @comment.save 
+      @applicant.update_applicant_history JobDescription.find(@comment.job_description_id)
   	  flash[:success] = "feedback recorded successfully!"
   	  redirect_to :back 
   	else 
@@ -36,6 +37,7 @@ class Admin::CommentsController < Admin::ApplicationController
 
   def update
   	if @comment.update(comment_params)
+      @applicant.update_applicant_history JobDescription.find(@comment.job_description_id)
   	  flash[:success] = "feedback updated successfully!"
   	  redirect_to :back 
   	else 

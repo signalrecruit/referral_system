@@ -10,7 +10,7 @@ class Applicant < ActiveRecord::Base
   has_many :requirement_scores, dependent: :destroy
   has_many :scores, dependent: :destroy
   has_many :comments, dependent: :destroy
-  has_many :applicant_histories, dependent: :destroy
+  has_many :applicant_records, dependent: :destroy
 
   accepts_nested_attributes_for :requirement_scores, reject_if: :all_blank
 
@@ -43,8 +43,8 @@ class Applicant < ActiveRecord::Base
     comment = Comment.find_by applicant_id: self.id, job_description_id: job_description.id
     score = Score.find_by job_description_id: job_description.id, applicant_id: self.id
     
-    applicant_record.update(applicant_score: score.applicant_score, role: job_description.job_title, applicant_status: self.status, applicant_name: self.applicant_name,
-      comment_id: comment.id, feedback: comment.feedback)
+    applicant_record.update(applicant_score: score.applicant_score, role: job_description.job_title, applicant_status: self.status, applicant_name: self.name,
+      comment_id: comment.try(:id), feedback: comment.try(:feedback))
   end
 
   def updated?
