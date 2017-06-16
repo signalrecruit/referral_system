@@ -33,18 +33,20 @@ class Applicant < ActiveRecord::Base
 
   def record_applicant_history(job_description)
     score = Score.find_by job_description_id: job_description.id, applicant_id: self.id
-    applicant_record = ApplicantRecord.create applicant_id: self.id, applicant_name: self.name,
-     job_description_id: job_description.id, role: job_description.job_title, score_id: score.id, applicant_score: score.id
+    record = ApplicantRecord.create applicant_id: self.id, applicant_name: self.name,
+     job_description_id: job_description.id, role: job_description.job_title, score_id: score.id, applicant_score: score.id,
+      company_name: job_description.company.company_name
   end
 
   def update_applicant_history(job_description)
-    applicant_record = ApplicantRecord.find_by job_description_id: job_description
+    record = ApplicantRecord.find_by job_description_id: job_description, applicant_id: self.id
     
-    comment = Comment.find_by applicant_id: self.id, job_description_id: job_description.id
+    # comment = Comment.find_by applicant_id: self.id, job_description_id: job_description.id 
+    comment = self.comments.last #temporary solution
     score = Score.find_by job_description_id: job_description.id, applicant_id: self.id
     
-    applicant_record.update(applicant_score: score.applicant_score, role: job_description.job_title, applicant_status: self.status, applicant_name: self.name,
-      comment_id: comment.try(:id), feedback: comment.try(:feedback))
+    record.update(applicant_score: score.applicant_score, role: job_description.job_title, applicant_status: self.status, applicant_name: self.name,
+      comment_id: comment.try(:id), feedback: comment.try(:feedback), company_name: job_description.company.company_name)
   end
 
   def updated?

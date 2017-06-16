@@ -94,26 +94,23 @@
 							   <th>Company</th>
 							   <th>Role</th>
 							   <th>Status</th>
+							   <th>Score</th>
 							   <th>Feedback(if not hired)</th>
 							 </thead>
 							 <tbody>
 							 <% if @applicant.applicant_records.any? %>
 							 <% @applicant.applicant_records.each do |record| %>
 								<tr>
-								  <td class="col-md-1"><%#= record.company_name %></td>
+								  <td class="col-md-1"><%= record.company_name %></td>
 								  <td class="col-md-1"><%= record.role %></td>  
 								  <td class="col-md-1"><%= record.applicant_status %></td>
+								  <td class="col-md-1"><%= record.applicant_score %>%</td>
 								  <td class="col-md-1"><%= record.feedback %></td>
 								</tr>
 							 <% end %>	
 							 <% end %>	
 							 </tbody>	
-
 								<br/>
-
-
-
-
 							</table>
 							</div>
 

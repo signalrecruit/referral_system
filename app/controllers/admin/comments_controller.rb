@@ -25,7 +25,7 @@ class Admin::CommentsController < Admin::ApplicationController
   	if @comment.save 
       @applicant.update_applicant_history JobDescription.find(@comment.job_description_id)
   	  flash[:success] = "feedback recorded successfully!"
-  	  redirect_to :back 
+  	  redirect_to admin_manage_all_applicants_url
   	else 
   	  flash[:alert] = "oops! something went wrong"
   	  render :new 	
