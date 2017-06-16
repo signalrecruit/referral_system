@@ -12,14 +12,14 @@ class Admin::CommentsController < Admin::ApplicationController
   def new
     @comment = @applicant.comments.new
 
-    @comment.score_id = Score.find_by job_description_id: @applicant.job_description_id
+    @comment.score_id = (Score.find_by job_description_id: @applicant.job_description_id).id
   	@comment.job_description_id = @applicant.job_description_id
   end
 
   def create
   	@comment = @applicant.comments.build(comment_params)
-
-  	@comment.score_id = Score.find_by job_description_id: @applicant.job_description_id
+    
+    @comment.score_id = (Score.find_by job_description_id: @applicant.job_description_id).id
   	@comment.job_description_id = @applicant.job_description_id
 
   	if @comment.save 
