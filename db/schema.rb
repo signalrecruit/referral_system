@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170615162139) do
+ActiveRecord::Schema.define(version: 20170616124553) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,25 @@ ActiveRecord::Schema.define(version: 20170615162139) do
 
   add_index "activities", ["trackable_type", "trackable_id"], name: "index_activities_on_trackable_type_and_trackable_id", using: :btree
   add_index "activities", ["user_id"], name: "index_activities_on_user_id", using: :btree
+
+  create_table "applicant_records", force: :cascade do |t|
+    t.integer  "job_description_id"
+    t.string   "role"
+    t.integer  "score_id"
+    t.decimal  "applicant_score"
+    t.integer  "comment_id"
+    t.string   "feedback"
+    t.integer  "applicant_id"
+    t.string   "applicant_name"
+    t.string   "applicant_status"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "applicant_records", ["applicant_id"], name: "index_applicant_records_on_applicant_id", using: :btree
+  add_index "applicant_records", ["comment_id"], name: "index_applicant_records_on_comment_id", using: :btree
+  add_index "applicant_records", ["job_description_id"], name: "index_applicant_records_on_job_description_id", using: :btree
+  add_index "applicant_records", ["score_id"], name: "index_applicant_records_on_score_id", using: :btree
 
   create_table "applicants", force: :cascade do |t|
     t.string   "name"
@@ -248,6 +267,10 @@ ActiveRecord::Schema.define(version: 20170615162139) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "activities", "users"
+  add_foreign_key "applicant_records", "applicants"
+  add_foreign_key "applicant_records", "comments"
+  add_foreign_key "applicant_records", "job_descriptions"
+  add_foreign_key "applicant_records", "scores"
   add_foreign_key "applicants", "companies"
   add_foreign_key "applicants", "job_descriptions"
   add_foreign_key "applicants", "users"

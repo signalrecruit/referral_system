@@ -15,7 +15,7 @@ class Admin::ApplicantsController < Admin::ApplicationController
       @applicant.update(update_button: false, update_salary_button: false)   
       @applicant.update_salary
       @applicant.job_description.calculate_jd_actual_worth
-
+      @applicant.update_applicant_history @jd
       flash[:success] = "you successfully updated this applicant"
 
       if request.referrer == (edit_job_description_applicant_url(@jd, @applicant) || job_description_applicants_url(@jd))

@@ -1,4 +1,5 @@
 require "score"
+require "applicant_record"
 class Applicant < ActiveRecord::Base
   include AlgorithmForApplicant
 
@@ -9,6 +10,7 @@ class Applicant < ActiveRecord::Base
   has_many :requirement_scores, dependent: :destroy
   has_many :scores, dependent: :destroy
   has_many :comments, dependent: :destroy
+  has_many :applicant_histories, dependent: :destroy
 
   accepts_nested_attributes_for :requirement_scores, reject_if: :all_blank
 
@@ -27,6 +29,22 @@ class Applicant < ActiveRecord::Base
        score.applicant_score = applicant_score.round
        score.save
      end
+  end
+
+  def record_applicant_history(job_description)
+    score = Score.find_by job_description_id: job_description.id, applicant_id: self.id
+    applicant_record = ApplicantRecord.create applicant_id: self.id, applicant_name: self.name,
+     job_description_id: job_description.id, role: job_description.job_title, score_id: score.id, applicant_score: score.id
+  end
+
+  def update_applicant_history(job_description)
+    applicant_record = ApplicantRecord.find_by job_description_id: job_description
+    
+    comment = Comment.find_by applicant_id: self.id, job_description_id: job_description.id
+    score = Score.find_by job_description_id: job_description.id, applicant_id: self.id
+    
+    applicant_record.update(applicant_score: score.applicant_score, role: job_description.job_title, applicant_status: self.status, applicant_name: self.applicant_name,
+      comment_id: comment.id, feedback: comment.feedback)
   end
 
   def updated?

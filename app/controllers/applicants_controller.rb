@@ -31,6 +31,7 @@ class ApplicantsController < ApplicationController
   	  track_activity @applicant, "added an applicant", current_user.id	
   	  @applicant.update(user_id: current_user.id)	
       @applicant.calculate_applicant_score
+      @applicant.record_applicant_history @jd
   	  flash[:success] = "you successfully added an applicant to this job description"
   	  redirect_to [@jd, @applicant]
   	else
@@ -46,6 +47,7 @@ class ApplicantsController < ApplicationController
   	if @applicant.update(applicant_params)
   	  @applicant.update(update_button: false) 	
       @applicant.calculate_applicant_score
+      @applicant.update_applicant_history @jd
   	  flash[:success] = "you successfully updated this applicant"
 
       if request.referrer == edit_job_description_applicant_url(@jd, @applicant) || request.referrer == job_description_applicants_url(@jd)
