@@ -19,10 +19,10 @@ User.create fullname: "Elliot Alderson", email: "elliot@alderson.com", password:
 User.create fullname: "Darlene Alderson", email: "darlene@alderson.com", password: "password",
  password_confirmation: "password", admin: false, admin_status: 0, phonenumber: "0000000000", username: "Darlene", approval: true
 
-5.times do |n|
-  User.create fullname: "user#{n}", email: "user#{n}@email.com", password: "password", password_confirmation: "password",
-  admin: false, admin_status: 0, phonenumber: "0000000000", username: "user#{n}"
-end
+# 5.times do |n|
+#   User.create fullname: "user#{n}", email: "user#{n}@email.com", password: "password", password_confirmation: "password",
+#   admin: false, admin_status: 0, phonenumber: "0000000000", username: "user#{n}"
+# end
 
 industries = ["Travel&Tours", "Retail/Wholesale", "Power/Energy", "Oil&amp/Mining", "Logistics/Transportation", "Legal/Insurance", "Food Services", "FMCG", "Engineering", 
  "Ecommerce/Internet", "Creative Art/Design", "Agric/Poultry/Fishing", "Advertising/Marketing/Communications", "Banking/Financial Services", "Construction/Real Estate", 

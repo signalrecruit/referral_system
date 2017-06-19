@@ -28,8 +28,8 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def track_activity(trackable, action, user_id, expiration_date=nil)
-    activity = Activity.create! trackable: trackable, action: action, user_id: user_id, expiration_date: expiration_date
+  def track_activity(trackable, action, user_id)
+    activity = Activity.create! trackable: trackable, action: action, user_id: user_id
 
     if activity.trackable_type == "JobDescription" && JobDescription.find(activity.trackable_id).
       company.deal?

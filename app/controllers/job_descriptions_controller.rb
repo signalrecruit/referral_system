@@ -19,7 +19,7 @@ class JobDescriptionsController < ApplicationController
 
   	if @job_description.save 
       @job_description.update(user_id: current_user.id)
-      track_activity @job_description, params[:action], current_user.id, @job_description.expiration_date if @job_description.completed?
+      track_activity @job_description, params[:action], current_user.id if @job_description.completed?
       @job_description.update_applicants_salary
   	  flash[:success] = "you have successfully created a job description"
   	  redirect_to new_job_description_qualification_url(@job_description)
@@ -55,7 +55,6 @@ class JobDescriptionsController < ApplicationController
   def update_button
   	@job_description = JobDescription.find(params[:id])
   	@job_description.update(update_button: true)
-  	# redirect_to company_url(@job_description.company, tab: "job descriptions") + "#job descriptions"
     redirect_to :back
   end
 
@@ -70,7 +69,6 @@ class JobDescriptionsController < ApplicationController
   def update_job_description
     @job_description = JobDescription.find(params[:id])
     @job_description.update(completed: false)
-    # reverse_tracking_activity "create", @job_description.id
     redirect_to :back
   end
 
