@@ -304,9 +304,13 @@
 									<li>
 									<% if activity.trackable.applicants.any? && activity.trackable.applicants.count != activity.trackable.vacancies %>
 
-									<%= link_to new_job_description_applicant_url(activity.trackable) do %>
-									  <i class="material-icons">add</i>applicant
-									<% end %>
+									<% if activity.role_expired? %>
+									  <i class="material-icons">warning</i> This role has expired!
+									<% else %>
+									  <%= link_to new_job_description_applicant_url(activity.trackable) do %>
+									    <i class="material-icons">add</i>applicant
+									  <% end %>
+									<% end %>  
 
 									<% elsif activity.trackable.applicants.any? && activity.trackable.applicants.count == activity.trackable.vacancies %>
 									<p>No more vacancies</p>
@@ -377,9 +381,13 @@
 									<li>
 									<% if activity.trackable.applicants.any? && activity.trackable.applicants.count != activity.trackable.vacancies %>
 
-									<%= link_to new_job_description_applicant_url(activity.trackable) do %>
-									  <i class="material-icons">add</i>applicant
-									<% end %>
+									<% if activity.role_expired? %>
+									  <i class="material-icons">warning</i> This role has expired!
+									<% else %>
+	 								  <%= link_to new_job_description_applicant_url(activity.trackable) do %>
+									    <i class="material-icons">add</i>applicant
+									  <% end %>
+									<% end %>  
 
 									<% elsif activity.trackable.applicants.any? && activity.trackable.applicants.count == activity.trackable.vacancies %>
 									<p>No more vacancies</p>
