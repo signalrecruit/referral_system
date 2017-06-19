@@ -151,7 +151,7 @@ ActiveRecord::Schema.define(version: 20170619120127) do
     t.decimal  "earnings",                default: 0.0
     t.decimal  "potential_worth",         default: 0.0
     t.boolean  "completed",               default: false
-    t.datetime "expiration_date",         default: '2017-06-19 12:04:23'
+    t.datetime "expiration_date",         default: '2017-06-19 14:48:25'
   end
 
   add_index "job_descriptions", ["company_id"], name: "index_job_descriptions_on_company_id", using: :btree

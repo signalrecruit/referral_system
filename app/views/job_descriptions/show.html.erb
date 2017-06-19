@@ -71,6 +71,16 @@
 				</div>
 			</div>
 
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group label-floating">
+						<label class="control-label">Expiration Date</label>
+						<%= @job_description.expiration_date.strftime("%B %d, %Y @%r") %>
+					</div>
+				</div>
+			</div>
+
+
 			<% if @job_description.completed? %>
 			<% else %>
 			<div class="row">
@@ -274,6 +284,10 @@
 					<% end %>
 				</div>
 			</div>
+		</div>
+
+		<div class="row">
+		  	
 		</div>
 
 

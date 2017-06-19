@@ -19,7 +19,7 @@ class JobDescriptionsController < ApplicationController
 
   	if @job_description.save 
       @job_description.update(user_id: current_user.id)
-      track_activity @job_description, params[:action], current_user.id if @job_description.completed?
+      track_activity @job_description, params[:action], current_user.id, @job_description.expiration_date if @job_description.completed?
       @job_description.update_applicants_salary
   	  flash[:success] = "you have successfully created a job description"
   	  redirect_to new_job_description_qualification_url(@job_description)
@@ -88,6 +88,7 @@ class JobDescriptionsController < ApplicationController
   end
 
   def job_params
-  	params.require(:job_description).permit(:job_title, :role_description, :experience, :min_salary, :max_salary, :vacancies, :update_button, :completed)
+  	params.require(:job_description).permit(:job_title, :role_description, :experience, :min_salary, :max_salary, :vacancies, :update_button,
+     :completed, :expiration_date)
   end
 end
