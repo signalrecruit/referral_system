@@ -14,4 +14,8 @@ class JobDescription < ActiveRecord::Base
   def updated?
   	return true if self.update_button?
   end
+
+  def role_expired?
+    return true if self.expiration_date < Time.now 
+  end
 end
