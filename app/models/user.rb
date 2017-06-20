@@ -12,6 +12,9 @@ class User < ActiveRecord::Base
   has_many :job_descriptions, dependent: :destroy
   has_many :messages, dependent: :destroy
   has_many :bank_accounts, dependent: :destroy
+  
+  before_create :unique_username_generation
+
 
   def updated?
   	return true if self.update_button?
@@ -27,5 +30,12 @@ class User < ActiveRecord::Base
 
   def disapproved?
     return true if !self.approval?
+  end
+
+  def unique_username_generation
+    bool_val =  self.class.where(username: self.username).any?
+    if bool_val
+      self.username << "-#{SecureRandom.hex(2)}"
+    end
   end
 end

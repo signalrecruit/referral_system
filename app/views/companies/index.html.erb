@@ -1,4 +1,4 @@
-<%unless @companies.any? %>
+<%unless @companies.any? || @applicants.any? %>
   <h3>Your porfolio is empty</h3>
 <% end %>
 <%= link_to new_user_company_url(current_user) do %>
