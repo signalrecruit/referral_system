@@ -40,6 +40,16 @@
         </div>
       </div>
 
+      <div class="row">
+        <div class="form-group label-floating">
+        <label class="control-label">Payment Method</label>
+          <button class="btn btn-default btn-xs btn-round">
+             <%= @user.payment_option %> 
+          </button>
+        </div>
+      </div>
+
+
       <% unless current_user.profile_completed? %>
       <div class="row">
         <%= link_to edit_user_profile_url(current_user), method: :patch, class: "btn btn-primary btn-xs btn-round" do %>
@@ -82,6 +92,14 @@
           </div>
         </div>
       </div>
+
+      <div class="row">
+        <div class="form-group label-floating">
+        <label class="control-label">Payment Method</label>
+          <%= f.select :payment_option, options_for_select([["mobile money", "mobile money"], ["bank", "bank"]], :selected => f.object.payment_option),{}, {:class => "btn btn-default btn-xs btn-round"} %>
+        </div>
+      </div>
+
 
 
       <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>

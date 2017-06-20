@@ -40,6 +40,13 @@
         </div>
       </div>
 
+      <div class="row">
+        <div class="form-group label-floating">
+        <label class="control-label">Payment Method</label>
+          <%= f.select :payment_option, options_for_select([["mobile money", "mobile money"], ["bank", "bank"]], :selected => f.object.payment_option),{}, {:class => "btn btn-default"} %>
+        </div>
+      </div>
+
 
       <div class="row">
         <div class="col-md-6">
