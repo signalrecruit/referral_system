@@ -93,7 +93,7 @@
 			  <% end %>  
 			  <% else %>
 			  <% if request.referrer == user_companies_url(current_user) %>
-			  <%= link_to "Back", :back, class: "btn btn-primary btn-xs btn-round pull-right" %>
+			  <%#= link_to "Back", :back, class: "btn btn-primary btn-xs btn-round pull-right" %>
 			  <% else %>
 			    <%= link_to "Go to #{@applicant.company.alias_name}'s job descriptions", company_job_descriptions_url(@applicant.company), class: "btn btn-primary btn-xs btn-round pull-right" %>  
 			  <% end %>  
