@@ -168,9 +168,13 @@
 									<li>
 									<% if activity.trackable.job_description.applicants.count != activity.trackable.job_description.vacancies %>
 
+									<% if activity.trackable.job_description.role_expired? %>
+									  <i class="material-icons">warning</i> This role has expired!
+									<% else %>
 									  <%= link_to new_job_description_applicant_url(activity.trackable.job_description) do %>
 									    <i class="material-icons">add</i>applicant
 									  <% end %>
+									<% end %>  
 									<% else %>
 									<p>No more vacancies</p>  
 									<% end %>  									
@@ -226,9 +230,13 @@
 									<li>
 									<% if activity.trackable.job_description.applicants.count != activity.trackable.job_description.vacancies %>
 
+									<% if activity.trackable.job_description.role_expired? %>
+									  <i class="material-icons">warning</i> This role has expired!
+									<% else %>
 									  <%= link_to new_job_description_applicant_url(activity.trackable.job_description) do %>
 									    <i class="material-icons">add</i>applicant
 									  <% end %>
+									<% end %>  
 									<% else %>
 									<p>No more vacancies</p>  
 									<% end %>  									
@@ -392,10 +400,14 @@
 									<% elsif activity.trackable.applicants.any? && activity.trackable.applicants.count == activity.trackable.vacancies %>
 									<p>No more vacancies</p>
 
-									<% elsif activity.trackable.applicants.empty? %> 									
-									<%= link_to new_job_description_applicant_url(activity.trackable) do %>
-									  <i class="material-icons">add</i>applicant
-									<% end %>
+									<% elsif activity.trackable.applicants.empty? %> 
+									  <% if activity.role_expired? %>
+									    <i class="material-icons">warning</i> This role has expired!
+									  <% else %>									
+									    <%= link_to new_job_description_applicant_url(activity.trackable) do %>
+									      <i class="material-icons">add</i>applicant
+									    <% end %>
+									  <% end %>  
 									<% end %>	
 									</li>
 								</ul>
