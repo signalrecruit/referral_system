@@ -48,7 +48,7 @@ class JobDescriptionsController < ApplicationController
   end
 
   def destroy
-    @job_description.destroy
+    @job_description.remove_related_activities_from_newsfeed
     redirect_to :back
   end
 

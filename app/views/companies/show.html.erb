@@ -136,6 +136,7 @@
 													<th>Attachments</th>
 													<th></th>
 													<th></th>
+													<th></th>
 												</thead>
 												<tbody>
 													<% if @company.job_descriptions.any? %>
@@ -195,7 +196,7 @@
 															<%# end %>
 														</td> -->
 														<td><%= link_to company_job_description_url(@company, jd), class: "btn btn-primary btn-xs btn-round" do %>
-															<i class="material-icons">visibility</i>Details of Job Description
+															<i class="material-icons">visibility</i>Details of JD
 															<% end %>
 														</td>
 														<td>
@@ -215,7 +216,13 @@
 															<% end %>  
 															<% end %>
 														</td>
-														<td></td>
+														<td>
+														  <%= link_to [jd.company, jd], method: :delete, data: {confirm: "Are sure you want to delete this JD?"} do %>
+														  <button type="button" title="Remove" class="btn btn-primary btn-simple btn-xs">
+														  	<i class="material-icons">close</i>
+														  </button>
+														  <% end %>	
+														</td>
 													</tr>
 													<% end %>
 													<% end %>	

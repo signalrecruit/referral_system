@@ -105,9 +105,21 @@
 					<% @count +=1 %>
 					<tr>
 						<td class="col-md-1"><%= @count %>.</td>
-						<td class="col-md-4"><%= link_to applicant.name, [applicant.job_description, applicant] %></td>
+						<td class="col-md-4">
+						<% if !applicant.job_description.nil? %> 
+						  <%= link_to applicant.name, [applicant.job_description, applicant] %>
+						<% else %>
+						  <%= applicant.name %>
+						<% end %> 	
+						 </td>
 						<td class="col-md-2">applied for</td>
-						<td class="col-md-4"><%= link_to applicant.job_description.job_title, [applicant.company, applicant.job_description] %></td>
+						<td class="col-md-4">
+						<% if !applicant.job_description.nil? %>
+						  <%= link_to applicant.job_description.try(:job_title), [applicant.company, applicant.job_description] %>
+						<% else %>
+						  -
+						<% end %>	
+						</td>
 						<td>
 							<% if applicant.none? %>
 							<button class="btn btn-default btn-xs btn-round">
@@ -132,17 +144,21 @@
 							<% end %>
 						</td>
 						<td>
-						<%= link_to [:edit, applicant.job_description, applicant] do %>
+						  <% if !applicant.job_description.nil? %>
+						  <%= link_to [:edit, applicant.job_description, applicant] do %>
 							<button type="button" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
 								<i class="material-icons">edit</i>
 							</button>
-							<% end %>	
+					      <% end %>	
+					      <% end %>
 						</td>
 						<td>
+						  <% if !applicant.job_description.nil? %>
 						  <%= link_to job_description_applicant_url(applicant.job_description, applicant), method: :delete, data: {confirm: "are you sure you want to delete this applicant?"} do  %>
 							  <button type="button" title="Remove" class="btn btn-primary btn-simple btn-xs">
 							    <i class="material-icons">close</i>
 							  </button>  	
+						  <% end %>
 						  <% end %>
 						</td>
 					</tr>                                       
