@@ -51,14 +51,17 @@
 	                                        	<% if applicant.user == current_user %>
 	                                        	  <%= link_to update_button_for_applicants_url(applicant), method: :patch do %>
 	                                        	    <button type="button" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
-																<i class="material-icons">edit</i>..
+																<i class="material-icons">edit</i>
 															</button>
 	                                        	  <% end %>	
 
+	                                        	  <% if @jd.nil? %>
 	                                        	  <%= link_to job_description_applicant_url(@jd, applicant), method: :delete, data: { confirm: "are you sure?"}  do %>
-	                                        	     <button type="button" title="Remove" class="btn btn-primary btn-simple btn-xs">
-																<i class="material-icons">close</i>
-															</button>
+	                                        	    <button type="button" title="Remove" class="btn btn-primary btn-simple btn-xs">
+	                                        	  	  <i class="material-icons">close</i>
+	                                        	    </button>
+	                                        	  <% end %>
+	                                        	  <% else %>
 	                                        	  <% end %>
 	                                        	<% end %>  
 	                                        	</td>
