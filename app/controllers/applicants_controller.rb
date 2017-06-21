@@ -62,9 +62,10 @@ class ApplicantsController < ApplicationController
   end
 
   def destroy
-  	@applicant.destroy
+  	@applicant.remove_related_activities_from_newsfeed
   	flash[:success] = "deletion successful"
-  	redirect_to job_description_applicants_url(@jd)
+  	# redirect_to job_description_applicants_url(@jd)
+    redirect_to :back
   end
 
   def update_button

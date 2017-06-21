@@ -1,5 +1,6 @@
 require "score"
 require "applicant_record"
+require "activity"
 class Applicant < ActiveRecord::Base
   include AlgorithmForApplicant
 
@@ -15,8 +16,7 @@ class Applicant < ActiveRecord::Base
   accepts_nested_attributes_for :requirement_scores, reject_if: :all_blank
 
   validates :name, :email, :phonenumber, :location, :min_salary, :max_salary, presence: true
-
-
+  
   def calculate_applicant_score
     applicant_score = ((self.requirement_scores.where(applicant_id: self.id, job_description_id: self.job_description_id).sum(:score)/self.requirement_scores.count) * 100).round(2)
     score = Score.find_by applicant_id: self.id, job_description_id: self.job_description_id
@@ -52,5 +52,19 @@ class Applicant < ActiveRecord::Base
   def updated?
   	return true if self.update_button?
   end 
+
+  def remove_related_activities_from_newsfeed
+    activity = Activity.find_by trackable_type: "Applicant", trackable_id: self.id  
+    activity.destroy if !activity.nil?
+    self.applicant_records.delete_all if self.applicant_records.any?
+    self.comments.delete_all if self.comments.any?
+    self.scores.delete_all if self.scores.any?
+    self.requirement_scores.delete_all if self.requirement_scores.any?    
+    self.destroy
+  end
+
+  def update_related_activities_from_newsfeed
+
+  end
 end
 

@@ -26,4 +26,8 @@ class Company < ActiveRecord::Base
   def deal_true
   	self.update(deal: true)
   end
+
+  def remove_related_activities_from_newsfeed
+    
+  end
 end
