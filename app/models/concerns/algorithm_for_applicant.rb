@@ -48,15 +48,17 @@ module AlgorithmForApplicant
       self.user.update(cumulative_earnings: calculate_cumulative_earnings)
     end   
   end
-
+  
+  # updated to cater for nil value for job_description_id on applicant
   def applicant_re_negotiated?
-    self.salary != self.job_description.vacancy_worth
+    self.salary != self.job_description.vacancy_worth if !self.job_description.nil?
   end
 
+  # updated to cater for nil value for job_description_id on applicant 
   def update_salary
     if !self.hired? && !applicant_re_negotiated?
-      self.update(salary: self.job_description.vacancy_worth.round(2))  
+      self.update(salary: self.job_description.vacancy_worth.round(2)) if !self.job_description.nil?
     end
-    self.update(salary: self.job_description.vacancy_worth.round(2)) if !self.hired? && !self.salary_negotiation?
+    self.update(salary: self.job_description.vacancy_worth.round(2)) if !self.hired? && !self.salary_negotiation? && !self.job_description.nil?
   end
 end

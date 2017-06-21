@@ -21,15 +21,32 @@
 	                                    <% if @all_applicants.any? %>
 	                                    <% @all_applicants.each do |applicant| %>
 	                                        <tr>
-	                                        	<td><%= link_to applicant.name, [:admin, applicant.job_description, applicant] %></td>
+	                                        	<td>
+	                                        	<% if applicant.job_description.nil? %>
+	                                        	  <%= applicant.name %>	
+	                                        	<% else %>	
+	 	                                       	  <%= link_to applicant.name, [:admin, applicant.job_description, applicant] %>
+	 	                                       	<% end %>	
+	 	                                       	</td>
+	                                        	
 	                                        	<td><%= link_to applicant.company.company_name, [:admin, applicant.company, tab: "company"] %></td>
-	                                        	<td><%= applicant.job_description.job_title %></td>
+	                                        	<td>
+	                                        	<% if applicant.job_description.nil? %>	
+	                                        	  <button class="btn btn-default btn-xs btn-round">
+	                                        	  	no role
+	                                        	  </button>
+	                                        	<% else %>    
+	                                        	  <%= applicant.job_description.job_title %>
+	                                        	<% end %>	
+	                                        	</td>
 												<td>
 												<% if applicant.updated? %>
+												    <% unless applicant.job_description.nil? %>
 													<%= simple_form_for([:admin, applicant.job_description, applicant]) do |f| %>
 													<%= f.select :status, options_for_select([["shortlisted", "shortlisted"], ["interviewing", "interviewing"], ["testing", "testing"], ["salary negotiation", "salary negotiation" ], ["hired", "hired"], ["not hired", "not hired"]], :selected => f.object.status),{}, class: "btn btn-primary btn-xs btn-round" %>
 
 													<%= f.button :submit, "submit", class: "btn btn-primary btn-xs btn-round" %>
+													<% end %>
 													<% end %>
 												<% else %>
 												  <% if applicant.none? %>
