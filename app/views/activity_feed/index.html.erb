@@ -292,12 +292,29 @@
 							</button> 
 							   for a role as: 
 							<% if activity.trackable.company.deal? %>
-							  <span class="btn btn-info btn-xs btn-round">
+							<span class="dropdown">
+							  <span class="dropdown-toggle btn btn-info btn-xs btn-round" data-toggle="dropdown">
 							<% else %>  
-							  	<span class="btn btn-default btn-xs btn-round">
+							  	<span class="dropdown-toggle btn btn-default btn-xs btn-round" data-toggle="dropdown">
 							<% end %>  	
-							  <%= activity.trackable.job_description.job_title %></span>
-						 						    
+							  <%= activity.trackable.job_description.job_title %>
+							  </span>
+
+							  <% if activity.trackable.company.user != current_user %>
+							   <ul class="dropdown-menu">
+							      <li>
+							    <% if activity.trackable.job_description.role_expired? %>
+							      <i class="material-icons">warning</i> This role has expired!
+							    <% else %>
+							      <%= link_to new_job_description_applicant_url(activity.trackable.job_description) do %>
+							        <i class="material-icons">add</i>applicant
+							      <% end %>
+							    <% end %>
+							      </li>	
+							    </ul>  
+							  <% else %>
+							  <% end %>
+							</span>						 						    
 						</td>
 						<td><%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %></td>
 					  <% end %>	
