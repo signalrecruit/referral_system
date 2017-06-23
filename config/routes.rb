@@ -88,4 +88,7 @@ Rails.application.routes.draw do
   resources :applicants, only: [] do 
     resources :requirement_scores
   end
+
+
+  match "*path", to: "application#routing_error", via: :all
 end
