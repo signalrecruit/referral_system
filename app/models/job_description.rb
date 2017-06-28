@@ -9,6 +9,9 @@ class JobDescription < ActiveRecord::Base
   has_many :applicants, dependent: :nullify
   has_many :qualifications, dependent: :destroy
   has_many :required_experiences, dependent: :destroy
+  has_many :attachments, dependent: :destroy
+
+  accepts_nested_attributes_for :attachments, reject_if: :all_blank
 
   validates :job_title, :role_description, :experience, :min_salary, :max_salary, :vacancies, presence: true
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170620144702) do
+ActiveRecord::Schema.define(version: 20170628103337) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,6 +74,15 @@ ActiveRecord::Schema.define(version: 20170620144702) do
   add_index "applicants", ["company_id"], name: "index_applicants_on_company_id", using: :btree
   add_index "applicants", ["job_description_id"], name: "index_applicants_on_job_description_id", using: :btree
   add_index "applicants", ["user_id"], name: "index_applicants_on_user_id", using: :btree
+
+  create_table "attachments", force: :cascade do |t|
+    t.string   "file"
+    t.integer  "job_description_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "attachments", ["job_description_id"], name: "index_attachments_on_job_description_id", using: :btree
 
   create_table "bank_accounts", force: :cascade do |t|
     t.string   "account_holder"
@@ -277,6 +286,7 @@ ActiveRecord::Schema.define(version: 20170620144702) do
   add_foreign_key "applicants", "companies"
   add_foreign_key "applicants", "job_descriptions"
   add_foreign_key "applicants", "users"
+  add_foreign_key "attachments", "job_descriptions"
   add_foreign_key "bank_accounts", "users"
   add_foreign_key "comments", "applicants"
   add_foreign_key "comments", "job_descriptions"

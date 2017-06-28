@@ -145,7 +145,7 @@
 													<%= simple_form_for([@company, jd]) do |f| %>
 													<tr>
 														<button class="btn btn-success btn-xs btn-round pull-left">
-														GHS <%= jd.worth || "0.00" %>
+														GHS <%= jd.actual_worth || "0.00" %>
 													</button> 
 														<td><%= f.input :job_title, label: false, class: "form-control" %></td>
 														<td><%= f.input :experience, label: false, class: "form-control" %> </td>

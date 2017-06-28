@@ -61,6 +61,31 @@
 					</div>
 				</div>
 			</div>
+
+			<div class="row">
+				<div class="col-md-8">
+					<div class="form-group label-floating">
+						<label class="control-label">Upload CVs and other relevant documents</label>
+						<br>
+						<% if @job_description.attachments.empty? %>
+						  <%= f.simple_fields_for :attachments do |ff| %>
+						  <label class="mdl-button mdl-js-button mdl-button--icon mdl-button--file">
+						    <i class="material-icons">attach_file</i><%= ff.input :file, as: :file, label: "File# #{ff.index + 1}", class: "form-control" %>
+						    <%= ff.input :file_cache, as: :hidden, label: false, class: "form-control" %>
+						  </label>
+						  <br>  
+						  <% end %>
+						<% else %>
+						  <%= f.simple_fields_for :attachments, @job_description.attachments do |ff| %>
+						  <label class="mdl-button mdl-js-button mdl-button--icon mdl-button--file">
+						    <%= File.basename(ff.object.file.to_s) %><i class="material-icons">attach_file</i><%= ff.input :file, as: :file, label: "File# #{ff.index + 1}", class: "form-control" %>
+						    <%= ff.input :file_cache, as: :hidden, label: false, class: "form-control" %>,
+						  </label>
+						  <% end %>    
+						<% end %>  
+					</div>
+				</div>
+			</div>
 			<%= f.button :submit, "Done", class: "btn btn-primary btn-xs btn-round pull-right" %>
 			<div class="clearfix"></div>
 			<% end %>

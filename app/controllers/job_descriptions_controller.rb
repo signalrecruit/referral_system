@@ -8,10 +8,16 @@ class JobDescriptionsController < ApplicationController
   end
 
   def show
+    if @job_description.attachments.empty?
+      3.times { @job_description.attachments.build } 
+    else 
+      @job_description.attachments  
+    end
   end
 
   def new
   	@job_description = @company.job_descriptions.build
+    3.times { @job_description.attachments.build }
   end
   
   def create
@@ -87,6 +93,6 @@ class JobDescriptionsController < ApplicationController
 
   def job_params
   	params.require(:job_description).permit(:job_title, :role_description, :experience, :min_salary, :max_salary, :vacancies, :update_button,
-     :completed, :expiration_date)
+     :completed, :expiration_date, attachments_attributes: [:id, :file, :file_cache, :_destroy])
   end
 end

@@ -61,5 +61,8 @@ gem 'simple_form'
 gem 'devise'
 gem 'therubyracer'
 gem 'rails_12factor'
+gem 'carrierwave', '~> 1.0'
+gem 'mini_magick', '~> 3.4'
+
 
 

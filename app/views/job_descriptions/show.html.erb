@@ -72,6 +72,27 @@
 			</div>
 
 			<div class="row">
+				<div class="col-md-4">
+					<div class="form-group label-floating">
+						<label class="control-label">Uploaded CVs/Resumes</label>
+						<% if @job_description.attachments.any? { |attachment| attachment.persisted? } %>
+						<% @job_description.attachments.each do |attachment| %>
+						  <%= link_to File.basename(attachment.file.url), attachment_url(attachment) %>(<%= number_to_human_size(attachment.file.size) %>) 
+						  <%= link_to attachment_url(attachment), method: :delete, data: { confirm: "Are you sure you want to delete this file?"} do %>
+						    <button type="button" title="Remove" class="btn btn-primary btn-simple btn-xs">
+						  	  <i class="material-icons">close</i>
+						    </button>
+						  <% end %>
+						  <br>
+						<% end %>
+						<% else %>
+						  No file uploaded.
+						<% end %>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
 				<div class="col-md-6">
 					<div class="form-group label-floating">
 						<label class="control-label">Expiration Date</label>

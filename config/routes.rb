@@ -89,6 +89,8 @@ Rails.application.routes.draw do
     resources :requirement_scores
   end
 
+  resources :attachments, only: [:show, :destroy]
+
 
   match "*path", to: "application#routing_error", via: :all
 end
