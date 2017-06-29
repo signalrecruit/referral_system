@@ -15,7 +15,7 @@
 						<th>Location</th>
 						<th>Min Salary</th>
 						<th>Max Salary</th>
-						<th>Attachments</th>
+						<th>CV/Resume</th>
 						<th>Agreed salary</th>
 						<th></th>
 						<% if @applicants.any? { |applicant| !applicant.update_salary_button? } %>
@@ -40,7 +40,7 @@
 							<td><%= applicant.location %></td>
 							<td><%= applicant.min_salary %></td>
 							<td><%= applicant.max_salary %></td>
-							<td><%= applicant.attachment %></td>
+							<td><%= applicant.cv %></td>
 							<td>
 							  <button class="btn btn-success btn-xs btn-round">
 							    <% if !applicant.hired? %>	

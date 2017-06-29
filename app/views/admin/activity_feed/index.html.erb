@@ -14,11 +14,7 @@
 				<% if @feed.any? %>
 				<% @feed.each do |activity| %>
 				  <% if activity.action == "create" && activity.trackable_type == "Company" %>    
-					<% if activity.trackable.deal? %>
-					  <tr>
-					<% else %>
-					  <tr style="background: #999999;">  
-					<% end %>
+					<tr>
 					<% if !activity.trackable.nil? %>
 						<td><span class="text-primary"><%= activity.user.username %></span> just brought in <span class="text-primary"><%= link_to activity.trackable.company_name, admin_company_url(activity.trackable ,tab: "company"), class: "btn btn-primary btn-xs btn-round" %></span> 
 						NOTE: no deal has been made yet!
@@ -28,12 +24,7 @@
 					</tr>
 
 				   <% elsif activity.action == "no deal" && activity.trackable_type == "Company" %>    
-				   <% if activity.trackable.deal? %>
-					  <tr>
-					<% else %>
-					  <tr style="background: #999999;">  
-					<% end %>
-
+					<tr>
 					<% if !activity.trackable.nil? %>
 						<td><span class="text-primary"><%= activity.user.username %></span> just brought in <span class="text-primary"><%= link_to activity.trackable.company_name, admin_company_url(activity.trackable ,tab: "company"), class: "btn btn-default btn-xs btn-round" %></span> 
 						NOTE: This deal has been cancelled.!
@@ -62,11 +53,7 @@
 					</tr>
 
 					<% elsif activity.action == "inactive" && activity.trackable_type == "Company" %>
-					  <% if activity.trackable.deal? %>
-					  <tr>
-					<% else %>
-					  <tr style="background: #999999;">  
-					<% end %>
+					<tr>
 					    <% if !activity.trackable.nil? %>
 						<td><span class="text-primary">The Agency</span> just made a deal with
 						<% if activity.trackable.user != current_user %>
@@ -87,11 +74,7 @@
 
 
 					<% elsif activity.action == "create" && (activity.trackable_type == "JobDescription" && activity.permitted? ) %>
-					<% if activity.trackable.company.deal? %>
-					  <tr>
-					<% else %>
-					  <tr style="background: #999999;">  
-					<% end %>
+					<tr>
 					  <% if !activity.trackable.nil? %>
 					    <td><span class="btn btn-primary btn-xs btn-round"><%= activity.trackable.company.company_name %></span> is looking for <%= pluralize(activity.trackable.vacancies, "applicant") %> to fill the role of
 					    <% if activity.trackable.company.user != current_user %>
@@ -110,11 +93,7 @@
 
 				   <% elsif activity.action == "added an applicant" && activity.trackable_type == "Applicant" %>
 				   <% if !activity.trackable.nil? %>
-				     <% if activity.trackable.company.deal? %>
-				     <tr>
-				   	 <% else %>
-				   	 <tr style="background: #999999;">  
-				   	 <% end %>
+				    <tr>
 						<td><span class="text-primary"><%= activity.user.username %></span> just brought in
 						<% if activity.trackable.user != current_user %>
 							<span class="dropdown">
@@ -158,11 +137,7 @@
 
 					<% elsif (activity.action == "not hired" || activity.action == "hired") && activity.trackable_type == "Applicant" %>
 					<% if !activity.trackable.nil? %>
-				     <% if activity.trackable.company.deal? %>
 				     <tr>
-				   	 <% else %>
-				   	 <tr style="background: #999999;">  
-				   	 <% end %>
 						<td>
 						<% if activity.trackable.user != current_user %>
 							<span class="dropdown">
@@ -232,11 +207,7 @@
 					</tr>	
 					
 					<% elsif activity.action == "inactive" && activity.trackable_type == "JobDescription" %>
-					<% if activity.trackable.company.deal? %>
-					  <tr>
-					<% else %>
-					  <tr style="background: #999999;">  
-					<% end %>
+					<tr>
 					  <% if !activity.trackable.nil? %>
 					    <td>
 					    <% if activity.action = "inactive" %> 	

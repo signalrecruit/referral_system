@@ -4,6 +4,8 @@ require "activity"
 class Applicant < ActiveRecord::Base
   include AlgorithmForApplicant
 
+  mount_uploader :cv, CvUploader
+
   belongs_to :company
   belongs_to :job_description, counter_cache: :number_of_applicants
   belongs_to :user
@@ -15,7 +17,7 @@ class Applicant < ActiveRecord::Base
 
   accepts_nested_attributes_for :requirement_scores, reject_if: :all_blank
 
-  validates :name, :email, :phonenumber, :location, :min_salary, :max_salary, presence: true
+  validates :name, :email, :phonenumber, :location, :min_salary, :max_salary, :cv, presence: true
   
   def calculate_applicant_score
     applicant_score = ((self.requirement_scores.where(applicant_id: self.id, job_description_id: self.job_description_id).sum(:score)/self.requirement_scores.count) * 100).round(2)
