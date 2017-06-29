@@ -186,7 +186,7 @@
 														<td><%= jd.vacancies %></td>
 														<td>
 														  <% jd.attachments.each do |attachment| %>
-														    <%= link_to truncate(File.basename(attachment.file.url), length: 10, omission: "...(pdf)"), attachment_url(attachment) %>
+														    <%= link_to truncate(File.basename(attachment.file.url), length: 10, omission: "...(pdf)"), attachment.file.url %>
 														  <% end %>	
 														</td>
 														<!-- <td>

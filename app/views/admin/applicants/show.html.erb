@@ -61,7 +61,7 @@
 								<div class="col-md-6">
 									<div class="form-group label-floating">
 									<label class="control-label">Attachment(CV/resume)</label>
-									  <%= @applicant.cv %>
+									  <%= link_to File.basename(@applicant.cv.url), applicant.cv.url %>
 									</div>
 								</div>
 							</div>
