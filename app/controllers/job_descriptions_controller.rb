@@ -9,7 +9,7 @@ class JobDescriptionsController < ApplicationController
 
   def show
     if @job_description.attachments.empty?
-      3.times { @job_description.attachments.build } 
+      @job_description.attachments.build 
     else 
       @job_description.attachments  
     end
@@ -17,7 +17,7 @@ class JobDescriptionsController < ApplicationController
 
   def new
   	@job_description = @company.job_descriptions.build
-    3.times { @job_description.attachments.build }
+    @job_description.attachments.build 
   end
   
   def create

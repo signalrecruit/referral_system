@@ -67,22 +67,29 @@
 					<div class="form-group label-floating">
 						<label class="control-label">Upload CVs and other relevant documents</label>
 						<br>
-						<% if @job_description.attachments.empty? %>
-						  <%= f.simple_fields_for :attachments do |ff| %>
-						  <label class="mdl-button mdl-js-button mdl-button--icon mdl-button--file">
-						    <i class="material-icons">attach_file</i><%= ff.input :file, as: :file, label: "File# #{ff.index + 1}", class: "form-control" %>
-						    <%= ff.input :file_cache, as: :hidden, label: false, class: "form-control" %>
-						  </label>
-						  <br>  
-						  <% end %>
+						<% if !@job_description.attachments.any? { |attachment| attachment.persisted? } %>
+						<div id="attachments">
+							<%= f.simple_fields_for :attachments do |ff| %>
+							<label class="mdl-button mdl-js-button mdl-button--icon mdl-button--file">
+							add file<i class="material-icons">attach_file</i><%= ff.input :file, as: :file, label: false, class: "form-control" %>
+								<%= ff.input :file_cache, as: :hidden, label: false, class: "form-control" %>
+							</label>
+							<br>  
+							<% end %>  
+						</div>  
 						<% else %>
+						<div id="attachments">
 						  <%= f.simple_fields_for :attachments, @job_description.attachments do |ff| %>
 						  <label class="mdl-button mdl-js-button mdl-button--icon mdl-button--file">
-						    <%= File.basename(ff.object.file.to_s) %><i class="material-icons">attach_file</i><%= ff.input :file, as: :file, label: "File# #{ff.index + 1}", class: "form-control" %>
+						    <%= File.basename(ff.object.file.to_s) %>add file<i class="material-icons">attach_file</i><%= ff.input :file, as: :file, label: false, class: "form-control" %>
 						    <%= ff.input :file_cache, as: :hidden, label: false, class: "form-control" %>,
 						  </label>
 						  <% end %>    
+						</div>  
 						<% end %>  
+						<p>
+						  <%#= link_to "Add another file", new_attachment_url, id: "add_file", remote: true %>	
+						</p>
 					</div>
 				</div>
 			</div>
@@ -92,3 +99,5 @@
 		</div>
 	</div>
 </div>
+
+

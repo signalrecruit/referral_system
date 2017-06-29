@@ -1,0 +1,7 @@
+<%= f.simple_fields_for :attachments do |ff| %>
+<label class="mdl-button mdl-js-button mdl-button--icon mdl-button--file">
+<i class="material-icons">attach_file</i><%= ff.input :file, as: :file, label: false, class: "form-control" %>
+	<%= ff.input :file_cache, as: :hidden, label: false, class: "form-control" %>
+</label>
+<br>  
+<% end %>
