@@ -41,4 +41,7 @@ Rails.application.configure do
 
   # default url options for devise
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+  # configure log levels
+  config.log_level = :info
 end
