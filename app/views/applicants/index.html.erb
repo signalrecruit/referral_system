@@ -46,7 +46,7 @@
 	                                        	<td><%= applicant.location %></td>
 	                                        	<td><%= applicant.min_salary %></td>
 	                                        	<td><%= applicant.max_salary %></td>
-	                                        	<td><%= applicant.attachment %></td>
+	                                        	<td><%= link_to File.basename(applicant.cv.url), applicant.cv.url %></td>
 	                                        	<td>
 	                                        	<% if applicant.user == current_user %>
 	                                        	  <%= link_to update_button_for_applicants_url(applicant), method: :patch do %>

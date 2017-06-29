@@ -40,7 +40,7 @@
 							<td><%= applicant.location %></td>
 							<td><%= applicant.min_salary %></td>
 							<td><%= applicant.max_salary %></td>
-							<td><%= link_to File.basename(applicant.cv.url), applicant.file.url %></td>
+							<td><%= link_to File.basename(applicant.cv.url), applicant.cv.url %></td>
 							<td>
 							  <button class="btn btn-success btn-xs btn-round">
 							    <% if !applicant.hired? %>	
