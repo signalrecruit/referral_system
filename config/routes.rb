@@ -92,5 +92,5 @@ Rails.application.routes.draw do
   resources :attachments, only: [:new, :show, :destroy]
 
 
-  match "*path", to: "application#routing_error", via: :all
+  match "*path", to: "application#routing_error", via: :all if Rails.env.production?
 end

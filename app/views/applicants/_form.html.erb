@@ -240,7 +240,10 @@
 				<div class="col-md-3">
 					<div class="form-group label-floating">
 						<label class="control-label">Attachment(CV/Resume)</label>
-						<%= f.input :cv, as: :file, label: false %>
+						<label class="mdl-button mdl-js-button mdl-button--icon mdl-button--file">
+						  add file<i class="material-icons">attach_file</i><%= f.input :cv, as: :file, label: false %>
+						  <%= f.input :cv_cache, as: :hidden, label: false %>
+						</label>
 					</div>
 				</div>
 			</div>
@@ -339,7 +342,10 @@
 				<div class="col-md-3">
 					<div class="form-group label-floating">
 						<label class="control-label">Attachment(CV/Resume)</label>
-						<%= f.input :cv, as: :file, label: false %>
+						<label class="mdl-button mdl-js-button mdl-button--icon mdl-button--file">
+						  add file<i class="material-icons">attach_file</i><%= f.input :cv, as: :file, label: false %>
+						  <%= f.input :cv_cache, as: :hidden, label: false %>
+						</label>
 					</div>
 				</div>
 			</div>

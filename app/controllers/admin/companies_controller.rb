@@ -53,10 +53,14 @@ class Admin::CompaniesController < Admin::ApplicationController
 
   def deal_with_company
     if @company.deal?
-      @company.no_deal
-      track_activity @company, "no deal", @company.user_id 
-      update_jds_of_company_in_activity @company
-      update_company_in_activity @company
+      if @company.job_descriptions.any? { |jd| jd.applicants.any? }
+        flash[:alert] = "not applicant. Applicants have been linked with this company."
+      else
+        @company.no_deal
+        track_activity @company, "no deal", @company.user_id 
+        update_jds_of_company_in_activity @company
+        update_company_in_activity @company
+      end
     else
       if @company.contacted?
         @company.deal_true 

@@ -2,9 +2,10 @@ module Error
   module ErrorHandler
     def self.included base 
       base.class_eval do 
-      	rescue_from StandardError, with: :unknown_error
-        rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
-        # rescue_from ActionController::RoutingError, with: :routing_error
+        unless !Rails.env.production?  
+      	  rescue_from StandardError, with: :unknown_error
+          rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+        end
       end
     end
 
@@ -20,7 +21,7 @@ module Error
     private 
 
     def unknown_error(exception)
-      flash[:alert] = "oops! something went Error: wrong #{exception}."
+      flash[:alert] = "oops! something went wrong. Error: #{exception}."
       if current_user.admin?
       	redirect_to admin_dashboard_url
       else	
