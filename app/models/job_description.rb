@@ -14,6 +14,7 @@ class JobDescription < ActiveRecord::Base
   accepts_nested_attributes_for :attachments, reject_if: :all_blank
 
   validates :job_title, :role_description, :experience, :min_salary, :max_salary, :vacancies, presence: true
+  validates :experience, :vacancies, :min_salary, :max_salary, numericality: { greater_than_or_equal_to: 0 }
 
   def updated?
   	return true if self.update_button?
