@@ -35,7 +35,7 @@
 					<% elsif activity.action == "no deal" && activity.trackable_type == "Company" %>    
 					    <tr>
 					  <% if !activity.trackable.nil? %>
-						<td><span class="text-primary"><%= activity.user.username %></span> just brought in <span class="text-primary"><%= link_to activity.trackable.company_name, admin_company_url(activity.trackable ,tab: "company"), class: "btn btn-default btn-xs btn-round" %></span> 
+						<td><span class="text-primary"><%= activity.user.username %></span> just brought in <span class="text-primary"><%= link_to activity.trackable.alias_name, admin_company_url(activity.trackable ,tab: "company"), class: "btn btn-default btn-xs btn-round" %></span> 
 							NOTE: This deal has been cancelled.!
 						</td> 
 						<td><%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %></td> 
@@ -49,11 +49,11 @@
 						<% if activity.trackable.user != current_user %>
 						  <span class="dropdown">
 						    <a href="#" class="dropdown-toggle btn btn-default btn-xs btn-round" data-toggle="dropdown">
-							  <%= activity.trackable.company_name %>
+							  <%= activity.trackable.alias_name %>
 							</a>
 						  </span>
 						<% else %>
-						  <span class="text-primary btn btn-default btn-xs btn-round"><%= activity.trackable.company_name %>	
+						  <span class="text-primary btn btn-default btn-xs btn-round"><%= activity.trackable.alias_name %>	
 						  </span>
 						<% end %> brought in by <span class="text-primary"><%= activity.trackable.user.username %></span>
 						</td>
@@ -337,7 +337,7 @@
 					    <% else %>
 					      <span class="btn btn-primary btn-xs btn-round">  
 					    <% end %>  	
-					    <%= activity.trackable.company.company_name %></span> is looking for <%= pluralize(activity.trackable.vacancies, "applicant") %> to fill the role of
+					    <%= activity.trackable.company.alias_name %></span> is looking for <%= pluralize(activity.trackable.vacancies, "applicant") %> to fill the role of
 					    <% if activity.trackable.company.user != current_user %>
 					      <span class="dropdown">
 								<a href="#" class="dropdown-toggle btn btn-default btn-xs btn-round" data-toggle="dropdown">

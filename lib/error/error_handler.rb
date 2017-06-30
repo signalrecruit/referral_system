@@ -2,8 +2,8 @@ module Error
   module ErrorHandler
     def self.included base 
       base.class_eval do 
-      	rescue_from StandardError, with: :unknown_error
-        rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+      	# rescue_from StandardError, with: :unknown_error
+        # rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
         # rescue_from ActionController::RoutingError, with: :routing_error
       end
     end
@@ -25,7 +25,8 @@ module Error
       	redirect_to admin_dashboard_url
       else	
         redirect_to root_url
-      end    	
+      end  
+        	
     end
 
     def record_not_found

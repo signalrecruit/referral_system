@@ -60,7 +60,15 @@
 
       <% else %>
         <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-        <%= f.error_notification %>
+        <%#= f.error_notification %>
+        <% if resource.errors.any? %>
+        <div class="alert alert-danger">  
+        <% resource.errors.full_messages.each do |msg| %>
+          <%= msg %>
+          <br>
+        <% end %>
+        </div> 
+        <% end %>
       <div class="row">
         <div class="col-md-6">
           <div class="form-group label-floating">

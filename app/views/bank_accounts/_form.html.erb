@@ -6,6 +6,14 @@
     </div>
     <div class="card-content">
       <%= simple_form_for([current_user, bank_account]) do |f| %>
+      <% if f.object.errors.any? %>
+        <div class="alert alert-danger">  
+        <% f.object.errors.full_messages.each do |msg| %>
+          <%= msg %>
+          <br>
+        <% end %>
+        </div> 
+        <% end %>
       <div class="row">
         <div class="col-md-6">
           <div class="form-group label-floating">

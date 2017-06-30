@@ -174,11 +174,14 @@
 
 			<% if @job_description.completed? %>
 			<% else %>
-			<div class="row">
+			  <% if @job_description.qualifications.any? { |qualification| qualification.updated? } %>
+			  <% else %>
+			  <div class="row">
 				<%= link_to new_job_description_qualification_url(@job_description), class: "btn btn-primary btn-xs btn-round" do %>
-				<i class="material-icons">add</i>required qualification
+				  <i class="material-icons">add</i>required qualification
 				<% end %>	  
-			</div>
+			  </div>
+			  <% end %>
 			<% end %>
 
 			<br/>
@@ -242,11 +245,14 @@
 
 		<% if @job_description.completed? %>
 		<% else %>
-		<div class="row">
-		<%= link_to new_job_description_required_experience_url(@job_description), class: "btn btn-primary btn-xs btn-round" do %>
-		<i class="material-icons">add</i>required experience
-		<% end %>	  
-	    </div>
+		  <% if @job_description.required_experiences.any? { |req_exp| req_exp.updated? } %>
+		  <% else %>
+		    <div class="row">
+		      <%= link_to new_job_description_required_experience_url(@job_description), class: "btn btn-primary btn-xs btn-round" do %>
+		        <i class="material-icons">add</i>required experience
+		      <% end %>	  
+	        </div>
+	       <% end %>
 	    <% end %>
 
 	    <br/>
@@ -314,12 +320,16 @@
 
 		<% if @job_description.completed? %>
 		<% else %>
-		<div class="row">
-		  <%= link_to new_job_description_requirement_url(@job_description), class: "btn btn-primary btn-xs btn-round" do %>
-		    <i class="material-icons">add</i>compulsory requirement
-		  <% end %>	  
-	    </div>
+		  <% if @job_description.requirements.any? { |requirement| requirement.updated? } %>
+		  <% else %>
+		  <div class="row">
+		    <%= link_to new_job_description_requirement_url(@job_description), class: "btn btn-primary btn-xs btn-round" do %>
+		      <i class="material-icons">add</i>compulsory requirement
+		    <% end %>	  
+	      </div>
+	      <% end %>
 	    <% end %>
+
 
 
 	    

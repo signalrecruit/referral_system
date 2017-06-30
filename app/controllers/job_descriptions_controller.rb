@@ -31,6 +31,7 @@ class JobDescriptionsController < ApplicationController
   	  redirect_to new_job_description_qualification_url(@job_description)
   	else
   	  flash.now[:alert] = "oops! sthg went wrong"
+      @job_description.attachments.build
   	  render :new
   	end
   end

@@ -5,6 +5,14 @@
 		</div>
 		<div class="card-content">
 			<%= simple_form_for([company, job_description]) do |f| %>
+			<% if f.object.errors.any? %>
+			<div class="alert alert-danger">  
+				<% f.object.errors.full_messages.uniq.each do |msg| %>
+				  <%= msg %>
+				<br>
+				<% end %>
+			</div> 
+			<% end %>
 			<div class="row">
 				<div class="col-md-4">
 					<div class="form-group label-floating">
@@ -53,21 +61,12 @@
 				</div>
 			</div>
 
-			<div class="row">
-				<div class="col-md-8">
-					<div class="form-group label-floating">
-						<label class="control-label">Set Exipiration Date</label>
-						<%= f.input :expiration_date, label: false, class: "form-control" %>
-					</div>
-				</div>
-			</div>
-
-			<div class="row">
+            			<div class="row">
 				<div class="col-md-8">
 					<div class="form-group label-floating">
 						<label class="control-label">Upload CVs and other relevant documents</label>
 						<br>
-						<% if !@job_description.attachments.any? { |attachment| attachment.persisted? } %>
+						<% if !@job_description.attachments.any? { |attachment| attachment.persisted? }  %>
 						<div id="attachments">
 							<%= f.simple_fields_for :attachments do |ff| %>
 							<label class="mdl-button mdl-js-button mdl-button--icon mdl-button--file">
@@ -93,6 +92,17 @@
 					</div>
 				</div>
 			</div>
+			
+			<div class="row">
+				<div class="col-md-8">
+					<div class="form-group label-floating">
+						<label class="control-label">Set Exipiration Date</label>
+						<%= f.input :expiration_date, label: false, class: "form-control" %>
+					</div>
+				</div>
+			</div>
+
+
 			<%= f.button :submit, "Done", class: "btn btn-primary btn-xs btn-round pull-right" %>
 			<div class="clearfix"></div>
 			<% end %>
