@@ -66,10 +66,14 @@ class JobDescriptionsController < ApplicationController
   end
 
   def complete_job_description
-    @job_description = JobDescription.find(params[:id])
-    @job_description.update(completed: true)
-    track_activity @job_description, "create", current_user.id if !activity_exists? @job_description.id, "JobDescription", "create"
-    flash[:success] = "you have successfully completed the job description for the role #{@job_description.job_title}"
+    if jd_completed?
+      @job_description = JobDescription.find(params[:id])
+      @job_description.update(completed: true)
+      track_activity @job_description, "create", current_user.id if !activity_exists? @job_description.id, "JobDescription", "create"
+      flash[:success] = "you have successfully completed the job description for the role #{@job_description.job_title}"
+    else
+      flash[:alert] = "this job description lacks info under either Required Qualifications, Required Experiences, and/or Compulsory Requirements"
+    end
     redirect_to :back
   end
 
@@ -95,5 +99,10 @@ class JobDescriptionsController < ApplicationController
   def job_params
   	params.require(:job_description).permit(:job_title, :role_description, :experience, :min_salary, :max_salary, :vacancies, :update_button,
      :completed, :expiration_date, attachments_attributes: [:id, :file, :file_cache, :_destroy])
+  end
+
+  def jd_completed?
+    @job_description = JobDescription.find(params[:id])
+    @job_description.qualifications.any? && @job_description.required_experiences.any? && @job_description.requirements.any?
   end
 end
