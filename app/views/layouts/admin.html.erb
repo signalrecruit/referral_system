@@ -55,7 +55,14 @@
 		    		<li>
 		    		  <%= link_to admin_users_url do %>
 		    		    <i class="material-icons">people</i>
-		    		    <p>Users</p>
+		    		    <p>
+		    		      Users
+		    		      <% unless @unapproved_users.empty? %>
+		    		      <button class="btn btn-info btn-round btn-xs">
+		    		      	<%= @unapproved_users.count %>
+		    		      </button>
+		    		      <% end %>
+		    		    </p>
 		    		  <% end %>	  
 		    		</li>
 		    		<% end %>
@@ -63,23 +70,44 @@
 		    		<% if current_user.admin? %>
 		    		  <%= link_to admin_companies_url do %>
 		    		    <i class="material-icons">business center</i>
-		    		    <p>All Companies</p>
+		    		    <p>
+		    		      All Companies
+		    		      <% unless @new_companies.empty? %>
+		    		        <button class="btn btn-info btn-round btn-xs">
+		    		          <%= @new_companies.count %>	
+		    		        </button>
+		    		      <% end %>
+		    		    </p>
 		    		  <% end %>	
 		    		<% end %>
 		    		</li>
 		    		<li>
 		    		<% if current_user.admin? %>
-		    		  <%= link_to admin_manage_all_applicants_url do %>
-		    		    <i class="material-icons">people</i>
-		    		    <p>All Applicants</p>
+		    		  <%= link_to admin_job_descriptions_url do %>
+		    		    <i class="material-icons">folder</i>
+		    		    <p>
+		    		      All Roles
+		    		      <% unless @uncompleted_roles.empty? %>
+		    		        <button class="btn btn-info btn-round btn-xs">
+		    		          <%= @uncompleted_roles.count %>	
+		    		        </button>
+		    		      <% end %>
+		    		    </p>
 		    		  <% end %>
 		    		<% end %>	
 		    		</li>
 		    		<li>
 		    		<% if current_user.admin? %>
-		    		  <%= link_to admin_job_descriptions_url do %>
-		    		    <i class="material-icons">folder</i>
-		    		    <p>All Roles</p>
+		    		  <%= link_to admin_manage_all_applicants_url do %>
+		    		    <i class="material-icons">people</i>
+		    		    <p>
+		    		      All Applicants
+		    		      <% unless @new_applicants.empty? %>
+		    		        <button class="btn btn-info btn-round btn-xs">
+		    		          <%= @new_applicants.count %>	
+		    		        </button>
+		    		      <% end %>
+		    		    </p>
 		    		  <% end %>
 		    		<% end %>	
 		    		</li>

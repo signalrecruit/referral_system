@@ -69,6 +69,7 @@ class JobDescriptionsController < ApplicationController
     if jd_completed?
       @job_description = JobDescription.find(params[:id])
       @job_description.update(completed: true)
+      @job_description.update_jd_status
       track_activity @job_description, "create", current_user.id if !activity_exists? @job_description.id, "JobDescription", "create"
       flash[:success] = "you have successfully completed the job description for the role #{@job_description.job_title}"
     else

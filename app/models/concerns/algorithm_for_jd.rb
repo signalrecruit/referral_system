@@ -85,12 +85,23 @@ module AlgorithmForJD
   end
   
   def is_jd_completed?
-    if self.applicants.count == self.vacancies && self.applicants.all? { |applicant| applicant.hired? }
+    if self..qualifications.any? && self.required_experiences.any? && self.requirements.any?
       self.update(completed: true)   
+    else
+      self.update(completed: false)
     end  
   end
 
+  def update_vacancy_status
+    if self.all_vacancies_filled?
+      self.update(vacancies_filled: true)
+    else
+      self.update(vacancies_filled: false)
+    end
+  end
+
+
   def update_jd_status
-    is_jd_completed?
+    update_vacancy_status
   end
 end
