@@ -144,7 +144,11 @@
 												<tbody>
 													<% if @company.job_descriptions.any? %>
 													<% @company.job_descriptions.each do |jd| %>
+											        <% if jd.updated? %>
+											        <tr style="background-color: #FFFF70">
+											        <% else %>
 													<tr>
+													<% end %>
 														<td>
 														  <%= link_to jd.job_title, admin_company_job_description_url(jd.company, jd) %>
 														</td>

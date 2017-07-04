@@ -10,6 +10,8 @@
 	                                    	<th>Company</th>
 	                                    	<th>Role Expired?</th>
 											<th>No. of vacancies</th>
+											<th>No. of applicants</th>
+											<th></th>
 	                                    </thead>
 	                                    <tbody>
 	                                      <% @all_roles.each do |role| %>
@@ -44,6 +46,29 @@
 												  <%= role.vacancies - role.applicants.count %>	
 												</button>	
 												</td>
+												<td>
+												  <span class="dropdown">
+												    <a href="#" class="dropdown-toggle btn btn-success btn-xs btn-round" data-toggle="dropdown">
+												  	  <%= role.applicants.count %><i class="material-icons">keyboard_arrow_down</i>
+												    </a>
+												    <ul class="dropdown-menu">
+												      <% if role.applicants.any? %>
+												        <% role.applicants.each do |applicant| %>
+												          <li><%= link_to applicant.name, [:admin, applicant.job_description, applicant ] %></li>
+												        <% end %>
+												      <% else %>
+												        <li>No applicants</li>  
+												      <% end %>  
+												    </ul>	
+												  </span>
+												</td>
+												<td>
+												<%= link_to admin_update_button_for_jd_url(role, tab: "job descriptions"), method: :patch do %>
+												  <button class="btn btn-primary btn-xs btn-round">
+												  	edit?
+												  </button>
+												<% end %>  
+												</td>
 	                                        </tr>
 	                                      <% end %>  
 	                                    </tbody>
@@ -52,3 +77,9 @@
 	                            </div>
 	                        </div>
 	                    </div>
+	                    <%= javascript_include_tag "admin/jquery-3.1.0.min" %>
+						<%= javascript_include_tag "admin/bootstrap.min" %>
+						<%= javascript_include_tag "admin/material.min" %>
+						<%= javascript_include_tag "admin/chartist.min" %>
+						<%= javascript_include_tag "admin/bootstrap-notify" %>
+						<%= javascript_include_tag "admin/material-dashboard" %>
