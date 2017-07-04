@@ -65,12 +65,7 @@
 						<label class="control-label">Uploaded CVs/Resumes</label>
 						<% if @job_description.attachments.any? { |attachment| attachment.persisted? } %>
 						<% @job_description.attachments.each do |attachment| %>
-						  <%= link_to File.basename(attachment.file.url), attachment.file.url %>(<%= number_to_human_size(attachment.file.size) %>) 
-						  <%= link_to attachment.file.url, method: :delete, data: { confirm: "Are you sure you want to delete this file?"} do %>
-						    <button type="button" title="Remove" class="btn btn-primary btn-simple btn-xs">
-						  	  <i class="material-icons">close</i>
-						    </button>
-						  <% end %>
+						  <%= link_to File.basename(attachment.file.url), attachment.file.url %>(<%= number_to_human_size(attachment.file.size) %>)
 						  <br>
 						<% end %>
 						<% else %>
