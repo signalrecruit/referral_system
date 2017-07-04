@@ -30,7 +30,7 @@ Rails.application.routes.draw do
       resources :job_descriptions
     end
 
-    resources :job_descriptions, only: [] do 
+    resources :job_descriptions, only: [:index] do 
       resources :requirements, only: [:index, :show]
       resources :applicants
     end

@@ -1,9 +1,10 @@
 class Admin::JobDescriptionsController < Admin::ApplicationController
-  before_action :set_company, except: [:update_button]
+  before_action :set_company, except: [:update_button, :index]
   before_action :set_job_description, only: [:show, :edit, :update, :destroy]
   layout "admin"
 
   def index
+    @all_roles = JobDescription.all.order(created_at: :asc)
   end
 
   def show

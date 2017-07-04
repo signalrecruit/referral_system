@@ -1,0 +1,54 @@
+<div class="col-md-12">
+	                        <div class="card">
+	                            <div class="card-header" data-background-color="purple">
+	                                <h4 class="title"><%= pluralize(@all_roles.count, "Roles") %></h4>
+	                            </div>
+	                            <div class="card-content table-responsive">
+	                                <table class="table">
+	                                    <thead class="text-primary">
+	                                    	<th>Role</th>
+	                                    	<th>Company</th>
+	                                    	<th>Role Expired?</th>
+											<th>No. of vacancies</th>
+	                                    </thead>
+	                                    <tbody>
+	                                      <% @all_roles.each do |role| %>
+	                                        <tr>
+	                                        	<td>
+	                                        	  <%= link_to [:admin, role.company, role] do %>
+	                                        	    <button class="btn btn-info btn-round btn-xs">
+	                                        	      <%= role.job_title %>	
+	                                        	    </button>
+	                                        	  <% end %>
+	                                        	</td>
+	                                        	<td>
+	                                        	  <%= link_to [:admin, role.company, tab: "company"] do  %>
+	                                        	    <button class="btn btn-primary btn-round btn-xs">
+	                                        	      <%= role.company.company_name %>	
+	                                        	    </button>	                                        	      
+	                                        	  <% end %>
+	                                        	 </td>
+	                                        	<td>
+	                                        	  <% if role.role_expired? %>
+	                                        	    <button class="btn btn-danger btn-round btn-xs">
+	                                        	      role expired  	
+	                                        	    </button>
+	                                        	  <% else %>	
+	                                        	  	<button class="btn btn-info btn-round btn-xs">
+	                                        	  	  role available  	
+	                                        	  	</button>
+	                                        	  <% end %>	
+	                                        	  </td>
+												<td>
+												<button class="btn btn-primary btn-round btn-xs">
+												  <%= role.vacancies - role.applicants.count %>	
+												</button>	
+												</td>
+	                                        </tr>
+	                                      <% end %>  
+	                                    </tbody>
+	                                </table>
+
+	                            </div>
+	                        </div>
+	                    </div>
