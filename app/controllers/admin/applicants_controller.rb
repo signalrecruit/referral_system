@@ -1,5 +1,5 @@
 class Admin::ApplicantsController < Admin::ApplicationController
-  before_action :set_jd, except: [:update_salary, :update_button, :all_applicants]
+  before_action :set_jd, except: [:update_salary, :update_button, :all_applicants, :shortlist, :interviewing, :testing, :salary_negotiation, :hire, :unhire]
   before_action :set_applicant, only: [:show, :update]	
   layout "admin"
   	
@@ -41,6 +41,42 @@ class Admin::ApplicantsController < Admin::ApplicationController
   def update_button
     @applicant = Applicant.find(params[:id])
     @applicant.update(update_button: true)
+    redirect_to :back
+  end
+
+  def interviewing
+    @applicant = Applicant.find(params[:id])
+    @applicant.update(status: "interviewing")
+    redirect_to :back
+  end
+
+  def testing 
+    @applicant = Applicant.find(params[:id])
+    @applicant.update(status: "testing")
+    redirect_to :back
+  end
+
+  def shortlist 
+    @applicant = Applicant.find(params[:id])
+    @applicant.update(status: "shortlisted")
+    redirect_to :back
+  end
+
+  def salary_negotiation
+    @applicant = Applicant.find(params[:id])
+    @applicant.update(status: "salary negotiation")
+    redirect_to :back
+  end
+
+  def hire
+    @applicant = Applicant.find(params[:id])
+    @applicant.update(status: "hired")
+    redirect_to :back 
+  end
+
+  def unhire 
+    @applicant = Applicant.find(params[:id])
+    @applicant.update(status: "not hired")
     redirect_to :back
   end
 

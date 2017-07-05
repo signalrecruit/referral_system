@@ -17,6 +17,12 @@ Rails.application.routes.draw do
     get 'applicants/all_applicants', to: 'applicants#all_applicants', as: :manage_all_applicants
     patch 'users/:id/approve', to: 'users#approve', as: :approve_user
     patch 'users/:id/disapprove', to: 'users#disapprove', as: :disapprove_user
+    patch 'applicants/:id/shortlist', to: 'applicants#shortlist', as: :shortlist_applicant
+    patch 'applicants/:id/interviewing', to: 'applicants#interviewing', as: :interviewing_applicant
+    patch 'applicants/:id/testing', to: 'applicants#testing', as: :testing_applicant
+    patch 'applicants/:id/salary_negotiation', to: 'applicants#salary_negotiation', as: :negotiating_applicant_salary
+    patch 'applicants/:id/hire', to: 'applicants#hire', as: :hire_applicant
+    patch 'applicants/:id/unhire', to: 'applicants#unhire', as: :unhire_applicant
 
 
     
