@@ -33,15 +33,9 @@ class Admin::JobDescriptionsController < Admin::ApplicationController
   end
 
   def update_button
-    @owner_id = params[:edit_owner_id] if @owner_id.nil?
   	@job_description = JobDescription.find(params[:id])
-    if @job_description.update_button == true 
-      flash[:alert] = "this action is not possible. this role is being worked on currently"
-      redirect_to :back
-    else   
-  	  @job_description.update(update_button: true)
-  	  redirect_to admin_company_url(@job_description.company, tab: "job descriptions", si: @owner_id) + "#job descriptions"
-    end
+  	@job_description.update(update_button: true)
+  	redirect_to admin_company_url(@job_description.company, tab: "job descriptions") + "#job descriptions"
   end
 
 

@@ -10,7 +10,6 @@ class Admin::CompaniesController < Admin::ApplicationController
 
   def show
     @tab = params[:tab]
-    @owner_id = params[:si].to_i
   end
 
   def edit

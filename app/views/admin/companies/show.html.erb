@@ -151,7 +151,7 @@
 														<td>
 														  <%= link_to jd.job_title, admin_company_job_description_url(jd.company, jd) %>
 														</td>
-
+														
 														<td>
 														  <%= jd.min_salary %>
 														</td>
@@ -164,7 +164,7 @@
 														  <%= jd.vacancies %>
 														</td>
 
-														<% if jd.updated? && @owner_id == current_user.id %>
+														<% if jd.updated? %>
 															<%= simple_form_for([:admin, jd.company, jd]) do |f| %>
 															<td>
 															  <%= f.input :potential_worth, label: false %>
