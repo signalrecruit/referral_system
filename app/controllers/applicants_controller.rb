@@ -32,6 +32,7 @@ class ApplicantsController < ApplicationController
   	  @applicant.update(user_id: current_user.id)	
       @applicant.calculate_applicant_score
       @applicant.record_applicant_history @jd
+      @applicant.job_description.update_jd_status
   	  flash[:success] = "you successfully added an applicant to this job description"
   	  redirect_to [@jd, @applicant]
   	else
