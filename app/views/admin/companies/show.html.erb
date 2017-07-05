@@ -129,7 +129,6 @@
 											<table class="table">
 												<thead class="text-primary">
 													<th>Job Title</th>
-													<th>Exp(yrs)</th>
 													<th>Min Salary</th>
 													<th>Max Salary</th>
 													<th>Vacancies</th>
@@ -152,11 +151,7 @@
 														<td>
 														  <%= link_to jd.job_title, admin_company_job_description_url(jd.company, jd) %>
 														</td>
-
-														<td>
-														  <%= jd.experience %>
-														</td>
-
+														
 														<td>
 														  <%= jd.min_salary %>
 														</td>
