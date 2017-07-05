@@ -54,7 +54,7 @@ class Admin::CompaniesController < Admin::ApplicationController
   def deal_with_company
     if @company.deal?
       if @company.job_descriptions.any? { |jd| jd.applicants.any? }
-        flash[:alert] = "not applicant. Applicants have been linked with this company."
+        flash[:alert] = "not applicable. Applicants have been linked with this company."
       else
         @company.no_deal
         track_activity @company, "no deal", @company.user_id 

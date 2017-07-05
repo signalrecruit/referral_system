@@ -143,18 +143,17 @@
 							  </a>
 							  <ul class="dropdown-menu">
 							    <li>
-							      <% if activity.trackable.job_description.send(:try, :applicants, :count) != activity.trackable.job_description.try(:vacancies) %>
-
-								    <% if activity.trackable.job_description.role_expired? %>
-									    <i class="material-icons">warning</i> This role has expired!
+								  <% if activity.trackable.job_description.role_expired? %>
+								    <i class="material-icons">warning</i> This role has expired!
+							      <% else %>
+							        <% if activity.trackable.job_description.all_vacancies_filled? %>
+							          <p>No more vacancies</p> 
 									<% else %>
 									  <%= link_to new_job_description_applicant_url(activity.trackable.job_description) do %>
-									    <i class="material-icons">add</i>applicant
+									     <i class="material-icons">add</i>applicant
 									  <% end %>
-									<% end %>  
-								  <% else %>
-								    <p>No more vacancies</p>  
-								  <% end %>  									
+									<% end %>
+							      <% end %>  
 								</li>
 							  </ul>
 							</span>
@@ -203,18 +202,17 @@
 								</a>
 								<ul class="dropdown-menu">
 									<li>
-									<% if activity.trackable.job_description.applicants.count != activity.trackable.job_description.vacancies %>
-
-									<% if activity.trackable.job_description.role_expired? %>
-									  <i class="material-icons">warning</i> This role has expired!
-									<% else %>
-									  <%= link_to new_job_description_applicant_url(activity.trackable.job_description) do %>
-									    <i class="material-icons">add</i>applicant
-									  <% end %>
-									<% end %>  
-									<% else %>
-									<p>No more vacancies</p>  
-									<% end %>  									
+									  <% if activity.trackable.job_description.role_expired? %>
+									    <i class="material-icons">warning</i> This role has expired!
+									  <% else %>
+									    <% if activity.trackable.job_description.all_vacancies_filled? %>
+									      <p>No more vacancies</p>
+									    <% else %>  
+									      <%= link_to new_job_description_applicant_url(activity.trackable.job_description) do %>
+									        <i class="material-icons">add</i>applicant
+									      <% end %>
+									    <% end %>  
+									  <% end %>  									  									
 									</li>
 								</ul>
 							</span>
@@ -269,9 +267,13 @@
 							    <% if activity.trackable.job_description.role_expired? %>
 							      <i class="material-icons">warning</i> This role has expired!
 							    <% else %>
-							      <%= link_to new_job_description_applicant_url(activity.trackable.job_description) do %>
-							        <i class="material-icons">add</i>applicant
-							      <% end %>
+							      <% if activity.trackable.job_description.all_vacancies_filled? %>
+							        <p>No more vacancies</p>
+							      <% else %>  
+							        <%= link_to new_job_description_applicant_url(activity.trackable.job_description) do %>
+							          <i class="material-icons">add</i>applicant
+							        <% end %>
+							      <% end %>  
 							    <% end %>
 							      </li>	
 							    </ul>  
@@ -294,18 +296,21 @@
 								</a>
 								<ul class="dropdown-menu">
 									<li>
-									<% if activity.trackable.applicants.any? && activity.trackable.applicants.count != activity.trackable.vacancies %>
+									<% if activity.trackable.applicants.any? %>
 
-									<% if activity.role_expired? %>
+									<% if activity.trackable.role_expired? %>
 									  <i class="material-icons">warning</i> This role has expired!
 									<% else %>
-									  <%= link_to new_job_description_applicant_url(activity.trackable) do %>
-									    <i class="material-icons">add</i>applicant
-									  <% end %>
+									  <% if !activity.trackable.all_vacancies_filled? %>
+									    <p>No more vacancies</p>
+									  <% elsif activity.trackable.all_vacancies_filled? %>  
+									    <%= link_to new_job_description_applicant_url(activity.trackable) do %>
+									      <i class="material-icons">add</i>applicant
+									    <% end %>
+									  <% end %> 
 									<% end %>  
 
-									<% elsif activity.trackable.applicants.any? && activity.trackable.applicants.count == activity.trackable.vacancies %>
-									<p>No more vacancies</p>
+								
 
 									<% elsif activity.trackable.applicants.empty? %> 
 
@@ -363,19 +368,20 @@
 								</a>
 								<ul class="dropdown-menu">
 									<li>
-									<% if activity.trackable.applicants.any? && activity.trackable.applicants.count != activity.trackable.vacancies %>
+									<% if activity.trackable.applicants.any? %>
 
-									<% if activity.role_expired? %>
-									  <i class="material-icons">warning</i> This role has expired!
-									<% else %>
-	 								  <%= link_to new_job_description_applicant_url(activity.trackable) do %>
-									    <i class="material-icons">add</i>applicant
-									  <% end %>
+									  <% if activity.role_expired? %>
+									    <i class="material-icons">warning</i> This role has expired!
+									  <% else %>
+									    <% if activity.trackable.all_vacancies_filled? %>
+	 								      <p>No more vacancies</p>
+	 								    <% else %>  
+	 								      <%= link_to new_job_description_applicant_url(activity.trackable) do %>
+									        <i class="material-icons">add</i>applicant
+									      <% end %>
+									    <% end %>  
 									<% end %>  
-
-									<% elsif activity.trackable.applicants.any? && activity.trackable.applicants.count == activity.trackable.vacancies %>
-									<p>No more vacancies</p>
-
+									
 									<% elsif activity.trackable.applicants.empty? %> 
 									  <% if activity.role_expired? %>
 									    <i class="material-icons">warning</i> This role has expired!
