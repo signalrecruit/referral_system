@@ -5,11 +5,12 @@ class Admin::CompaniesController < Admin::ApplicationController
 
 
   def index
-  	@companies = Company.all.order(deal: :desc, contacted: :desc)
+  	@companies = Company.all.order(created_at: :asc)
   end
 
   def show
     @tab = params[:tab]
+    @owner_id = params[:si].to_i
   end
 
   def edit
@@ -89,7 +90,7 @@ class Admin::CompaniesController < Admin::ApplicationController
 
   def permit_jds_of_company_in_activity(company)
     company.job_descriptions.each do |jd|
-      track_activity jd, "create", jd.user_id
+      track_activity jd, "create", jd.user_id if jd.completed?
     end
   end
 
