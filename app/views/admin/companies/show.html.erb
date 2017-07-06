@@ -143,7 +143,7 @@
 												<tbody>
 													<% if @company.job_descriptions.any? %>
 													<% @company.job_descriptions.each do |jd| %>
-											        <% if jd.updated? %>
+											        <% if jd.updated? && jd.c_user_id == current_user.id %>
 											        <tr style="background-color: #FFFF70">
 											        <% else %>
 													<tr>
@@ -164,7 +164,7 @@
 														  <%= jd.vacancies %>
 														</td>
 
-														<% if jd.updated? %>
+														<% if jd.updated? && jd.c_user_id == current_user.id %>
 															<%= simple_form_for([:admin, jd.company, jd]) do |f| %>
 															<td>
 															  <%= f.input :potential_worth, label: false %>
@@ -243,7 +243,7 @@
 															</td>
 															<% end %>  	
 														<td>
-														<% unless jd.updated? %>
+														<% unless jd.updated? && jd.c_user_id == current_user.id %>
 														  <%= link_to admin_job_description_applicants_url(jd), class: "btn btn-primary btn-xs btn-round" do  %>	
 														    <i class="material-icons">visibility</i><%= pluralize(jd.applicants.count, "Applicant") %>
 														  <% end %>

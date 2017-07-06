@@ -18,7 +18,7 @@ class Admin::JobDescriptionsController < Admin::ApplicationController
       @job_description.update_applicants_salary
       @job_description.calculate_jd_actual_worth
       @job_description.earning_algorithm
-  	  @job_description.update(update_button: false)	
+  	  @job_description.update(update_button: false, c_user_id: nil)	
   	  flash[:success] = "you successfully updated job description"
   	  redirect_to :back
   	else
@@ -34,8 +34,13 @@ class Admin::JobDescriptionsController < Admin::ApplicationController
 
   def update_button
   	@job_description = JobDescription.find(params[:id])
-  	@job_description.update(update_button: true)
-  	redirect_to admin_company_url(@job_description.company, tab: "job descriptions") + "#job descriptions"
+    if @job_description.updated? && @job_description.c_user_id != current_user.id
+      flash[:alert] = "can't proceed with this action. this jd is currently being worked on."
+      redirect_to :back 
+    else  
+  	  @job_description.update(update_button: true, c_user_id: current_user.id)
+  	  redirect_to admin_company_url(@job_description.company, tab: "job descriptions") + "#job descriptions"
+    end
   end
 
 
@@ -52,6 +57,6 @@ class Admin::JobDescriptionsController < Admin::ApplicationController
 
   def job_params
   	params.require(:job_description).permit(:job_title, :experience, :min_salary, :max_salary, :vacancies, :update_button, :potential_worth, :actual_worth, :percent_worth, :applicant_worth,
-     :applicant_percent_worth, :earnings, :vacancy_worth, :vacancy_percent_worth)
+     :applicant_percent_worth, :earnings, :vacancy_worth, :vacancy_percent_worth, :c_user_id)
   end
 end
