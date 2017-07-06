@@ -17,9 +17,9 @@
 	                                    	<th>Email</th>
 	                                    	<th>Phonenumber</th>
 											<th>Location</th>
-											<th>Min Salary</th>
-											<th>Max Salary</th>
-											<th>Attachments</th>
+											<th>Min Salary(GH)</th>
+											<th>Max Salary(GH)</th>
+											<th>CV/Resume</th>
 											<th></th>
 	                                    </thead>
 	                                    <tbody>
@@ -93,11 +93,7 @@
 	                                <% end %> 
 	                                <div class="row">
 	                                <% if request.referrer == company_job_descriptions_url(@jd.company) %>
-	                                <%= link_to "Back", :back, class: "btn btn-primary btn-xs btn-round pull-right" %>
-	                                <% else %>
-	                                  <%= link_to company_url(@jd.company, tab: "job descriptions"), class: "btn btn-primary btn-xs btn-round pull-right" do %>
-	                                    Go To <%= @jd.company.company_name %>'s job descriptions
-	                                  <% end %>
+	                                  <%= link_to "Back", :back, class: "btn btn-primary btn-xs btn-round pull-right" %>
 	                                <% end %>
 	                                </div>  
 	                            </div>

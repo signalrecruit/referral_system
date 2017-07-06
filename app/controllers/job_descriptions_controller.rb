@@ -55,8 +55,13 @@ class JobDescriptionsController < ApplicationController
   end
 
   def destroy
-    @job_description.remove_related_activities_from_newsfeed
-    redirect_to :back
+    if @job_description.applicants.any?
+      flash[:alert] = "can't proceed with this action. this job description has associated applicants. please contact the admin for help with this."
+      redirect_to :back 
+    else  
+      @job_description.remove_related_activities_from_newsfeed
+      redirect_to :back
+    end
   end
 
   def update_button
