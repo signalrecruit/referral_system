@@ -6,6 +6,7 @@ class Admin::CompaniesController < Admin::ApplicationController
 
   def index
   	@companies = Company.all.order(created_at: :asc)
+    @company_id = params[:company_id].to_i
   end
 
   def show
@@ -51,14 +52,16 @@ class Admin::CompaniesController < Admin::ApplicationController
     if @company.contacted?
       if @company.deal?
         flash[:alert] = "not applicable. A deal has already been made with #{@company.company_name}"
+        redirect_to :back
       else
         @company.no_contact
+        redirect_to admin_companies_url(company_id: nil)
       end 
     else
       @company.contact
       flash[:success] = "contacted #{@company.company_name}" 
+      redirect_to admin_companies_url(company_id: nil)
     end
-    redirect_to :back
   end
 
   def deal_with_company

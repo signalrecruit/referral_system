@@ -1,4 +1,3 @@
-<% if @companies.any? %>
 <div class="col-md-12">
 	<div class="card">
 		<div class="card-header" data-background-color="purple">
@@ -16,14 +15,19 @@
 					<th>Deal?</th>
 					<th></th>
 				</thead>
-				<% @companies.each do |company| %>
-				<tbody>			    
+				<tbody>	
+				  <% if @companies.any? %>
+				  <% @companies.each do |company| %>		    
 					<tr>
 					    <td><%= company.company_name %></td>
 						<td><%= company.user.username %></td>
 						<td><%= company.clientname %></td>
 						<td><%= company.role %></td>
+						<% if @company_id == company.id %>
+						<td style="background-color: #FFFF70">
+						<% else %>
 						<td>
+						<% end %>
 						<div class="dropdown">
 						<% if company.contacted? %>
 						<a href="#" class="btn btn-primary btn-round  btn-xs dropdown-toggle" data-toggle="dropdown">
@@ -77,17 +81,24 @@
 							<% end %>
 						</td>  	
 					</tr>
+				  <% end %>
+				  <% else %>
+				    <tr>
+				      <td>no data</td>
+				      <td>no data</td>
+				      <td>no data</td>
+				      <td>no data</td>
+				      <td>no data</td>
+				      <td>no data</td>
+				    </tr>	
+				  <% end %>
 				</tbody>
-				<% end %>
 			</table>
 
 		</div>
 	</div>
 </div>
-<% else %>
-<h4>None at the moment</h4>
 
-<% end %>
 <%= javascript_include_tag "admin/jquery-3.1.0.min" %>
 <%= javascript_include_tag "admin/bootstrap.min" %>
 <%= javascript_include_tag "admin/material.min" %>

@@ -34,12 +34,17 @@ class Admin::JobDescriptionsController < Admin::ApplicationController
 
   def update_button
   	@job_description = JobDescription.find(params[:id])
-    if @job_description.updated? && @job_description.edit_user_id != current_user.id
-      flash[:alert] = "can't proceed with this action. this jd is currently being worked on."
-      redirect_to :back 
-    else  
-  	  @job_description.update(update_button: true, edit_user_id: current_user.id)
-  	  redirect_to admin_company_url(@job_description.company, tab: "job descriptions") + "#job descriptions"
+    if @job_description.company.contacted?
+      if @job_description.updated? && @job_description.edit_user_id != current_user.id
+        flash[:alert] = "can't proceed with this action. this jd is currently being worked on."
+        redirect_to :back 
+      else  
+  	    @job_description.update(update_button: true, edit_user_id: current_user.id)
+  	    redirect_to admin_company_url(@job_description.company, tab: "job descriptions") + "#job descriptions"
+      end
+    else
+      flash[:alert] = "you must first contact the company with this job description"
+      redirect_to admin_companies_url(company_id: @job_description.company.id)
     end
   end
 

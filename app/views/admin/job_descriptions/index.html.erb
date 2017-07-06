@@ -14,6 +14,7 @@
 											<th></th>
 	                                    </thead>
 	                                    <tbody>
+	                                    <% if @all_roles.any? %>
 	                                      <% @all_roles.each do |role| %>
 	                                        <tr>
 	                                        	<td>
@@ -84,7 +85,16 @@
 												<% end %>  
 												</td>
 	                                        </tr>
-	                                      <% end %>  
+	                                      <% end %> 
+	                                    <% else %>
+	                                      <tr>
+	                                      	<td>no data</td>
+	                                      	<td>no data</td>
+	                                      	<td>no data</td>
+	                                      	<td>no data</td>
+	                                      	<td>no data</td>
+	                                      </tr>  
+	                                    <% end %>   
 	                                    </tbody>
 	                                </table>
 	                            </div>
