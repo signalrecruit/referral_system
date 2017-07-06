@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170706103121) do
+ActiveRecord::Schema.define(version: 20170706111101) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -127,6 +127,7 @@ ActiveRecord::Schema.define(version: 20170706103121) do
     t.boolean  "deal",          default: false
     t.integer  "industry_id"
     t.string   "alias_name"
+    t.integer  "edit_user_id"
   end
 
   add_index "companies", ["industry_id"], name: "index_companies_on_industry_id", using: :btree
@@ -162,7 +163,7 @@ ActiveRecord::Schema.define(version: 20170706103121) do
     t.boolean  "completed",               default: false
     t.datetime "expiration_date",         default: '2017-06-19 14:48:25'
     t.boolean  "vacancies_filled",        default: false
-    t.integer  "c_user_id"
+    t.integer  "edit_user_id"
   end
 
   add_index "job_descriptions", ["company_id"], name: "index_job_descriptions_on_company_id", using: :btree

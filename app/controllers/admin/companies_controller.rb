@@ -17,7 +17,7 @@ class Admin::CompaniesController < Admin::ApplicationController
   
   def update
   	if @company.update(company_params)
-  	  @company.update(update_button: false)	
+  	  @company.update(update_button: false, edit_user_id: nil)	
   	  flash[:success] = "you successfully updated #{@company.company_name} details"
   	  redirect_to :back
   	else
@@ -33,8 +33,13 @@ class Admin::CompaniesController < Admin::ApplicationController
   end
 
   def update_button
-  	@company.update(update_button: true)
-  	redirect_to :back
+    if @company.updated? && @company.edit_user_id != current_user.id
+      flash[:alert] = "can't proceed with this action. this company is currently being worked on."
+      redirect_to [:admin, @company, tab: "company"]
+    else   
+  	  @company.update(update_button: true, edit_user_id: current_user.id)
+  	  redirect_to :back
+    end
   end
 
   def contact_company
@@ -84,7 +89,7 @@ class Admin::CompaniesController < Admin::ApplicationController
 
   def company_params
     params.require(:company).permit(:company_name, :clientname, :email, :phonenumber, :role,
-  	:url, :about, :contacted, :deal)
+  	:url, :about, :contacted, :deal, :edit_user_id)
   end
 
   def permit_jds_of_company_in_activity(company)
