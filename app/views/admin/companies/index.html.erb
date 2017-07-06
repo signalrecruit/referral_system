@@ -8,8 +8,8 @@
 		<div class="card-content">
 			<table class="table">
 				<thead class="text-primary">
-				    <th>Referrer</th>
-					<th>Name Of Company</th>
+				    <th>Name of Company</th>
+					<th>Referrer</th>
 					<th>ClientName</th>
 					<th>Role</th>
 					<th>Contacted?</th>
@@ -19,8 +19,8 @@
 				<% @companies.each do |company| %>
 				<tbody>			    
 					<tr>
-					    <td><%= company.user.username %></td>
-						<td><%= company.company_name %></td>
+					    <td><%= company.company_name %></td>
+						<td><%= company.user.username %></td>
 						<td><%= company.clientname %></td>
 						<td><%= company.role %></td>
 						<td>
