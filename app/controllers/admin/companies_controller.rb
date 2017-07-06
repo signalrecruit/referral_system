@@ -27,9 +27,14 @@ class Admin::CompaniesController < Admin::ApplicationController
   end
 
   def destroy
-  	@company.destroy
-  	flash[:success] = "succesfully deleted company"
-  	redirect_to :back
+    if @company.job_descriptions.any? || @company.applicants.any?
+  	   flash[:alert] = "this action is not possible. This company has jds and applicants associated with it. please conatact the admin for help with this issue"
+       redirect_to :back
+    else   
+      @company.destroy
+  	  flash[:success] = "succesfully deleted company"
+  	  redirect_to :back
+    end
   end
 
   def update_button
