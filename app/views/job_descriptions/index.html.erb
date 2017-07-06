@@ -43,7 +43,15 @@
 									<td><%= jd.min_salary %></td>
 									<td><%= jd.max_salary %></td>
 									<td><%= jd.vacancies %></td>
-									<td>Attachments Here</td>
+									<td>
+									  <% if jd.attachments.any? %>
+										<% jd.attachments.each do |attachment| %>
+										  <%= link_to truncate(File.basename(attachment.file.url), length: 10, omission: "...(pdf)"), attachment.file.url %>
+										<% end %>
+									  <% else %>
+										<p>no attachments</p>  
+									  <% end %>  		
+									</td>
 									<td>
 										<% if @company.user == current_user %>
 										<%= link_to update_button_for_jd_url(jd), method: :patch do %>

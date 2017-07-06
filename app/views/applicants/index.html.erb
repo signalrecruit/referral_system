@@ -5,7 +5,7 @@
 	                                <% if request.referrer == company_job_descriptions_url(@jd.company) %>	
 	                                Company:<%= @jd.company.alias_name %>
 	                                <% else %>
-	                                <%= @jd.company.company_name %>/<%= @jd.company.alias_name %>
+	                                <%= @jd.company.company_name %>(<%= @jd.company.alias_name %>)
 	                                <% end %>
 	                                : </h4>
 	                                <p class="category"><%= pluralize(@jd.applicants.count, "Applicant") %> for <%= @jd.job_title %></p>
@@ -24,23 +24,13 @@
 	                                    </thead>
 	                                    <tbody>
 	                                    <% if @applicants.any? %>
-	                                    <% @applicants.each do |applicant| %>
-	                                      <% if applicant.updated? %>
-	                                      <%= simple_form_for([@jd, applicant]) do |f| %>
-													<tr>
-														<td><%= f.input :name, label: false, class: "form-control" %></td>
-														<td><%= f.input :email, label: false, class: "form-control" %> </td>
-														<td><%= f.input :phonenumber, label: false, class: "form-control" %></td>
-														<td><%= f.input :location, label: false, class: "form-control" %></td>
-														<td><%= f.input :min_salary, label: false, class: "form-control" %></td>
-														<td><%= f.input :max_salary, label: false, class: "form-control" %></td>
-														<td><%= f.input :cv, as: :file, label: false, class: "form-control" %></td>
-														<td><%= f.button :submit, "update",class: "btn btn-primary btn-xs btn-round pull-right" %></td>
-													</tr>
-										  <% end %>			
-	                                      <% else %>
+	                                    <% @applicants.each do |applicant| %>	                                     
 	                                        <tr>
-	                                        	<td><%= applicant.name %></td>
+	                                        	<td>
+	                                        	  <button class="btn btn-primary btn-xs btn-round">
+	                                        	    <%= applicant.name %>
+	                                        	  </button>  	                                        	  	
+	                                        	</td>
 	                                        	<td><%= applicant.email %></td>
 	                                        	<td><%= applicant.phonenumber %></td>
 	                                        	<td><%= applicant.location %></td>
@@ -65,8 +55,7 @@
 	                                        	  <% end %>
 	                                        	<% end %>  
 	                                        	</td>
-	                                        </tr>
-	                                      <% end %>  
+	                                        </tr>	                                      
 	                                    <% end %>
 	                                    <% else %>
 	                                      <tr>

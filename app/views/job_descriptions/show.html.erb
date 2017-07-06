@@ -78,7 +78,7 @@
 			<div class="row">
 				<div class="col-md-4">
 					<div class="form-group label-floating">
-						<label class="control-label">Uploaded CVs/Resumes</label>
+						<label class="control-label">Document containing JD</label>
 						<% if @job_description.attachments.any? { |attachment| attachment.persisted? } %>
 						<% @job_description.attachments.each do |attachment| %>
 						  <%= link_to File.basename(attachment.file.url), attachment.file.url %>(<%= number_to_human_size(attachment.file.size) %>) 

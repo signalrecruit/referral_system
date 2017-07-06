@@ -59,7 +59,11 @@ class CompaniesController < ApplicationController
 
   def update_button
   	@company.update(update_button: true)
-  	redirect_to :back
+    if request.referrer == user_companies_url(@company.user)
+      redirect_to [@company, tab: "company"]
+    else
+  	  redirect_to :back
+    end
   end
 
 

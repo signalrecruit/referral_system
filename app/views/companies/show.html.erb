@@ -19,7 +19,7 @@
 								<div class="ripple-container"></div></a> -->
 								<%= link_to company_url(@company, tab: "company") do %>
 								<i class="material-icons">business</i>
-								Company: <%= @company.company_name %>/<%= @company.alias_name %>
+								Company: <%= @company.company_name %>(<%= @company.alias_name %>)
 								<div class="ripple-container"></div>
 								<% end %>
 							</li>
@@ -126,9 +126,9 @@
 										<div class="tab-pane <%= @tab == "job descriptions" ? "active" : "" %>" id="messages">
 											<table class="table">
 												<thead class="text-primary">
+													<th>Job Title</th>
 													<th>Potential Worth</th>
 													<th>Actual Worth</th>
-													<th>Job Title</th>
 													<th>Experience(yrs)</th>
 													<th>Min Salary</th>
 													<th>Max Salary</th>
@@ -142,6 +142,7 @@
 													<% if @company.job_descriptions.any? %>
 													<% @company.job_descriptions.each do |jd| %>													
 													<tr>
+														<td><%=link_to jd.job_title, company_job_description_url(@company, jd) %></td>
 														<td>
 														  <button class="btn btn-success btn-xs btn-round pull-left">
 																GHS <%= jd.potential_worth || "0.00" %>
@@ -152,15 +153,18 @@
 																GHS <%= jd.actual_worth || "0.00" %>
 														  </button> 		
 														</td>
-														<td><%=link_to jd.job_title, company_job_description_url(@company, jd) %></td>
 														<td><%= jd.experience %></td>
 														<td><%= jd.min_salary %></td>
 														<td><%= jd.max_salary %></td>
 														<td><%= jd.vacancies %></td>
 														<td>
-														  <% jd.attachments.each do |attachment| %>
-														    <%= link_to truncate(File.basename(attachment.file.url), length: 10, omission: "...(pdf)"), attachment.file.url %>
-														  <% end %>	
+														  <% if jd.attachments.any? %>
+														    <% jd.attachments.each do |attachment| %>
+														      <%= link_to truncate(File.basename(attachment.file.url), length: 10, omission: "...(pdf)"), attachment.file.url %>
+														    <% end %>
+														  <% else %>
+														    <p>no attachments</p>  
+														  <% end %>  	
 														</td>														
 														
 														<td>

@@ -70,7 +70,7 @@
               <% current_user.companies.each do |company| %>
               <span class="dropdown">  
                 <a href="#" class="dropdown-toggle btn btn-primary btn-xs btn-round" data-toggle="dropdown">
-                  <%= company.company_name %>  
+                  <%= company.company_name %><i class="material-icons">keyboard_arrow_down</i>
                 </a>
                 <ul class="dropdown-menu">
                 <% current_user.job_descriptions.where(company_id: company.id).each do |jd| %>
