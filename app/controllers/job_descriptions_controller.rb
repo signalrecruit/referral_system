@@ -86,7 +86,11 @@ class JobDescriptionsController < ApplicationController
   def update_job_description
     @job_description = JobDescription.find(params[:id])
     @job_description.update(completed: false)
-    redirect_to :back
+    if request.referrer == company_url(@job_description.company, tab: "job descriptions")
+      redirect_to [@job_description.company, @job_description]
+    else
+      redirect_to :back
+    end
   end
 
 

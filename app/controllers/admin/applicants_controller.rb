@@ -17,7 +17,7 @@ class Admin::ApplicantsController < Admin::ApplicationController
       @applicant.job_description.calculate_jd_actual_worth
       flash[:success] = "you successfully updated this applicant"
 
-      if request.referrer == (edit_job_description_applicant_url(@jd, @applicant) || job_description_applicants_url(@jd))
+      if request.referrer == edit_job_description_applicant_url(@jd, @applicant) || request.referrer == job_description_applicants_url(@jd)
         redirect_to [@jd, @applicant]
       else
         @applicant.not_hired? ? "#{redirect_to new_admin_applicant_comment_url(@applicant)}" : "#{redirect_to :back}"

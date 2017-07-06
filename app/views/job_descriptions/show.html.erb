@@ -7,7 +7,11 @@
 
 <div class="col-md-8">
 	<div class="card">
+	  <% if @job_description.completed? %>
 		<div class="card-header" data-background-color="purple">
+	  <% else %>
+	    <div class="card-header" data-background-color="grey">
+	  <% end %>	
 			<h4 class="title">Job Description For 
 			<% if @company.user == current_user %>	
 			  <%= @company.company_name %>

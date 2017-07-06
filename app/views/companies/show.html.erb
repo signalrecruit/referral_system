@@ -140,34 +140,7 @@
 												</thead>
 												<tbody>
 													<% if @company.job_descriptions.any? %>
-													<% @company.job_descriptions.each do |jd| %>
-													<% if jd.updated? %>
-													<%= simple_form_for([@company, jd]) do |f| %>
-													<tr>
-														<button class="btn btn-success btn-xs btn-round pull-left">
-														GHS <%= jd.actual_worth || "0.00" %>
-													</button> 
-														<td><%= f.input :job_title, label: false, class: "form-control" %></td>
-														<td><%= f.input :experience, label: false, class: "form-control" %> </td>
-														<td><%= f.input :min_salary, label: false, class: "form-control" %></td>
-														<td><%= f.input :max_salary, label: false, class: "form-control" %></td>
-														<td><%= f.input :vacancies, label: false, class: "form-control" %></td>
-														<td>
-															<%= f.simple_fields_for :attachments do |ff| %>
-															<label class="mdl-button mdl-js-button mdl-button--icon mdl-button--file">
-																add file<i class="material-icons">attach_file</i><%= ff.input :file, as: :file, label: false, class: "form-control" %>
-																<%= ff.input :file_cache, as: :hidden, label: false, class: "form-control" %>
-															</label>
-															<br>  
-															<% end %>  
-														</td>
-														<td><%= f.button :submit, "update",class: "btn btn-primary btn-xs btn-round pull-right" %></td>
-														<td></td>
-														<td></td>
-														<td></td>
-													</tr>
-													<% end %>
-													<% else %>
+													<% @company.job_descriptions.each do |jd| %>													
 													<tr>
 														<td>
 														  <button class="btn btn-success btn-xs btn-round pull-left">
@@ -188,29 +161,8 @@
 														  <% jd.attachments.each do |attachment| %>
 														    <%= link_to truncate(File.basename(attachment.file.url), length: 10, omission: "...(pdf)"), attachment.file.url %>
 														  <% end %>	
-														</td>
-														<!-- <td>
-															<%# if @company.user == current_user %>
-															<%#= link_to update_button_for_jd_url(jd), method: :patch do %>
-															<button type="button" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
-																<i class="material-icons">edit</i>
-															</button>
-															<%# end %>
-															<%# end %>
-														</td>
-														<td>
-															<%# if @company.user == current_user %>
-															<%#= link_to company_job_description_url(@company,  jd),  method: :delete, data: { confirm: "Are you sure?" } do %>
-															<button type="button" title="Remove" class="btn btn-primary btn-simple btn-xs">
-																<i class="material-icons">close</i>
-															</button>
-															<%# end %>
-															<%# end %>
-														</td> -->
-														<td><%= link_to company_job_description_url(@company, jd), class: "btn btn-primary btn-xs btn-round" do %>
-															<i class="material-icons">visibility</i>Details of JD
-															<% end %>
-														</td>
+														</td>														
+														
 														<td>
 															<% if jd.applicants.any? %>
 															<%= link_to job_description_applicants_url(jd), class: "btn btn-primary btn-xs btn-round" do %>
@@ -235,8 +187,16 @@
 														  </button>
 														  <% end %>	
 														</td>
-													</tr>
-													<% end %>
+														 <td>
+															<% if @company.user == current_user %>
+															<%= link_to update_jd_url(jd), method: :patch, data: {confirm: "Are you sure you want update this job description complete?"} do %>
+															<button type="button" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
+																<i class="material-icons">edit</i>
+															</button>
+															<% end %>
+															<% end %>
+														</td>
+													</tr>													
 													<% end %>	
 
 													<% else %>
