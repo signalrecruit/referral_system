@@ -153,7 +153,7 @@
 														<td>
 														  <%= link_to admin_company_job_description_url(jd.company, jd) do %>
 														    <button class="btn btn-primary btn-xs btn-round">
-														      <%= jd.job_title %>	
+														      <%= jd.job_title %>
 														    </button>
 														  <% end %>
 														</td>
@@ -192,6 +192,7 @@
 															<td>
 															  <%= f.input :vacancy_percent_worth, label: false %><span class="percent-adjustment">%</span>
 															</td>
+															<td><%= f.hidden_field :applicant_id, :value => @applicant_id %></td>
 															<td>
 																<%= f.button :submit, "submit", class: "btn btn-primary btn-xs btn-round pull-right" %>
 															</td>

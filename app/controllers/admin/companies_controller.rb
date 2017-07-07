@@ -11,6 +11,7 @@ class Admin::CompaniesController < Admin::ApplicationController
 
   def show
     @tab = params[:tab]
+    @applicant_id = params[:applicant_id]
   end
 
   def edit

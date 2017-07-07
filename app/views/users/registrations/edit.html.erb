@@ -11,7 +11,13 @@
         <div class="col-md-6">
           <div class="form-group label-floating">
             <label class="control-label">Username</label>
+            <% if @user.approved? %>
+            <button class="btn btn-info btn-xs btn-round">
+            <% else %>
+            <button class="btn btn-danger btn-xs btn-round">  
+            <% end %>
             <%= @user.username %>
+            </button>
           </div>
         </div>
 

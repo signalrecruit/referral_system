@@ -46,7 +46,7 @@
 							<td><%= applicant.location %></td>
 							<td><%= applicant.min_salary %></td>
 							<td><%= applicant.max_salary %></td>
-							<td><%= link_to File.basename(applicant.cv.url), applicant.cv.url %></td>
+							<td><%= link_to truncate(File.basename(applicant.cv.url), length: 10, omission: "...(pdf)"), applicant.cv.url %></td>
 							<td>
 							  <button class="btn btn-success btn-xs btn-round">
 							    <% if !applicant.hired? %>	
@@ -57,42 +57,33 @@
 							  </button>  	
 							</td>
 								<% if applicant.updated? %>
-								  <%= simple_form_for([:admin, @jd, applicant]) do |f| %>
-								  <td><%= f.select :status, options_for_select([["shortlisted", "shortlisted"], ["interviewing", "interviewing"], ["testing", "testing"], ["salary negotiation", "salary negotiation" ], ["hired", "hired"], ["not hired", "not hired"]], :selected => f.object.status),{}, class: "btn btn-primary btn-xs btn-round" %></td>
-
-								  <td><%= f.button :submit, "submit", class: "btn btn-primary btn-xs btn-round" %></td>
-								  <% end %>
 								<% else %>
-
 								<td>
 									<span class="dropdown">
-										<% if applicant.none? %>
-										<button class="dropdown-toggle btn btn-default btn-xs btn-round" data-toggle="dropdown">
-											<% elsif applicant.interviewing? || applicant.testing? || applicant.shortlisted? %>
-											<button class="dropdown-toggle btn btn-default btn-xs btn-round" data-toggle="dropdown">
-												<% elsif applicant.salary_negotiation? %>
-												<button class="dropdown-toggle btn btn-warning btn-xs btn-round" data-toggle="dropdown">  
-													<% elsif applicant.hired? %>
-													<button class="dropdown-toggle btn btn-info btn-xs btn-round" data-toggle="dropdown">    	
-														<% elsif applicant.not_hired? %>
-														<button class="dropdown-toggle btn btn-danger btn-xs btn-round" data-toggle="dropdown">  
-															<% end %>
-
-															<%= applicant.status %><i class="material-icons">keyboard_arrow_down</i>
-														</button>
-														<ul class="dropdown-menu">
-															<li><%= link_to "shortlisted", admin_shortlist_applicant_url(applicant), method: :patch %></li>
-															<li><%= link_to "interviewing", admin_interviewing_applicant_url(applicant), method: :patch %></li>
-															<li><%= link_to "testing", admin_testing_applicant_url(applicant), method: :patch %></li>
-															<li><%= link_to "salary negotiation", admin_negotiating_applicant_salary_url(applicant), method: :patch %></li>
-															<li><%= link_to "hired", admin_hire_applicant_url(applicant), method: :patch %></li>
-															<li><%= link_to "not hired", admin_unhire_applicant_url(applicant), method: :patch %></li>
-														</ul>
-													</span> 
+									  <% if applicant.none? %>
+									  <button class="dropdown-toggle btn btn-default btn-xs btn-round" data-toggle="dropdown">
+									  <% elsif applicant.interviewing? || applicant.testing? || applicant.shortlisted? %>
+									  <button class="dropdown-toggle btn btn-default btn-xs btn-round" data-toggle="dropdown">
+									  <% elsif applicant.salary_negotiation? %>
+									  <button class="dropdown-toggle btn btn-warning btn-xs btn-round" data-toggle="dropdown">  
+									  <% elsif applicant.hired? %>
+									  <button class="dropdown-toggle btn btn-info btn-xs btn-round" data-toggle="dropdown">    	
+									  <% elsif applicant.not_hired? %>
+									  <button class="dropdown-toggle btn btn-danger btn-xs btn-round" data-toggle="dropdown">  
+									  <% end %>
+                                        <%= applicant.status %><i class="material-icons">keyboard_arrow_down</i>
+									  </button>
+									  <ul class="dropdown-menu">
+									    <li><%= link_to "shortlisted", admin_shortlist_applicant_url(applicant), method: :patch %></li>
+										<li><%= link_to "interviewing", admin_interviewing_applicant_url(applicant), method: :patch %></li>
+										<li><%= link_to "testing", admin_testing_applicant_url(applicant), method: :patch %></li>
+										<li><%= link_to "salary negotiation", admin_negotiating_applicant_salary_url(applicant), method: :patch %></li>
+										<li><%= link_to "hired", admin_hire_applicant_url(applicant), method: :patch %></li>
+										<li><%= link_to "not hired", admin_unhire_applicant_url(applicant), method: :patch %></li>
+									  </ul>
+									</span> 
 								</td>
-								
-								
-
+				
 								
 								<% if applicant.salary_negotiation? && !applicant.update_salary_button? %>
 								<td>

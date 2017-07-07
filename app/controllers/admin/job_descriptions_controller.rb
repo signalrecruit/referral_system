@@ -19,8 +19,26 @@ class Admin::JobDescriptionsController < Admin::ApplicationController
       @job_description.calculate_jd_actual_worth
       @job_description.earning_algorithm
   	  @job_description.update(update_button: false, edit_user_id: nil)	
-  	  flash[:success] = "you successfully updated job description"
-  	  redirect_to :back
+       
+      # please Derek, you know better than not to refactor this piece of shit! 
+      if !params[:job_description][:applicant_id].blank?
+        if @job_description.potential_worth.to_f != 0.0 && @job_description.percent_worth.to_f != 0.0 && @job_description.vacancy_percent_worth.to_f != 0.0
+  	      flash[:success] = "you successfully updated job description, #{(Applicant.find(params[:job_description][:applicant_id].to_i)).name} is hired!"
+          Applicant.find(params[:job_description][:applicant_id].to_i).update(status: "hired") if !params[:job_description][:applicant_id].blank?
+  	      redirect_to admin_job_description_applicants_url(@job_description)
+        else
+          flash[:notice] = "you still have non-zero values for percent worth, potential worth and percent worth per vacancy"
+          redirect_to :back
+        end
+      else
+        if @job_description.potential_worth.to_f != 0.0 && @job_description.percent_worth.to_f != 0.0 && @job_description.vacancy_percent_worth.to_f != 0.0
+          flash[:success] = "you successfully updated your company"
+          redirect_to :back
+        else  
+          flash[:notice] = "you still have non-zero values for percent worth, potential worth and percent worth per vacancy"
+          redirect_to :back
+        end
+      end
   	else
   	  flash.now[:alert] = "oops! sthg went wrong"
   	  redirect_to :back

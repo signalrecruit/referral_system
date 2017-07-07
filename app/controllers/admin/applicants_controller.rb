@@ -70,8 +70,14 @@ class Admin::ApplicantsController < Admin::ApplicationController
 
   def hire
     @applicant = Applicant.find(params[:id])
-    @applicant.update(status: "hired")
-    redirect_to :back 
+    if @applicant.job_description.percent_worth.to_f != 0.0 && @applicant.job_description.actual_worth.to_f != 0.0 && @applicant.job_description.vacancy_percent_worth.to_f != 0.0
+      @applicant.update(status: "hired")
+      redirect_to :back 
+    else 
+      @applicant.job_description.update(update_button: true, edit_user_id: current_user.id)
+      flash[:alert] = "please fill in non-zero values in order to proceed with hiring #{@applicant.name}"
+      redirect_to [:admin, @applicant.company, tab: "job descriptions", applicant_id: @applicant.id]
+    end
   end
 
   def unhire 
