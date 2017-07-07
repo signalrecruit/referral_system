@@ -18,6 +18,13 @@ class Applicant < ActiveRecord::Base
   accepts_nested_attributes_for :requirement_scores, reject_if: :all_blank
 
   validates :name, :email, :phonenumber, :location, :min_salary, :max_salary, :cv, presence: true
+
+  # custom validation
+  validate :max_salary_cannot_be_less_than_min_salary
+
+  def max_salary_cannot_be_less_than_min_salary
+    errors.add(:max_salary, "can't be less than min salary") if max_salary < min_salary 
+  end
   
   def calculate_applicant_score
     applicant_score = ((self.requirement_scores.where(applicant_id: self.id, job_description_id: self.job_description_id).sum(:score)/self.requirement_scores.count) * 100).round(2)

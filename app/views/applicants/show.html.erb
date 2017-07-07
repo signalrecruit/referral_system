@@ -59,7 +59,7 @@
 				<div class="col-md-3">
 					<div class="form-group label-floating">
 						<label class="control-label">Attachment(CV/Resume)</label>
-						<%= link_to File.basename(@applicant.cv.url), @applicant.cv.url %>
+						<%= link_to truncate(File.basename(@applicant.cv.url), length: 50, omission: "...(pdf)"), @applicant.cv.url %>
 					</div>
 				</div>
 			</div>

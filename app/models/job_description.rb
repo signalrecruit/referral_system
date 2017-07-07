@@ -17,6 +17,13 @@ class JobDescription < ActiveRecord::Base
   validates :actual_worth, :percent_worth, :applicant_worth, :applicant_percent_worth, :vacancy_worth, :vacancy_percent_worth,
   :potential_worth, :experience, :vacancies, :min_salary, :max_salary, numericality: { greater_than_or_equal_to: 0 }
 
+  # custom validation
+  validate :max_salary_cannot_be_less_than_min_salary
+
+  def max_salary_cannot_be_less_than_min_salary
+    errors.add(:max_salary, "can't be less than min salary") if max_salary < min_salary 
+  end
+
   def updated?
   	return true if self.update_button?
   end
