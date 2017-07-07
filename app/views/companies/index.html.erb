@@ -138,7 +138,7 @@
 						</td>
 						<td>
 						  <% if !applicant.job_description.nil? %>
-						  <%= link_to [:edit, applicant.job_description, applicant] do %>
+						  <%= link_to update_button_for_applicants_url(applicant), method: :patch do %>
 							<button type="button" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
 								<i class="material-icons">edit</i>
 							</button>

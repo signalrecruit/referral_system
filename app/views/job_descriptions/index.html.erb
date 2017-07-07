@@ -38,7 +38,13 @@
 								<% end %>
 								<% else %>
 								<tr>
-									<td><%= jd.job_title %></td>
+									<td>
+										<%= link_to [jd.company, jd] do %>
+										<button class="btn btn-primary btn-xs btn-round">
+											<%= jd.job_title %>
+										</button>
+										<% end %>
+									</td>
 									<td><%= jd.experience %></td>
 									<td><%= jd.min_salary %></td>
 									<td><%= jd.max_salary %></td>

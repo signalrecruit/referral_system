@@ -19,7 +19,13 @@
 				  <% if @companies.any? %>
 				  <% @companies.each do |company| %>		    
 					<tr>
-					    <td><%= company.company_name %></td>
+					    <td>
+					      <%= link_to admin_company_url(company,  tab: "company") do %>
+					        <button class="btn btn-primary btn-xs btn-round">
+					          <%= company.company_name %>	
+					        </button>
+					      <% end %>  	
+					    </td>
 						<td><%= company.user.username %></td>
 						<td><%= company.clientname %></td>
 						<td><%= company.role %></td>

@@ -27,9 +27,11 @@
 	                                    <% @applicants.each do |applicant| %>	                                     
 	                                        <tr>
 	                                        	<td>
+	                                        	<%= link_to [applicant.job_description, applicant] do %>
 	                                        	  <button class="btn btn-primary btn-xs btn-round">
 	                                        	    <%= applicant.name %>
-	                                        	  </button>  	                                        	  	
+	                                        	  </button>  	                                        
+	                                        	<% end %>  	  	
 	                                        	</td>
 	                                        	<td><%= applicant.email %></td>
 	                                        	<td><%= applicant.phonenumber %></td>
