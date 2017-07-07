@@ -23,7 +23,7 @@ class Applicant < ActiveRecord::Base
   validate :max_salary_cannot_be_less_than_min_salary
 
   def max_salary_cannot_be_less_than_min_salary
-    errors.add(:max_salary, "can't be less than min salary") if max_salary < min_salary 
+    errors.add(:max_salary, "can't be less than min salary") if (max_salary.present? || min_salary.present?) && max_salary < min_salary 
   end
   
   def calculate_applicant_score

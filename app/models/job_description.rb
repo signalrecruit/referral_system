@@ -18,8 +18,7 @@ class JobDescription < ActiveRecord::Base
   :potential_worth, :experience, :vacancies, :min_salary, :max_salary, numericality: { greater_than_or_equal_to: 0 }
 
   # custom validation
-  validate :max_salary_cannot_be_less_than_min_salary
-  validate :expiration_date_cannot_be_in_the_past
+  validate :max_salary_cannot_be_less_than_min_salary, :expiration_date_cannot_be_in_the_past 
 
   def expiration_date_cannot_be_in_the_past
     errors.add(:expiration_date, "expiration date cannot be in the past") if expiration_date < Date.today
@@ -27,7 +26,7 @@ class JobDescription < ActiveRecord::Base
 
 
   def max_salary_cannot_be_less_than_min_salary
-    errors.add(:max_salary, "can't be less than min salary") if max_salary < min_salary 
+    errors.add(:max_salary, "can't be less than min salary") if (max_salary.present? || min_salary.present?) && max_salary < min_salary 
   end
 
   def updated?
