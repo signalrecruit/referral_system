@@ -55,7 +55,10 @@
 													<div class="col-md-3">
 														<div class="form-group label-floating">
 															<label class="control-label">Name Of Company</label>
-															<%= @company.company_name %>
+															<button class="btn btn-primary btn-xs btn-round">
+															  <%= @company.company_name %>	
+															</button>
+															 
 														</div>
 													</div>
 													<div class="col-md-4">
@@ -133,7 +136,6 @@
 													<th>Min Salary</th>
 													<th>Max Salary</th>
 													<th>Vacancies</th>
-													<th>Attachments</th>
 													<th></th>
 													<th></th>
 													<th></th>
@@ -142,7 +144,13 @@
 													<% if @company.job_descriptions.any? %>
 													<% @company.job_descriptions.each do |jd| %>													
 													<tr>
-														<td><%=link_to jd.job_title, company_job_description_url(@company, jd) %></td>
+														<td>
+														  <%=link_to company_job_description_url(@company, jd) do %>
+														    <button class="btn btn-primary btn-xs btn-round">
+															  <%= jd.job_title %>															    	
+														    </button>
+														  <% end %>
+														</td>
 														<td>
 														  <button class="btn btn-success btn-xs btn-round pull-left">
 																GHS <%= jd.potential_worth || "0.00" %>
@@ -156,17 +164,7 @@
 														<td><%= jd.experience %></td>
 														<td><%= jd.min_salary %></td>
 														<td><%= jd.max_salary %></td>
-														<td><%= jd.vacancies %></td>
-														<td>
-														  <% if jd.attachments.any? %>
-														    <% jd.attachments.each do |attachment| %>
-														      <%= link_to truncate(File.basename(attachment.file.url), length: 10, omission: "...(pdf)"), attachment.file.url %>
-														    <% end %>
-														  <% else %>
-														    <p>no attachments</p>  
-														  <% end %>  	
-														</td>														
-														
+														<td><%= jd.vacancies %></td>													
 														<td>
 															<% if jd.applicants.any? %>
 															<%= link_to job_description_applicants_url(jd), class: "btn btn-primary btn-xs btn-round" do %>
@@ -184,13 +182,6 @@
 															<% end %>  
 															<% end %>
 														</td>
-														<td>
-														  <%= link_to [jd.company, jd], method: :delete, data: {confirm: "Are sure you want to delete this JD?"} do %>
-														  <button type="button" title="Remove" class="btn btn-primary btn-simple btn-xs">
-														  	<i class="material-icons">close</i>
-														  </button>
-														  <% end %>	
-														</td>
 														 <td>
 															<% if @company.user == current_user %>
 															<%= link_to update_jd_url(jd), method: :patch, data: {confirm: "Are you sure you want update this job description complete?"} do %>
@@ -199,6 +190,13 @@
 															</button>
 															<% end %>
 															<% end %>
+														</td>
+														<td>
+														  <%= link_to [jd.company, jd], method: :delete, data: {confirm: "Are sure you want to delete this JD?"} do %>
+														  <button type="button" title="Remove" class="btn btn-primary btn-simple btn-xs">
+														  	<i class="material-icons">close</i>
+														  </button>
+														  <% end %>	
 														</td>
 													</tr>													
 													<% end %>	
