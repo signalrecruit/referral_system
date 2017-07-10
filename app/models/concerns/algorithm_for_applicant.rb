@@ -56,9 +56,12 @@ module AlgorithmForApplicant
 
   # updated to cater for nil value for job_description_id on applicant 
   def update_salary
-    if !self.hired? && !applicant_re_negotiated?
+    # if !self.hired? && !applicant_re_negotiated?
+    if self.salary == 0.0
       self.update(salary: self.job_description.vacancy_worth.round(2)) if !self.job_description.nil?
+    else
+      self.update(salary: self.salary.round(2)) if !self.job_description.nil?
     end
-    self.update(salary: self.job_description.vacancy_worth.round(2)) if !self.hired? && !self.salary_negotiation? && !self.job_description.nil?
+    # end
   end
 end
