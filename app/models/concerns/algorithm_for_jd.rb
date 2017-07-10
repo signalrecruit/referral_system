@@ -57,6 +57,8 @@ module AlgorithmForJD
 
   def earning_per_jd
     @earnings = 0.0
+    calculate_jd_actual_worth
+    update_applicants_salary
     any_applicant_hired? ? @number_of_hired_applicants = self.applicants.where(status: "hired").count : @number_of_hired_applicants = 0
     @earnings = self.percent_worth/100 * self.actual_worth/self.vacancies * @number_of_hired_applicants
     @earnings.round(2)
