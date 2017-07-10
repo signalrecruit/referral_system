@@ -92,7 +92,7 @@ module AlgorithmForJD
   end
 
   def average_vacancy_worth
-    (self.applicants.sum(:salary).to_f/self.applicants.count).round(2)
+    ((self.applicants.sum(:salary).to_f/self.applicants.count).round(2) + ((self.vacancies - self.applicants.count) * self.vacancy_worth))/self.vacancies
   end
   
   def is_jd_completed?

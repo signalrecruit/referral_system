@@ -185,9 +185,22 @@
 															</td>
 															<td>
 															  <%#= f.input :vacancy_worth, label: false %>
-															  <button class="btn btn-success btn-xs btn-round">
-															    GHS <%= jd.vacancy_worth %>
-															  </button>  	
+															   <% if jd.any_applicant_re_negotiated_salary? %>
+																  <span class="dropdown">
+																     <a href="#" class="dropdown-toggle btn btn-success btn-xs btn-round" data-toggle="dropdown">
+																      avg GHS<%= jd.average_vacancy_worth %><i class="material-icons">keyboard_arrow_down</i>	
+																    </a>
+																    <ul class="dropdown-menu">
+																      <% jd.applicants.each do |applicant| %>
+																        <li>GHS <%= applicant.salary %>--<%= applicant.name %></li>	
+																      <% end %>
+																    </ul>
+																    </span>
+																  <% else %>
+																    <button class="btn btn-success btn-xs btn-round">
+																      GHS <%= jd.vacancy_worth %>	
+																    </button>  
+																  <% end %>
 															</td>
 															<td>
 															  <%= f.input :vacancy_percent_worth, label: false %><span class="percent-adjustment">%</span>

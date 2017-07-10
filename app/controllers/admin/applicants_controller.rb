@@ -72,6 +72,8 @@ class Admin::ApplicantsController < Admin::ApplicationController
     @applicant = Applicant.find(params[:id])
     if @applicant.job_description.percent_worth.to_f != 0.0 && @applicant.job_description.actual_worth.to_f != 0.0 && @applicant.job_description.vacancy_percent_worth.to_f != 0.0
       @applicant.update(status: "hired")
+      @applicant.job_description.earning_algorithm
+      @applicant.pay_user_when_applicant_is_hired
       redirect_to :back 
     else 
       @applicant.job_description.update(update_button: true, edit_user_id: current_user.id)
@@ -83,6 +85,8 @@ class Admin::ApplicantsController < Admin::ApplicationController
   def unhire 
     @applicant = Applicant.find(params[:id])
     @applicant.update(status: "not hired")
+    @applicant.job_description.earning_algorithm
+    @applicant.pay_user_when_applicant_is_hired
     redirect_to :back
   end
 

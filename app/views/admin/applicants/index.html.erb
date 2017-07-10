@@ -10,7 +10,6 @@
 				<table class="table">
 					<thead class="text-primary">
 						<th>Name</th>
-						<th>Email</th>
 						<th>Phonenumber</th>
 						<th>Location</th>
 						<th>Min Salary</th>
@@ -41,7 +40,6 @@
 							    </button>
 							  <% end %>
 							</td>
-							<td><%= applicant.email %></td>
 							<td><%= applicant.phonenumber %></td>
 							<td><%= applicant.location %></td>
 							<td><%= applicant.min_salary %></td>
@@ -89,12 +87,23 @@
 								<td>
 								  <%= link_to admin_update_salary_url(applicant), method: :patch, data: { confirm: "Are you sure you want to edit applicant salary?" } do %>
 								    <button type="button" title="Edit Applicant Salary" class="btn btn-primary btn-simple btn-xs">
-								      <i class="material-icons">help</i>
+								      <i class="material-icons">edit</i>
 								    </button>
 								  <% end %>  
 								</td>
 								<% end %>  
-								<% end %>  
+								<% end %>
+
+
+								 <% if applicant.update_salary_button? %>
+											      <%= simple_form_for([:admin, applicant.job_description, applicant]) do |f| %>
+											        <td><%= f.input :salary, label: false %></td>
+											        <td><%= f.button :submit, "submit", class: "btn btn-primary btn-xs btn-round" %></td>
+											      <% end %>
+											    <% else %>
+											      <td></td>
+											      <td></td>  
+											    <% end %>  
 						</tr>
 						<% end %>
 						<% else %>
