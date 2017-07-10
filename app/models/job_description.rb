@@ -24,6 +24,11 @@ class JobDescription < ActiveRecord::Base
     errors.add(:expiration_date, "expiration date cannot be in the past") if expiration_date < Date.today
   end
 
+  def estimate_actual_and_potential_worth
+    self.update(actual_worth: (self.max_salary.to_f * self.vacancies.to_f).round(2))
+    self.update(potential_worth: (self.max_salary.to_f * self.vacancies.to_f).round(2))
+  end
+
 
   def max_salary_cannot_be_less_than_min_salary
     errors.add(:max_salary, "can't be less than min salary") if (max_salary.present? || min_salary.present?) && max_salary < min_salary 

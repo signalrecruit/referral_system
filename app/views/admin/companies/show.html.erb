@@ -144,7 +144,7 @@
 												</thead>
 												<tbody>
 													<% if @company.job_descriptions.any? %>
-													<% @company.job_descriptions.each do |jd| %>
+													<% @company.job_descriptions.order(created_at: :asc).each do |jd| %>
 											        <% if jd.updated? && jd.edit_user_id == current_user.id %>
 											        <tr style="background-color: #FFFF70">
 											        <% else %>
@@ -152,8 +152,8 @@
 													<% end %>
 														<td>
 														  <%= link_to admin_company_job_description_url(jd.company, jd) do %>
-														    <button class="btn btn-primary btn-xs btn-round">
-														      <%= jd.job_title %>
+														    <button class="btn btn-primary btn-xs btn-round" title="<%= "#{jd.job_title}" %>">
+														      <%= truncate(jd.job_title, length: 12, omission: "...") %>
 														    </button>
 														  <% end %>
 														</td>

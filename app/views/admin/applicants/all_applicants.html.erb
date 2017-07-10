@@ -19,9 +19,11 @@
 	                                        <tr>
 	                                        	<td>
 	                                        	<% if applicant.job_description.nil? %>
+	                                        	<button class="btn btn-primary btn-xs btn-round">
 	                                        	  <%= applicant.name %>	
+	                                        	</button>	
 	                                        	<% else %>	
-	 	                                       	  <%= link_to applicant.name, [:admin, applicant.job_description, applicant] %>
+	 	                                       	  <%= link_to applicant.name, [:admin, applicant.job_description, applicant], class: "btn btn-primary btn-xs btn-round" %>
 	 	                                       	<% end %>	
 	 	                                       	</td>
 	                                        	

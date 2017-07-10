@@ -24,9 +24,9 @@ class JobDescriptionsController < ApplicationController
   	@job_description = @company.job_descriptions.build(job_params)
 
   	if @job_description.save 
+      @job_description.estimate_actual_and_potential_worth
       @job_description.update(user_id: current_user.id)
       track_activity @job_description, params[:action], current_user.id if @job_description.completed?
-      @job_description.update_applicants_salary
   	  flash[:success] = "you have successfully created a job description"
   	  redirect_to new_job_description_qualification_url(@job_description)
   	else
@@ -41,6 +41,7 @@ class JobDescriptionsController < ApplicationController
 
   def update
   	if @job_description.update(job_params)
+      @job_description.update_applicants_salary
   	  @job_description.update(update_button: false)	
   	  flash[:success] = "you successfully updated job description"
   	  if request.referrer == edit_company_job_description_url(@company, @job_description)

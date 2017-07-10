@@ -15,8 +15,6 @@ class Admin::JobDescriptionsController < Admin::ApplicationController
 
   def update
   	if @job_description.update(job_params)
-      # @job_description.update_applicants_salary
-      # @job_description.calculate_jd_actual_worth
       @job_description.earning_algorithm
   	  @job_description.update(update_button: false, edit_user_id: nil)	
        
@@ -27,7 +25,7 @@ class Admin::JobDescriptionsController < Admin::ApplicationController
           Applicant.find(params[:job_description][:applicant_id].to_i).update(status: "hired") if !params[:job_description][:applicant_id].blank?
   	      redirect_to admin_job_description_applicants_url(@job_description)
         else
-          flash[:notice] = "you still have non-zero values for percent worth, potential worth and percent worth per vacancy"
+          flash[:notice] = "you still have non-zero values for percent worth, potential worth and percent worth per vacancy for role: #{@job_description.job_title}"
           redirect_to :back
         end
       else
@@ -35,7 +33,7 @@ class Admin::JobDescriptionsController < Admin::ApplicationController
           flash[:success] = "you successfully updated your company"
           redirect_to :back
         else  
-          flash[:notice] = "you still have non-zero values for percent worth, potential worth and percent worth per vacancy"
+          flash[:notice] = "you still have non-zero values for percent worth, potential worth and percent worth per vacancy for role: #{@job_description.job_title}"
           redirect_to :back
         end
       end

@@ -17,7 +17,7 @@ module AlgorithmForJD
   end
 
   def any_applicant_re_negotiated_salary?
-    self.applicants.any? { |applicant| applicant.salary != self.vacancy_worth }
+    self.applicants.any? { |applicant| applicant.salary != 0.0}
   end
 
   def calculate_cumulative_earnings
@@ -41,6 +41,8 @@ module AlgorithmForJD
     if no_applicant_hired?
       self.applicants.update_all(salary: (self.potential_worth/self.vacancies).round(2))
       self.update(vacancy_worth: (self.potential_worth/self.vacancies).round(2))
+    else
+      self.update(vacancy_worth: (self.potential_worth/self.vacancies).round(2)) 
     end
 
     if self.applicants.any?
@@ -65,12 +67,19 @@ module AlgorithmForJD
   end
 
   def earning_algorithm
-    if any_applicant_hired?
+    if self.applicants.any? && any_applicant_hired?
       self.update(earnings: earning_per_jd)
       self.user.update(cumulative_earnings: calculate_cumulative_earnings)
-    else
+    elsif self.applicants.any? && no_applicant_hired?
       self.update(earnings: 0.0)
+      self.update(vacancy_worth: (self.potential_worth/self.vacancies).round(2))
+      self.update(actual_worth: self.potential_worth)
       self.user.update(cumulative_earnings: calculate_cumulative_earnings)
+    elsif self.applicants.empty?
+      self.update(earnings: 0.0)
+      self.update(vacancy_worth: (self.potential_worth/self.vacancies).round(2))
+      self.update(actual_worth: self.potential_worth)
+      self.user.update(cumulative_earnings: calculate_cumulative_earnings)  
     end
     update_applicant_earnings
     update_jd_status
