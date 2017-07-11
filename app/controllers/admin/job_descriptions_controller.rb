@@ -15,7 +15,6 @@ class Admin::JobDescriptionsController < Admin::ApplicationController
 
   def update
   	if @job_description.update(job_params)
-      @job_description.earning_algorithm
   	  @job_description.update(update_button: false, edit_user_id: nil)	
        
       # please Derek, you know better than not to refactor this piece of shit! 
@@ -23,6 +22,8 @@ class Admin::JobDescriptionsController < Admin::ApplicationController
         if @job_description.potential_worth.to_f != 0.0 && @job_description.percent_worth.to_f != 0.0 && @job_description.vacancy_percent_worth.to_f != 0.0
   	      flash[:success] = "you successfully updated job description, #{(Applicant.find(params[:job_description][:applicant_id].to_i)).name} is hired!"
           Applicant.find(params[:job_description][:applicant_id].to_i).update(status: "hired") if !params[:job_description][:applicant_id].blank?
+          Applicant.find(params[:job_description][:applicant_id].to_i).pay_user_when_applicant_is_hired if !params[:job_description][:applicant_id].blank?
+          @job_description.earning_algorithm
   	      redirect_to admin_job_description_applicants_url(@job_description)
         else
           flash[:notice] = "you still have non-zero values for percent worth, potential worth and percent worth per vacancy for role: #{@job_description.job_title}"
@@ -30,6 +31,7 @@ class Admin::JobDescriptionsController < Admin::ApplicationController
         end
       else
         if @job_description.potential_worth.to_f != 0.0 && @job_description.percent_worth.to_f != 0.0 && @job_description.vacancy_percent_worth.to_f != 0.0
+          @job_description.earning_algorithm
           flash[:success] = "you successfully updated your company"
           redirect_to :back
         else  

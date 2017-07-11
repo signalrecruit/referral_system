@@ -27,7 +27,7 @@
 	 	                                       	<% end %>	
 	 	                                       	</td>
 	                                        	
-	                                        	<td><%= link_to applicant.company.company_name, [:admin, applicant.company, tab: "company"] %></td>
+	                                        	<td><%= link_to applicant.company.company_name, [:admin, applicant.company, tab: "company"], class: "btn btn-primary btn-xs btn-round" %></td>
 	                                        	<td>
 	                                        	<% if applicant.job_description.nil? %>	
 	                                        	  <button class="btn btn-default btn-xs btn-round">
