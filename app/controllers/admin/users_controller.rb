@@ -19,6 +19,23 @@ class Admin::UsersController < Admin::ApplicationController
     redirect_to :back
   end
 
+  def reset_cumulative_earnings 
+    index
+    @users.each do |user|
+      @applicant_earnings = 0.0 
+      @jd_earnings = 0.0
+      user.applicants.each do |applicant|
+        @applicant_earnings += applicant.earnings if applicant.hired?
+      end
+
+      user.job_descriptions.each do |jd|
+        @jd_earnings += jd.earnings
+      end
+      user.update(cumulative_earnings: @applicant_earnings + @jd_earnings)
+    end
+    redirect_to :back
+  end
+
   
   private
 

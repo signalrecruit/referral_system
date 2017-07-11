@@ -12,7 +12,13 @@
 					<th>Number Companies Brought In</th>
 					<th>Number of Applicants Brought In</th>
 					<th>Total Earnings</th>
-					<th></th>
+					<th>
+					  <%= link_to admin_reset_cumulative_earnings_url do %>
+					    <button class="btn btn-default btn-xs btn-round pull-right">
+					      <p>reset earnings</p>
+					    </button>
+					  <% end %>	
+					</th>
 				</thead>
 				<% @users.each do |user| %>
 				<tbody>

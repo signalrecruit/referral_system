@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     patch 'applicants/:id/salary_negotiation', to: 'applicants#salary_negotiation', as: :negotiating_applicant_salary
     patch 'applicants/:id/hire', to: 'applicants#hire', as: :hire_applicant
     patch 'applicants/:id/unhire', to: 'applicants#unhire', as: :unhire_applicant
+    get 'users/reset_cumulative_earnings', to: 'users#reset_cumulative_earnings', as: :reset_cumulative_earnings
 
 
     
