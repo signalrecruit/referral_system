@@ -21,11 +21,25 @@ module AlgorithmForJD
   end
 
   def calculate_cumulative_earnings
-    @cumulative_earnings = 0
-    self.class.where(user_id: self.user.id).each do |job_description|
-      @cumulative_earnings += job_description.earnings
+    # @cumulative_earnings = 0
+    # self.class.where(user_id: self.user.id).each do |job_description|
+    #   @cumulative_earnings += job_description.earnings
+    # end
+    # @cumulative_earnings.round(2)
+
+    @users = User.all.order(created_at: :asc).where(admin: false, admin_status: 0)
+    @users.each do |user|
+      @applicant_earnings = 0.0 
+      @jd_earnings = 0.0
+      user.applicants.each do |applicant|
+        @applicant_earnings += applicant.earnings if applicant.hired?
+      end
+
+      user.job_descriptions.each do |jd|
+        @jd_earnings += jd.earnings
+      end
+      user.update(cumulative_earnings: @applicant_earnings + @jd_earnings)
     end
-    @cumulative_earnings.round(2)
   end
 
  
@@ -69,17 +83,20 @@ module AlgorithmForJD
   def earning_algorithm
     if self.applicants.any? && any_applicant_hired?
       self.update(earnings: earning_per_jd)
-      self.user.update(cumulative_earnings: calculate_cumulative_earnings)
+      # self.user.update(cumulative_earnings: calculate_cumulative_earnings)
+      calculate_cumulative_earnings
     elsif self.applicants.any? && no_applicant_hired?
       self.update(earnings: 0.0)
       self.update(vacancy_worth: (self.potential_worth/self.vacancies).round(2))
       self.update(actual_worth: self.potential_worth)
-      self.user.update(cumulative_earnings: calculate_cumulative_earnings)
+      # self.user.update(cumulative_earnings: calculate_cumulative_earnings)
+      calculate_cumulative_earnings
     elsif self.applicants.empty?
       self.update(earnings: 0.0)
       self.update(vacancy_worth: (self.potential_worth/self.vacancies).round(2))
       self.update(actual_worth: self.potential_worth)
-      self.user.update(cumulative_earnings: calculate_cumulative_earnings)  
+      # self.user.update(cumulative_earnings: calculate_cumulative_earnings)  
+      calculate_cumulative_earnings
     end
     update_applicant_earnings
     update_jd_status

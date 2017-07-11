@@ -32,20 +32,35 @@ module AlgorithmForApplicant
   end
 
   def calculate_cumulative_earnings
-    @cumulative_earnings = 0
-    self.class.where(user_id: self.user).each do |applicant|
-      @cumulative_earnings += applicant.earnings
+    # @cumulative_earnings = 0
+    # self.class.where(user_id: self.user).each do |applicant|
+    #   @cumulative_earnings += applicant.earnings
+    # end
+    # @cumulative_earnings.round(2)
+     @users = User.all.order(created_at: :asc).where(admin: false, admin_status: 0)
+     @users.each do |user|
+      @applicant_earnings = 0.0 
+      @jd_earnings = 0.0
+      user.applicants.each do |applicant|
+        @applicant_earnings += applicant.earnings if applicant.hired?
+      end
+
+      user.job_descriptions.each do |jd|
+        @jd_earnings += jd.earnings
+      end
+      user.update(cumulative_earnings: @applicant_earnings + @jd_earnings)
     end
-    @cumulative_earnings.round(2)
   end
 
   def pay_user_when_applicant_is_hired
     if applicant_hired?
       self.update(earnings: (self.job_description.vacancy_percent_worth/100 * ( self.salary == 0.0 ? self.job_description.vacancy_worth : self.salary)).round(2))
-      self.user.update(cumulative_earnings: calculate_cumulative_earnings)
+      # self.user.update(cumulative_earnings: calculate_cumulative_earnings)
+      calculate_cumulative_earnings
     else
       self.update(earnings: 0.0)
-      self.user.update(cumulative_earnings: calculate_cumulative_earnings)
+      # self.user.update(cumulative_earnings: calculate_cumulative_earnings)
+      calculate_cumulative_earnings
     end   
   end
   
