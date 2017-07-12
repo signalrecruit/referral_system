@@ -27,7 +27,7 @@ class Message < ActiveRecord::Base
     Message.where(draft: false, archived: false).joins(:user).where(users: { admin: true })
   end
 
-  def sent_messages_for_user
+  def self.sent_messages_for_user
     Message.where(draft: false, archived_by_user: false).joins(:user).where(users: { admin: false })  
   end
 
