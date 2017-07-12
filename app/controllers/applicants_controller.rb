@@ -72,8 +72,14 @@ class ApplicantsController < ApplicationController
 
   def update_button
   	@applicant = Applicant.find(params[:id])
-  	@applicant.update(update_button: true)
-  	redirect_to [:edit, @applicant.job_description, @applicant]
+    if @applicant.interviewing? || @applicant.testing? || @applicant.salary_negotiation? || @applicant.hired?
+      flash[:alert] = "not possible to edit #{@applicant.name}'s detail now.  #{@applicant.name} is currently #{@applicant.status}.
+      Please contact admin for help with this." 
+      redirect_to :back  
+  	else
+      @applicant.update(update_button: true)
+  	  redirect_to [:edit, @applicant.job_description, @applicant]
+    end
   end
 
 
