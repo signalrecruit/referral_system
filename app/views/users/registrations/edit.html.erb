@@ -79,14 +79,14 @@
         <div class="col-md-6">
           <div class="form-group label-floating">
             <label class="control-label">Username</label>
-            <%= f.input :username, label: false, required: true, autofocus: true, class: "form-control" %>
+            <%= f.input :username, label: false,maxlength: "20", required: true, autofocus: true, class: "form-control" %>
           </div>
         </div>
 
         <div class="col-md-6">
           <div class="form-group label-floating">
             <label class="control-label">Fullname</label>
-            <%= f.input :fullname, label: false, required: true, class: "form-control" %>
+            <%= f.input :fullname, label: false, maxlength: "20", required: true, class: "form-control" %>
           </div>
         </div>
       </div>
@@ -95,7 +95,7 @@
         <div class="col-md-6">
           <div class="form-group label-floating">
             <label class="control-label">Email</label>
-            <%= f.input :email, label: false, required: true, class: "form-control" %>
+            <%= f.input :email, label: false, maxlength: "20", required: true, class: "form-control" %>
           </div>
         </div>
 

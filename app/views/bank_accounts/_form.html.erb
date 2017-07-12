@@ -18,28 +18,28 @@
         <div class="col-md-6">
           <div class="form-group label-floating">
             <label class="control-label">Bank Name</label>
-            <%= f.input :bank_name, label: false, required: true, class: "form-control" %>
+            <%= f.input :bank_name, label: false, maxlength: "20", required: true, class: "form-control" %>
           </div>
         </div>
 
         <div class="col-md-6">
           <div class="form-group label-floating">
             <label class="control-label">Account Holder's Name</label>
-            <%= f.input :account_holder, label: false, required: true, autofocus: true, placeholder: "exactly as it looks on your bank statement", class: "form-control" %>
+            <%= f.input :account_holder, label: false, maxlength: "20", required: true, autofocus: true, placeholder: "exactly as it looks on your bank statement", class: "form-control" %>
           </div>
         </div>
 
         <div class="col-md-6">
           <div class="form-group label-floating">
             <label class="control-label">Account Number</label>
-            <%= f.input :account_number, label: false, required: true, class: "form-control" %>
+            <%= f.input :account_number, label: false, required: true, maxlength: "20", class: "form-control" %>
           </div>
         </div>
 
         <div class="col-md-6">
           <div class="form-group label-floating">
             <label class="control-label">Sort Code</label>
-            <%= f.input :sort_code, label: false, required: true, class: "form-control" %>
+            <%= f.input :sort_code, label: false, maxlength: "20", required: true, class: "form-control" %>
           </div>
         </div>
       </div>
@@ -49,7 +49,7 @@
         <div class="col-md-6">
           <div class="form-group label-floating">
           <label class="control-label">Account Holder's Address</label>
-            <%= f.input :account_holder_address, label: false, required: true, class: "form-control" %>
+            <%= f.input :account_holder_address, label: false, maxlength: "20", required: true, class: "form-control" %>
           </div>
         </div>
       </div>
