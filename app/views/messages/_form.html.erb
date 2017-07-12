@@ -1,3 +1,4 @@
+<% if @reply_message.nil? %>
 <div class="card-content">
   <%= simple_form_for(message) do |f| %>
   <% if f.object.errors.any? %>
@@ -13,7 +14,52 @@
       <div class="form-group label-floating">
         <label class="control-label"><span class="btn btn-primary btn-xs btn-round">TO:</span></label>
         <br>
-        <%= @reply_message.sent_by %>
+        <%= @message.recipient_name %>
+        <%= f.hidden_field :recipient_name, value: @message.recipient_name %>
+        <%= f.hidden_field :recipient_id, value: @message.recipient_id %>
+      </div>
+    </div>
+
+     <div class="col-md-4">
+      <div class="form-group label-floating">
+        <label class="control-label" style="left: -60px;"><span class="btn btn-primary btn-xs btn-round">TITLE:</span></label>
+        <%= f.input :title, label: false %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group label-floating">
+        <label class="control-label"><span class="btn btn-primary btn-xs btn-round">CONTENT:</span></label>
+        <br>
+        <%= f.input :content, label: false, required: true, class: "form-control" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="clearfix">
+  <%= f.button :submit, "Send", class: "btn btn-primary btn-round btn-xs pull-right" %>
+  </div>
+  <% end %>
+</div>
+<% else %>
+<div class="card-content">
+  <%= simple_form_for(message) do |f| %>
+  <% if f.object.errors.any? %>
+      <div class="alert alert-danger">  
+        <% f.object.errors.full_messages.uniq.each do |msg| %>
+          <%= msg %>
+        <br>
+        <% end %>
+      </div> 
+      <% end %>
+   <div class="row">
+    <div class="col-md-3">
+      <div class="form-group label-floating">
+        <label class="control-label"><span class="btn btn-primary btn-xs btn-round">TO:</span></label>
+        <br>
+        <%= @reply_message.recipient_name %>
       </div>
     </div>
 
@@ -32,7 +78,7 @@
         <label class="control-label"><span class="btn btn-primary btn-xs btn-round">CONTENT:</span></label>
         <br>
         <%= f.hidden_field :title, value: @reply_message.title %>
-        <%= f.hidden_field :recipient_name, value: @reply_message.sent_by %>
+        <%= f.hidden_field :recipient_name, value: @reply_message.recipient_name %>
         <%= f.hidden_field :reply_id, value: @reply_message.id %>
         <%= f.hidden_field :recipient_id, value: @reply_message.user_id %>
         <%= f.hidden_field :user_id, value: current_user.id %>
@@ -83,3 +129,4 @@
       <hr>
   <% end %>
 </div>
+<% end %>

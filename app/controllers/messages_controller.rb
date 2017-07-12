@@ -26,29 +26,56 @@ class MessagesController < ApplicationController
   def new
     @message = Message.new
     @reply_id = params[:reply_id].to_i
-    @reply_message = Message.find(@reply_id) 
-    @recipient_id = @reply_message.recipient_id
-    @recipient_email = User.find(@recipient_id).email 
-    set_reply_thread @reply_message
+    if @reply_id == 0 || @reply_id.nil?
+      @message.user_id = current_user.id 
+
+      admin_array = User.all.where(admin: true)
+      @message.recipient_id = @recipient_id = (admin_array[rand(0..(admin_array.length)-1)]).id
+      @message.recipient_name = "Admin(#{User.find(@recipient_id).fullname})"
+      
+      @message.sent_by = current_user.fullname
+    else
+      @reply_message = Message.find(@reply_id) 
+      @recipient_id = @reply_message.recipient_id
+      @recipient_email = User.find(@recipient_id).email 
+      set_reply_thread @reply_message
+    end
   end
 
   def create
-    @message = Message.new(message_params)
-    @message.reply_id = params[:message][:reply_id]
-    @message.title = params[:message][:title] 
-    @message.recipient_name = params[:message][:recipient_name]
-    @message.recipient_id = params[:message][:recipient_id]
-    @message.user_id = params[:message][:user_id]
-    @message.sent_by = params[:message][:sent_by]
-    @reply_message = Message.find(@message.reply_id.to_i) 
+      @message = Message.new(message_params)
+    if @reply_id == 0 || @reply_id.nil?  
+      @message.user_id = current_user.id 
+
+      admin_array = User.all.where(admin: true)
+      @message.recipient_id = params[:message][:recipient_id]
+
+      @message.recipient_name = "Admin(#{User.find(@message.recipient_id).fullname})"
+      
+      @message.sent_by = current_user.fullname
+    else  
+      @message.reply_id = params[:message][:reply_id]
+      @message.title = params[:message][:title] 
+      @message.recipient_name = params[:message][:recipient_name]
+      @message.recipient_id = params[:message][:recipient_id]
+      @message.user_id = params[:message][:user_id]
+      @message.sent_by = params[:message][:sent_by]
+      @reply_message = Message.find(@message.reply_id.to_i) 
+    end
 
     if @message.save
       flash[:success] = "reply successfully sent"
       redirect_to @message
     else
-      flash[:alert] = "oops! something went wrong"
-      set_reply_thread @reply_message
-      render :new 
+      if @reply_id == 0 || @reply_id.nil?
+        flash[:alert] = "oops! something went wrong"
+        @message.recipient_name = "Admin"
+        render :new
+      else        
+        flash[:alert] = "oops! something went wrong"
+        set_reply_thread @reply_message
+        render :new
+      end 
     end
   end
 

@@ -75,7 +75,7 @@ class ApplicantsController < ApplicationController
     if @applicant.interviewing? || @applicant.testing? || @applicant.salary_negotiation? || @applicant.hired?
       flash[:alert] = "not possible to edit #{@applicant.name}'s detail now.  #{@applicant.name} is currently #{@applicant.status}.
       Please contact admin for help with this." 
-      redirect_to :back  
+      redirect_to new_message_url(reply_id: 0)
   	else
       @applicant.update(update_button: true)
   	  redirect_to [:edit, @applicant.job_description, @applicant]
