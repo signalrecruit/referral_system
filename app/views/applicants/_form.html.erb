@@ -282,7 +282,8 @@
 			<div class="row">
 			  <div class="col-md-6">
 			    <div class="form-group label-floating">
-			      <label class="control-label">Requirement Score</label>
+			      <label class="control-label">Requirement Score</label><br>
+			      <label style="font-size: 12px;">(Tick the following box(es) if the applicant fufills the requirements below)</label>
 			          <%= f.simple_fields_for :requirement_scores, @applicant.requirement_scores do |ff| %>
 			            <%= ff.object.requirement_content %>
 			            <%= ff.input :score, label: false, as: :boolean, checked_value: 1.0, unchecked_value: 0.0 %>
