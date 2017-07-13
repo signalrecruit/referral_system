@@ -26,7 +26,13 @@
 					        </button>
 					      <% end %>  	
 					    </td>
-						<td><%= company.user.username %></td>
+						<td>
+						<%= link_to [:admin, company.user] do %>
+						  <button class="btn btn-primary btn-xs btn-round">  
+						    <%= company.user.username %>					
+						  </button>
+						<% end %>    		
+						</td>
 						<td><%= company.clientname %></td>
 						<td><%= company.role %></td>
 						<% if @company_id == company.id %>

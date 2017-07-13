@@ -161,13 +161,13 @@
 							</li> -->
 							<li>
 							  <% if current_user.admin? %>
-							  <%= link_to destroy_user_session_url, method: :delete, data: { confirm: "Are you sure you want to sign out?" } do %>
+							  <%= link_to destroy_user_session_url, method: :delete, data: { confirm: "Are you sure you want to sign out?" }, class: "btn btn-primary btn-xs btn-round" do %>
 							    <i class="material-icons">person</i> 
 							    Log out,
 							    <%= current_user.username %>
 							  <% end %>
 							  <% else %>     
-								<%= link_to new_user_session_url do %>
+								<%= link_to new_user_session_url, class: "btn btn-primary btn-xs btn-round" do %>
 							      <i class="material-icons">person</i>Log In
 								<% end %>
 							  <% end %>	

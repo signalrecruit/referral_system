@@ -355,7 +355,7 @@
 		  <% end %>	 
 		  <% end %> 
 
-		  <%= link_to "Back", :back, class: "btn btn-primary btn-xs btn-round pull-right" %>
+		  <%= link_to "Back", :back, class: "btn btn-primary btn-xs btn-round pull-right" if request.referrer == company_job_descriptions_url(@job_description.company) %>
 	    </div>
 	    
 

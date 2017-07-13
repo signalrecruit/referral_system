@@ -19,6 +19,7 @@ class Applicant < ActiveRecord::Base
 
   validates :name, :email, :phonenumber, :location, :min_salary, :max_salary, :cv, presence: true
   validates :phonenumber, format: { with: /\A[-+]?[0-9]*\.?[0-9]+\Z/, message: "only allows numbers" }
+  validates :min_salary, :max_salary, numericality: { greater_than_or_equal_to: 0 }
 
 
 
