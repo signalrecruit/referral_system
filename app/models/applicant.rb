@@ -18,6 +18,9 @@ class Applicant < ActiveRecord::Base
   accepts_nested_attributes_for :requirement_scores, reject_if: :all_blank
 
   validates :name, :email, :phonenumber, :location, :min_salary, :max_salary, :cv, presence: true
+  validates :phonenumber, format: { with: /\A[-+]?[0-9]*\.?[0-9]+\Z/, message: "only allows numbers" }
+
+
 
   # custom validation
   validate :max_salary_cannot_be_less_than_min_salary
