@@ -18,11 +18,9 @@ class BankAccountsController < ApplicationController
   	@bank_account = current_user.bank_accounts.build(account_params)
 
   	if @bank_account.save 
-  	  flash[:success] = "your bank details have been saved successfully!"
-  	  redirect_to edit_user_registration_url
+      on_success "your bank details have been saved successfully!", edit_user_registration_url
   	else 
-  	  flash[:alert] = "oops! something went wrong"
-  	  render :new	
+      on_failure "oops! something went wrong", :new
   	end
   end
 
@@ -32,18 +30,15 @@ class BankAccountsController < ApplicationController
   def update
   	if @bank_account.update(account_params)
   	   @bank_account.update(update_button: false)
-  	  flash[:success] = "your bank details have been updated successfully"
-  	  redirect_to :back
+       on_success "your bank details have been updated successfully", :back
   	else 
-  	  flash[:alert] = "oops! something went wrong. your bank details failed to update."
-  	  render :edit	
+      on_failure "oops! something went wrong. your bank details failed to update.", :edit
   	end
   end
 
   def destroy
   	@bank_account.destroy 
-  	flash[:success] = "you successfully deleted your bank account details"
-  	redirect_to :new
+    on_success  "you successfully deleted your bank account details", :new
   end
 
   def edit_bank_details
