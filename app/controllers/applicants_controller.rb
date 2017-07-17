@@ -13,13 +13,7 @@ class ApplicantsController < ApplicationController
   def new
     @count = 0
   	@applicant = @jd.applicants.build
-    @jd.requirements.count.times { @applicant.requirement_scores.build }  
-    @applicant.requirement_scores.each do |score|
-      score.requirement_content = @jd.requirements[@count].content
-      score.requirement_id = @jd.requirements[@count].id
-      score.job_description_id = @jd.id
-      @count += 1
-    end 
+    applicant_service.build_score
   end
 
   def create
@@ -27,10 +21,9 @@ class ApplicantsController < ApplicationController
 
 
   	if @applicant.save 
-  	  @applicant.update(company_id: @jd.company.id)	
+  	  @applicant.update(company_id: @jd.company.id, user_id: current_user.id)	
   	  track_activity @applicant, "added an applicant", current_user.id	
-  	  @applicant.update(user_id: current_user.id)	
-      @applicant.calculate_applicant_score
+      applicant_service.score_calculation
       @applicant.record_applicant_history @jd
       @applicant.job_description.update_jd_status
       @applicant.update_salary
@@ -48,7 +41,7 @@ class ApplicantsController < ApplicationController
   def update
   	if @applicant.update(applicant_params)
   	  @applicant.update(update_button: false) 	
-      @applicant.calculate_applicant_score
+      applicant_service.score_calculation
       @applicant.update_applicant_history @jd
   	  flash[:success] = "you successfully updated this applicant"
 
@@ -84,6 +77,10 @@ class ApplicantsController < ApplicationController
 
 
   private 
+
+  def applicant_service
+    ApplicantService.new({ applicant: @applicant, jd: @jd, count: @count })
+  end
 
   def set_jd
   	@jd = JobDescription.find(params[:job_description_id])
