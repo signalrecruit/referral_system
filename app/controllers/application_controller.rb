@@ -107,4 +107,20 @@ class ApplicationController < ActionController::Base
       @top_earner = nil 
     end
   end
+
+
+  def on_success msg, path 
+    flash[:success] = msg 
+    redirect_to path 
+  end
+
+  def on_failure msg, path 
+    flash[:alert] = msg 
+    render path
+  end
+
+  def on_caution msg, path 
+    flash[:alert] = msg 
+    redirect_to path
+  end
 end

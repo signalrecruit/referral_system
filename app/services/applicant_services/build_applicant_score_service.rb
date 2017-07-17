@@ -1,4 +1,4 @@
-class ApplicantService
+class BuildApplicantScoreService
   def initialize(params)
   	@applicant = params[:applicant]
   	@jd = params[:jd]
@@ -8,13 +8,6 @@ class ApplicantService
   def build_score 
   	build_applicant_score
   end
-
-  def score_calculation
-    calculate_applicant_score
-  end
-
-
-
 
 
   private 
@@ -27,9 +20,5 @@ class ApplicantService
       score.job_description_id = @jd.id
       @count += 1
     end 
-  end
-
-  def calculate_applicant_score
-    @applicant.calculate_applicant_score
   end
 end

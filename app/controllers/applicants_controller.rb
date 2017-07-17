@@ -13,25 +13,18 @@ class ApplicantsController < ApplicationController
   def new
     @count = 0
   	@applicant = @jd.applicants.build
-    applicant_service.build_score
+    build_applicant_score_service
   end
 
   def create
   	@applicant = @jd.applicants.build(applicant_params)
 
-
-  	if @applicant.save 
-  	  @applicant.update(company_id: @jd.company.id, user_id: current_user.id)	
+  	if @applicant.save  	  	
   	  track_activity @applicant, "added an applicant", current_user.id	
-      applicant_service.score_calculation
-      @applicant.record_applicant_history @jd
-      @applicant.job_description.update_jd_status
-      @applicant.update_salary
-  	  flash[:success] = "you successfully added an applicant to this job description"
-  	  redirect_to [@jd, @applicant]
+      initiate_applicant_sub_services_after_create
+      on_success "you successfully added an applicant to this job description", [@jd, @applicant]
   	else
-  	  flash.now[:alert] = "oops! something went wrong"
-  	  render :new	
+      on_failure "oops! something went wrong", :new
   	end
   end
 
@@ -40,9 +33,7 @@ class ApplicantsController < ApplicationController
 
   def update
   	if @applicant.update(applicant_params)
-  	  @applicant.update(update_button: false) 	
-      applicant_service.score_calculation
-      @applicant.update_applicant_history @jd
+  	  initiate_applicant_sub_services_after_update 
   	  flash[:success] = "you successfully updated this applicant"
 
       if request.referrer == edit_job_description_applicant_url(@jd, @applicant) || request.referrer == job_description_applicants_url(@jd)
@@ -51,24 +42,20 @@ class ApplicantsController < ApplicationController
   	    redirect_to :back
       end
   	else
-  	  flash.now[:alert] = "oops! something went wrong"
-  	  render :edit
+      on_failure "oops! something went wrong", :edit
   	end
   end
 
   def destroy
   	@applicant.remove_related_activities_from_newsfeed
-  	flash[:success] = "deletion successful"
-  	# redirect_to job_description_applicants_url(@jd)
-    redirect_to :back
+    on_success "deletion successful", :back
   end
 
   def update_button
   	@applicant = Applicant.find(params[:id])
     if @applicant.interviewing? || @applicant.testing? || @applicant.salary_negotiation? || @applicant.hired?
-      flash[:alert] = "not possible to edit #{@applicant.name}'s detail now.  #{@applicant.name} is currently #{@applicant.status}.
-      Please contact admin for help with this." 
-      redirect_to new_message_url(reply_id: 0)
+      on_caution "not possible to edit #{@applicant.name}'s detail now.  #{@applicant.name} is currently #{@applicant.status}.
+      Please contact admin for help with this.", new_message_url(reply_id: 0)
   	else
       @applicant.update(update_button: true)
   	  redirect_to [:edit, @applicant.job_description, @applicant]
@@ -77,10 +64,20 @@ class ApplicantsController < ApplicationController
 
 
   private 
-
-  def applicant_service
-    ApplicantService.new({ applicant: @applicant, jd: @jd, count: @count })
+  # applicant services
+  def build_applicant_score_service
+    BuildApplicantScoreService.new({ applicant: @applicant, jd: @jd, count: @count }).build_score
   end
+
+  def initiate_applicant_sub_services_after_create
+    ApplicantSubServicesAfterCreate.new({ applicant: @applicant, jd: @jd, current_user: current_user }).initiate_sub_services
+  end
+
+  def initiate_applicant_sub_services_after_update 
+    ApplicantSubServicesAfterUpdate.new({ applicant: @applicant, jd: @jd }).initiate_sub_services
+  end
+
+
 
   def set_jd
   	@jd = JobDescription.find(params[:job_description_id])
