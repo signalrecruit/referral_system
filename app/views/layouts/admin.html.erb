@@ -156,16 +156,16 @@
 									<p class="hidden-lg hidden-md">Notifications</p>
 								</a>
 								<% if @all_notifications.any? %>
-								<ul class="dropdown-menu" style="min-width: 280px;">
+								<ul class="dropdown-menu" style="min-width: 430px;">
 								  <% @all_notifications.each do |notification| %>
-									<% if notification.resource_type == "company" %> 
+									<% if notification.resource_type == "company" && notification.action == "created" %> 
 									  <%= link_to admin_mark_as_read_url(notification), method: :patch do %>
 									    <% if notification.read_at.nil? %>
 									    <li style="background: #f5f5f0;">
 									    <% else %>
 									    <li>
 									    <% end %>	
-									    <%= notification.actor_username %> just brought in a company(<%= Company.find(notification.resource_id).company_name %>)</li>    
+									    <span style="font-weight: bold;"><%= notification.actor_username %></span> just brought in a company(<span style="font-weight: bold;"><%= Company.find(notification.resource_id).company_name %></span>)</li>    
 									  <% end %>  
 									<% elsif notification.resource_type == "job description" %>  
 									<% end %>  

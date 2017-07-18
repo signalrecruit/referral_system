@@ -5,7 +5,7 @@ class Admin::NotificationsController < Admin::ApplicationController
   def mark_as_read
   	@notification.update(read_at: DateTime.now)
   	if @notification.resource_type == "company"  
-  	  (Company.find(@notification.resource_id)).contacted? ? "#{redirect_to admin_companies_url}"	: "#{redirect_to admin_companies_url(notifier_id: Company.find(@notification.resource_id))}"	   
+  	  (Company.find(@notification.resource_id)).contacted? ? "#{redirect_to admin_companies_url}" : "#{redirect_to admin_companies_url(notifier_id: Company.find(@notification.resource_id))}"	   
   	end
   end
 

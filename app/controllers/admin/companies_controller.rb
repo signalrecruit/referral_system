@@ -61,6 +61,8 @@ class Admin::CompaniesController < Admin::ApplicationController
       end 
     else
       @company.contact
+      CompanyContactNotificationService.new({ company: @company, actor: current_user, action: "contacted", recipient: @company.user, resource: @company,
+        resource_type: "company" }).notify_user
       flash[:success] = "contacted #{@company.company_name}" 
       redirect_to admin_companies_url(company_id: nil)
     end
