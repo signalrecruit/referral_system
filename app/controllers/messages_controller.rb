@@ -27,6 +27,8 @@ class MessagesController < ApplicationController
     @message = Message.new
     @reply_id = params[:reply_id].to_i
     if @reply_id == 0 || @reply_id.nil?
+
+      # when user needs to notify admin or wants to send admin a message
       @message.user_id = current_user.id 
 
       admin_array = User.all.where(admin: true)
@@ -35,6 +37,7 @@ class MessagesController < ApplicationController
       
       @message.sent_by = current_user.fullname
     else
+      # when user wants to reply a message from admin
       @reply_message = Message.find(@reply_id) 
       @recipient_id = @reply_message.recipient_id
       @recipient_email = User.find(@recipient_id).email 
@@ -45,6 +48,7 @@ class MessagesController < ApplicationController
   def create
       @message = Message.new(message_params)
     if @reply_id == 0 || @reply_id.nil?  
+      # when user want to notify admin or wants to send admin a message
       @message.user_id = current_user.id 
 
       admin_array = User.all.where(admin: true)
@@ -54,6 +58,7 @@ class MessagesController < ApplicationController
       
       @message.sent_by = current_user.fullname
     else  
+      # when user wants to reply a message from admin
       @message.reply_id = params[:message][:reply_id]
       @message.title = params[:message][:title] 
       @message.recipient_name = params[:message][:recipient_name]
@@ -64,8 +69,7 @@ class MessagesController < ApplicationController
     end
 
     if @message.save
-      flash[:success] = "reply successfully sent"
-      redirect_to @message
+      on_success "reply successfully sent", @message
     else
       if @reply_id == 0 || @reply_id.nil?
         flash[:alert] = "oops! something went wrong"
@@ -84,18 +88,15 @@ class MessagesController < ApplicationController
 
   def update
     if @message.update(message_params)
-      flash[:success] = "reply updated successfully."
-      redirect_to :back 
+      on_success "reply updated successfully.", :back
     else
-      flash[:alert] = "oops! something went wrong"
-      render :edit
+      on_failure "oops! something went wrong", :edit
     end
   end
 
   def destroy
     @message.destroy
-    flash[:success] = "message successfully deleted"
-    redirect_to messages_url
+    on_success "message successfully deleted", messages_url
   end
 
   def send_message

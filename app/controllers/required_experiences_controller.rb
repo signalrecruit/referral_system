@@ -18,11 +18,9 @@ class RequiredExperiencesController < ApplicationController
   	@experience = @jd.required_experiences.build(exp_params)
 
   	if @experience.save 
-  	  flash[:success] = "successufully added an experience"
-  	  redirect_to company_job_description_url(@jd.company, @jd)
+      on_success "successufully added an experience", company_job_description_url(@jd.company, @jd) 
   	else
-  	  flash.now[:alert] = "oops! something went wrong"
-  	  render :new
+      on_failure "oops! something went wrong", :new
   	end
 
   end
@@ -33,18 +31,15 @@ class RequiredExperiencesController < ApplicationController
   def update
   	if @experience.update(exp_params)
   	  @experience.update(update_button: false) 	
-  	  flash[:success] = "successufully updated an experience"
-  	  redirect_to :back 
+      on_success "successufully updated an experience", :back
   	else
-  	  flash.now[:alert] = "oops! something went wrong"
-  	  render :edit	
+      on_failure "oops! something went wrong", :edit
   	end
   end
 
   def destroy
   	@experience.destroy
-  	flash[:success] = "deletion successfully done"
-  	redirect_to :back 
+    on_success "deletion successfully done", :back
   end
 
   def update_button

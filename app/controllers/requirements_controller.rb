@@ -18,11 +18,9 @@ class RequirementsController < ApplicationController
     @requirement = @jd.requirements.build(requirement_params)
     
     if @requirement.save 
-      flash[:success] = "successfully created a requirement"
-      redirect_to company_job_description_url(@jd.company, @jd)
+      on_success "successfully created a requirement", company_job_description_url(@jd.company, @jd)
     else
-      flash.now[:alert] = "oops! sthg went wrong"
-      render :new  
+      on_failure "oops! sthg went wrong", :new
     end  
   end
 
@@ -32,18 +30,15 @@ class RequirementsController < ApplicationController
   def update
     if @requirement.update(requirement_params)
       @requirement.update(update_button: false)
-      flash[:success] = "successfully updated a requirement"
-      redirect_to :back
+      on_success "successfully updated a requirement", :back
     else
-      flash.now[:alert] = "ooops! sthg went wrong"
-      redirect_to :back
+      on_failure "ooops! sthg went wrong", :back
     end 
   end
 
   def destroy
     @requirement.destroy
-    flash[:success] = "requirement successfully deleted"
-    redirect_to :back
+    on_success "requirement successfully deleted", :back
   end
 
   def update_button

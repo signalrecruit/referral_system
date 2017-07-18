@@ -22,8 +22,7 @@ class QualificationsController < ApplicationController
   	  flash[:success] = "added qualification successfully"
   	  redirect_to [@jd.company, @jd]
   	else
-  	  flash.now[:alert] = "oops! something went wrong"
-  	  render :new 	
+      on_success "oops! something went wrong", :new
   	end
   end
 
@@ -41,15 +40,13 @@ class QualificationsController < ApplicationController
   	    redirect_to job_description_qualifications_url(@jd)
   	  end
   	else 
-  	  flash.now[:alert] = "oops! something went wrong"
-  	  render :edit	
+      on_failure  "oops! something went wrong", :edit
   	end
   end
 
   def destroy
   	@qualification.destroy
-  	flash[:success] = "successfully deleted a qualification"
-  	redirect_to :back
+    on_success "successfully deleted a qualification", :back
   end
 
   def update_button

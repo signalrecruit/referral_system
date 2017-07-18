@@ -24,11 +24,9 @@ class JobDescriptionsController < ApplicationController
   	@job_description = @company.job_descriptions.build(job_params)
 
   	if @job_description.save 
-      @job_description.estimate_actual_and_potential_worth
-      @job_description.update(user_id: current_user.id)
+      initiate_jd_sub_services_after_create
       track_activity @job_description, params[:action], current_user.id if @job_description.completed?
-  	  flash[:success] = "you have successfully created a job description"
-  	  redirect_to new_job_description_qualification_url(@job_description)
+      on_success "you have successfully created a job description", new_job_description_qualification_url(@job_description)
   	else
   	  flash.now[:alert] = "oops! sthg went wrong"
       @job_description.attachments.build if @job_description.attachments.empty?
@@ -41,8 +39,7 @@ class JobDescriptionsController < ApplicationController
 
   def update
   	if @job_description.update(job_params)
-      @job_description.update_applicants_salary
-  	  @job_description.update(update_button: false)	
+      initiate_jd_sub_services_after_update      
   	  flash[:success] = "you successfully updated job description"
   	  if request.referrer == edit_company_job_description_url(@company, @job_description)
         redirect_to [@company, @job_description]
@@ -50,15 +47,13 @@ class JobDescriptionsController < ApplicationController
         redirect_to :back 
       end
   	else
-  	  flash.now[:alert] = "oops! sthg went wrong"
-  	  redirect_to :back
+      on_failure "oops! sthg went wrong", :back
   	end
   end
 
   def destroy
     if @job_description.applicants.any?
-      flash[:alert] = "can't proceed with this action. this job description has associated applicants. please contact the admin for help with this."
-      redirect_to :back 
+      on_caution "can't proceed with this action. this job description has associated applicants. please contact the admin for help with this.", :back
     else  
       @job_description.remove_related_activities_from_newsfeed
       redirect_to :back
@@ -74,8 +69,7 @@ class JobDescriptionsController < ApplicationController
   def complete_job_description
     if jd_completed?
       @job_description = JobDescription.find(params[:id])
-      @job_description.update(completed: true)
-      @job_description.update_jd_status
+      job_description_completion_service
       track_activity @job_description, "create", current_user.id if !activity_exists? @job_description.id, "JobDescription", "create"
       flash[:success] = "you have successfully completed the job description for the role #{@job_description.job_title}"
     else
@@ -97,6 +91,18 @@ class JobDescriptionsController < ApplicationController
 
 
   private
+  # job description services
+  def initiate_jd_sub_services_after_create
+    JobDescriptionSubServicesAfterCreate.new({ job_description: @job_description, current_user: current_user }).initiate_sub_services
+  end
+
+  def initiate_jd_sub_services_after_update
+    JobDescriptionSubServicesAfterUpdate.new({ job_description: @job_description }).initiate_sub_services
+  end
+
+  def job_description_completion_service
+    CompleteJobDescriptionService.new({ job_description: @job_description }).complete_jd
+  end
 
   def set_company
   	@company = Company.find(params[:company_id])
