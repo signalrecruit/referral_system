@@ -13,7 +13,7 @@ class ApplicantsController < ApplicationController
   def new
     @count = 0
   	@applicant = @jd.applicants.build
-    build_applicant_score_service
+    BuildApplicantScoreService.new({ applicant: @applicant, jd: @jd, count: @count }).build_score
   end
 
   def create
@@ -21,7 +21,7 @@ class ApplicantsController < ApplicationController
 
   	if @applicant.save  	  	
   	  track_activity @applicant, "added an applicant", current_user.id	
-      initiate_applicant_sub_services_after_create
+      ApplicantSubServicesAfterCreate.new({ applicant: @applicant, jd: @jd, current_user: current_user }).initiate_sub_services
       on_success "you successfully added an applicant to this job description", [@jd, @applicant]
   	else
       on_failure "oops! something went wrong", :new
@@ -33,7 +33,7 @@ class ApplicantsController < ApplicationController
 
   def update
   	if @applicant.update(applicant_params)
-  	  initiate_applicant_sub_services_after_update 
+  	  ApplicantSubServicesAfterUpdate.new({ applicant: @applicant, jd: @jd }).initiate_sub_services
   	  flash[:success] = "you successfully updated this applicant"
 
       if request.referrer == edit_job_description_applicant_url(@jd, @applicant) || request.referrer == job_description_applicants_url(@jd)
@@ -64,21 +64,7 @@ class ApplicantsController < ApplicationController
 
 
   private 
-  # applicant services
-  def build_applicant_score_service
-    BuildApplicantScoreService.new({ applicant: @applicant, jd: @jd, count: @count }).build_score
-  end
-
-  def initiate_applicant_sub_services_after_create
-    ApplicantSubServicesAfterCreate.new({ applicant: @applicant, jd: @jd, current_user: current_user }).initiate_sub_services
-  end
-
-  def initiate_applicant_sub_services_after_update 
-    ApplicantSubServicesAfterUpdate.new({ applicant: @applicant, jd: @jd }).initiate_sub_services
-  end
-
-
-
+  
   def set_jd
   	@jd = JobDescription.find(params[:job_description_id])
   end

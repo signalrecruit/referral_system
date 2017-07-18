@@ -24,7 +24,7 @@ class JobDescriptionsController < ApplicationController
   	@job_description = @company.job_descriptions.build(job_params)
 
   	if @job_description.save 
-      initiate_jd_sub_services_after_create
+      JobDescriptionSubServicesAfterCreate.new({ job_description: @job_description, current_user: current_user }).initiate_sub_services
       track_activity @job_description, params[:action], current_user.id if @job_description.completed?
       on_success "you have successfully created a job description", new_job_description_qualification_url(@job_description)
   	else
@@ -39,7 +39,7 @@ class JobDescriptionsController < ApplicationController
 
   def update
   	if @job_description.update(job_params)
-      initiate_jd_sub_services_after_update      
+      JobDescriptionSubServicesAfterUpdate.new({ job_description: @job_description }).initiate_sub_services     
   	  flash[:success] = "you successfully updated job description"
   	  if request.referrer == edit_company_job_description_url(@company, @job_description)
         redirect_to [@company, @job_description]
@@ -69,7 +69,7 @@ class JobDescriptionsController < ApplicationController
   def complete_job_description
     if jd_completed?
       @job_description = JobDescription.find(params[:id])
-      job_description_completion_service
+      CompleteJobDescriptionService.new({ job_description: @job_description }).complete_jd
       track_activity @job_description, "create", current_user.id if !activity_exists? @job_description.id, "JobDescription", "create"
       flash[:success] = "you have successfully completed the job description for the role #{@job_description.job_title}"
     else
@@ -91,19 +91,7 @@ class JobDescriptionsController < ApplicationController
 
 
   private
-  # job description services
-  def initiate_jd_sub_services_after_create
-    JobDescriptionSubServicesAfterCreate.new({ job_description: @job_description, current_user: current_user }).initiate_sub_services
-  end
-
-  def initiate_jd_sub_services_after_update
-    JobDescriptionSubServicesAfterUpdate.new({ job_description: @job_description }).initiate_sub_services
-  end
-
-  def job_description_completion_service
-    CompleteJobDescriptionService.new({ job_description: @job_description }).complete_jd
-  end
-
+  
   def set_company
   	@company = Company.find(params[:company_id])
   end

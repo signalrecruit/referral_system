@@ -35,7 +35,7 @@
 						</td>
 						<td><%= company.clientname %></td>
 						<td><%= company.role %></td>
-						<% if @company_id == company.id %>
+						<% if @company_id == company.id || @notifier_id == company.id %>
 						<td style="background-color: #FFFF70">
 						<% else %>
 						<td>

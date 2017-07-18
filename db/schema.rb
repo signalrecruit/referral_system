@@ -189,11 +189,14 @@ ActiveRecord::Schema.define(version: 20170718100030) do
 
   create_table "notifications", force: :cascade do |t|
     t.string   "action"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
     t.integer  "recipient_id"
     t.integer  "actor_id"
     t.datetime "read_at"
+    t.integer  "resource_id"
+    t.string   "resource_type"
+    t.string   "actor_username"
   end
 
   create_table "qualifications", force: :cascade do |t|

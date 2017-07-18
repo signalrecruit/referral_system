@@ -7,6 +7,7 @@ class Admin::CompaniesController < Admin::ApplicationController
   def index
   	@companies = Company.all.order(created_at: :asc)
     @company_id = params[:company_id].to_i
+    @notifier_id = params[:notifier_id].to_i
   end
 
   def show

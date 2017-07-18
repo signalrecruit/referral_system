@@ -24,6 +24,8 @@ Rails.application.routes.draw do
     patch 'applicants/:id/hire', to: 'applicants#hire', as: :hire_applicant
     patch 'applicants/:id/unhire', to: 'applicants#unhire', as: :unhire_applicant
     get 'users/reset_cumulative_earnings', to: 'users#reset_cumulative_earnings', as: :reset_cumulative_earnings
+    patch 'notifications/:id/mark_as_read', to: 'notifications#mark_as_read', as: :mark_as_read
+    get 'notifications/mark_all_as_read', to: 'notifications#mark_all_as_read', as: :mark_all_as_read
 
 
     

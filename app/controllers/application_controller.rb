@@ -5,7 +5,8 @@ class ApplicationController < ActionController::Base
   include Error::ErrorHandler
 
   before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :unapproved_users, :new_companies, :uncompleted_roles, :new_applicants
+  before_action :unapproved_users, :new_companies, :uncompleted_roles, :new_applicants, :unread_notifications, :unread_notifications_count,
+  :all_notifications, :company_notifications
   
   def unapproved_users
     @unapproved_users = User.all.where(admin: false, approval: false)  
@@ -15,12 +16,44 @@ class ApplicationController < ActionController::Base
     @new_companies = Company.all.where(contacted: false)
   end
 
+  def company_notifications
+    @company_notifications = if current_user
+                                Notification.where(recipient_id: current_user, read_at: nil, resource_type: "company").all.count
+                              else 
+                                Notification.none  
+                              end
+  end
+
   def uncompleted_roles 
     @uncompleted_roles = JobDescription.all.where(vacancies_filled: false)
   end
 
   def new_applicants
     @new_applicants = Applicant.all.where(status: "none")
+  end
+  
+  def unread_notifications 
+    @unread_notifications = if current_user
+                              Notification.where(recipient_id: current_user.id, read_at: nil).all
+                            else
+                              Notification.none
+                            end  
+  end
+
+  def unread_notifications_count
+    @unread_notifications_count = if current_user
+                                    Notification.where(recipient_id: current_user.id, read_at: nil).all.count
+                                  else 
+                                    Notification.none  
+                                  end  
+  end
+
+  def all_notifications
+    @all_notifications = if current_user 
+                           Notification.where(recipient_id: current_user.id).all.order(created_at: :asc)
+                         else 
+                           Notification.none  
+                         end    
   end
 
 
