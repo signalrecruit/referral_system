@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170718100030) do
+ActiveRecord::Schema.define(version: 20170719144342) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -197,6 +197,7 @@ ActiveRecord::Schema.define(version: 20170718100030) do
     t.integer  "resource_id"
     t.string   "resource_type"
     t.string   "actor_username"
+    t.datetime "seen_at"
   end
 
   create_table "qualifications", force: :cascade do |t|

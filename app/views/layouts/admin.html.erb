@@ -68,13 +68,13 @@
 		    		<% end %>
 		    		<li>
 		    		<% if current_user.admin? %>
-		    		  <%= link_to admin_mark_all_as_read_url do %>
+		    		  <%= link_to admin_mark_all_as_seen_url do %>
 		    		    <i class="material-icons">business center</i>
 		    		    <p>
 		    		      All Companies
-		    		      <% if @company_notifications == 0 %>
+		    		      <% if @unseen_notifications.count == 0 %>
 		    		      <% else %>
-		    		        <button class="btn btn-danger btn-round btn-xs">
+		    		        <button id="company_notification" class="btn btn-danger btn-round btn-xs">
 		    		          <%= @company_notifications %>	
 		    		        </button>
 		    		      <% end %>  
@@ -149,22 +149,22 @@
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 									<i class="material-icons">notifications</i>
-									<% if @unread_notifications_count == 0 %>
+									<% if @unseen_notifications.count == 0 %>
 									<% else %>
-									<span class="notification"><%= @unread_notifications_count %></span>
+									<span class="notification"><%= @unseen_notifications.count %></span>
 									<% end %>
 									<p class="hidden-lg hidden-md">Notifications</p>
 								</a>
 								<% if @all_notifications.any? %>
 								<ul class="dropdown-menu" style="min-width: 430px;">
-								  <% @all_notifications.each do |notification| %>
+								  <% @all_notifications.limit(10).each do |notification| %>
 									<% if notification.resource_type == "company" && notification.action == "created" %> 
 									  <%= link_to admin_mark_as_read_url(notification), method: :patch do %>
 									    <% if notification.read_at.nil? %>
 									    <li style="background: #f5f5f0;">
 									    <% else %>
 									    <li>
-									    <% end %>	
+									    <% end %>
 									    <span style="font-weight: bold;"><%= notification.actor_username %></span> just brought in a company(<span style="font-weight: bold;"><%= Company.find(notification.resource_id).company_name %></span>)</li>    
 									  <% end %>  
 									<% elsif notification.resource_type == "job description" %>  
@@ -212,4 +212,18 @@
 <%= javascript_include_tag "admin/chartist.min" %>
 <%= javascript_include_tag "admin/bootstrap-notify" %>
 <%= javascript_include_tag "admin/material-dashboard" %>
+
+<script type="text/javascript">
+        $('.dropdown').click(function(e) {
+        	$.ajax({
+        	  method: "GET",
+        	  url: "/admin/notifications/mark_all_as_seen",
+        	  dataType: "JSON",
+        	  success: function (){
+        	  	$('.notification').remove();
+        	  	$("#company_notification").remove();
+        	  }
+        	})
+        });
+	    </script>
 </html>

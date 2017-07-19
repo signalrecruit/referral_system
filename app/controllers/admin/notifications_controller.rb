@@ -10,8 +10,19 @@ class Admin::NotificationsController < Admin::ApplicationController
   end
 
   def mark_all_as_read
-  	Notification.all.update_all(read_at: DateTime.now)
-  	redirect_to admin_companies_url
+  	respond_to do |format|
+  	  @notifications = Notification.where(recipient_id: current_user.id).all.update_all(read_at: DateTime.now)
+  	  format.html { redirect_to :back }
+  	  format.js { render json: @notifications}
+  	end
+  end
+
+  def mark_all_as_seen
+  	respond_to do |format|
+  	  @notifications = Notification.where(recipient_id: current_user.id).all.update_all(seen_at: DateTime.now)
+  	  format.html { redirect_to admin_companies_url }
+  	  format.js { render json: @notifications }	
+  	end
   end
 
 
@@ -22,6 +33,6 @@ class Admin::NotificationsController < Admin::ApplicationController
   end
 
   def notification_params
-  	params.require(:notification).permit(:action, :recipient_id, :actor_id, :read_at, :resource_type, :resource_id, :actor_username)
+  	params.require(:notification).permit(:action, :recipient_id, :actor_id, :read_at, :resource_type, :resource_id, :actor_username, :seen_at)
   end
 end

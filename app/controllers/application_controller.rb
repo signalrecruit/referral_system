@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
 
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :unapproved_users, :new_companies, :uncompleted_roles, :new_applicants, :unread_notifications, :unread_notifications_count,
-  :all_notifications, :company_notifications
+  :all_notifications, :company_notifications, :unseen_notifications
   
   def unapproved_users
     @unapproved_users = User.all.where(admin: false, approval: false)  
@@ -31,6 +31,14 @@ class ApplicationController < ActionController::Base
   def new_applicants
     @new_applicants = Applicant.all.where(status: "none")
   end
+
+  def unseen_notifications
+    @unseen_notifications = if current_user 
+                              Notification.where(recipient_id: current_user.id, seen_at: nil).all 
+                            else 
+                              0
+                            end    
+  end
   
   def unread_notifications 
     @unread_notifications = if current_user
@@ -44,7 +52,7 @@ class ApplicationController < ActionController::Base
     @unread_notifications_count = if current_user
                                     Notification.where(recipient_id: current_user.id, read_at: nil).all.count
                                   else 
-                                    Notification.none  
+                                    0
                                   end  
   end
 

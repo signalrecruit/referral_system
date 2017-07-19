@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     get 'users/reset_cumulative_earnings', to: 'users#reset_cumulative_earnings', as: :reset_cumulative_earnings
     patch 'notifications/:id/mark_as_read', to: 'notifications#mark_as_read', as: :mark_as_read
     get 'notifications/mark_all_as_read', to: 'notifications#mark_all_as_read', as: :mark_all_as_read
+    get 'notifications/mark_all_as_seen', to: 'notifications#mark_all_as_seen', as: :mark_all_as_seen
 
 
     
@@ -66,7 +67,6 @@ Rails.application.routes.draw do
   patch 'job_descriptions/:id/update_job_description', to: 'job_descriptions#update_job_description', as: :update_jd
   get 'activity_feed/index', to: 'activity_feed#index', as: :activity_feed
   get 'activity_feed/show', to: 'activity_feed#show', as: :show_activity
-  get 'notifications/clicked', to: 'notifications#clicked', as: :clicked_notifications
   patch 'messages/:id/send_message', to: 'messages#send_message', as: :send_message
   patch  'messages/:id/archive_message', to: 'messages#archive_message', as: :archive_message
   patch  'messages/:id/unarchive_message', to: 'messages#unarchive_message', as: :unarchive_message
@@ -75,6 +75,9 @@ Rails.application.routes.draw do
   patch 'bank_accounts/:id/edit_bank_details', to: 'bank_accounts#edit_bank_details', as: :edit_bank_details
   patch 'users/:id/complete_profile', to: 'users#complete_profile', as: :complete_profile
   patch 'users/:id/update_profile', to: 'users#update_profile', as: :update_profile
+  patch 'notifications/:id/mark_as_read', to: 'notifications#mark_as_read', as: :mark_notification_as_read
+  get 'notifications/mark_all_as_read', to: 'notifications#mark_all_as_read', as: :mark_all_as_read
+  get 'notifications/mark_all_as_seen', to: 'notifications#mark_all_as_seen', as: :mark_all_as_seen
 
 
   resources :user, only: [] do 
