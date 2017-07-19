@@ -36,7 +36,7 @@ class ApplicationController < ActionController::Base
     @unseen_notifications = if current_user 
                               Notification.where(recipient_id: current_user.id, seen_at: nil).all 
                             else 
-                              0
+                              Notification.none
                             end    
   end
   
