@@ -96,7 +96,7 @@
 								</a>
 								<% if @all_notifications.any? %>
 								<ul class="dropdown-menu" style="min-width: 430px;">
-								  <% @all_notifications.limit(10).each do |notification| %>
+								  <% @all_notifications.last(10).uniq.each do |notification| %>
 								    <% if notification.resource_type == "company" && notification.action == "contacted" %>
 								      <%= link_to mark_notification_as_read_url(notification), method: :patch do %>
 								         <% if notification.read_at.nil? %>
@@ -107,6 +107,16 @@
 									    <span style="font-weight: bold;">The Agency</span> just contacted your company<span style="font-weight: bold;">(<%= Company.find(notification.resource_id).company_name %>)</span>
 									    </li>
 								      <% end %>
+								    <% elsif notification.resource_type == "company" && notification.action == "deal" %>
+								      <%= link_to mark_notification_as_read_url(notification), method: :patch do %>
+								         <% if notification.read_at.nil? %>
+									    <li style="background: #f5f5f0;">
+									    <% else %>
+									    <li>
+									    <% end %>	
+									    <span style="font-weight: bold;">The Agency</span> just made a deal with your company<span style="font-weight: bold;">(<%= Company.find(notification.resource_id).company_name %>)</span>
+									    </li>
+								      <% end %>    
 								    <% end %> 
 								  <% end %>	
 								</ul>

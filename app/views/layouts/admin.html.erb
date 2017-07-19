@@ -157,7 +157,7 @@
 								</a>
 								<% if @all_notifications.any? %>
 								<ul class="dropdown-menu" style="min-width: 430px;">
-								  <% @all_notifications.limit(10).each do |notification| %>
+								  <% @all_notifications.last(10).each do |notification| %>
 									<% if notification.resource_type == "company" && notification.action == "created" %> 
 									  <%= link_to admin_mark_as_read_url(notification), method: :patch do %>
 									    <% if notification.read_at.nil? %>

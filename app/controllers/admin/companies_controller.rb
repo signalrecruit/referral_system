@@ -81,6 +81,8 @@ class Admin::CompaniesController < Admin::ApplicationController
     else
       if @company.contacted?
         @company.deal_true 
+        CompanyDealNotificationService.new({ company: @company, actor: current_user, action: "deal", recipient: @company.user, resource: @company,
+        resource_type: "company"  }).notify_user
         track_activity @company, "deal", @company.user_id 
         permit_jds_of_company_in_activity @company
         flash[:success] = "you and #{@company.company_name} have a deal"
