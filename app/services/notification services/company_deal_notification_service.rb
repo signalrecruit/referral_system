@@ -1,6 +1,7 @@
+require "job_description_create_notification_service"
+
 class CompanyDealNotificationService
   def initialize(params)
-  	@company = params[:company]
   	@actor = params[:actor]
   	@action = params[:action]
   	@recipient = params[:recipient]
@@ -18,5 +19,11 @@ class CompanyDealNotificationService
   def create_notification
   	Notification.create recipient_id: @recipient.id, actor_id: @actor.id, action: @action, resource_id: @resource.id, resource_type: @resource_type,
   	actor_username: @actor.username
+    
+    if @resource.job_descriptions.any?
+      @resource.job_descriptions.each do |job_description|
+        JobDescriptionCreateNotificationService.new( {actor: @resource.user, action: "posted", resource: job_description, resource_type: "job description", self: self} ).notify_admins_and_users
+      end
+    end
   end
 end

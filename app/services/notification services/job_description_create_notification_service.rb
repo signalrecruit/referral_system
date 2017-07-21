@@ -4,6 +4,7 @@ class JobDescriptionCreateNotificationService
   	@action = params[:action]
   	@resource = params[:resource]
   	@resource_type = params[:resource_type]
+    @self = params[:self]
   end
 
   def notify_admins_and_users
@@ -18,7 +19,7 @@ class JobDescriptionCreateNotificationService
       (User.all - [@actor]).each do |recipient|	
       	if notification_already_created? recipient
   	      Notification.create recipient_id: recipient.id, actor_id: @actor.id, action: "updated", resource_id: @resource.id, resource_type: @resource_type,
-  	      actor_username: @actor.username
+  	      actor_username: @actor.username if @self.nil?
   	    else
   	      Notification.create recipient_id: recipient.id, actor_id: @actor.id, action: @action, resource_id: @resource.id, resource_type: @resource_type,
   	      actor_username: @actor.username	
@@ -28,7 +29,7 @@ class JobDescriptionCreateNotificationService
       User.all.where(admin: true).each do |recipient|
       	if notification_already_created? recipient
   	      Notification.create recipient_id: recipient.id, actor_id: @actor.id, action: "updated", resource_id: @resource.id, resource_type: @resource_type,
-  	      actor_username: @actor.username
+  	      actor_username: @actor.username if @self.nil?
   	    else
   	      Notification.create recipient_id: recipient.id, actor_id: @actor.id, action: @action, resource_id: @resource.id, resource_type: @resource_type,
   	      actor_username: @actor.username	
