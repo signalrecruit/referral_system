@@ -21,7 +21,7 @@ class CompaniesController < ApplicationController
   	if @company.save
       create_alias_name_for_company @company
       track_activity @company, params[:action], @company.user.id  
-      CompanyCreateNotificationService.new({ actor: current_user, action: "created", resource: @company, resource_type: "company" }).notify_admin
+      CompanyCreateNotificationService.new({ actor: current_user, action: "created", resource: @company, resource_type: "company" }).notify_admins
       on_success "you succesfully created a company with name #{@company.company_name}", new_company_job_description_url(company_id: @company)
   	else
       on_failure "oops! something went wrong", :new

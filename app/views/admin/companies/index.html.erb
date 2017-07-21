@@ -36,7 +36,7 @@
 						<td><%= company.clientname %></td>
 						<td><%= company.role %></td>
 						<% if @company_id == company.id || @notifier_id == company.id %>
-						<td style="background-color: #FFFF70">
+						<td id="pick" style="background-color: #FFFF70">
 						<% else %>
 						<td>
 						<% end %>
@@ -117,3 +117,9 @@
 <%= javascript_include_tag "admin/chartist.min" %>
 <%= javascript_include_tag "admin/bootstrap-notify" %>
 <%= javascript_include_tag "admin/material-dashboard" %>
+<script type="text/javascript">
+	$( document ).ready(function() {
+		$("#pick").css("transition", "3s");
+		$("#pick").css("background", "#fff");
+	});	
+</script>

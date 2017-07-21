@@ -7,7 +7,7 @@ class CompanyCreateNotificationService
   end
 
    
-  def notify_admin
+  def notify_admins
     create_notification
   end
 

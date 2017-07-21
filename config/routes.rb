@@ -24,7 +24,7 @@ Rails.application.routes.draw do
     patch 'applicants/:id/hire', to: 'applicants#hire', as: :hire_applicant
     patch 'applicants/:id/unhire', to: 'applicants#unhire', as: :unhire_applicant
     get 'users/reset_cumulative_earnings', to: 'users#reset_cumulative_earnings', as: :reset_cumulative_earnings
-    patch 'notifications/:id/mark_as_read', to: 'notifications#mark_as_read', as: :mark_as_read
+    get 'notifications/:id/mark_as_read', to: 'notifications#mark_as_read', as: :mark_notification_as_read
     get 'notifications/mark_all_as_read', to: 'notifications#mark_all_as_read', as: :mark_all_as_read
     get 'notifications/mark_all_as_seen', to: 'notifications#mark_all_as_seen', as: :mark_all_as_seen
 
@@ -75,7 +75,7 @@ Rails.application.routes.draw do
   patch 'bank_accounts/:id/edit_bank_details', to: 'bank_accounts#edit_bank_details', as: :edit_bank_details
   patch 'users/:id/complete_profile', to: 'users#complete_profile', as: :complete_profile
   patch 'users/:id/update_profile', to: 'users#update_profile', as: :update_profile
-  patch 'notifications/:id/mark_as_read', to: 'notifications#mark_as_read', as: :mark_notification_as_read
+  get 'notifications/:id/mark_as_read', to: 'notifications#mark_as_read', as: :mark_notification_as_read
   get 'notifications/mark_all_as_read', to: 'notifications#mark_all_as_read', as: :mark_all_as_read
   get 'notifications/mark_all_as_seen', to: 'notifications#mark_all_as_seen', as: :mark_all_as_seen
 

@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
   has_many :job_descriptions, dependent: :destroy
   has_many :messages, dependent: :destroy
   has_many :bank_accounts, dependent: :destroy
+  has_many :notifications, foreign_key: :recipient_id
 
   validates :username, :fullname, :phonenumber, presence: true
   validates :phonenumber, format: { with: /\A[-+]?[0-9]*\.?[0-9]+\Z/, message: "only allows numbers" }

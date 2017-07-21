@@ -3,7 +3,7 @@ class NotificationsController < ApplicationController
 
    def mark_as_read
   	@notification.update(read_at: DateTime.now)
-  	if @notification.resource_type == "company"  
+  	if @notification.resource_type == "company" || @notification.resource_type == "job description" || @notification.resource_type == "applicant"
       redirect_to activity_feed_url
   	end
   end

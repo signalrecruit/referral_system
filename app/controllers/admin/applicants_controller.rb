@@ -92,6 +92,7 @@ class Admin::ApplicantsController < Admin::ApplicationController
 
   def all_applicants
     @all_applicants = Applicant.all.order(created_at: :asc)
+    @applicant_id = params[:applicant_id].to_i
   end
 
 

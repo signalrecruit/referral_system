@@ -70,6 +70,7 @@ class JobDescriptionsController < ApplicationController
     if jd_completed?
       @job_description = JobDescription.find(params[:id])
       CompleteJobDescriptionService.new({ job_description: @job_description }).complete_jd
+      JobDescriptionCreateNotificationService.new( {actor: current_user, action: "posted", resource: @job_description, resource_type: "job description"} ).notify_admins_and_users
       track_activity @job_description, "create", current_user.id if !activity_exists? @job_description.id, "JobDescription", "create"
       flash[:success] = "you have successfully completed the job description for the role #{@job_description.job_title}"
     else
