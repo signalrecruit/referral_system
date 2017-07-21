@@ -1,6 +1,5 @@
 class CompanyContactNotificationService
   def initialize(params)
-  	@company = params[:company]
   	@actor = params[:actor]
   	@action = params[:action]
   	@recipient = params[:recipient]
