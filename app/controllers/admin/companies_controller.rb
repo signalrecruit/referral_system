@@ -31,7 +31,7 @@ class Admin::CompaniesController < Admin::ApplicationController
 
   def destroy
     if @company.job_descriptions.any? || @company.applicants.any?
-  	   flash[:alert] = "this action is not possible. This company has jds and applicants associated with it. please conatact the admin for help with this issue"
+  	   flash[:alert] = "this action is not possible. This company has jds and applicants associated with it. please contact the admin for help with this issue"
        redirect_to :back
     else   
       @company.destroy
