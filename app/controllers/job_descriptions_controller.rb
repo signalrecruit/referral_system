@@ -26,6 +26,8 @@ class JobDescriptionsController < ApplicationController
   	if @job_description.save 
       JobDescriptionSubServicesAfterCreate.new({ job_description: @job_description, current_user: current_user }).initiate_sub_services
       track_activity @job_description, params[:action], current_user.id if @job_description.completed?
+      # find company and find if it has a role or any user tied to it. Then create a role on this jd for the user if no role found for this jd
+      create_role_for @job_description
       on_success "you have successfully created a job description", new_job_description_qualification_url(@job_description)
   	else
   	  flash.now[:alert] = "oops! sthg went wrong"
@@ -110,5 +112,12 @@ class JobDescriptionsController < ApplicationController
   def jd_completed?
     @job_description = JobDescription.find(params[:id])
     @job_description.qualifications.any? && @job_description.required_experiences.any? && @job_description.requirements.any?
+  end
+
+  def create_role_for(job_description)
+    @company = job_description.company 
+    if role = Role.find_by(role: "owner", resource_id: @company.id, resource_type: "company") 
+      Role.create role: "owner", user_id: role.user_id, resource_id: job_description.id, resource_type: "job description"
+    end
   end
 end

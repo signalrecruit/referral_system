@@ -1,5 +1,5 @@
 class Admin::CompaniesController < Admin::ApplicationController
-  before_action :set_admin_authorization_parameters, only: [:update_button, :update, :destroy]
+  before_action :set_admin_authorization_parameters, only: [:update_button, :update, :destroy, :contact_company, :deal_with_company]
   before_action :set_company, only: [:show, :edit, :update, :destroy, :update_button, :contact_company,
    :deal_with_company]
   layout "admin"
