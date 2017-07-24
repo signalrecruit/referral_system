@@ -1,4 +1,5 @@
 class Admin::JobDescriptionsController < Admin::ApplicationController
+  before_action :set_admin_authorization_parameters, only: [:update_button, :update, :destroy]
   before_action :set_company, except: [:update_button, :index]
   before_action :set_job_description, only: [:show, :edit, :update, :destroy]
   layout "admin"
@@ -81,5 +82,10 @@ class Admin::JobDescriptionsController < Admin::ApplicationController
   def job_params
   	params.require(:job_description).permit(:job_title, :experience, :min_salary, :max_salary, :vacancies, :update_button, :potential_worth, :actual_worth, :percent_worth, :applicant_worth,
      :applicant_percent_worth, :earnings, :vacancy_worth, :vacancy_percent_worth, :edit_user_id)
+  end
+
+  def set_admin_authorization_parameters
+    @job_description = JobDescription.find(params[:id])
+    Authorization::AdminAuthorizationPolicy.new(current_user, @job_description, "job description", self).implement_authorization_policy
   end
 end

@@ -1,4 +1,5 @@
 class Admin::ApplicantsController < Admin::ApplicationController
+  before_action :set_admin_authorization_parameters, only: [:update_button, :update, :destroy, :shortlist, :interviewing, :testing, :salary_negotiation, :hire, :unhire]
   before_action :set_jd, except: [:update_salary, :update_button, :all_applicants, :shortlist, :interviewing, :testing, :salary_negotiation, :hire, :unhire]
   before_action :set_applicant, only: [:show, :update]	
   layout "admin"
@@ -133,5 +134,10 @@ class Admin::ApplicantsController < Admin::ApplicationController
   def applicant_params
     params.require(:applicant).permit(:name, :email, :phonenumber, :location, :min_salary,
        :max_salary, :company_id, :job_description_id, :user_id, :attachment, :update_button, :status, :salary, :update_salary_button)
+  end
+
+  def set_admin_authorization_parameters
+    @applicant = Applicant.find(params[:id])
+    Authorization::AdminAuthorizationPolicy.new(current_user, @applicant, "job description", self).implement_authorization_policy
   end
 end

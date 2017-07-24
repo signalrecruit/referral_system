@@ -7,6 +7,7 @@
 		<div class="card-content">
 			<table class="table">
 				<thead class="text-primary">
+					<th></th>
 				    <th>Name of Company</th>
 					<th>Referrer</th>
 					<th>ClientName</th>
@@ -19,6 +20,18 @@
 				  <% if @companies.any? %>
 				  <% @companies.each do |company| %>		    
 					<tr>
+					    <td>
+					    <!-- helper method for if the current user has an ownership role on this company -->
+					    <span class="dropdown">					      
+					      <button class="dropdown-toggle btn btn-default btn-xs btn-round" data-toggle="dropdown">						  	
+						  	  <i class="material-icons">keyboard_arrow_down</i>						    
+						  </button>						  
+						<ul class="dropdown-menu">						  
+    					  <li><%= link_to "set ownership", admin_set_role_url(resource_id: company.id, resource_type: "company") %></li>	
+    					  <li><%= link_to "unset ownership", admin_unset_role_url(resource_id: company.id, resource_type: "company") %></li>
+						</ul>  	
+						</span>
+					    </td>
 					    <td>
 					      <%= link_to admin_company_url(company,  tab: "company") do %>
 					        <button class="btn btn-primary btn-xs btn-round">

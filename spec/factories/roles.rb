@@ -1,7 +1,8 @@
 FactoryGirl.define do
   factory :role do
-    role "MyString"
     user nil
-    company nil
+    role "MyString"
+    resource_id 1
+    resource_type "MyString"
   end
 end

@@ -4,7 +4,6 @@ class Company < ActiveRecord::Base
   has_many :job_descriptions, dependent: :destroy
   has_many :activities, as: :trackable, dependent: :destroy
   has_many :applicants, dependent: :destroy
-  has_many :roles, dependent: :delete_all
 
   validates :company_name, :clientname, :role, :email, :phonenumber, :about, presence: true
   validates :phonenumber, format: { with: /\A[-+]?[0-9]*\.?[0-9]+\Z/, message: "only allows numbers" }

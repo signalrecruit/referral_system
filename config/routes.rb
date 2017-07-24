@@ -27,6 +27,8 @@ Rails.application.routes.draw do
     get 'notifications/:id/mark_as_read', to: 'notifications#mark_as_read', as: :mark_notification_as_read
     get 'notifications/mark_all_as_read', to: 'notifications#mark_all_as_read', as: :mark_all_as_read
     get 'notifications/mark_all_as_seen', to: 'notifications#mark_all_as_seen', as: :mark_all_as_seen
+    get 'roles/set_role', to: 'roles#set_role', as: :set_role
+    get 'roles/unset_role', to: 'roles#unset_role', as: :unset_role
 
 
     

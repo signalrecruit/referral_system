@@ -130,7 +130,6 @@ class Admin::CompaniesController < Admin::ApplicationController
   end
 
   def set_admin_authorization_parameters
-    user = Authorization::AdminAuthorizationPolicy.new(current_user, set_company, self)
-    user.implement_authorization_policy
+    Authorization::AdminAuthorizationPolicy.new(current_user, set_company, "company", self).implement_authorization_policy
   end
 end

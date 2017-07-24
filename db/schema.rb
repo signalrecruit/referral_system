@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170723223031) do
+ActiveRecord::Schema.define(version: 20170724092710) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -247,14 +247,14 @@ ActiveRecord::Schema.define(version: 20170723223031) do
   add_index "requirements", ["job_description_id"], name: "index_requirements_on_job_description_id", using: :btree
 
   create_table "roles", force: :cascade do |t|
-    t.string   "role"
     t.integer  "user_id"
-    t.integer  "company_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "role"
+    t.integer  "resource_id"
+    t.string   "resource_type"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
-  add_index "roles", ["company_id"], name: "index_roles_on_company_id", using: :btree
   add_index "roles", ["user_id"], name: "index_roles_on_user_id", using: :btree
 
   create_table "scores", force: :cascade do |t|
@@ -319,7 +319,6 @@ ActiveRecord::Schema.define(version: 20170723223031) do
   add_foreign_key "requirement_scores", "job_descriptions"
   add_foreign_key "requirement_scores", "requirements"
   add_foreign_key "requirements", "job_descriptions"
-  add_foreign_key "roles", "companies"
   add_foreign_key "roles", "users"
   add_foreign_key "scores", "applicants"
   add_foreign_key "scores", "job_descriptions"
