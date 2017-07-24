@@ -1,4 +1,5 @@
 class Admin::ApplicationController < ApplicationController
+  include Authorization	
   before_action :authorize_user!
   layout "admin"
 

@@ -1,4 +1,5 @@
 class Admin::CompaniesController < Admin::ApplicationController
+  before_action :set_admin_authorization_parameters, only: [:update_button, :update, :destroy]
   before_action :set_company, only: [:show, :edit, :update, :destroy, :update_button, :contact_company,
    :deal_with_company]
   layout "admin"
@@ -126,5 +127,10 @@ class Admin::CompaniesController < Admin::ApplicationController
       activity = Activity.find_by trackable_id: company.id, trackable_type: "Company", action: "deal"
       activity.update(action: "inactive")
     end
+  end
+
+  def set_admin_authorization_parameters
+    user = Authorization::AdminAuthorizationPolicy.new(current_user, set_company, self)
+    user.implement_authorization_policy
   end
 end
