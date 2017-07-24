@@ -21,15 +21,19 @@
 				  <% @companies.each do |company| %>		    
 					<tr>
 					    <td>
-					    <!-- helper method for if the current user has an ownership role on this company -->
+					    <% authorize? company do %>
 					    <span class="dropdown">					      
 					      <button class="dropdown-toggle btn btn-default btn-xs btn-round" data-toggle="dropdown">						  	
 						  	  <i class="material-icons">keyboard_arrow_down</i>						    
-						  </button>						  
+						  </button>		
+						<% end %>
+						  
+						<% authorize? company do %>  				  
 						<ul class="dropdown-menu">						  
     					  <li><%= link_to "set ownership", admin_set_role_url(resource_id: company.id, resource_type: "company") %></li>	
     					  <li><%= link_to "unset ownership", admin_unset_role_url(resource_id: company.id, resource_type: "company") %></li>
 						</ul>  	
+						<% end %>
 						</span>
 					    </td>
 					    <td>

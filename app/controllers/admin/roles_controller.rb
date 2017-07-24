@@ -1,4 +1,5 @@
 class Admin::RolesController < Admin::ApplicationController
+  before_action :check_for_existing_ownership, only: [:set_role]
   layout "admin"
 
   def set_role 
@@ -73,5 +74,14 @@ class Admin::RolesController < Admin::ApplicationController
 
   def role_with_no_owner?(resource_id, resource_type)
     Role.find_by role: "no owner", resource_id: resource_id, resource_type: resource_type
+  end
+
+  def check_for_existing_ownership
+    @company_id = params[:resource_id].to_i
+    @resource = Company.find(@company_id)
+    if Role.where(role: "owner", resource_id: @resource.id, resource_type: "company").any?
+      flash[:alert] = "this company is already owned"
+      redirect_to :back
+    end
   end
 end
