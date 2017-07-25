@@ -3,10 +3,11 @@ Rails.application.routes.draw do
     get 'dashboard/dashboard', to: 'dashboard#dashboard', as: :dashboard
     # get 'dashboard/activity_feed', to: 'dashboard#activity_feed', as: :activity_feed
     patch 'companies/:id/update_button', to: 'companies#update_button', as: :update_button_for_company
+    patch 'companies/:id/contact_company', to: 'companies#contact_company', as: :contact_company
+    patch 'companies/:id/allow_changes_to_company', to: 'companies#allow_changes_to_company', as: :allow_changes_to_company
+    patch 'companies/:id/deal_with_company', to: 'companies#deal_with_company', as: :deal_with_company
     patch 'job_descriptions/:id/update_button', to: 'job_descriptions#update_button', as: :update_button_for_jd
     patch 'admin_users/:id/update_button', to: 'admin_users#update_button', as: :update_button_for_admin
-    patch 'companies/:id/contact_company', to: 'companies#contact_company', as: :contact_company
-    patch 'companies/:id/deal_with_company', to: 'companies#deal_with_company', as: :deal_with_company
     get 'activity_feed/index', to: 'activity_feed#index', as: :activity_feed
     get 'activity_feed/show', to: 'activity_feed#show', as: :show_activity
     patch 'messages/:id/send_message', to: 'messages#send_message', as: :send_message

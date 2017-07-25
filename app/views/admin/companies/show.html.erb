@@ -56,6 +56,11 @@
 												<%# end %>
 											</div>
 											<div class="card-content">
+											<% authorize? @company do %>
+											<div class="pull-right">
+											  <button type="button" class="btn btn-info btn-xs btn-round" data-toggle="modal" data-target="#myModal"><i class="material-icons">visibility</i>changes</button> 	
+											</div> 
+											<% end %>
 												<div class="row">
 													<div class="col-md-3">
 														<div class="form-group label-floating">
@@ -126,7 +131,41 @@
 												<div class="clearfix"></div>
 											</div>
 										</div>
-										
+
+
+										<!-- modal here -->
+										<div id="myModal" class="modal fade" role="dialog">
+											<div class="modal-dialog">
+
+												<!-- Modal content-->
+												<div class="modal-content">
+													<div class="modal-header">
+														<button type="button" class="close" data-dismiss="modal">&times;</button>
+														<h4 class="modal-title">Changes</h4>
+													</div>
+													<div class="modal-body">
+													<% if !@company_copy.nil? %>
+														<p>company name: <%= @company.company_name != @company_copy.company_name ? "#{@company_copy.company_name}**" : "#{@company.company_name}" %></p>
+														<p>name of client: <%= @company.clientname != @company_copy.clientname ? "#{@company_copy.clientname}**" : "#{@company.clientname}" %></p>
+														<p>email: <%= @company.email != @company_copy.email ? "#{@company_copy.email}**" : "#{@company.email}" %></p>
+														<p>role: <%= @company.role != @company_copy.role ? "#{@company_copy.role}**" : "#{@company.role}" %></p>
+														<p>phonenumber: <%= @company.phonenumber != @company_copy.phonenumber ? "#{@company_copy.phonenumber}**" : "#{@company.phonenumber}" %></p>
+														<p>url: <%= @company.url != @company_copy.url ? "#{@company_copy.url}**" : "#{@company.url}" %></p>
+														<p>about: <%= @company.about != @company_copy.about ? "#{@company_copy.about}**" : "#{@company.about}" %></p>
+													</div>
+													<div class="modal-footer">
+													  <%= link_to admin_allow_changes_to_company_url(@company), method: :patch do %>
+														<button type="button" class="btn btn-default btn-xs btn-round" data-dismiss="modal">Allow Changes</button>
+													  <% end %>	
+													  <% end %>
+													</div>
+												</div>
+
+											</div>
+										</div>
+										<!-- modal ends here -->
+
+
 										<div class="tab-pane <%= @tab == "job descriptions" ? "active" : "" %>" id="messages">
 											<table class="table">
 												<thead class="text-primary">
@@ -370,3 +409,5 @@
 								$("tr").css("background", "#fff");
 							});	
 						</script>
+
+						

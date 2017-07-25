@@ -30,8 +30,8 @@
 						  
 						<% authorize? company do %>  				  
 						<ul class="dropdown-menu">						  
-    					  <li><%= link_to "set ownership", admin_set_role_url(resource_id: company.id, resource_type: "company") %></li>	
-    					  <li><%= link_to "unset ownership", admin_unset_role_url(resource_id: company.id, resource_type: "company") %></li>
+    					  <li><%= link_to "set ownership", admin_set_role_url(resource_id: company.id, resource_type: company.class.name) %></li>	
+    					  <li><%= link_to "unset ownership", admin_unset_role_url(resource_id: company.id, resource_type: company.class.name) %></li>
 						</ul>  	
 						<% end %>
 						</span>

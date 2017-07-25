@@ -22,7 +22,7 @@ class CompanyDealNotificationService
     
     if @resource.job_descriptions.any?
       @resource.job_descriptions.each do |job_description|
-        JobDescriptionCreateNotificationService.new( {actor: @resource.user, action: "posted", resource: job_description, resource_type: "job description", self: self} ).notify_admins_and_users
+        JobDescriptionCreateNotificationService.new( {actor: @resource.user, action: "posted", resource: job_description, resource_type: job_description.class.name, self: self} ).notify_admins_and_users
       end
     end
   end

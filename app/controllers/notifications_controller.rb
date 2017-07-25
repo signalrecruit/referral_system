@@ -1,13 +1,14 @@
 class NotificationsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_notification, only: [:mark_as_read]
 
    def mark_as_read
   	@notification.update(read_at: DateTime.now)
-  	if @notification.resource_type == "company" || @notification.resource_type == "job description" 
+  	if @notification.resource_type == "Company" || @notification.resource_type == "JobDescription" 
       redirect_to activity_feed_url
-    elsif @notification.resource_type == "applicant" && (@notification.action == "created" || @notification.action == "none" || @notification.action == "interviewing" || @notification.action == "testing" || @notification.action == "shorlisted" || @notification.action == "salary negotiation" || @notification.action == "not hired")
+    elsif @notification.resource_type == "Applicant" && (@notification.action == "created" || @notification.action == "none" || @notification.action == "interviewing" || @notification.action == "testing" || @notification.action == "shorlisted" || @notification.action == "salary negotiation" || @notification.action == "not hired")
   	  redirect_to activity_feed_url
-    elsif @notification.resource_type == "applicant" && @notification.action == "hired"
+    elsif @notification.resource_type == "Applicant" && @notification.action == "hired"
       redirect_to user_stats_url
     end
   end

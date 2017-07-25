@@ -1,9 +1,10 @@
 class CompaniesController < ApplicationController
   before_action :authenticate_user!
+  before_action :copy_changes_to_existing_object, only: [:update] 
   before_action :set_company, only: [:show, :edit, :update, :destroy, :update_button]
 
   def index
-  	@companies = current_user.companies
+  	@companies = current_user.companies - current_user.companies.where(copy: true)
     @applicants = current_user.applicants
   end
 
@@ -21,7 +22,7 @@ class CompaniesController < ApplicationController
   	if @company.save
       create_alias_name_for_company @company
       track_activity @company, params[:action], @company.user.id  
-      CompanyCreateNotificationService.new({ actor: current_user, action: "created", resource: @company, resource_type: "company" }).notify_admins
+      CompanyCreateNotificationService.new({ actor: current_user, action: "created", resource: @company, resource_type: @company.class.name }).notify_admins
       on_success "you succesfully created a company with name #{@company.company_name}", new_company_job_description_url(company_id: @company)
   	else
       on_failure "oops! something went wrong", :new
@@ -83,5 +84,23 @@ class CompaniesController < ApplicationController
     id = params[:company][:industry_id].to_i
     @industry = Industry.find(id)
     @company.update(alias_name: @industry.name + "-#{@random}")
+  end
+
+  def copy_changes_to_existing_object
+    @company = Company.find(params[:id])
+    if @company.job_descriptions.any?
+      if find_company = Company.find_by(copy: true, copy_id: @company.id)
+        find_company.delete 
+        @save_company = Company.create company_params
+        @save_company.update(copy: true, copy_id: @company.id, user_id: @company.user_id, alias_name: @company.alias_name, contacted: @company.contacted, deal: @company.deal)
+      else
+        @save_company = Company.create company_params
+        @save_company.update(copy: true, copy_id: @company.id, user_id: @company.user_id, alias_name: @company.alias_name, contacted: @company.contacted, deal: @company.deal)
+      end
+      @company.update(update_button: false) 
+      CompanyUpdateNotificationService.new({ actor: current_user, action: "updated", resource: @company, resource_type: @company.class.name }).notify_admin
+      flash[:alert] = "your update has been saved. but will only reflect on admins authorization"
+      redirect_to company_url @company, tab: "company"
+    end
   end
 end

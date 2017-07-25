@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170724092710) do
+ActiveRecord::Schema.define(version: 20170725020443) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -128,6 +128,8 @@ ActiveRecord::Schema.define(version: 20170724092710) do
     t.integer  "industry_id"
     t.string   "alias_name"
     t.integer  "edit_user_id"
+    t.boolean  "copy",          default: false
+    t.integer  "copy_id"
   end
 
   add_index "companies", ["industry_id"], name: "index_companies_on_industry_id", using: :btree

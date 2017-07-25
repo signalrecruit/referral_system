@@ -1,12 +1,12 @@
 class Admin::CompaniesController < Admin::ApplicationController
-  before_action :set_admin_authorization_parameters, only: [:update_button, :update, :destroy, :contact_company, :deal_with_company]
+  before_action :set_admin_authorization_parameters, only: [:update_button, :update, :destroy, :contact_company, :deal_with_company, :allow_changes_to_company]
   before_action :set_company, only: [:show, :edit, :update, :destroy, :update_button, :contact_company,
-   :deal_with_company]
+   :deal_with_company, :allow_changes_to_company]
   layout "admin"
 
 
   def index
-  	@companies = Company.all.order(created_at: :asc)
+  	@companies = Company.all.order(created_at: :asc) - Company.where(copy: true).all
     @company_id = params[:company_id].to_i
     @notifier_id = params[:notifier_id].to_i
   end
@@ -14,6 +14,10 @@ class Admin::CompaniesController < Admin::ApplicationController
   def show
     @tab = params[:tab]
     @applicant_id = params[:applicant_id]
+
+    @company_copy = if company_copy = Company.find_by(copy: true, copy_id: @company.id)
+                      company_copy
+                    end   
   end
 
   def edit
@@ -62,8 +66,8 @@ class Admin::CompaniesController < Admin::ApplicationController
       end 
     else
       @company.contact
-      CompanyContactNotificationService.new({ company: @company, actor: current_user, action: "contacted", recipient: @company.user, resource: @company,
-        resource_type: "company" }).notify_user
+      CompanyContactNotificationService.new({ actor: current_user, action: "contacted", recipient: @company.user, resource: @company,
+        resource_type: @company.class.name }).notify_user
       flash[:success] = "contacted #{@company.company_name}" 
       redirect_to admin_companies_url(company_id: nil)
     end
@@ -82,8 +86,8 @@ class Admin::CompaniesController < Admin::ApplicationController
     else
       if @company.contacted?
         @company.deal_true 
-        CompanyDealNotificationService.new({ company: @company, actor: current_user, action: "deal", recipient: @company.user, resource: @company,
-        resource_type: "company"  }).notify_user
+        CompanyDealNotificationService.new({ actor: current_user, action: "deal", recipient: @company.user, resource: @company,
+        resource_type: @company.class.name }).notify_user
         track_activity @company, "deal", @company.user_id 
         permit_jds_of_company_in_activity @company
         flash[:success] = "you and #{@company.company_name} have a deal"
@@ -92,6 +96,25 @@ class Admin::CompaniesController < Admin::ApplicationController
       end
     end
     redirect_to :back
+  end
+
+  def allow_changes_to_company
+     @company_copy = if company_copy = Company.find_by(copy: true, copy_id: @company.id)
+                      company_copy
+                    end   
+     if (@company.company_name != @company_copy.company_name) || (@company.clientname != @company_copy.clientname) || (@company.email != 
+      @company_copy.email) || (@company.role != @company_copy.role) || (@company.phonenumber != @company_copy.phonenumber) || (@company.url != 
+      @company_copy.url) || (@company.about != @company_copy.about)
+
+       company_copy_attributes = @company_copy.attributes 
+       company_copy_attributes.delete("id")
+       company_copy_attributes["copy"] = false 
+       company_copy_attributes["copy_id"] = nil
+       @company.update(company_copy_attributes)
+       @company_copy.delete
+       flash[:success] = "changes have been incorporated."
+       redirect_to :back
+     end
   end
  
 
@@ -130,6 +153,6 @@ class Admin::CompaniesController < Admin::ApplicationController
   end
 
   def set_admin_authorization_parameters
-    Authorization::AdminAuthorizationPolicy.new(current_user, set_company, "company", self).implement_authorization_policy
+    Authorization::AdminAuthorizationPolicy.new(current_user, set_company, "Company", self).implement_authorization_policy
   end
 end

@@ -42,7 +42,7 @@ class JobDescriptionCreateNotificationService
   	@recipient = recipient
   	@recipient_notification = nil
     JobDescription.all.each do |jd|
-      @recipient_notification = Notification.find_by resource_id: jd.id, recipient_id: @recipient.id, resource_type: "job description", action: "posted"
+      @recipient_notification = Notification.find_by resource_id: jd.id, recipient_id: @recipient.id, resource_type: jd.class.name, action: "posted"
     end
     @recipient_notification.nil? ? false : true 
   end

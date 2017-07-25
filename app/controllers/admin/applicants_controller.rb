@@ -48,28 +48,28 @@ class Admin::ApplicantsController < Admin::ApplicationController
   def interviewing
     @applicant = Applicant.find(params[:id])
     @applicant.update(status: "interviewing")
-    ApplicantStatusNotificationService.new({ recipient: @applicant.user, actor: current_user, action: @applicant.status, resource: @applicant, resource_type: "applicant" }).notify_user
+    ApplicantStatusNotificationService.new({ recipient: @applicant.user, actor: current_user, action: @applicant.status, resource: @applicant, resource_type: @applicant.class.name }).notify_user
     redirect_to :back
   end
 
   def testing 
     @applicant = Applicant.find(params[:id])
     @applicant.update(status: "testing")
-    ApplicantStatusNotificationService.new({ recipient: @applicant.user, actor: current_user, action: @applicant.status, resource: @applicant, resource_type: "applicant" }).notify_user
+    ApplicantStatusNotificationService.new({ recipient: @applicant.user, actor: current_user, action: @applicant.status, resource: @applicant, resource_type: @applicant.class.name }).notify_user
     redirect_to :back
   end
 
   def shortlist 
     @applicant = Applicant.find(params[:id])
     @applicant.update(status: "shortlisted")
-    ApplicantStatusNotificationService.new({ recipient: @applicant.user, actor: current_user, action: @applicant.status, resource: @applicant, resource_type: "applicant" }).notify_user
+    ApplicantStatusNotificationService.new({ recipient: @applicant.user, actor: current_user, action: @applicant.status, resource: @applicant, resource_type: @applicant.class.name }).notify_user
     redirect_to :back
   end
 
   def salary_negotiation
     @applicant = Applicant.find(params[:id])
     @applicant.update(status: "salary negotiation")
-    ApplicantStatusNotificationService.new({ recipient: @applicant.user, actor: current_user, action: @applicant.status, resource: @applicant, resource_type: "applicant" }).notify_user
+    ApplicantStatusNotificationService.new({ recipient: @applicant.user, actor: current_user, action: @applicant.status, resource: @applicant, resource_type: @applicant.class.name }).notify_user
     redirect_to :back
   end
 
@@ -77,7 +77,7 @@ class Admin::ApplicantsController < Admin::ApplicationController
     @applicant = Applicant.find(params[:id])
     if @applicant.job_description.percent_worth.to_f != 0.0 && @applicant.job_description.actual_worth.to_f != 0.0 && @applicant.job_description.vacancy_percent_worth.to_f != 0.0
       @applicant.update(status: "hired")
-      ApplicantStatusNotificationService.new({ recipient: @applicant.user, actor: current_user, action: @applicant.status, resource: @applicant, resource_type: "applicant" }).notify_user
+      ApplicantStatusNotificationService.new({ recipient: @applicant.user, actor: current_user, action: @applicant.status, resource: @applicant, resource_type: @applicant.class.name }).notify_user
       @applicant.job_description.earning_algorithm
       @applicant.pay_user_when_applicant_is_hired
       redirect_to :back 
@@ -91,7 +91,7 @@ class Admin::ApplicantsController < Admin::ApplicationController
   def unhire 
     @applicant = Applicant.find(params[:id])
     @applicant.update(status: "not hired")
-    ApplicantStatusNotificationService.new({ recipient: @applicant.user, actor: current_user, action: @applicant.status, resource: @applicant, resource_type: "applicant" }).notify_user
+    ApplicantStatusNotificationService.new({ recipient: @applicant.user, actor: current_user, action: @applicant.status, resource: @applicant, resource_type: @applicant.class.name }).notify_user
     @applicant.job_description.earning_algorithm
     @applicant.pay_user_when_applicant_is_hired
     redirect_to :back
