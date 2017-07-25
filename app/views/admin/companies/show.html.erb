@@ -57,9 +57,11 @@
 											</div>
 											<div class="card-content">
 											<% authorize? @company do %>
+											<% pending_updates? @company do %>
 											<div class="pull-right">
 											  <button type="button" class="btn btn-info btn-xs btn-round" data-toggle="modal" data-target="#myModal"><i class="material-icons">visibility</i>changes</button> 	
 											</div> 
+											<% end %>
 											<% end %>
 												<div class="row">
 													<div class="col-md-3">

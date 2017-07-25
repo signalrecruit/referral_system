@@ -8,4 +8,11 @@ module Admin::ApplicationHelper
       yield
     end
   end	
+
+  def pending_updates?(resource)
+  	pending_update = Company.find_by copy: true, copy_id: resource.id 
+  	if pending_update
+  	  yield	
+  	end
+  end
 end
