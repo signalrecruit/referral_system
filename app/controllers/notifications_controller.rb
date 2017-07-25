@@ -4,8 +4,10 @@ class NotificationsController < ApplicationController
 
    def mark_as_read
   	@notification.update(read_at: DateTime.now)
-  	if @notification.resource_type == "Company" || @notification.resource_type == "JobDescription" 
-      redirect_to activity_feed_url
+  	if @notification.resource_type == "Company" && (@notification.action == "contacted" || @notification.action == "deal" || @notification.action == "authorize")  
+      redirect_to user_company_url(current_user, Company.find(@notification.resource_id), tab: "company")
+    elsif @notification.resource_type == "JobDescription"
+      redirect_to activity_feed_url  
     elsif @notification.resource_type == "Applicant" && (@notification.action == "created" || @notification.action == "none" || @notification.action == "interviewing" || @notification.action == "testing" || @notification.action == "shorlisted" || @notification.action == "salary negotiation" || @notification.action == "not hired")
   	  redirect_to activity_feed_url
     elsif @notification.resource_type == "Applicant" && @notification.action == "hired"

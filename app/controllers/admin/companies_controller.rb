@@ -112,6 +112,7 @@ class Admin::CompaniesController < Admin::ApplicationController
        company_copy_attributes["copy_id"] = nil
        @company.update(company_copy_attributes)
        @company_copy.delete
+       AuthorizeCompanyUpdateNotificationService.new({ actor: current_user, action: "authorize", resource: @company, resource_type: @company.class.name }).notify_user
        flash[:success] = "changes have been incorporated."
        redirect_to :back
      end
