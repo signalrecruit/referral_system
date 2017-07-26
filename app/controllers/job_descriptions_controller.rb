@@ -1,6 +1,7 @@
 class JobDescriptionsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_company, except: [:update_button, :complete_job_description, :update_job_description]
+  before_action :copy_changes_to_existing_object, only: [:update]
+  before_action :set_company, except: [:update_button, :complete_job_description, :update_job_description, :copy_changes_to_existing_object]
   before_action :set_job_description, only: [:show, :edit, :update, :destroy]
 
 
@@ -118,6 +119,24 @@ class JobDescriptionsController < ApplicationController
     @company = job_description.company 
     if role = Role.find_by(role: "owner", resource_id: @company.id, resource_type: @company.class.name) 
       Role.create role: "owner", user_id: role.user_id, resource_id: job_description.id, resource_type: job_description.class.name
+    end
+  end
+
+  def copy_changes_to_existing_object
+    @jd = JobDescription.find(params[:id])
+    if @jd.applicants.any?
+      if find_jd = JobDescription.find_by(copy: true, copy_id: @jd.id)
+        find_jd.delete 
+        @save_jd = JobDescription.create job_params
+        @save_jd.update(copy: true, copy_id: @jd.id, user_id: @jd.user_id)
+      else
+        @save_jd = JobDescription.create job_params
+        @save_jd.update(copy: true, copy_id: @jd.id, user_id: @jd.user_id)
+      end
+      @jd.update(update_button: false) 
+      JobDescriptionUpdateNotificationService.new({ actor: current_user, action: "updated", resource: @jd, resource_type: @jd.class.name }).notify_admin
+      flash[:alert] = "your update has been saved. but will only reflect on admins authorization"
+      redirect_to company_url @jd.company, tab: "job descriptions"
     end
   end
 end
