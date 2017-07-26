@@ -8,12 +8,14 @@ class Admin::NotificationsController < Admin::ApplicationController
       redirect_to admin_company_url(Company.find(@notification.resource_id), tab: "company")
     elsif @notification.resource_type == "Company"  
   	  (Company.find(@notification.resource_id)).contacted? ? "#{redirect_to admin_companies_url}" : "#{redirect_to admin_companies_url(notifier_id: Company.find(@notification.resource_id))}"	   
-  	elsif @notification.resource_type == "JobDescription"
+  	elsif @notification.resource_type == "JobDescription" && @notification.action == "posted"
       if role_exists_for JobDescription.find(@notification.resource_id)
   	    JobDescription.find(@notification.resource_id).update(update_button: true, edit_user_id: current_user.id)	
         flash[:success] = "you can go ahead and fill in the necessary values"
   	  end
       redirect_to admin_company_url(JobDescription.find(@notification.resource_id).company, tab: "job descriptions") 
+    elsif @notification.resource_type == "JobDescription" && (@notification.action == "updated" || @notification.action == "pending update")
+      redirect_to admin_company_url(JobDescription.find(@notification.resource_id).company, tab: "job descriptions")      
   	elsif @notification.resource_type == "Applicant" 
   	  redirect_to admin_manage_all_applicants_url(applicant_id: @notification.resource_id)  	
   	end

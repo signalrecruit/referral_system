@@ -1,5 +1,5 @@
 class Admin::JobDescriptionsController < Admin::ApplicationController
-  before_action :set_admin_authorization_parameters, only: [:update_button, :update, :destroy]
+  before_action :set_admin_authorization_parameters, only: [:update_button, :update, :destroy, :allow_changes_to_jd]
   before_action :set_company, except: [:update_button, :index]
   before_action :set_job_description, only: [:show, :edit, :update, :destroy]
   layout "admin"
@@ -9,6 +9,9 @@ class Admin::JobDescriptionsController < Admin::ApplicationController
   end
 
   def show
+    @job_description_copy = if job_description_copy = JobDescription.find_by(copy: true, copy_id: @job_description.id)
+                  job_description_copy
+                end   
   end
 
   def edit
@@ -64,6 +67,26 @@ class Admin::JobDescriptionsController < Admin::ApplicationController
     else
       flash[:alert] = "you must first contact the company with this job description"
       redirect_to admin_companies_url(company_id: @job_description.company.id)
+    end
+  end
+
+  def allow_changes_to_jd
+     @job_description_copy = if job_description_copy = JobDescription.find_by(copy: true, copy_id: @job_description.id)
+                               job_description_copy
+                             end   
+     if (@job_description.job_title != @job_description_copy.job_title) || (@job_description.experience != @job_description_copy.experience) || (@job_description.min_salary != 
+       @job_description_copy.min_salary) || (@job_description.max_salary != @job_description_copy.max_salary) || (@job_description.vacancies != @job_description_copy.vacancies) || (@job_description.role_description != 
+     @job_description_copy.role_description) || (@job_description.expiration_date != @job_description_copy.expiration_date)
+
+       job_description_copy_attributes = @job_description_copy.attributes 
+       job_description_copy_attributes.delete("id")
+       job_description_copy_attributes["copy"] = false 
+       job_description_copy_attributes["copy_id"] = nil
+       @job_description.update(job_description_copy_attributes)
+       @job_description_copy.delete
+       AuthorizeJobDescriptionUpdateNotificationService.new({ actor: current_user, action: "authorize", resource: @job_description, resource_type: @job_description.class.name }).notify_user
+       flash[:success] = "changes have been incorporated."
+       redirect_to :back
     end
   end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170725230901) do
+ActiveRecord::Schema.define(version: 20170726120223) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,8 +78,10 @@ ActiveRecord::Schema.define(version: 20170725230901) do
   create_table "attachments", force: :cascade do |t|
     t.string   "file"
     t.integer  "job_description_id"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.boolean  "copy",               default: false
+    t.integer  "copy_id"
   end
 
   add_index "attachments", ["job_description_id"], name: "index_attachments_on_job_description_id", using: :btree

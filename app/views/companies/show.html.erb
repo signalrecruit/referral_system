@@ -142,7 +142,7 @@
 												</thead>
 												<tbody>
 													<% if @company.job_descriptions.any? %>
-													<% @company.job_descriptions.each do |jd| %>													
+													<% @company.job_descriptions.where.not(copy: true).each do |jd| %>													
 													<tr>
 														<td>
 														  <%=link_to company_job_description_url(@company, jd) do %>

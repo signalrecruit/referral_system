@@ -22,7 +22,7 @@ class ApplicantsController < ApplicationController
   	if @applicant.save  	  	
   	  track_activity @applicant, "added an applicant", current_user.id	
       ApplicantSubServicesAfterCreate.new({ applicant: @applicant, jd: @jd, current_user: current_user }).initiate_sub_services
-      ApplicantCreateNotificationService.new({ actor: current_user, action: "created", resource: @applicant, resource_type: "applicant" }).notify_admins_and_users
+      ApplicantCreateNotificationService.new({ actor: current_user, action: "created", resource: @applicant, resource_type: "Applicant" }).notify_admins_and_users
       on_success "you successfully added an applicant to this job description", [@jd, @applicant]
   	else
       on_failure "oops! something went wrong", :new

@@ -185,7 +185,7 @@
 												</thead>
 												<tbody>
 													<% if @company.job_descriptions.any? %>
-													<% @company.job_descriptions.order(created_at: :asc).each do |jd| %>
+													<% @company.job_descriptions.where.not(copy: true).order(created_at: :asc).each do |jd| %>
 											        <% if jd.updated? && jd.edit_user_id == current_user.id %>
 											        <tr style="background-color: #FFFF70">
 											        <% else %>

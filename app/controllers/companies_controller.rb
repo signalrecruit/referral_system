@@ -4,7 +4,7 @@ class CompaniesController < ApplicationController
   before_action :set_company, only: [:show, :edit, :update, :destroy, :update_button]
 
   def index
-  	@companies = current_user.companies - current_user.companies.where(copy: true)
+  	@companies = current_user.companies.where.not(copy: true)
     @applicants = current_user.applicants
   end
 

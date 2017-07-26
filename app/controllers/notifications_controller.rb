@@ -6,8 +6,10 @@ class NotificationsController < ApplicationController
   	@notification.update(read_at: DateTime.now)
   	if @notification.resource_type == "Company" && (@notification.action == "contacted" || @notification.action == "deal" || @notification.action == "authorize")  
       redirect_to user_company_url(current_user, Company.find(@notification.resource_id), tab: "company")
-    elsif @notification.resource_type == "JobDescription"
+    elsif @notification.resource_type == "JobDescription" && (@notification.action == "posted" || @notification.action == "updated")
       redirect_to activity_feed_url  
+    elsif @notification.resource_type == "JobDescription" && @notification.action == "authorize"
+      redirect_to company_job_description_url(JobDescription.find(@notification.resource_id).company, JobDescription.find(@notification.resource_id))  
     elsif @notification.resource_type == "Applicant" && (@notification.action == "created" || @notification.action == "none" || @notification.action == "interviewing" || @notification.action == "testing" || @notification.action == "shorlisted" || @notification.action == "salary negotiation" || @notification.action == "not hired")
   	  redirect_to activity_feed_url
     elsif @notification.resource_type == "Applicant" && @notification.action == "hired"

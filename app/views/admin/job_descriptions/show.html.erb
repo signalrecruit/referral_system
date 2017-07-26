@@ -5,7 +5,7 @@
 			<h4 class="title">Job Description For <%= @company.company_name %></h4>
 		</div>
 		<div class="card-content">
-
+		<div>	
 		<% if @job_description.completed? %>
 		     <button class="btn btn-info btn-xs btn-round pull-right">
 		     	completed
@@ -17,7 +17,49 @@
         <% end %>
         <button class="btn btn-success btn-xs btn-round pull-right">
           worth: GHS<%= @job_description.actual_worth || "0.00" %>	
-        </button>	  
+        </button>	
+        </div>
+        <br>
+        
+        <% authorize? @job_description do %>
+        <% pending_updates? @job_description do %>
+        <div class="pull-right">
+        	<button style="margin-right: -90px;margin-top: 20px;" type="button" class="btn btn-info btn-xs btn-round" data-toggle="modal" data-target="#myModal"><i class="material-icons">visibility</i>changes</button> 	
+        </div> 
+        <% end %>
+        <% end %>  
+
+        <!-- modal here -->
+										<div id="myModal" class="modal fade" role="dialog">
+											<div class="modal-dialog">
+
+												<!-- Modal content-->
+												<div class="modal-content">
+													<div class="modal-header">
+														<button type="button" class="close" data-dismiss="modal">&times;</button>
+														<h4 class="modal-title">Changes</h4>
+													</div>
+													<div class="modal-body">
+													<% if !@jd_copy.nil? %>
+														<p>job title: <%= @job_description.job_title != @job_description_copy.job_title ? "#{@job_description_copy.job_title}**" : "#{@job_description.job_title}" %></p>
+														<p>experience: <%= @job_description.experience != @job_description_copy.experience ? "#{@job_description_copy.experiennce}**" : "#{@job_description.experience}" %></p>
+														<p>min salary: <%= @job_description.min_salary != @job_description_copy.min_salary ? "#{@job_description_copy.min_salary }**" : "#{@job_description.min_salary }" %></p>
+														<p>max salary: <%= @job_description.max_salary != @job_description_copy.max_salary  ? "#{@job_description_copy.min_salary }**" : "#{@job_description.min_salary }" %></p>
+														<p>vacancies: <%= @job_description.vacancies != @job_description_copy.vacancies ? "#{@job_description_copy.vacancies}**" : "#{@job_description.vacancies}" %></p>
+														<p>url: <%= @job_description.role_description != @job_description_copy.role_description ? "#{@job_description_copy.role_description}**" : "#{@job_description.role_description}" %></p>
+														<p>about: <%= @job_description.expiration_date != @job_description_copy.expiration_date ? "#{@job_description_copy.expiration_date}**" : "#{@job_description.expiration_date}" %></p>
+													</div>
+													<div class="modal-footer">
+													  <%= link_to admin_allow_changes_to_company_url(@company), method: :patch do %>
+														<button type="button" class="btn btn-default btn-xs btn-round" data-dismiss="modal">Allow Changes</button>
+													  <% end %>	
+													  <% end %>
+													</div>
+												</div>
+
+											</div>
+										</div>
+										<!-- modal ends here -->
 
 		<span class="text-primary">Brief Description</span>
 			<div class="row">

@@ -185,6 +185,15 @@
 									    <% end %>
 									    <span style="font-weight: bold;"><%= notification.actor_username %></span> just <%= notification.action %>  a role: <span style="font-weight: bold;"><%= JobDescription.find(notification.resource_id).job_title %></span> from <span style="font-weight: bold;"><%= JobDescription.find(notification.resource_id).company.company_name %></span> </li>    
 									  <% end %>
+									<% elsif notification.resource_type == "JobDescription" && notification.action == "pending update" %>
+									  <%= link_to admin_mark_notification_as_read_url(notification) do %>
+									    <% if notification.read_at.nil? %>
+									    <li style="background: #f5f5f0;">
+									    <% else %>
+									    <li>
+									    <% end %>
+									    <span style="font-weight: bold;"><%= notification.actor_username %></span> tried updating this role:(<span style="font-weight: bold;"><%= JobDescription.find(notification.resource_id).job_title %></span>)</li>									    
+									  <% end %>
 									<% elsif notification.resource_type == "Applicant" && notification.action == "created" %>
 									  <%= link_to admin_mark_notification_as_read_url(notification) do %>
 									    <% if notification.read_at.nil? %>
@@ -192,7 +201,7 @@
 									    <% else %>
 									    <li>
 									    <% end %>
-									    <span style="font-weight: bold;"><%= notification.actor_username %></span> just brought in <span style="font-weight: bold;"><%= Applicant.find(notification.resource_id).name %></span> for role as <span style="font-weight: bold;"><%= JobDescription.find(notification.resource_id).job_title %></span> </li>    
+									    <span style="font-weight: bold;"><%= notification.actor_username %></span> just brought in <span style="font-weight: bold;"><%= Applicant.find(notification.resource_id).name %></span> for role as <span style="font-weight: bold;"><%= Applicant.find(notification.resource_id).job_description.job_title %></span> </li>    
 									  <% end %>  
 									<% end %>  
 								  <% end %>	
