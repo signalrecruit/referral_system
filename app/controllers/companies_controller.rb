@@ -88,19 +88,36 @@ class CompaniesController < ApplicationController
 
   def copy_changes_to_existing_object
     @company = Company.find(params[:id])
-    if @company.job_descriptions.any?
-      if find_company = Company.find_by(copy: true, copy_id: @company.id)
-        find_company.delete 
-        @save_company = Company.create company_params
-        @save_company.update(copy: true, copy_id: @company.id, user_id: @company.user_id, alias_name: @company.alias_name, contacted: @company.contacted, deal: @company.deal)
-      else
-        @save_company = Company.create company_params
-        @save_company.update(copy: true, copy_id: @company.id, user_id: @company.user_id, alias_name: @company.alias_name, contacted: @company.contacted, deal: @company.deal)
+    @existing_attributes = @company.attributes 
+    @update_attributes = company_params 
+    @update_attributes["industry_id"] = @update_attributes["industry_id"].to_i
+    ["id", "user_id", "copy", "copy_id", "contacted", "created_at", "updated_at", "deal", "edit_user_id", "alias_name", "update_button", "commit"].each do |key|
+      @existing_attributes.delete key
+    end
+
+    if change_in_data @existing_attributes, @update_attributes
+      if @company.job_descriptions.any?
+        if find_company = Company.find_by(copy: true, copy_id: @company.id)
+          find_company.delete 
+          @company_copy = Company.create company_params
+          @company_copy.update(copy: true, copy_id: @company.id, user_id: @company.user_id, alias_name: @company.alias_name, contacted: @company.contacted, deal: @company.deal)
+        else
+          @company_copy = Company.create company_params
+          @company_copy.update(copy: true, copy_id: @company.id, user_id: @company.user_id, alias_name: @company.alias_name, contacted: @company.contacted, deal: @company.deal)
+        end
+        @company.update(update_button: false) 
+        CompanyUpdateNotificationService.new({ actor: current_user, action: "updated", resource: @company, resource_type: @company.class.name }).notify_admin
+        flash[:alert] = "your update has been saved. but will only reflect on admins authorization"
+        redirect_to company_url @company, tab: "company"
       end
-      @company.update(update_button: false) 
-      CompanyUpdateNotificationService.new({ actor: current_user, action: "updated", resource: @company, resource_type: @company.class.name }).notify_admin
-      flash[:alert] = "your update has been saved. but will only reflect on admins authorization"
+    else
+      @company.update(update_button: false)
+      flash[:alert] = "no change in data"
       redirect_to company_url @company, tab: "company"
     end
+  end
+
+  def change_in_data existing_attributes, update_attributes 
+    existing_attributes != update_attributes
   end
 end

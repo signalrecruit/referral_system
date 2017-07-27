@@ -83,6 +83,7 @@ class Admin::JobDescriptionsController < Admin::ApplicationController
        job_description_copy_attributes["copy"] = false 
        job_description_copy_attributes["copy_id"] = nil
        @job_description.update(job_description_copy_attributes)
+       @job_description.update(completed: true)
        @job_description_copy.attachments.delete_all
        @job_description_copy.delete
        AuthorizeJobDescriptionUpdateNotificationService.new({ actor: current_user, action: "authorize", resource: @job_description, resource_type: @job_description.class.name }).notify_user

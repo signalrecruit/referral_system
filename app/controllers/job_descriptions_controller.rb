@@ -161,7 +161,7 @@ class JobDescriptionsController < ApplicationController
       @job_description.update(update_button: false) 
       JobDescriptionUpdateNotificationService.new({ actor: current_user, action: "pending update", resource: @job_description, resource_type: @job_description.class.name }).notify_admin
       flash[:alert] = "your update has been saved. but will only reflect on admins authorization"
-      redirect_to company_url @job_description.company, tab: "job descriptions"
+      redirect_to company_job_description_url @job_description.company, @job_description
     end
   end
 end
