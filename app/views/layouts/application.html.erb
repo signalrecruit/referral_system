@@ -97,6 +97,7 @@
 								<% if @all_notifications.any? %>
 								<ul class="dropdown-menu" style="min-width: 430px;">
 								  <% @all_notifications.last(10).each do |notification| %>
+								  <% if_resource_exists?(notification) do %>
 								    <% if notification.resource_type == "Company" && notification.action == "contacted" %>
 								      <%= link_to mark_notification_as_read_url(notification) do %>
 								         <% if notification.read_at.nil? %>
@@ -134,7 +135,7 @@
 									    <% else %>
 									    <li>
 									    <% end %>	
-									    <span style="font-weight: bold;"><%= notification.actor_username %></span> just <%= notification.action %> this role: <span style="font-weight: bold;"><%= JobDescription.find(notification.resource_id).job_title %></span> from <span style="font-weight: bold;"><%= JobDescription.find(notification.resource_id).company.company_name %></span> </li>    
+									    <span style="font-weight: bold;"><%= notification.actor_username %></span> just <%= notification.action %> this role: <span style="font-weight: bold;"><%= JobDescription.find(notification.resource_id).job_title %></span> from <span style="font-weight: bold;"><%= JobDescription.find(notification.resource_id).company.company_name %></span></li>    
 								      <% end %>    
 								    <% elsif notification.resource_type == "JobDescription" && notification.action == "authorize" %>
 								      <%= link_to mark_notification_as_read_url(notification) do %>
@@ -220,6 +221,7 @@
 									    </li>  
 									  <% end %>                                   
 								    <% end %> 
+								    <% end %>
 								  <% end %>	
 								</ul>
 								<% end %>
