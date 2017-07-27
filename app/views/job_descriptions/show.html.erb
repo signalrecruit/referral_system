@@ -348,7 +348,7 @@
 	    <div class="row">
 	      <% unless @company.user != current_user %>
 		  <% if @job_description.completed? %>
-		    <%= link_to "update job description?", update_jd_url(@job_description), method: :patch, data: {confirm: "Are you sure you want update this job description complete?"}, class: "btn btn-warning btn-xs btn-round" %> 
+		    <%= link_to "update job description?", update_jd_url(@job_description), method: :patch, data: {confirm: "Are you sure you want update this job description?"}, class: "btn btn-warning btn-xs btn-round" %> 
 
 		  <% else %>
 		     <%= link_to "completed?", complete_jd_url(@job_description), method: :patch, data: { confirm: "Are you sure this job description is complete?" }, class: "btn btn-default btn-xs btn-round pull-right" %> 

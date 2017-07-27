@@ -40,9 +40,9 @@
 														<h4 class="modal-title">Changes</h4>
 													</div>
 													<div class="modal-body">
-													<% if !@jd_copy.nil? %>
+													<% pending_updates? @job_description do %>
 														<p>job title: <%= @job_description.job_title != @job_description_copy.job_title ? "#{@job_description_copy.job_title}**" : "#{@job_description.job_title}" %></p>
-														<p>experience: <%= @job_description.experience != @job_description_copy.experience ? "#{@job_description_copy.experiennce}**" : "#{@job_description.experience}" %></p>
+														<p>experience: <%= @job_description.experience != @job_description_copy.experience ? "#{@job_description_copy.experience}**" : "#{@job_description.experience}" %></p>
 														<p>min salary: <%= @job_description.min_salary != @job_description_copy.min_salary ? "#{@job_description_copy.min_salary }**" : "#{@job_description.min_salary }" %></p>
 														<p>max salary: <%= @job_description.max_salary != @job_description_copy.max_salary  ? "#{@job_description_copy.min_salary }**" : "#{@job_description.min_salary }" %></p>
 														<p>vacancies: <%= @job_description.vacancies != @job_description_copy.vacancies ? "#{@job_description_copy.vacancies}**" : "#{@job_description.vacancies}" %></p>
@@ -50,7 +50,7 @@
 														<p>about: <%= @job_description.expiration_date != @job_description_copy.expiration_date ? "#{@job_description_copy.expiration_date}**" : "#{@job_description.expiration_date}" %></p>
 													</div>
 													<div class="modal-footer">
-													  <%= link_to admin_allow_changes_to_company_url(@company), method: :patch do %>
+													  <%= link_to admin_allow_changes_to_jd_url(@job_description), method: :patch do %>
 														<button type="button" class="btn btn-default btn-xs btn-round" data-dismiss="modal">Allow Changes</button>
 													  <% end %>	
 													  <% end %>
@@ -218,3 +218,9 @@
 </div>
 
 
+<%= javascript_include_tag "admin/jquery-3.1.0.min" %>
+<%= javascript_include_tag "admin/bootstrap.min" %>
+<%= javascript_include_tag "admin/material.min" %>
+<%= javascript_include_tag "admin/chartist.min" %>
+<%= javascript_include_tag "admin/bootstrap-notify" %>
+<%= javascript_include_tag "admin/material-dashboard" %>

@@ -138,6 +138,6 @@ class Admin::ApplicantsController < Admin::ApplicationController
 
   def set_admin_authorization_parameters
     @applicant = Applicant.find(params[:id])
-    Authorization::AdminAuthorizationPolicy.new(current_user, @applicant, "job description", self).implement_authorization_policy
+    Authorization::AdminAuthorizationPolicy.new(current_user, @applicant, @applicant.class.name, self).implement_authorization_policy
   end
 end

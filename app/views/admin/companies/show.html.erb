@@ -30,7 +30,7 @@
 									<div class="ripple-container"></div></a> -->
 							    <%= link_to admin_company_url(@company, tab: "job descriptions") do %>
 							      <i class="material-icons"></i>
-									<%= pluralize(@company.job_descriptions.count, "Job Description") %>
+									<%= pluralize(@company.job_descriptions.where.not(copy: true, completed: false).count, "Job Description") %>
 									<div class="ripple-container"></div></a>
 							    <% end %>
 								</li>
@@ -184,8 +184,8 @@
 													<th></th>
 												</thead>
 												<tbody>
-													<% if @company.job_descriptions.any? %>
-													<% @company.job_descriptions.where.not(copy: true).order(created_at: :asc).each do |jd| %>
+													<% if @company.job_descriptions.where.not(copy: true, completed: false).any? %>
+													<% @company.job_descriptions.where.not(copy: true, completed: false).order(created_at: :asc).each do |jd| %>
 											        <% if jd.updated? && jd.edit_user_id == current_user.id %>
 											        <tr style="background-color: #FFFF70">
 											        <% else %>

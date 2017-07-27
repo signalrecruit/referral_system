@@ -1,11 +1,11 @@
 class Admin::JobDescriptionsController < Admin::ApplicationController
   before_action :set_admin_authorization_parameters, only: [:update_button, :update, :destroy, :allow_changes_to_jd]
-  before_action :set_company, except: [:update_button, :index]
+  before_action :set_company, except: [:update_button, :index, :allow_changes_to_jd]
   before_action :set_job_description, only: [:show, :edit, :update, :destroy]
   layout "admin"
 
   def index
-    @all_roles = JobDescription.all.order(created_at: :asc)
+    @all_roles = JobDescription.all.where(completed: true).order(created_at: :asc)
   end
 
   def show
@@ -83,11 +83,12 @@ class Admin::JobDescriptionsController < Admin::ApplicationController
        job_description_copy_attributes["copy"] = false 
        job_description_copy_attributes["copy_id"] = nil
        @job_description.update(job_description_copy_attributes)
+       @job_description_copy.attachments.delete_all
        @job_description_copy.delete
        AuthorizeJobDescriptionUpdateNotificationService.new({ actor: current_user, action: "authorize", resource: @job_description, resource_type: @job_description.class.name }).notify_user
        flash[:success] = "changes have been incorporated."
-       redirect_to :back
     end
+    redirect_to :back
   end
 
 
@@ -109,6 +110,6 @@ class Admin::JobDescriptionsController < Admin::ApplicationController
 
   def set_admin_authorization_parameters
     @job_description = JobDescription.find(params[:id])
-    Authorization::AdminAuthorizationPolicy.new(current_user, @job_description, "job description", self).implement_authorization_policy
+    Authorization::AdminAuthorizationPolicy.new(current_user, @job_description, @job_description.class.name, self).implement_authorization_policy
   end
 end

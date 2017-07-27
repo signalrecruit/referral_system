@@ -18,7 +18,7 @@ module Admin::ApplicationHelper
   end
 
   def pending_updates?(resource)
-  	pending_update = Company.find_by copy: true, copy_id: resource.id 
+  	pending_update = (resource.class.name.constantize).find_by copy: true, copy_id: resource.id 
   	if pending_update
   	  yield	
   	end

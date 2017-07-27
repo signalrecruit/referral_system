@@ -1,6 +1,6 @@
 class JobDescriptionsController < ApplicationController
   before_action :authenticate_user!
-  before_action :copy_changes_to_existing_object, only: [:update, :complete_job_description]
+  before_action :copy_changes_to_existing_object, only: [:update]
   before_action :set_company, except: [:update_button, :complete_job_description, :update_job_description, :copy_changes_to_existing_object]
   before_action :set_job_description, only: [:show, :edit, :update, :destroy]
 
@@ -123,35 +123,45 @@ class JobDescriptionsController < ApplicationController
   end
 
   def copy_changes_to_existing_object
-    @jd = JobDescription.find(params[:id])
-    if @jd.applicants.any?
-      if jd_copy = JobDescription.find_by(copy: true, copy_id: @jd.id)
+    @job_description = JobDescription.find(params[:id])
+    if @job_description.applicants.any?
+      if jd_copy = JobDescription.find_by(copy: true, copy_id: @job_description.id)
         jd_copy.attachments.delete_all 
         jd_copy.delete
         @jd_copy = JobDescription.new
-        job_description_attributes = @jd.attributes 
-        job_description_attributes.delete("id")
-        job_description_attributes["copy"] = true 
-        job_description_attributes["copy_id"] = @jd.id
-        @jd_copy.update_attributes job_description_attributes
-        @jd.attachments.each do |attachment|
-          Attachment.create file: attachment.file, job_description_id: @jd_copy.id, copy: true, copy_id: attachment.id
+        job_description_copy_attributes = job_params
+        job_description_copy_attributes.delete("id")
+        job_description_copy_attributes["copy"] = true 
+        job_description_copy_attributes["copy_id"] = @job_description.id
+        job_description_copy_attributes.delete("attachments_attributes")
+        job_description_copy_attributes["update_button"] = false
+        job_description_copy_attributes["user_id"] = @job_description.user_id 
+        job_description_copy_attributes["company_id"] = @job_description.company_id
+        job_description_copy_attributes["number_of_applicants"] = @job_description.number_of_applicants
+        @job_description.attachments.each do |attachment|
+          @jd_copy.attachments << Attachment.create(file: attachment.file, job_description_id: @jd_copy.id, copy: true, copy_id: attachment.id)
         end
+        @jd_copy.update_attributes job_description_copy_attributes
       else
         @jd_copy = JobDescription.new
-        job_description_attributes = @jd.attributes 
-        job_description_attributes.delete("id")
-        job_description_attributes["copy"] = true 
-        job_description_attributes["copy_id"] = @jd.id
-        @jd_copy.update_attributes job_description_attributes
-        @jd.attachments.each do |attachment|
-          Attachment.create file: attachment.file, job_description_id: @jd_copy.id, copy: true, copy_id: attachment.id
+        job_description_copy_attributes = job_params
+        job_description_copy_attributes.delete("id")
+        job_description_copy_attributes["copy"] = true 
+        job_description_copy_attributes["copy_id"] = @job_description.id
+        job_description_copy_attributes.delete("attachments_attributes")
+        job_description_copy_attributes["update_button"] = false
+        job_description_copy_attributes["user_id"] = @job_description.user_id 
+        job_description_copy_attributes["company_id"] = @job_description.company_id
+        job_description_copy_attributes["number_of_applicants"] = @job_description.number_of_applicants
+        @job_description.attachments.each do |attachment|
+          @jd_copy.attachments << Attachment.create(file: attachment.file, job_description_id: @jd_copy.id, copy: true, copy_id: attachment.id)
         end
-        @jd.update(update_button: false) 
-        JobDescriptionUpdateNotificationService.new({ actor: current_user, action: "pending update", resource: @jd, resource_type: @jd.class.name }).notify_admin
-        flash[:alert] = "your update has been saved. but will only reflect on admins authorization"
-        redirect_to company_url @jd.company, tab: "job descriptions"
+        @jd_copy.update_attributes job_description_copy_attributes
       end
+      @job_description.update(update_button: false) 
+      JobDescriptionUpdateNotificationService.new({ actor: current_user, action: "pending update", resource: @job_description, resource_type: @job_description.class.name }).notify_admin
+      flash[:alert] = "your update has been saved. but will only reflect on admins authorization"
+      redirect_to company_url @job_description.company, tab: "job descriptions"
     end
   end
 end
