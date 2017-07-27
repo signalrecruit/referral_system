@@ -18,5 +18,14 @@ class ApplicantSubServicesAfterCreate
     @applicant.record_applicant_history @jd
     @applicant.job_description.update_jd_status
     @applicant.update_salary
+    implement_authorization_policy_if_applicable
+  end
+
+  def implement_authorization_policy_if_applicable
+    company = @applicant.company 
+    role = Role.find_by role: "owner", resource_id: company.id, resource_type: "Company"
+    if role 
+      Role.create role: "owner", resource_id: @applicant.id, resource_type: @applicant.class.name, user_id: role.user_id
+    end
   end
 end
