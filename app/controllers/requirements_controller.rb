@@ -73,6 +73,16 @@ class RequirementsController < ApplicationController
     end
 
     if change_in_data existing_attributes, update_attributes 
+      if find_requirement_copy = Requirement.find_by(copy: true, copy_id: @requirement.id)
+        find_requirement_copy.delete  
+        @requirement_copy = Requirement.create requirement_params 
+        @requirement_copy.update(copy: true, copy_id: @requirement.id, job_description_id: @requirement.job_description_id)  
+      else
+        @requirement_copy = Requirement.create requirement_params 
+        @requirement_copy.update(copy: true, copy_id: @requirement.id, job_description_id: @requirement.job_description_id)
+      end
+      @requirement.update(update_button: false)
+      redirect_to company_job_description_url(@requirement.job_description.company, @requirement.job_description)
     else 
       @requirement.update(update_button: false)
       flash[:alert] = "no changes in data detected"
