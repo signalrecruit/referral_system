@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170726120223) do
+ActiveRecord::Schema.define(version: 20170728144255) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -213,6 +213,8 @@ ActiveRecord::Schema.define(version: 20170726120223) do
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
     t.boolean  "update_button",      default: false
+    t.boolean  "copy",               default: false
+    t.integer  "copy_id"
   end
 
   add_index "qualifications", ["job_description_id"], name: "index_qualifications_on_job_description_id", using: :btree
