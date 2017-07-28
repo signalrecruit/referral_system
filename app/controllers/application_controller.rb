@@ -64,6 +64,11 @@ class ApplicationController < ActionController::Base
                          end    
   end
 
+  # add an extra parameter to check for differences in copy and original
+  def change_in_data existing_attributes, update_attributes 
+    existing_attributes != update_attributes
+  end
+
 
 
   protected

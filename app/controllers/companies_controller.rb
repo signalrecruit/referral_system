@@ -116,8 +116,4 @@ class CompaniesController < ApplicationController
       redirect_to company_url @company, tab: "company"
     end
   end
-
-  def change_in_data existing_attributes, update_attributes 
-    existing_attributes != update_attributes
-  end
 end

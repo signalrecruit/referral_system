@@ -136,7 +136,7 @@
 					    <% if @job_description.qualifications.any? %>
 					       <table>
 					      <% @q = 0 %>
-						  <% @job_description.qualifications.each do |qualification| %>
+						  <% @job_description.qualifications.where(copy: false, copy_id: nil).each do |qualification| %>
 						  <% @q += 1 %>
 						    
 						    <% if qualification.updated? %>
