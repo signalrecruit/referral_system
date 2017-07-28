@@ -278,7 +278,7 @@
 				    <% if @job_description.requirements.any? %>
 				    <table>
 				    <% @r = 0 %>
-					  <% @job_description.requirements.each do |requirement| %>
+					  <% @job_description.requirements.where(copy: false, copy_id: nil).each do |requirement| %>
 					  <% @r += 1 %>
 					    <% if requirement.updated? %>
 						

@@ -1,5 +1,6 @@
 class RequirementsController < ApplicationController
   before_action :authenticate_user!
+  before_action :copy_changes_to_existing_object, only: [:update]
   before_action :set_jd, except: [:update_button]
   before_action :set_requirement, only: [:show, :edit, :update, :destroy]
 
@@ -61,5 +62,21 @@ class RequirementsController < ApplicationController
 
   def requirement_params
   	params.require(:requirement).permit(:content)
+  end
+
+  def copy_changes_to_existing_object
+    @requirement = Requirement.find(params[:id])
+    existing_attributes = @requirement.attributes
+    update_attributes = requirement_params
+    ["id", "job_description_id", "created_at", "updated_at", "copy", "copy_id", "update_button"].each do |key|
+      existing_attributes.delete(key)
+    end
+
+    if change_in_data existing_attributes, update_attributes 
+    else 
+      @requirement.update(update_button: false)
+      flash[:alert] = "no changes in data detected"
+      redirect_to company_job_description_url(@requirement.job_description.company, @requirement.job_description)  
+    end
   end
 end

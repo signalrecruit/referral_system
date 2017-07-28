@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170728161537) do
+ActiveRecord::Schema.define(version: 20170728165518) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -250,8 +250,10 @@ ActiveRecord::Schema.define(version: 20170728161537) do
     t.text     "content"
     t.boolean  "update_button"
     t.integer  "job_description_id"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.boolean  "copy",               default: false
+    t.integer  "copy_id"
   end
 
   add_index "requirements", ["job_description_id"], name: "index_requirements_on_job_description_id", using: :btree
