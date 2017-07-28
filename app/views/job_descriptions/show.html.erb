@@ -208,7 +208,7 @@
 				    <% if @job_description.required_experiences.any? %>
 				    <table>
 				    <% @re = 0 %>
-					  <% @job_description.required_experiences.each do |required_experience| %>
+					  <% @job_description.required_experiences.where(copy: false, copy_id: nil).each do |required_experience| %>
 					  <% @re += 1 %>
 					    <% if required_experience.updated? %>
 						
