@@ -76,13 +76,14 @@ class Admin::JobDescriptionsController < Admin::ApplicationController
                              end   
      if (@job_description.job_title != @job_description_copy.job_title) || (@job_description.experience != @job_description_copy.experience) || (@job_description.min_salary != 
        @job_description_copy.min_salary) || (@job_description.max_salary != @job_description_copy.max_salary) || (@job_description.vacancies != @job_description_copy.vacancies) || (@job_description.role_description != 
-     @job_description_copy.role_description) || (@job_description.expiration_date != @job_description_copy.expiration_date)
+     @job_description_copy.role_description) || (@job_description.expiration_date != @job_description_copy.expiration_date) || (@job_description.attachments.first.file != @job_description_copy.attachments.first.file)
 
        job_description_copy_attributes = @job_description_copy.attributes 
        job_description_copy_attributes.delete("id")
        job_description_copy_attributes["copy"] = false 
        job_description_copy_attributes["copy_id"] = nil
        @job_description.update(job_description_copy_attributes)
+       @job_description.attachments.first.update(file: @job_description_copy.attachments.first.file)
        @job_description.update(completed: true)
        @job_description_copy.attachments.delete_all
        @job_description_copy.delete
