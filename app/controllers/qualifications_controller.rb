@@ -20,6 +20,7 @@ class QualificationsController < ApplicationController
   	@qualification = @jd.qualifications.build(qualification_params)
 
   	if @qualification.save 
+      implement_authorization_policy_if_applicable @qualification
   	  flash[:success] = "added qualification successfully"
   	  redirect_to [@jd.company, @jd]
   	else
@@ -46,6 +47,7 @@ class QualificationsController < ApplicationController
   end
 
   def destroy
+    delete_copy_of_resource @qualification
   	@qualification.destroy
     on_success "successfully deleted a qualification", :back
   end

@@ -72,10 +72,17 @@ class JobDescriptionsController < ApplicationController
   def complete_job_description
     if jd_completed?
       @job_description = JobDescription.find(params[:id])
-      CompleteJobDescriptionService.new({ job_description: @job_description }).complete_jd
-      JobDescriptionCreateNotificationService.new( {actor: current_user, action: "posted", resource: @job_description, resource_type: @job_description.class.name} ).notify_admins_and_users
-      track_activity @job_description, "create", current_user.id if !activity_exists? @job_description.id, "JobDescription", "create"
-      flash[:success] = "you have successfully completed the job description for the role #{@job_description.job_title}"
+      if copies_for_jd_or_associated_resources?
+        CompleteJobDescriptionService.new({ job_description: @job_description }).complete_jd
+        JobDescriptionCreateNotificationService.new( {actor: current_user, action: "posted", resource: @job_description, resource_type: @job_description.class.name} ).notify_admins_and_users
+        track_activity @job_description, "create", current_user.id if !activity_exists? @job_description.id, "JobDescription", "create"
+        flash[:success] = "your updates are pending authorization by admin"
+      else
+        CompleteJobDescriptionService.new({ job_description: @job_description }).complete_jd
+        JobDescriptionCreateNotificationService.new( {actor: current_user, action: "posted", resource: @job_description, resource_type: @job_description.class.name} ).notify_admins_and_users
+        track_activity @job_description, "create", current_user.id if !activity_exists? @job_description.id, "JobDescription", "create"
+        flash[:success] = "you have successfully completed the job description for the role #{@job_description.job_title}"
+      end
     else
       flash[:alert] = "this job description lacks info under either Required Qualifications, Required Experiences, and/or Compulsory Requirements"
     end
@@ -162,6 +169,15 @@ class JobDescriptionsController < ApplicationController
       # JobDescriptionUpdateNotificationService.new({ actor: current_user, action: "pending update", resource: @job_description, resource_type: @job_description.class.name }).notify_admin
       # flash[:alert] = "your update has been saved. but will only reflect on admins authorization"
       redirect_to company_job_description_url @job_description.company, @job_description
+    end
+  end
+
+  def copies_for_jd_or_associated_resources?
+    if JobDescription.where(copy: true, copy_id: @job_description.id).any? || @job_description
+      .qualifications.where(copy: true).any? || @job_description.required_experiences.where(copy: true).any? || @job_description.requirements.where(copy: true).any?
+      true
+    else
+      false
     end
   end
 end

@@ -219,7 +219,27 @@
 									      <span style="font-weight: bold;"><%= Applicant.find(notification.resource_id).name %></span> who applied to your role(<span style="font-weight: bold;"><%= Applicant.find(notification.resource_id).job_description.job_title %></span>/<span style="font-weight: bold;"><%= Applicant.find(notification.resource_id).company.company_name %></span>) has been <span style="font-weight: bold;">hired</span>. 
 									    <% end %>  
 									    </li>  
-									  <% end %>                                   
+									  <% end %>   
+									<% elsif notification.resource_type == "Qualification" && notification.action == "authorize" %>
+									  <%= link_to mark_notification_as_read_url(notification) do %>
+									    <% if notification.read_at.nil? %>
+									    <li style="background: #f5f5f0;">
+									    <% else %>
+									    <li>
+									    <% end %> 
+									    <span style="font-weight: bold;">The Agency</span> just approved your updates to your job description: <span style="font-weight: bold;">(<%= JobDescription.find(Qualification.find(notification.resource_id).job_description_id).job_title %>)</span>
+									    </li>
+									  <% end %>  
+									<% elsif notification.resource_type == "RequiredExperience" && notification.action == "authorize" %>
+									  <%= link_to mark_notification_as_read_url(notification) do %>
+									    <% if notification.read_at.nil? %>
+									    <li style="background: #f5f5f0;">
+									    <% else %>
+									    <li>
+									    <% end %> 
+									    <span style="font-weight: bold;">The Agency</span> just approved your updates to your job description: <span style="font-weight: bold;">(<%= JobDescription.find(RequiredExperience.find(notification.resource_id).job_description_id) %>)</span>
+									    </li>
+									  <% end %>                                      
 								    <% end %> 
 								    <% end %>
 								  <% end %>	

@@ -149,16 +149,22 @@
 						<% end %>
 					</div>
 					<td>
+					  <% if @job_description.qualifications.where(copy: true).any? %>
 						<div class="pull-right">
 							<span class="dropdown">
 								<button type="button" style="margin-top: -40px;" class="dropdown-toggle btn btn-info btn-xs btn-round" data-toggle="dropdown"><i class="material-icons">visibility</i>changes<i class="material-icons">keyboard_arrow_down</i></button>
 								<ul class="dropdown-menu" class="col-md-8">
 								<% @job_description.qualifications.where(copy: true).each do |qualification| %>  
-								  <li style="width: 350px;"><%= qualification.certificate %> in <%= qualification.field_of_study %><br/><button class="btn btn-default btn-xs btn-round">Allow Changes</button></li>
+								  <li style="width: 350px;"><%= qualification.certificate %> in <%= qualification.field_of_study %><br/>
+								  <% authorize? qualification do %>
+								    <%= link_to "allow changes", admin_allow_changes_to_qualification_url(Qualification.find(qualification.copy_id)), method: :patch, class: "btn btn-default btn-xs btn-round" %>	
+								  <% end %>
+								  </li>								  
 								<% end %>  
 								</ul> 
 							</span>	
-						</div> 
+						</div>
+					  <% end %>	 
 					</td>
 				</div>
 			</div>
@@ -190,16 +196,21 @@
 					<% end %>
 				</div>
 				<td>
+				  <% if @job_description.required_experiences.where(copy: true).any? %>
 					<div class="pull-right">
 						<span class="dropdown">
 							<button type="button" style="margin-top: -40px;" class="dropdown-toggle btn btn-info btn-xs btn-round" data-toggle="dropdown"><i class="material-icons">visibility</i>changes<i class="material-icons">keyboard_arrow_down</i></button>
 							<ul class="dropdown-menu">
 								<% @job_description.required_experiences.where(copy: true).each do |required_experience| %>  
-								  <li style="width: 350px;"><%= required_experience.years %> years</td><td class="col-md-1">of</td><td class="col-md-4"><%= required_experience.experience %><br/><button class="btn btn-default btn-xs btn-round">Allow Changes</button></li>
+								  <li style="width: 350px;"><%= required_experience.years %> years</td><td class="col-md-1">of</td><td class="col-md-4"><%= required_experience.experience %><br/>
+								  <% authorize? required_experience do %>	
+								    <%= link_to "allow changes", admin_allow_changes_to_req_exp_url(RequiredExperience.find(required_experience.copy_id)), method: :patch, class: "btn btn-default btn-xs btn-round" %></li>
+								  <% end %>	
 								<% end %>  
 							</ul> 
 						</span>	
 					</div> 
+				  <% end %>	
 				</td>
 			</div>
 		</div>
@@ -229,16 +240,21 @@
 					<% end %>
 				</div>
 				<td>
+				  <% if @job_description.requirements.where(copy: true).any? %>
 					<div class="pull-right">
 						<span class="dropdown">
 							<button type="button" style="margin-top: -40px;" class="dropdown-toggle btn btn-info btn-xs btn-round" data-toggle="dropdown"><i class="material-icons">visibility</i>changes<i class="material-icons">keyboard_arrow_down</i></button>
 							<ul class="dropdown-menu">
 								<% @job_description.requirements.where(copy: true).each do |requirement| %>  
-								  <li style="width: 350px;"><%= requirement.content %><br/><button class="btn btn-default btn-xs btn-round">Allow Changes</button></li>
+								  <li style="width: 350px;"><%= requirement.content %><br/>
+								  <% authorize? requirement do %>	
+								    <button class="btn btn-default btn-xs btn-round">Allow Changes</button></li>
+								<% end %>
 								<% end %>  
 							</ul> 
 						</span>	
 					</div> 
+				  <% end %>	
 				</td>
 			</div>
 		</div>

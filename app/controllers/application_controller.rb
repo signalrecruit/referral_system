@@ -69,6 +69,20 @@ class ApplicationController < ActionController::Base
     existing_attributes != update_attributes
   end
 
+  def delete_copy_of_resource(resource)
+    if resource_copy = resource.class.name.constantize.find_by(copy: true, copy_id: resource.id)
+      resource_copy.delete
+    end
+  end
+
+  def implement_authorization_policy_if_applicable(resource)
+    jd = resource.job_description
+    role = Role.find_by role: "owner", resource_id: jd.id, resource_type: jd.class.name
+    if role 
+      Role.create role: "owner", resource_id: resource.id, resource_type: resource.class.name, user_id: role.user_id
+    end
+  end
+
 
 
   protected

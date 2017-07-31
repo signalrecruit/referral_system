@@ -6,6 +6,7 @@ module Authorization
   	  @resource_type = resource_type
   	  @controller = controller
   	end
+    
 
   	def implement_authorization_policy
       if @user.roles.where(role: "owner", resource_id: @resource.id, resource_type: @resource_type, user_id: @user.id).any?

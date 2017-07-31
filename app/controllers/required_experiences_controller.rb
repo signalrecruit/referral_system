@@ -19,6 +19,7 @@ class RequiredExperiencesController < ApplicationController
   	@experience = @jd.required_experiences.build(exp_params)
 
   	if @experience.save 
+      implement_authorization_policy_if_applicable @experience
       on_success "successufully added an experience", company_job_description_url(@jd.company, @jd) 
   	else
       on_failure "oops! something went wrong", :new
@@ -39,6 +40,7 @@ class RequiredExperiencesController < ApplicationController
   end
 
   def destroy
+    delete_copy_of_resource @experience
   	@experience.destroy
     on_success "deletion successfully done", :back
   end

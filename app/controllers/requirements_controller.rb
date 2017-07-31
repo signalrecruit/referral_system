@@ -19,6 +19,7 @@ class RequirementsController < ApplicationController
     @requirement = @jd.requirements.build(requirement_params)
     
     if @requirement.save 
+      implement_authorization_policy_if_applicable @requirement
       on_success "successfully created a requirement", company_job_description_url(@jd.company, @jd)
     else
       on_failure "oops! sthg went wrong", :new
@@ -38,6 +39,7 @@ class RequirementsController < ApplicationController
   end
 
   def destroy
+    delete_copy_of_resource @requirement
     @requirement.destroy
     on_success "requirement successfully deleted", :back
   end
