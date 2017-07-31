@@ -135,7 +135,7 @@
 					  <span class="text-primary">Required Qualifications</span>
 					    <% if @job_description.qualifications.any? %>
 					       <table>
-						  <% @job_description.qualifications.each do |qualification| %>							    
+						  <% @job_description.qualifications.where(copy: false, copy_id: nil).each do |qualification| %>							    
 								<tr>
 								  <td class="col-md-1"><%= qualification.certificate %></td> <td class="col-md-1">in</td>
 								  <td class="col-md-4"><%= qualification.field_of_study %></td> 
@@ -148,6 +148,18 @@
 						<p>No Qualifications Provided</p>  
 						<% end %>
 					</div>
+					<td>
+						<div class="pull-right">
+							<span class="dropdown">
+								<button type="button" style="margin-top: -40px;" class="dropdown-toggle btn btn-info btn-xs btn-round" data-toggle="dropdown"><i class="material-icons">visibility</i>changes<i class="material-icons">keyboard_arrow_down</i></button>
+								<ul class="dropdown-menu" class="col-md-8">
+								<% @job_description.qualifications.where(copy: true).each do |qualification| %>  
+								  <li style="width: 350px;"><%= qualification.certificate %> in <%= qualification.field_of_study %><br/><button class="btn btn-default btn-xs btn-round">Allow Changes</button></li>
+								<% end %>  
+								</ul> 
+							</span>	
+						</div> 
+					</td>
 				</div>
 			</div>
 
@@ -162,10 +174,10 @@
 				  <span class="text-primary">Required Experiences</span>
 				    <% if @job_description.required_experiences.any? %>
 				    <table>
-					  <% @job_description.required_experiences.each do |required_experience| %>		
+					  <% @job_description.required_experiences.where(copy: false, copy_id: nil).each do |required_experience| %>		
 						  <tr>
-							   <td class="col-md-2"><%= required_experience.years %> years</td><td class="col-md-1">of</td><td class="col-md-4"><%= required_experience.experience %></td>  
-						    </tr>
+						    <td class="col-md-2"><%= required_experience.years %> years</td><td class="col-md-1">of</td><td class="col-md-4"><%= required_experience.experience %></td>  
+						  </tr>
 					      
 					<br/>
 					
@@ -177,6 +189,18 @@
 					<p>No Experience Provided</p> 
 					<% end %>
 				</div>
+				<td>
+					<div class="pull-right">
+						<span class="dropdown">
+							<button type="button" style="margin-top: -40px;" class="dropdown-toggle btn btn-info btn-xs btn-round" data-toggle="dropdown"><i class="material-icons">visibility</i>changes<i class="material-icons">keyboard_arrow_down</i></button>
+							<ul class="dropdown-menu">
+								<% @job_description.required_experiences.where(copy: true).each do |required_experience| %>  
+								  <li style="width: 350px;"><%= required_experience.years %> years</td><td class="col-md-1">of</td><td class="col-md-4"><%= required_experience.experience %><br/><button class="btn btn-default btn-xs btn-round">Allow Changes</button></li>
+								<% end %>  
+							</ul> 
+						</span>	
+					</div> 
+				</td>
 			</div>
 		</div>
 
@@ -190,21 +214,32 @@
 				  <span class="text-primary">Compulsory Requirements</span>
 				    <% if @job_description.requirements.any? %>
 				    <table>
-					  <% @job_description.requirements.each do |requirement| %>	    
+					  <% @job_description.requirements.where(copy: false, copy_id: nil).each do |requirement| %>	    
 						  <tr>
-							  <td class="col-md-4"><%= requirement.content %></td>  
+							<td class="col-md-4"><%= requirement.content %></td>  
 						  </tr>
 					      
 					<br/>
 					
 					
-
 					<% end %>
 					</table>
 					<% else %>
 					<p>No Requirements Listed</p>
 					<% end %>
 				</div>
+				<td>
+					<div class="pull-right">
+						<span class="dropdown">
+							<button type="button" style="margin-top: -40px;" class="dropdown-toggle btn btn-info btn-xs btn-round" data-toggle="dropdown"><i class="material-icons">visibility</i>changes<i class="material-icons">keyboard_arrow_down</i></button>
+							<ul class="dropdown-menu">
+								<% @job_description.requirements.where(copy: true).each do |requirement| %>  
+								  <li style="width: 350px;"><%= requirement.content %><br/><button class="btn btn-default btn-xs btn-round">Allow Changes</button></li>
+								<% end %>  
+							</ul> 
+						</span>	
+					</div> 
+				</td>
 			</div>
 		</div>
 

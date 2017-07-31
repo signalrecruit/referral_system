@@ -10,6 +10,8 @@ Rails.application.routes.draw do
     patch 'job_descriptions/:id/update_button', to: 'job_descriptions#update_button', as: :update_button_for_jd
     patch 'job_descriptions/:id/allow_changes_to_jd', to: 'job_descriptions#allow_changes_to_jd', as: :allow_changes_to_jd
 
+    
+
     patch 'admin_users/:id/update_button', to: 'admin_users#update_button', as: :update_button_for_admin
     get 'activity_feed/index', to: 'activity_feed#index', as: :activity_feed
     get 'activity_feed/show', to: 'activity_feed#show', as: :show_activity
