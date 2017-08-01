@@ -38,8 +38,10 @@ class Admin::RolesController < Admin::ApplicationController
           role = Role.find_by role: "no owner", resource_id: jd.id, resource_type: "JobDescription"
           role.update(role: "owner", user_id: current_user.id) if role
         else
-          Role.create role: "owner", user_id: current_user.id, resource_id: jd.id, resource_type: "JobDescription" unless Role.where(role: "owner", user_id: current_user.id, resource_id: jd.id, resource_type: "JobDescription").any?
+          Role.create role: "owner", user_id: current_user.id, resource_id: jd.id, resource_type: "JobDescription" unless Role
+          .where(role: "owner", user_id: current_user.id, resource_id: jd.id, resource_type: "JobDescription").any?
         end
+        transfer_ownership_to_jd_associated_resources(jd)
       end
     end
 
@@ -82,6 +84,44 @@ class Admin::RolesController < Admin::ApplicationController
     if Role.where(role: "owner", resource_id: @resource.id, resource_type: @company.class.name).any?
       flash[:alert] = "this company is already owned"
       redirect_to :back
+    end
+  end
+
+  def transfer_ownership_to_jd_associated_resources(jd)
+    if jd.qualifications.any?
+      jd.qualifications.each do |qualification|
+        if role_with_no_owner?(qualification.id, qualification.class.name)
+          role = Role.find_by role: "no owner", resource_id: qualification.id, resource_type: qualification.class.name
+          role.update(role: "owner", user_id: current_user.id) if role
+        else  
+          Role.create role: "owner", user_id: current_user.id, resource_id: qualification.id, resource_type: qualification.class.name unless Role
+          .where(role: "owner", user_id: current_user.id, resource_id: qualification.id, resource_type: qualification.class.name).any?  
+        end   
+      end   
+    end
+
+    if jd.required_experiences.any? 
+      jd.required_experiences.each do |req_exp|
+        if role_with_no_owner?(req_exp.id, req_exp.class.name)
+          role = Role.find_by role: "no owner", resource_id: req_exp.id, resource_type: req_exp.class.name 
+          role.update(role: "owner", user_id: current_user.id) if role 
+        else 
+          Role.create role: "owner", user_id: current_user.id, resource_id: req_exp.id, resource_type: req_exp.class.name unless Role 
+          .where(role: "owner", user_id: current_user.id, resource_id: req_exp.id, resource_type: req_exp.class.name).any?  
+        end   
+      end
+    end
+
+    if jd.requirements.any?
+      jd.requirements.each do |requirement|
+        if role_with_no_owner?(requirement.id, requirement.class.name)
+          role = Role.find_by role: "no owner", resource_id: requirement.id, resource_type: requirement.class.name  
+          role.update(role: "owner", user_id: current_user.id) if role 
+        else
+          Role.create role: "owner", user_id: current_user.id, resource_id: requirement.id, resource_type: requirement.class.name unless Role 
+          .where(role: "owner", user_id: current_user.id, resource_id: requirement.id, resource_type: requirement.class.name).any?
+        end 
+      end
     end
   end
 end

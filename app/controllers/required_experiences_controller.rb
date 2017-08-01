@@ -69,28 +69,33 @@ class RequiredExperiencesController < ApplicationController
 
   def copy_changes_to_existing_object
     @experience = RequiredExperience.find(params[:id])
-    existing_attributes = @experience.attributes
-    update_attributes = exp_params
-    ["id", "job_description_id", "created_at", "updated_at", "copy", "copy_id", "update_button"].each do |key|
-      existing_attributes.delete(key)
-    end
-    update_attributes["years"] = update_attributes["years"].to_i
-
-    if change_in_data existing_attributes, update_attributes 
-      if find_experience_copy = RequiredExperience.find_by(copy: true, copy_id: @experience.id)
-        find_experience_copy.delete 
-        @experience_copy = RequiredExperience.create exp_params
-        @experience_copy.update(copy: true, copy_id: @experience.id, job_description_id: @experience.job_description_id)
-      else
-        @experience_copy = RequiredExperience.create exp_params
-        @experience_copy.update(copy: true, copy_id: @experience.id, job_description_id: @experience.job_description_id)
+    if @experience.job_description.applicants.any?
+      existing_attributes = @experience.attributes
+      update_attributes = exp_params
+      ["id", "job_description_id", "created_at", "updated_at", "copy", "copy_id", "update_button"].each do |key|
+        existing_attributes.delete(key)
       end
-      @experience.update(update_button: false)
-      redirect_to company_job_description_url(@experience.job_description.company, @experience.job_description)
-    else 
-      @experience.update(update_button: false)
-      flash[:alert] = "no change in data detected"
-      redirect_to company_job_description_url(@experience.job_description.company, @experience.job_description)
+      update_attributes["years"] = update_attributes["years"].to_i
+
+      if change_in_data existing_attributes, update_attributes 
+        if find_experience_copy = RequiredExperience.find_by(copy: true, copy_id: @experience.id)
+          find_experience_copy.delete 
+          @experience_copy = RequiredExperience.create exp_params
+          @experience_copy.update(copy: true, copy_id: @experience.id, job_description_id: @experience.job_description_id)
+        else
+          @experience_copy = RequiredExperience.create exp_params
+          @experience_copy.update(copy: true, copy_id: @experience.id, job_description_id: @experience.job_description_id)
+        end
+        @experience.update(update_button: false)
+        redirect_to company_job_description_url(@experience.job_description.company, @experience.job_description)
+      else 
+        @experience.update(update_button: false)
+        flash[:alert] = "no change in data detected"
+        redirect_to company_job_description_url(@experience.job_description.company, @experience.job_description)
+      end
+    else  
+      @experience.job_description.update(update_button: false) 
+      redirect_to company_job_description_url @experience.job_description.company, @experience.job_description
     end
   end
 end

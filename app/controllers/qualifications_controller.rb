@@ -77,6 +77,7 @@ class QualificationsController < ApplicationController
 
   def copy_changes_to_existing_object
     @qualification = Qualification.find(params[:id])
+    if @qualification.job_description.applicants.any? 
       existing_attributes = @qualification.attributes 
       update_attributes = qualification_params 
       ["id", "job_description_id", "created_at", "updated_at", "copy", "copy_id", "update_button"].each do |key|
@@ -98,5 +99,9 @@ class QualificationsController < ApplicationController
         flash[:alert] = "no changes detected"
         redirect_to company_job_description_url @qualification.job_description.company, @qualification.job_description
       end
+    else
+      @qualification.job_description.update(update_button: false) 
+      redirect_to company_job_description_url @qualification.job_description.company, @qualification.job_description
+    end
   end
 end
