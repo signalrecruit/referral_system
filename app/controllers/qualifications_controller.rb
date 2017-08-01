@@ -92,6 +92,7 @@ class QualificationsController < ApplicationController
           @qualification_copy = Qualification.create qualification_params
           @qualification_copy.update(copy: true, copy_id: @qualification.id, job_description_id: @qualification.job_description_id)
         end
+        flash[:warning] = "your changes have been saved pending admin authorization."
         @qualification.update(update_button: false)
         redirect_to company_job_description_url @qualification.job_description.company, @qualification.job_description
       else
@@ -100,8 +101,9 @@ class QualificationsController < ApplicationController
         redirect_to company_job_description_url @qualification.job_description.company, @qualification.job_description
       end
     else
-      @qualification.job_description.update(update_button: false) 
-      redirect_to company_job_description_url @qualification.job_description.company, @qualification.job_description
+      # @qualification.job_description.update(update_button: false) 
+      # @qualification.update(update_button: false)
+      # redirect_to company_job_description_url @qualification.job_description.company, @qualification.job_description
     end
   end
 end

@@ -86,6 +86,7 @@ class RequiredExperiencesController < ApplicationController
           @experience_copy = RequiredExperience.create exp_params
           @experience_copy.update(copy: true, copy_id: @experience.id, job_description_id: @experience.job_description_id)
         end
+        flash[:warning] = "your changes have been saved pending admin authorization."
         @experience.update(update_button: false)
         redirect_to company_job_description_url(@experience.job_description.company, @experience.job_description)
       else 
@@ -94,8 +95,9 @@ class RequiredExperiencesController < ApplicationController
         redirect_to company_job_description_url(@experience.job_description.company, @experience.job_description)
       end
     else  
-      @experience.job_description.update(update_button: false) 
-      redirect_to company_job_description_url @experience.job_description.company, @experience.job_description
+      # @experience.job_description.update(update_button: false) 
+      # @experience.update(update_button: false)
+      # redirect_to company_job_description_url @experience.job_description.company, @experience.job_description
     end
   end
 end

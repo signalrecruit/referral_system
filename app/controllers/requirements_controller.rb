@@ -84,6 +84,7 @@ class RequirementsController < ApplicationController
           @requirement_copy = Requirement.create requirement_params 
           @requirement_copy.update(copy: true, copy_id: @requirement.id, job_description_id: @requirement.job_description_id)
         end
+        flash[:warning] = "your changes have been saved pending admin authorization."
         @requirement.update(update_button: false)
         redirect_to company_job_description_url(@requirement.job_description.company, @requirement.job_description)
       else 
@@ -92,8 +93,8 @@ class RequirementsController < ApplicationController
         redirect_to company_job_description_url(@requirement.job_description.company, @requirement.job_description)  
       end
     else
-      @requirement.job_description.update(update_button: false) 
-      redirect_to company_job_description_url @requirement.job_description.company, @requirement.job_description
+      # @requirement.job_description.update(update_button: false) 
+      # redirect_to company_job_description_url @requirement.job_description.company, @requirement.job_description
     end
   end
 end

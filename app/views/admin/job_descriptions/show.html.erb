@@ -149,6 +149,7 @@
 						<% end %>
 					</div>
 					<td>
+					<% authorize? @job_description do %>
 					  <% if @job_description.qualifications.where(copy: true).any? %>
 						<div class="pull-right">
 							<span class="dropdown">
@@ -165,6 +166,7 @@
 							</span>	
 						</div>
 					  <% end %>	 
+					  <% end %>
 					</td>
 				</div>
 			</div>
@@ -196,6 +198,7 @@
 					<% end %>
 				</div>
 				<td>
+				<% authorize? @job_description do %>
 				  <% if @job_description.required_experiences.where(copy: true).any? %>
 					<div class="pull-right">
 						<span class="dropdown">
@@ -211,6 +214,7 @@
 						</span>	
 					</div> 
 				  <% end %>	
+				  <% end %>
 				</td>
 			</div>
 		</div>
@@ -240,6 +244,7 @@
 					<% end %>
 				</div>
 				<td>
+				<% authorize? @job_description do %>
 				  <% if @job_description.requirements.where(copy: true).any? %>
 					<div class="pull-right">
 						<span class="dropdown">
@@ -255,6 +260,7 @@
 						</span>	
 					</div> 
 				  <% end %>	
+				  <% end %>
 				</td>
 			</div>
 		</div>
