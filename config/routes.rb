@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 
     patch 'qualifications/:id/allow_changes_to_qualification', to: 'qualifications#allow_changes_to_qualification', as: :allow_changes_to_qualification
     patch 'required_experiences/:id/allow_changes_to_req_exp', to: 'required_experiences#allow_changes_to_req_exp', as: :allow_changes_to_req_exp
-    
+    patch 'requirements/:id/allow_changes_to_requirement', to: 'requirements#allow_changes_to_requirement', as: :allow_changes_to_requirement
 
     patch 'admin_users/:id/update_button', to: 'admin_users#update_button', as: :update_button_for_admin
     get 'activity_feed/index', to: 'activity_feed#index', as: :activity_feed

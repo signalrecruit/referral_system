@@ -227,7 +227,7 @@
 									    <% else %>
 									    <li>
 									    <% end %> 
-									    <span style="font-weight: bold;">The Agency</span> just approved your updates to your job description: <span style="font-weight: bold;">(<%= JobDescription.find(Qualification.find(notification.resource_id).job_description_id).job_title %>)</span>
+									    <span style="font-weight: bold;">The Agency</span> just approved your updates to your job description: <span style="font-weight: bold;">(<%= JobDescription.find(Qualification.find(notification.resource_id).job_description_id).job_title %>/<%= JobDescription.find(Qualification.find(notification.resource_id).job_description_id).company.company_name %>)</span>
 									    </li>
 									  <% end %>  
 									<% elsif notification.resource_type == "RequiredExperience" && notification.action == "authorize" %>
@@ -237,9 +237,19 @@
 									    <% else %>
 									    <li>
 									    <% end %> 
-									    <span style="font-weight: bold;">The Agency</span> just approved your updates to your job description: <span style="font-weight: bold;">(<%= JobDescription.find(RequiredExperience.find(notification.resource_id).job_description_id) %>)</span>
+									    <span style="font-weight: bold;">The Agency</span> just approved your updates to your job description: <span style="font-weight: bold;">(<%= JobDescription.find(RequiredExperience.find(notification.resource_id).job_description_id).job_title %>/<%= JobDescription.find(RequiredExperience.find(notification.resource_id).job_description_id).company.company_name %>)</span>
 									    </li>
-									  <% end %>                                      
+									  <% end %>     
+									<% elsif notification.resource_type == "Requirement" && notification.action == "authorize" %>
+									  <%= link_to mark_notification_as_read_url(notification) do %>
+									    <% if notification.read_at.nil? %>
+									    <li style="background: #f5f5f0;">
+									    <% else %>
+									    <li>
+									    <% end %>  
+									    <span style="font-weight: bold;">The Agency</span> just approved your updates to your job description: <span style="font-weight: bold;">(<%= JobDescription.find(Requirement.find(notification.resource_id).job_description_id).job_title %>/(<%= JobDescription.find(Requirement.find(notification.resource_id).job_description_id).company.company_name %>)</span>
+									    </li> 
+									  <% end %>                                   
 								    <% end %> 
 								    <% end %>
 								  <% end %>	

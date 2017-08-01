@@ -248,7 +248,7 @@
 								<% @job_description.requirements.where(copy: true).each do |requirement| %>  
 								  <li style="width: 350px;"><%= requirement.content %><br/>
 								  <% authorize? requirement do %>	
-								    <button class="btn btn-default btn-xs btn-round">Allow Changes</button></li>
+								    <%= link_to "Allow Changes", admin_allow_changes_to_requirement_url(Requirement.find(requirement.copy_id)), method: :patch, class: "btn btn-default btn-xs btn-round" %>
 								<% end %>
 								<% end %>  
 							</ul> 
