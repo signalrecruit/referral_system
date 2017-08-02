@@ -18,7 +18,7 @@
 					<div class="col-md-3">
 						<div class="form-group label-floating">
 							<label class="control-label">Name Of Company</label>
-							<%= f.input :company_name, label: false, class: "form-control" %>
+							<%= f.input :company_name, maxlength: "30", label: false, class: "form-control" %>
 						</div>
 					</div>
 					<div class="col-md-2">
@@ -30,13 +30,13 @@
 					<div class="col-md-4">
 						<div class="form-group label-floating">
 							<label class="control-label">Name Of Client</label>
-							<%= f.input :clientname, label: false, class: "form-control" %> 
+							<%= f.input :clientname, maxlength: "30", label: false, class: "form-control" %> 
 						</div>
 					</div>
 					<div class="col-md-2">
 						<div class="form-group label-floating">
 							<label class="control-label">Role/Job Title</label>
-							<%= f.input :role, label: false, class: "form-control" %> 
+							<%= f.input :role, maxlength: "20", label: false, class: "form-control" %> 
 						</div>
 					</div>
 				</div>
@@ -45,7 +45,7 @@
 					<div class="col-md-3">
 						<div class="form-group label-floating">
 							<label class="control-label">Email</label>
-							<%= f.input :email, label: false, class: "form-control" %>
+							<%= f.input :email, maxlength: "30", label: false, class: "form-control" %>
 						</div>
 					</div>
 					<div class="col-md-4">
@@ -57,7 +57,7 @@
 					<div class="col-md-4">
 						<div class="form-group label-floating">
 							<label class="control-label">url/website of company</label>
-							<%= f.input :url, label: false, class: "form-control" %>
+							<%= f.input :url, maxlength: "30", label: false, class: "form-control" %>
 						</div>
 					</div>
 				</div>
@@ -67,8 +67,8 @@
 						<div class="form-group">
 							<label>Brief Description of Company</label>
 							<div class="form-group label-floating">
-								<label class="control-label"> Should include a brief description of what company does</label>
-								<%= f.input :about, label: false, class: "form-control", rows: "5" %>
+								<label class="control-label"> Should include a brief description of what company does(in 500 characters maximum, or less)</label>
+								<%= f.input :about, maxlength: "500", label: false, class: "form-control", rows: "5" %>
 							</div>
 						</div>
 					</div>
