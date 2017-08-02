@@ -222,14 +222,14 @@
 				<div class="col-md-4">
 					<div class="form-group label-floating">
 						<label class="control-label">Fullname</label>
-						<%= f.input :name, label: false, required: true, autofocus: true, placeholder: "full name", class: "form-control" %>
+						<%= f.input :name, maxlength: "25", label: false, required: true, autofocus: true, placeholder: "full name", class: "form-control" %>
 					</div>
 				</div>
 
 				<div class="col-md-3">
 					<div class="form-group label-floating">
 						<label class="control-label">Email</label>
-						<%= f.input :email, label: false, required: true, placeholder: "email", class: "form-control" %>
+						<%= f.input :email, maxlength: "30", label: false, required: true, placeholder: "email", class: "form-control" %>
 					</div>
 				</div>
 
@@ -245,7 +245,7 @@
 				<div class="col-md-12">
 					<div class="form-group label-floating">
 						<label class="control-label">Location</label>
-						<%= f.input :location, label: false, required: true, placeholder: "your location/place of residence", class: "form-control" %>
+						<%= f.input :location, maxlength: "50", label: false, required: true, placeholder: "your location/place of residence", class: "form-control" %>
 					</div>
 				</div>
 			</div>
@@ -331,14 +331,14 @@
 				<div class="col-md-4">
 					<div class="form-group label-floating">
 						<label class="control-label">Fullname</label>
-						<%= f.input :name, label: false, required: true, autofocus: true, placeholder: "full name", class: "form-control" %>
+						<%= f.input :name, maxlength: "25", label: false, required: true, autofocus: true, placeholder: "full name", class: "form-control" %>
 					</div>
 				</div>
 
 				<div class="col-md-3">
 					<div class="form-group label-floating">
 						<label class="control-label">Email</label>
-						<%= f.input :email, label: false, required: true, placeholder: "email", class: "form-control" %>
+						<%= f.input :email, maxlength: "30", label: false, required: true, placeholder: "email", class: "form-control" %>
 					</div>
 				</div>
 
@@ -354,7 +354,7 @@
 				<div class="col-md-12">
 					<div class="form-group label-floating">
 						<label class="control-label">Location</label>
-						<%= f.input :location, label: false, required: true, placeholder: "your location/place of residence", class: "form-control" %>
+						<%= f.input :location, maxlength: "50", label: false, required: true, placeholder: "your location/place of residence", class: "form-control" %>
 					</div>
 				</div>
 			</div>
