@@ -17,7 +17,7 @@
 				<div class="col-md-4">
 					<div class="form-group label-floating">
 						<label class="control-label">Job Title</label>
-						<%= f.input :job_title, label: false, class: "form-control" %>
+						<%= f.input :job_title, maxlength: "30", label: false, class: "form-control" %>
 					</div>
 				</div>
 			</div>
@@ -25,8 +25,8 @@
 			<div class="row">
 			  <div class="col-md-4">
 			    <div class="form-group label-floating">
-			      <label class="control-label">Brief Description of Role</label>
-				    <%= f.input :role_description, label: false, class: "form-control" %>
+			      <label class="control-label">Brief Description of Role(in 500 characters or less)</label>
+				    <%= f.input :role_description, maxlength: "5o0", label: false, class: "form-control" %>
 				 </div>
 			  </div>
 			</div>

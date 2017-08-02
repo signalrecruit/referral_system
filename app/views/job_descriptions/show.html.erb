@@ -142,7 +142,7 @@
 						    <% if qualification.updated? %>
 							    <tr>
 								  <%= simple_form_for([@job_description, qualification]) do |f| %>
-								    <td class="col-md-1"><%= f.input :certificate, label: false %></td> <td class="col-md-1">in</td>  <td class="col-md-4"><%= f.input :field_of_study, label: false %></td>
+								    <td class="col-md-1"><%= f.input :certificate, maxlength: "10", label: false %></td> <td class="col-md-1">in</td>  <td class="col-md-4"><%= f.input :field_of_study, maxlength: "50", label: false %></td>
 									<td class="col-md-2"><%= f.button :submit, "update", class: "btn btn-primary btn-xs btn-round" %></td>
 									<% end %>
 								</tr>
@@ -214,7 +214,7 @@
 						
 						    <tr>
 							  <%= simple_form_for([@job_description, required_experience]) do |f| %>
-							    <td class="col-md-2"><%= f.input :years, label: false %> <td class="col-md-1">years</td></td><td class="col-md-1">of</td><td class="col-md-4"><%= f.input :experience, label: false %></td>   
+							    <td class="col-md-2"><%= f.input :years, label: false %> <td class="col-md-1">years</td></td><td class="col-md-1">of</td><td class="col-md-4"><%= f.input :experience, maxlength: "40", label: false %></td>   
 								<td><%= f.button :submit, "update", class: "btn btn-primary btn-xs btn-round" %></td>
 								<% end %>
 							</tr>
@@ -284,7 +284,7 @@
 						
 						    <tr>
 							  <%= simple_form_for([@job_description, requirement]) do |f| %>
-							    <td class="col-md-4"><%= f.input :content, label: false %></td> 
+							    <td class="col-md-4"><%= f.input :content, maxlength: "40", label: false %></td> 
 								<td class="col-md-2"><%= f.button :submit, "update", class: "btn btn-primary btn-xs btn-round" %></td>
 								<% end %>
 							</tr>
