@@ -1,5 +1,6 @@
 class ApplicantsController < ApplicationController
   before_action :authenticate_user!
+  before_action :copy_changes_to_existing_object, only: [:update]
   before_action :set_jd, except: [:update_button]
   before_action :set_applicant, only: [:show, :edit, :update, :destroy]
 
@@ -54,13 +55,14 @@ class ApplicantsController < ApplicationController
 
   def update_button
   	@applicant = Applicant.find(params[:id])
-    if @applicant.interviewing? || @applicant.testing? || @applicant.salary_negotiation? || @applicant.hired?
-      on_caution "not possible to edit #{@applicant.name}'s detail now.  #{@applicant.name} is currently #{@applicant.status}.
-      Please contact admin for help with this.", new_message_url(reply_id: 0)
-  	else
+    # if @applicant.interviewing? || @applicant.testing? || @applicant.salary_negotiation? || @applicant.hired?
+      # on_caution "not possible to edit #{@applicant.name}'s detail now.  #{@applicant.name} is currently #{@applicant.status}.
+      # Please contact admin for help with this.", new_message_url(reply_id: 0)
+      # redirect_to [:edit, @applicant.job_description, @applicant]
+  	# else
       @applicant.update(update_button: true)
   	  redirect_to [:edit, @applicant.job_description, @applicant]
-    end
+    # end
   end
 
 
@@ -79,5 +81,49 @@ class ApplicantsController < ApplicationController
   	params.require(:applicant).permit(:name, :email, :phonenumber, :location, :min_salary,
   		 :max_salary, :cv, :cv_cache, :company_id, :job_description_id, :user_id, :attachment, :update_button,
         requirement_scores_attributes: [:id, :score, :requirement_content, :requirement_id, :job_description_id, :_destroy])
+  end
+
+  def copy_changes_to_existing_object
+    @applicant = Applicant.find(params[:id])
+    existing_attributes = @applicant.attributes 
+    update_attributes = applicant_params
+    sanitize_attributes_for_comparison existing_attributes, update_attributes
+    
+    if change_in_data @existing_attributes, @update_attributes
+      if applicant_copy = Applicant.find_by(copy: true, copy_id: @applicant.id)
+      else 
+      end
+    else
+      flash[:alert] = "no changes detected"
+      redirect_to :back
+    end
+  end
+
+  def sanitize_attributes_for_comparison existing_attributes, update_attributes
+    ["id", "company_id", "job_description_id", "created_at", "updated_at", "user_id", "status", "earnings", "salary", "update_button",
+     "update_salary", "percent_salary", "update_salary_button", "copy", "copy_id" ].each do |key|
+      existing_attributes.delete(key)  
+    end
+    update_attributes["min_salary"] = update_attributes["min_salary"].to_i 
+    update_attributes["max_salary"] = update_attributes["max_salary"].to_i 
+
+    # update_attributes.delete("requirement_scores_attributes")  
+    # re-create requirement scores attributes
+    @c = 0
+    requirement_scores_attributes = HashWithIndifferentAccess.new
+    @applicant.requirement_scores.each do |req_score|
+      requirement_scores_attributes["#{@c}"] = { "id" => "#{req_score.id}" , "score" => "#{req_score.score}" }
+      @c += 1
+    end
+    existing_attributes["requirement_scores_attributes"] = requirement_scores_attributes
+    update_attributes.delete("cv_cache")
+    
+    if applicant_params["cv"]
+      update_attributes["cv"] = applicant_params["cv"].filename
+    else
+      existing_attributes.delete("cv")
+    end
+    @existing_attributes = existing_attributes 
+    @update_attributes = update_attributes
   end
 end

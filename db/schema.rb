@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170728165518) do
+ActiveRecord::Schema.define(version: 20170802112911) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,6 +69,8 @@ ActiveRecord::Schema.define(version: 20170728165518) do
     t.boolean  "update_salary",        default: false
     t.decimal  "percent_salary",       default: 0.0
     t.boolean  "update_salary_button", default: false
+    t.boolean  "copy",                 default: false
+    t.integer  "copy_id"
   end
 
   add_index "applicants", ["company_id"], name: "index_applicants_on_company_id", using: :btree
