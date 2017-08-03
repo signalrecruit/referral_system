@@ -5,7 +5,7 @@ class RequirementsController < ApplicationController
   before_action :set_requirement, only: [:show, :edit, :update, :destroy]
 
   def index
-    @requirements = @jd.requirements.all	
+    @requirements = @jd.requirements.where(copy: false).all	
   end
 
   def show

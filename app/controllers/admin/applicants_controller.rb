@@ -5,7 +5,7 @@ class Admin::ApplicantsController < Admin::ApplicationController
   layout "admin"
   	
   def index
-  	@applicants = @jd.applicants.all.order(created_at: :asc)
+  	@applicants = @jd.applicants.where(copy: false).all.order(created_at: :asc)
   end
 
   def show
@@ -98,7 +98,7 @@ class Admin::ApplicantsController < Admin::ApplicationController
   end
 
   def all_applicants
-    @all_applicants = Applicant.all.order(created_at: :asc)
+    @all_applicants = Applicant.where(copy: false).all.order(created_at: :asc)
     @applicant_id = params[:applicant_id].to_i
   end
 
