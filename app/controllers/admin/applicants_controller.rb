@@ -1,5 +1,5 @@
 class Admin::ApplicantsController < Admin::ApplicationController
-  before_action :set_admin_authorization_parameters, only: [:update_button, :update, :destroy, :shortlist, :interviewing, :testing, :salary_negotiation, :hire, :unhire]
+  before_action :set_admin_authorization_parameters, only: [:update_button, :update, :destroy, :shortlist, :interviewing, :testing, :salary_negotiation, :hire, :unhire, :allow_changes_to_applicant]
   before_action :set_jd, except: [:update_salary, :update_button, :all_applicants, :shortlist, :interviewing, :testing, :salary_negotiation, :hire, :unhire]
   before_action :set_applicant, only: [:show, :update]	
   layout "admin"
@@ -9,6 +9,9 @@ class Admin::ApplicantsController < Admin::ApplicationController
   end
 
   def show
+    @applicant_copy = if applicant_copy = Applicant.find_by(copy: true, copy_id: @applicant.id)
+                  applicant_copy
+                end     
   end
 
   def update
@@ -100,6 +103,27 @@ class Admin::ApplicantsController < Admin::ApplicationController
   def all_applicants
     @all_applicants = Applicant.where(copy: false).all.order(created_at: :asc)
     @applicant_id = params[:applicant_id].to_i
+  end
+
+  def allow_changes_to_applicant
+    @applicant = @applicant = Applicant.find(params[:id])
+    @applicant_copy = if applicant_copy = Applicant.find_by(copy: true, copy_id: @applicant.id)
+                        applicant_copy 
+                      end 
+
+    if (@applicant.email != @applicant_copy.email) || (@applicant.phonenumber != @applicant_copy.phonenumber) || (@applicant.location != @applicant_copy
+      .location) || (@applicant.cv != @applicant_copy.cv) || (@applicant.min_salary != @applicant_copy.min_salary) || (@applicant.max_salary != @applicant_copy
+      .max_salary)
+      applicant_copy_attributes = @applicant_copy.attributes 
+      applicant_copy_attributes.delete("id")
+      applicant_copy_attributes["copy"] = false 
+      applicant_copy_attributes["copy_id"] = nil 
+      @applicant.update(applicant_copy_attributes)
+      @applicant_copy.delete 
+      AuthorizeApplicantUpdateNotificationService.new({ actor: current_user, action: "authorize", resource: @applicant, resource_type: @applicant.class.name }).notify_user
+      flash[:success] = "changes have been incorporated." 
+    end
+    redirect_to :back
   end
 
 

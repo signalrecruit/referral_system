@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
     patch 'job_descriptions/:id/update_button', to: 'job_descriptions#update_button', as: :update_button_for_jd
     patch 'job_descriptions/:id/allow_changes_to_jd', to: 'job_descriptions#allow_changes_to_jd', as: :allow_changes_to_jd
+    patch 'applicants/:id/allow_changes_to_applicant', to: 'applicants#allow_changes_to_applicant', as: :allow_changes_to_applicant
 
     patch 'qualifications/:id/allow_changes_to_qualification', to: 'qualifications#allow_changes_to_qualification', as: :allow_changes_to_qualification
     patch 'required_experiences/:id/allow_changes_to_req_exp', to: 'required_experiences#allow_changes_to_req_exp', as: :allow_changes_to_req_exp

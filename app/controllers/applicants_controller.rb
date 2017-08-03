@@ -89,13 +89,13 @@ class ApplicantsController < ApplicationController
     existing_attributes = @applicant.attributes 
     update_attributes = applicant_params
     sanitize_attributes_for_comparison existing_attributes, update_attributes
-    # byebug
+
     if change_in_data @existing_attributes, @update_attributes
       if applicant_copy = Applicant.find_by(copy: true, copy_id: @applicant.id)
         applicant_copy.requirement_scores.delete_all
         applicant_copy.delete 
-        
-         @applicant_copy = Applicant.new(copy: true, copy_id: @applicant.id, update_button: false, user_id: @applicant.user_id, company_id: @applicant.company_id,
+
+        @applicant_copy = Applicant.new(copy: true, copy_id: @applicant.id, update_button: false, user_id: @applicant.user_id, company_id: @applicant.company_id,
           update_salary_button: false, percent_salary: @applicant.percent_salary, salary: @applicant.salary, earnings: @applicant.earnings, status: @applicant.status, 
           cv: @applicant.cv)
        
@@ -110,9 +110,8 @@ class ApplicantsController < ApplicationController
         ["copy", "copy_id", "update_button", "user_id", "company_id", "update_salary_button", "percent_salary", "salary", "earnings", "status", "requirement_scores_attributes"].each do |key|
           applicant_copy_attributes.delete(key)
         end
-        # byebug
-        @applicant_copy.update_attributes applicant_copy_attributes
 
+        @applicant_copy.update_attributes applicant_copy_attributes
       else 
         @applicant_copy = Applicant.new(copy: true, copy_id: @applicant.id, update_button: false, user_id: @applicant.user_id, company_id: @applicant.company_id,
           update_salary_button: false, percent_salary: @applicant.percent_salary, salary: @applicant.salary, earnings: @applicant.earnings, status: @applicant.status, 
@@ -129,9 +128,11 @@ class ApplicantsController < ApplicationController
         ["copy", "copy_id", "update_button", "user_id", "company_id", "update_salary_button", "percent_salary", "salary", "earnings", "status", "requirement_scores_attributes"].each do |key|
           applicant_copy_attributes.delete(key)
         end
-        # byebug
         @applicant_copy.update_attributes applicant_copy_attributes
       end
+        ApplicantUpdateNotificationService.new({ actor: current_user, action: "pending update", resource: @applicant, resource_type: @applicant.class.name }).notify_admin
+        flash[:success] = "your updates have been saved pending admin authorization"
+        redirect_to [@applicant.job_description, @applicant]
     else
       flash[:alert] = "no changes detected"
       redirect_to :back
