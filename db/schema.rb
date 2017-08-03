@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170802112911) do
+ActiveRecord::Schema.define(version: 20170802151321) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -237,11 +237,13 @@ ActiveRecord::Schema.define(version: 20170802112911) do
   create_table "requirement_scores", force: :cascade do |t|
     t.decimal  "score",               default: 0.0
     t.integer  "applicant_id"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
     t.string   "requirement_content"
     t.integer  "requirement_id"
     t.integer  "job_description_id"
+    t.boolean  "copy",                default: false
+    t.integer  "copy_id"
   end
 
   add_index "requirement_scores", ["applicant_id"], name: "index_requirement_scores_on_applicant_id", using: :btree

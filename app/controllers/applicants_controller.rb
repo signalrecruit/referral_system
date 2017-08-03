@@ -85,13 +85,52 @@ class ApplicantsController < ApplicationController
 
   def copy_changes_to_existing_object
     @applicant = Applicant.find(params[:id])
+
     existing_attributes = @applicant.attributes 
     update_attributes = applicant_params
     sanitize_attributes_for_comparison existing_attributes, update_attributes
-    
+    # byebug
     if change_in_data @existing_attributes, @update_attributes
       if applicant_copy = Applicant.find_by(copy: true, copy_id: @applicant.id)
+        applicant_copy.requirement_scores.delete_all
+        applicant_copy.delete 
+        
+         @applicant_copy = Applicant.new(copy: true, copy_id: @applicant.id, update_button: false, user_id: @applicant.user_id, company_id: @applicant.company_id,
+          update_salary_button: false, percent_salary: @applicant.percent_salary, salary: @applicant.salary, earnings: @applicant.earnings, status: @applicant.status, 
+          cv: @applicant.cv)
+       
+
+        applicant_params["requirement_scores_attributes"].each do |key, value|
+          @applicant_copy.requirement_scores << RequirementScore.create(score: value["score"].to_f, applicant_id: @applicant_copy.id, requirement_id: value["id"].to_i, 
+            requirement_content: Requirement.find(value["id"].to_i).content, job_description_id: @applicant.job_description_id, copy: true, copy_id: value["id"].to_i)  
+        end
+        @applicant_copy.save
+
+        applicant_copy_attributes = applicant_params
+        ["copy", "copy_id", "update_button", "user_id", "company_id", "update_salary_button", "percent_salary", "salary", "earnings", "status", "requirement_scores_attributes"].each do |key|
+          applicant_copy_attributes.delete(key)
+        end
+        # byebug
+        @applicant_copy.update_attributes applicant_copy_attributes
+
       else 
+        @applicant_copy = Applicant.new(copy: true, copy_id: @applicant.id, update_button: false, user_id: @applicant.user_id, company_id: @applicant.company_id,
+          update_salary_button: false, percent_salary: @applicant.percent_salary, salary: @applicant.salary, earnings: @applicant.earnings, status: @applicant.status, 
+          cv: @applicant.cv)
+       
+
+        applicant_params["requirement_scores_attributes"].each do |key, value|
+          @applicant_copy.requirement_scores << RequirementScore.create(score: value["score"].to_f, applicant_id: @applicant_copy.id, requirement_id: value["id"].to_i, 
+            requirement_content: Requirement.find(value["id"].to_i).content, job_description_id: @applicant.job_description_id, copy: true, copy_id: value["id"].to_i)  
+        end
+        @applicant_copy.save
+
+        applicant_copy_attributes = applicant_params
+        ["copy", "copy_id", "update_button", "user_id", "company_id", "update_salary_button", "percent_salary", "salary", "earnings", "status", "requirement_scores_attributes"].each do |key|
+          applicant_copy_attributes.delete(key)
+        end
+        # byebug
+        @applicant_copy.update_attributes applicant_copy_attributes
       end
     else
       flash[:alert] = "no changes detected"
@@ -119,7 +158,7 @@ class ApplicantsController < ApplicationController
     update_attributes.delete("cv_cache")
     
     if applicant_params["cv"]
-      update_attributes["cv"] = applicant_params["cv"].filename
+      update_attributes["cv"] = applicant_params["cv"].original_filename
     else
       existing_attributes.delete("cv")
     end
