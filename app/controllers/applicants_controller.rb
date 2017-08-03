@@ -96,6 +96,7 @@ class ApplicantsController < ApplicationController
         applicant_copy.delete 
 
         @applicant_copy = Applicant.new(copy: true, copy_id: @applicant.id, update_button: false, user_id: @applicant.user_id, company_id: @applicant.company_id,
+         job_description_id: @applicant.job_description_id,
           update_salary_button: false, percent_salary: @applicant.percent_salary, salary: @applicant.salary, earnings: @applicant.earnings, status: @applicant.status, 
           cv: @applicant.cv)
        
@@ -114,6 +115,7 @@ class ApplicantsController < ApplicationController
         @applicant_copy.update_attributes applicant_copy_attributes
       else 
         @applicant_copy = Applicant.new(copy: true, copy_id: @applicant.id, update_button: false, user_id: @applicant.user_id, company_id: @applicant.company_id,
+         job_description_id: @applicant.job_description_id,
           update_salary_button: false, percent_salary: @applicant.percent_salary, salary: @applicant.salary, earnings: @applicant.earnings, status: @applicant.status, 
           cv: @applicant.cv)
        
