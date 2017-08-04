@@ -95,13 +95,15 @@ class ApplicantsController < ApplicationController
         applicant_copy.requirement_scores.delete_all
         applicant_copy.delete 
 
+        # byebug
         @applicant_copy = Applicant.new(copy: true, copy_id: @applicant.id, update_button: false, user_id: @applicant.user_id, company_id: @applicant.company_id,
          job_description_id: @applicant.job_description_id,
-          update_salary_button: false, percent_salary: @applicant.percent_salary, salary: @applicant.salary, earnings: @applicant.earnings, status: @applicant.status, 
-          cv: @applicant.cv)
+          update_salary_button: false, percent_salary: @applicant.percent_salary, salary: @applicant.salary, earnings: @applicant.earnings, status: @applicant.status)
        
 
         applicant_params["requirement_scores_attributes"].each do |key, value|
+          req_score_copy = RequirementScore.find_by(copy: true, copy_id: value["id"].to_i)
+          req_score_copy.delete if req_score_copy 
           @applicant_copy.requirement_scores << RequirementScore.create(score: value["score"].to_f, applicant_id: @applicant_copy.id, requirement_id: value["id"].to_i, 
             requirement_content: Requirement.find(value["id"].to_i).content, job_description_id: @applicant.job_description_id, copy: true, copy_id: value["id"].to_i)  
         end
@@ -112,17 +114,23 @@ class ApplicantsController < ApplicationController
           applicant_copy_attributes.delete(key)
         end
 
-        @applicant_copy.update_attributes applicant_copy_attributes
+        if applicant_copy_attributes["cv"].present?  
+          @applicant_copy.update_attributes applicant_copy_attributes
+        else
+          applicant_copy_attributes["cv"] = @applicant.cv 
+          @applicant_copy.update_attributes applicant_copy_attributes
+        end
       else 
         @applicant_copy = Applicant.new(copy: true, copy_id: @applicant.id, update_button: false, user_id: @applicant.user_id, company_id: @applicant.company_id,
          job_description_id: @applicant.job_description_id,
-          update_salary_button: false, percent_salary: @applicant.percent_salary, salary: @applicant.salary, earnings: @applicant.earnings, status: @applicant.status, 
-          cv: @applicant.cv)
+          update_salary_button: false, percent_salary: @applicant.percent_salary, salary: @applicant.salary, earnings: @applicant.earnings, status: @applicant.status)
        
-
+        # byebug
         applicant_params["requirement_scores_attributes"].each do |key, value|
-          @applicant_copy.requirement_scores << RequirementScore.create(score: value["score"].to_f, applicant_id: @applicant_copy.id, requirement_id: value["id"].to_i, 
-            requirement_content: Requirement.find(value["id"].to_i).content, job_description_id: @applicant.job_description_id, copy: true, copy_id: value["id"].to_i)  
+          req_score_copy = RequirementScore.find_by(copy: true, copy_id: value["id"].to_i)
+          req_score_copy.delete if req_score_copy 
+          @applicant_copy.requirement_scores << RequirementScore.create(score: value["score"].to_f, applicant_id: @applicant_copy.id, requirement_id: RequirementScore.find(value["id"].to_i).requirement_id, 
+            requirement_content: Requirement.find(RequirementScore.find(value["id"].to_i).requirement_id).content, job_description_id: @applicant.job_description_id, copy: true, copy_id: value["id"].to_i)  
         end
         @applicant_copy.save
 
@@ -130,7 +138,14 @@ class ApplicantsController < ApplicationController
         ["copy", "copy_id", "update_button", "user_id", "company_id", "update_salary_button", "percent_salary", "salary", "earnings", "status", "requirement_scores_attributes"].each do |key|
           applicant_copy_attributes.delete(key)
         end
-        @applicant_copy.update_attributes applicant_copy_attributes
+
+        
+        if applicant_copy_attributes["cv"].present?  
+          @applicant_copy.update_attributes applicant_copy_attributes
+        else
+          applicant_copy_attributes["cv"] = @applicant.cv 
+          @applicant_copy.update_attributes applicant_copy_attributes
+        end
       end
         ApplicantUpdateNotificationService.new({ actor: current_user, action: "pending update", resource: @applicant, resource_type: @applicant.class.name }).notify_admin
         flash[:success] = "your updates have been saved pending admin authorization"

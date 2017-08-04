@@ -1,6 +1,6 @@
 class Admin::ApplicantsController < Admin::ApplicationController
   before_action :set_admin_authorization_parameters, only: [:update_button, :update, :destroy, :shortlist, :interviewing, :testing, :salary_negotiation, :hire, :unhire, :allow_changes_to_applicant]
-  before_action :set_jd, except: [:update_salary, :update_button, :all_applicants, :shortlist, :interviewing, :testing, :salary_negotiation, :hire, :unhire]
+  before_action :set_jd, except: [:update_salary, :update_button, :all_applicants, :shortlist, :interviewing, :testing, :salary_negotiation, :hire, :unhire, :allow_changes_to_applicant]
   before_action :set_applicant, only: [:show, :update]	
   layout "admin"
   	
@@ -114,11 +114,20 @@ class Admin::ApplicantsController < Admin::ApplicationController
     if (@applicant.email != @applicant_copy.email) || (@applicant.phonenumber != @applicant_copy.phonenumber) || (@applicant.location != @applicant_copy
       .location) || (@applicant.cv != @applicant_copy.cv) || (@applicant.min_salary != @applicant_copy.min_salary) || (@applicant.max_salary != @applicant_copy
       .max_salary)
-      applicant_copy_attributes = @applicant_copy.attributes 
-      applicant_copy_attributes.delete("id")
-      applicant_copy_attributes["copy"] = false 
-      applicant_copy_attributes["copy_id"] = nil 
-      @applicant.update(applicant_copy_attributes)
+      
+      @applicant_copy.requirement_scores.each do |req_score_copy|
+        original_req_score = RequirementScore.find_by(id: req_score_copy.copy_id)
+        if original_req_score
+          if original_req_score.id == req_score_copy.copy_id 
+            original_req_score.update(score: req_score_copy.score)
+          end
+        end  
+      end
+      
+      @applicant.update(name: @applicant_copy.name, email: @applicant_copy.email, phonenumber: @applicant_copy.phonenumber, location: @applicant_copy.location, min_salary: @applicant_copy.min_salary, max_salary: @applicant_copy.max_salary,
+         cv: @applicant_copy.cv) 
+      ApplicantSubServicesAfterUpdate.new({ applicant: @applicant, jd: @applicant.job_description }).initiate_sub_services
+      @applicant_copy.requirement_scores.delete_all
       @applicant_copy.delete 
       AuthorizeApplicantUpdateNotificationService.new({ actor: current_user, action: "authorize", resource: @applicant, resource_type: @applicant.class.name }).notify_user
       flash[:success] = "changes have been incorporated." 
@@ -156,7 +165,7 @@ class Admin::ApplicantsController < Admin::ApplicationController
   end
 
   def applicant_params
-    params.require(:applicant).permit(:name, :email, :phonenumber, :location, :min_salary,
+    params.require(:applicant).permit(:name, :email, :phonenumber, :location, :min_salary, :cv, :cv_cache,
        :max_salary, :company_id, :job_description_id, :user_id, :attachment, :update_button, :status, :salary, :update_salary_button)
   end
 
