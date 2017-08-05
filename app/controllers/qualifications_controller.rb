@@ -1,5 +1,6 @@
 class QualificationsController < ApplicationController
   before_action :authenticate_user!
+  before_action :prevent_addition_of_new_qualification_if_jd_has_applicants, only: [:new, :create]
   before_action :copy_changes_to_existing_object, only: [:update]
   before_action :set_jd, except: [:update_button] 
   before_action :set_qualification, only: [:show, :edit, :update, :destroy]
@@ -104,6 +105,14 @@ class QualificationsController < ApplicationController
       # @qualification.job_description.update(update_button: false) 
       # @qualification.update(update_button: false)
       # redirect_to company_job_description_url @qualification.job_description.company, @qualification.job_description
+    end
+  end
+
+  def prevent_addition_of_new_qualification_if_jd_has_applicants
+    @job_description = JobDescription.find(params[:job_description_id])
+    if @job_description.applicants.any? 
+      flash[:alert] = "changes can not be made since this job description has associated applicants"
+      redirect_to :back
     end
   end
 end

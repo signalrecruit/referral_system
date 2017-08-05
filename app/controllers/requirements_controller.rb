@@ -1,5 +1,6 @@
 class RequirementsController < ApplicationController
   before_action :authenticate_user!
+  before_action :prevent_addition_of_new_requirements_if_jd_has_applicants, only: [:new, :create]
   before_action :copy_changes_to_existing_object, only: [:update]
   before_action :set_jd, except: [:update_button]
   before_action :set_requirement, only: [:show, :edit, :update, :destroy]
@@ -95,6 +96,14 @@ class RequirementsController < ApplicationController
     else
       # @requirement.job_description.update(update_button: false) 
       # redirect_to company_job_description_url @requirement.job_description.company, @requirement.job_description
+    end
+  end
+
+  def prevent_addition_of_new_requirements_if_jd_has_applicants
+    @job_description = JobDescription.find(params[:job_description_id])
+    if @job_description.applicants.any? 
+      flash[:alert] = "changes can not be made since this job description has associated applicants"
+      redirect_to :back
     end
   end
 end
