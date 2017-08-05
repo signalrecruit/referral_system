@@ -1,5 +1,6 @@
 class RequiredExperiencesController < ApplicationController
   before_action :authenticate_user!
+  before_action :prevent_addition_of_new_required_experiences_if_jd_has_applicants, only: [:new, :create]
   before_action :copy_changes_to_existing_object, only: [:update]
   before_action :set_jd, except: [:update_button]
   before_action :set_experience, only: [:show, :edit, :update, :destroy]
@@ -98,6 +99,14 @@ class RequiredExperiencesController < ApplicationController
       # @experience.job_description.update(update_button: false) 
       # @experience.update(update_button: false)
       # redirect_to company_job_description_url @experience.job_description.company, @experience.job_description
+    end
+  end
+
+  def prevent_addition_of_new_required_experiences_if_jd_has_applicants
+    @job_description = JobDescription.find(params[:job_description_id])
+    if @job_description.applicants.any? 
+      flash[:alert] = "changes can not be made since this job description has associated applicants"
+      redirect_to :back
     end
   end
 end
