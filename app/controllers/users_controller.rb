@@ -8,12 +8,15 @@ class UsersController < ApplicationController
   end
 
   def complete_profile
-    @current_user.update(done: true)
+    @current_user.update(done: false)
     redirect_to :back
   end
 
   def update_profile
-  	@current_user.update(done: false)
+    @current_user.update(update_button: true)
+    @current_user.bank_accounts.each do |bank_account|
+      bank_account.update(update_button: true)
+    end
   	redirect_to :back
   end
 

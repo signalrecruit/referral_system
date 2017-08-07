@@ -56,14 +56,6 @@
       </div>
 
 
-      <% unless current_user.profile_completed? %>
-      <div class="row">
-        <%= link_to edit_user_profile_url(current_user), method: :patch, class: "btn btn-primary btn-xs btn-round" do %>
-          <i class="material-icons">edit</i>edit profile
-        <% end %>
-      </div>
-      <% end %>
-
       <% else %>
         <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
         <%#= f.error_notification %>
@@ -325,17 +317,6 @@
       </div>
      
       <% end %>
-
-      <% if bank.updated? %>
-      <% else %>
-        <% unless current_user.profile_completed? %>
-        <div class="row">
-          <%= link_to edit_bank_details_url(bank), method: :patch, class: "btn btn-primary btn-xs btn-round" do %>
-            <i class="material-icons">edit</i>edit bank details
-          <% end %>  
-        </div> 
-        <% end %>
-      <% end %>
       <hr>
       <% end %>
       <% else %>
@@ -347,12 +328,16 @@
       
       <div class="clearfix">
       <div class="row">
-      <% if current_user.profile_completed? %>
-        <%= link_to "update profile", update_profile_url(current_user), method: :patch, class: "btn btn-primary btn-xs btn-round pull-right" %>
-      <% else %> 
-        <%= link_to "Done", complete_profile_url(current_user), method: :patch, class: "btn btn-primary btn-xs btn-round pull-right" %>  
-      <% end %>  
+        <% if current_user.bank_accounts.any? %>
+        <% else %>
+          <%= link_to "create a bank account", new_user_bank_account_url(current_user), class: "btn btn-primary btn-xs btn-round pull-right" %>
+        <% end %>
       </div>
+      <% if !current_user.updated? && current_user.bank_accounts.any? { |bank_account| !bank_account.updated? } %>  
+       <%= link_to "update profile", update_profile_url(current_user), method: :patch, class: "btn btn-primary btn-xs btn-round pull-right" %> 
+      <% else %>
+        
+      <% end %>
       </div>
     </div>
   </div>
