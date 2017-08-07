@@ -13,8 +13,12 @@ class RegistrationsController < Devise::RegistrationsController
   
   protected
 
-  def after_sign_up_path_for(resource)
-    new_user_bank_account_url(resource)
+  def after_sign_in_path_for(resource)
+    if resource.bank_accounts.any?
+      root_url
+    else  
+      new_user_bank_account_url(resource)
+    end
   end
 
   def after_update_path_for(resource)
