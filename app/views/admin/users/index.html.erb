@@ -12,13 +12,8 @@
 					<th>Number Companies Brought In</th>
 					<th>Number of Applicants Brought In</th>
 					<th>Total Earnings</th>
-					<th>
-					  <%#= link_to admin_reset_cumulative_earnings_url do %>
-					   <!--  <button class="btn btn-default btn-xs btn-round pull-right">
-					      <p>reset earnings</p>
-					    </button> -->
-					  <%# end %>	
-					</th>
+					<th></th>
+					<th>Last Sign In</th>
 				</thead>
 				<% @users.each do |user| %>
 				<tbody>
@@ -54,6 +49,11 @@
 						      <i class="material-icons">thumb_up</i>
 						    <% end %>  
 						  <% end %>	
+						</td>
+						<td>
+						<button class="btn btn-default btn-xs btn-round">		
+						  <%= user.last_sign_in_at.strftime("%r") %>
+						</button>  
 						</td>
 					</tr>
 				</tbody>

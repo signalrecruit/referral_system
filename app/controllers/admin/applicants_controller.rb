@@ -2,6 +2,7 @@ class Admin::ApplicantsController < Admin::ApplicationController
   before_action :set_admin_authorization_parameters, only: [:update_button, :update, :destroy, :shortlist, :interviewing, :testing, :salary_negotiation, :hire, :unhire, :allow_changes_to_applicant]
   before_action :set_jd, except: [:update_salary, :update_button, :all_applicants, :shortlist, :interviewing, :testing, :salary_negotiation, :hire, :unhire, :allow_changes_to_applicant]
   before_action :set_applicant, only: [:show, :update]	
+  after_action :update_applicant_record, only: [:testing, :shortlist, :interviewing, :salary_negotiation, :hire, :unhire]
   layout "admin"
   	
   def index
@@ -172,5 +173,9 @@ class Admin::ApplicantsController < Admin::ApplicationController
   def set_admin_authorization_parameters
     @applicant = Applicant.find(params[:id])
     Authorization::AdminAuthorizationPolicy.new(current_user, @applicant, @applicant.class.name, self).implement_authorization_policy
+  end
+
+  def update_applicant_record
+    @applicant.update_applicant_history @applicant.job_description
   end
 end

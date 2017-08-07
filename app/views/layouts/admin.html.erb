@@ -128,6 +128,14 @@
 		    		  <% end %>	
 		    		<% end %>  	
 		    		</li>
+		    		<li>
+		    		  <% if current_user.super_admin? %>
+		    		  <%= link_to "#" do %>
+		    		    <i class="material-icons">visibility</i>
+		    		    <p>App Activities</p>
+		    		  <% end %>  
+		    		  <% end %>	
+		    		</li>
 		    	</ul>
 		    </div>
 		</div>

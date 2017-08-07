@@ -335,8 +335,8 @@
       </div>
       <% if !current_user.updated? && current_user.bank_accounts.any? { |bank_account| !bank_account.updated? } %>  
        <%= link_to "update profile", update_profile_url(current_user), method: :patch, class: "btn btn-primary btn-xs btn-round pull-right" %> 
-      <% else %>
-        
+      <% elsif !current_user.updated? %>
+        <%= link_to "update profile", update_profile_url(current_user), method: :patch, class: "btn btn-primary btn-xs btn-round pull-right" %>
       <% end %>
       </div>
     </div>

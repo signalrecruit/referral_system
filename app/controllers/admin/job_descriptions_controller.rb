@@ -2,6 +2,7 @@ class Admin::JobDescriptionsController < Admin::ApplicationController
   before_action :set_admin_authorization_parameters, only: [:update_button, :update, :destroy, :allow_changes_to_jd]
   before_action :set_company, except: [:update_button, :index, :allow_changes_to_jd]
   before_action :set_job_description, only: [:show, :edit, :update, :destroy]
+  after_action :pay_users_of_applicants, only: [:update]
   layout "admin"
 
   def index
@@ -113,5 +114,11 @@ class Admin::JobDescriptionsController < Admin::ApplicationController
   def set_admin_authorization_parameters
     @job_description = JobDescription.find(params[:id])
     Authorization::AdminAuthorizationPolicy.new(current_user, @job_description, @job_description.class.name, self).implement_authorization_policy
+  end
+
+  def pay_users_of_applicants
+    @job_description.applicants.each do |applicant|
+      ApplicantStatusNotificationService.new({ recipient: applicant.user, actor: current_user, action: applicant.status, resource: applicant, resource_type: applicant.class.name }).notify_user
+    end
   end
 end

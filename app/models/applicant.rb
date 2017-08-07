@@ -48,13 +48,12 @@ class Applicant < ActiveRecord::Base
     score = Score.find_by job_description_id: job_description.id, applicant_id: self.id
     record = ApplicantRecord.create applicant_id: self.id, applicant_name: self.name,
      job_description_id: job_description.id, role: job_description.job_title, score_id: score.id, applicant_score: score.id,
-      company_name: job_description.company.company_name
+      company_name: job_description.company.company_name, applicant_status: self.status
   end
 
   def update_applicant_history(job_description)
     record = ApplicantRecord.find_by job_description_id: job_description, applicant_id: self.id
     
-    # comment = Comment.find_by applicant_id: self.id, job_description_id: job_description.id 
     comment = self.comments.last #temporary solution
     score = Score.find_by job_description_id: job_description.id, applicant_id: self.id
     
