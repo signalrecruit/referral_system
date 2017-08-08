@@ -79,7 +79,7 @@ class Admin::ApplicantsController < Admin::ApplicationController
 
   def hire
     @applicant = Applicant.find(params[:id])
-    if @applicant.job_description.percent_worth.to_f != 0.0 && @applicant.job_description.actual_worth.to_f != 0.0 && @applicant.job_description.vacancy_percent_worth.to_f != 0.0
+    if @applicant.job_description.percent_worth.to_f != 0.0 && @applicant.job_description.vacancy_percent_worth.to_f != 0.0
       @applicant.update(status: "hired")
       ApplicantStatusNotificationService.new({ recipient: @applicant.user, actor: current_user, action: @applicant.status, resource: @applicant, resource_type: @applicant.class.name }).notify_user
       @applicant.job_description.earning_algorithm

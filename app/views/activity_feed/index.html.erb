@@ -339,9 +339,9 @@
 									<% if activity.trackable.role_expired? %>
 									  <i class="material-icons">warning</i> This role has expired!
 									<% else %>
-									  <% if !activity.trackable.all_vacancies_filled? %>
+									  <% if activity.trackable.all_vacancies_filled? %>
 									    <p>No more vacancies</p>
-									  <% elsif activity.trackable.all_vacancies_filled? %>  
+									  <% else %>  
 									    <%= link_to new_job_description_applicant_url(activity.trackable) do %>
 									      <i class="material-icons">add</i>applicant
 									    <% end %>
