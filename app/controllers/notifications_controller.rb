@@ -10,8 +10,8 @@ class NotificationsController < ApplicationController
       redirect_to activity_feed_url  
     elsif @notification.resource_type == "JobDescription" && @notification.action == "authorize"
       redirect_to company_job_description_url(JobDescription.find(@notification.resource_id).company, JobDescription.find(@notification.resource_id))  
-    elsif @notification.resource_type == "Applicant" && (@notification.action == "created" || @notification.action == "none" || @notification.action == "interviewing" || @notification.action == "testing" || @notification.action == "shorlisted" || @notification.action == "salary negotiation" || @notification.action == "not hired")
-  	  redirect_to activity_feed_url
+    elsif @notification.resource_type == "Applicant" && (@notification.action == "created" || @notification.action == "none" || @notification.action == "interviewing" || @notification.action == "testing" || @notification.action == "shortlisted" || @notification.action == "salary negotiation" || @notification.action == "not hired")
+      redirect_to url_for([Applicant.find(@notification.resource_id).job_description, Applicant.find(@notification.resource_id)])
     elsif @notification.resource_type == "Applicant" && @notification.action == "hired"
       redirect_to user_stats_url
     elsif @notification.resource_type == "Qualification" && @notification.action == "authorize"
