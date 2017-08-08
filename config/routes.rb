@@ -92,8 +92,7 @@ Rails.application.routes.draw do
 
 
   resources :user, only: [] do 
-    resources :companies 
-    resources :bank_accounts
+    resources :companies, :bank_accounts 
   end
 
   resources :companies do 
@@ -101,10 +100,7 @@ Rails.application.routes.draw do
   end
 
   resources :job_descriptions, only: [] do 
-    resources :requirements
-    resources :applicants
-    resources :qualifications
-    resources :required_experiences
+    resources :requirements, :applicants, :qualifications, :required_experiences
   end
 
   resources :messages
