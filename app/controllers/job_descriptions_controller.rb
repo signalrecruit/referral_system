@@ -141,9 +141,17 @@ class JobDescriptionsController < ApplicationController
         job_description_copy_attributes["user_id"] = @job_description.user_id 
         job_description_copy_attributes["company_id"] = @job_description.company_id
         job_description_copy_attributes["number_of_applicants"] = @job_description.number_of_applicants
-        @job_description.attachments.each do |attachment|
-          @jd_copy.attachments << Attachment.create(file: params["job_description"]["attachments_attributes"]["0"]["file"], job_description_id: @jd_copy.id, copy: true, copy_id: attachment.id) unless params["job_description"]["attachments_attributes"]["0"]["file"].nil?
+
+        if params["job_description"]["attachments_attributes"]["0"]["file"].nil?
+          @job_description.attachments.each do |attachment|
+            @jd_copy.attachments << Attachment.create(file: @job_description.attachments.first.file, job_description_id: @jd_copy.id, copy: true, copy_id: attachment.id)
+          end          
+        else
+          @job_description.attachments.each do |attachment|
+            @jd_copy.attachments << Attachment.create(file: params["job_description"]["attachments_attributes"]["0"]["file"], job_description_id: @jd_copy.id, copy: true, copy_id: attachment.id)
+          end
         end
+
         @jd_copy.update_attributes job_description_copy_attributes
       else
         @jd_copy = JobDescription.new
@@ -156,9 +164,17 @@ class JobDescriptionsController < ApplicationController
         job_description_copy_attributes["user_id"] = @job_description.user_id 
         job_description_copy_attributes["company_id"] = @job_description.company_id
         job_description_copy_attributes["number_of_applicants"] = @job_description.number_of_applicants
-        @job_description.attachments.each do |attachment|
-          @jd_copy.attachments << Attachment.create(file: params["job_description"]["attachments_attributes"]["0"]["file"], job_description_id: @jd_copy.id, copy: true, copy_id: attachment.id) unless params["job_description"]["attachments_attributes"]["0"]["file"].nil?
+
+       if params["job_description"]["attachments_attributes"]["0"]["file"].nil?
+          @job_description.attachments.each do |attachment|
+            @jd_copy.attachments << Attachment.create(file: @job_description.attachments.first.file, job_description_id: @jd_copy.id, copy: true, copy_id: attachment.id)
+          end          
+        else
+          @job_description.attachments.each do |attachment|
+            @jd_copy.attachments << Attachment.create(file: params["job_description"]["attachments_attributes"]["0"]["file"], job_description_id: @jd_copy.id, copy: true, copy_id: attachment.id)
+          end
         end
+        
         @jd_copy.update_attributes job_description_copy_attributes
       end
       @job_description.update(update_button: false) 

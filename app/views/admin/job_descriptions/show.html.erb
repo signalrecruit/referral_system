@@ -50,7 +50,7 @@
 														<p>url: <%= @job_description.role_description != @job_description_copy.role_description ? "#{@job_description_copy.role_description}**" : "#{@job_description.role_description}" %></p>
 														<p>about: <%= @job_description.expiration_date != @job_description_copy.expiration_date ? "#{@job_description_copy.expiration_date}**" : "#{@job_description.expiration_date}" %></p>
 														<p>uploads: <% @job_description_copy.attachments.each do |attachment| %>
-						                                              <%= link_to File.basename(attachment.file.url), attachment.file.url %>(<%#= number_to_human_size(attachment.file.size) %>)
+						                                              <%= link_to File.basename(attachment.file.url), attachment.file.url %>(<%= number_to_human_size(attachment.file.size) %>)
 						                                              <br>
 						                                            <% end %>.</p>
 						                            <% end %>                
