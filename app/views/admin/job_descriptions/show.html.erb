@@ -40,6 +40,7 @@
 														<h4 class="modal-title">Changes</h4>
 													</div>
 													<div class="modal-body">
+													<% if !@job_description_copy.nil? %>
 													<% pending_updates? @job_description do %>
 														<p>job title: <%= @job_description.job_title != @job_description_copy.job_title ? "#{@job_description_copy.job_title}**" : "#{@job_description.job_title}" %></p>
 														<p>experience: <%= @job_description.experience != @job_description_copy.experience ? "#{@job_description_copy.experience}**" : "#{@job_description.experience}" %></p>
@@ -52,6 +53,7 @@
 						                                              <%= link_to File.basename(attachment.file.url), attachment.file.url %>(<%= number_to_human_size(attachment.file.size) %>)
 						                                              <br>
 						                                            <% end %>.</p>
+						                            <% end %>                
 													</div>
 													<div class="modal-footer">
 													  <%= link_to admin_allow_changes_to_jd_url(@job_description), method: :patch do %>

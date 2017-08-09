@@ -42,6 +42,7 @@
 														<h4 class="modal-title">Changes</h4>
 													</div>
 													<div class="modal-body">
+													<% if !applicant_copy.nil? %>
 													<% pending_updates? @applicant do %>
 														<p>name: <%= @applicant.name != @applicant_copy.name ? "#{@applicant_copy.name}**" : "#{@applicant.name}" %></p>
 														<p>email: <%= @applicant.email != @applicant_copy.email ? "#{@applicant_copy.email}**" : "#{@applicant.email}" %></p>
@@ -55,7 +56,8 @@
 														<% end %>   	        
 														   </p>
 														<p>min salary: <%= @applicant.min_salary != @applicant_copy.min_salary ? "#{@applicant_copy.min_salary }**" : "#{@applicant.min_salary }" %></p>
-														<p>max salary: <%= @applicant.max_salary != @applicant_copy.max_salary  ? "#{@applicant_copy.max_salary }**" : "#{@applicant.max_salary }" %></p>														
+														<p>max salary: <%= @applicant.max_salary != @applicant_copy.max_salary  ? "#{@applicant_copy.max_salary }**" : "#{@applicant.max_salary }" %></p>	
+													<% end %>														
 													</div>
 													<div class="modal-footer">
 													  <%= link_to admin_allow_changes_to_applicant_url(@applicant), method: :patch do %>
