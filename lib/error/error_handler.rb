@@ -22,6 +22,7 @@ module Error
 
     def unknown_error(exception)
       flash[:alert] = "oops! something went wrong. Error: #{exception}."
+      Rails.logger.error { "error: #{exception.message}!!!! #{exception.backtrace.join("\n")}" }
       if current_user.admin?
       	redirect_to admin_dashboard_url
       else	

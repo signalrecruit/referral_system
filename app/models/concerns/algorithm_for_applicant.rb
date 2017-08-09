@@ -32,11 +32,6 @@ module AlgorithmForApplicant
   end
 
   def calculate_cumulative_earnings
-    # @cumulative_earnings = 0
-    # self.class.where(user_id: self.user).each do |applicant|
-    #   @cumulative_earnings += applicant.earnings
-    # end
-    # @cumulative_earnings.round(2)
      @users = User.all.order(created_at: :asc).where(admin: false, admin_status: 0)
      @users.each do |user|
       @applicant_earnings = 0.0 
@@ -55,28 +50,22 @@ module AlgorithmForApplicant
   def pay_user_when_applicant_is_hired
     if applicant_hired?
       self.update(earnings: (self.job_description.vacancy_percent_worth/100 * ( self.salary == 0.0 ? self.job_description.vacancy_worth : self.salary)).round(2))
-      # self.user.update(cumulative_earnings: calculate_cumulative_earnings)
       calculate_cumulative_earnings
     else
       self.update(earnings: 0.0)
-      # self.user.update(cumulative_earnings: calculate_cumulative_earnings)
       calculate_cumulative_earnings
     end   
   end
   
-  # updated to cater for nil value for job_description_id on applicant
   def applicant_re_negotiated?
     self.salary != self.job_description.vacancy_worth if !self.job_description.nil?
   end
 
-  # updated to cater for nil value for job_description_id on applicant 
   def update_salary
-    # if !self.hired? && !applicant_re_negotiated?
     if self.salary == 0.0
       self.update(salary: self.job_description.vacancy_worth.round(2)) if !self.job_description.nil?
     else
       self.update(salary: self.salary.round(2)) if !self.job_description.nil?
     end
-    # end
   end
 end
