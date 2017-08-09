@@ -9,9 +9,8 @@ module Error
       end
     end
 
-    def routing_error(exception)
+    def routing_error
       flash[:alert] = "error: you tried navigating a route that does not exist."
-      Rails.logger.error { "error: #{exception.message}!!!! #{exception.backtrace.join("\n")}" }
       if current_user.admin?
       	redirect_to admin_dashboard_url
       else	
