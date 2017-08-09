@@ -51,9 +51,11 @@
 						  <% end %>	
 						</td>
 						<td>
+						<% unless user.last_sign_in_at.nil? %>
 						<button class="btn btn-default btn-xs btn-round">		
 						  <%= user.last_sign_in_at.strftime("%r") %>
-						</button>  
+						</button>
+						<% end %>  
 						</td>
 					</tr>
 				</tbody>
