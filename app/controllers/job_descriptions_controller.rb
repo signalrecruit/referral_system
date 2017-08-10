@@ -127,60 +127,100 @@ class JobDescriptionsController < ApplicationController
 
   def copy_changes_to_existing_object
     @job_description = JobDescription.find(params[:id])
-    if @job_description.applicants.any?
-      if jd_copy = JobDescription.find_by(copy: true, copy_id: @job_description.id)
-        jd_copy.attachments.delete_all 
-        jd_copy.delete
-        @jd_copy = JobDescription.new
-        job_description_copy_attributes = job_params
-        job_description_copy_attributes.delete("id")
-        job_description_copy_attributes["copy"] = true 
-        job_description_copy_attributes["copy_id"] = @job_description.id
-        job_description_copy_attributes.delete("attachments_attributes")
-        job_description_copy_attributes["update_button"] = false
-        job_description_copy_attributes["user_id"] = @job_description.user_id 
-        job_description_copy_attributes["company_id"] = @job_description.company_id
-        job_description_copy_attributes["number_of_applicants"] = @job_description.number_of_applicants
+    existing_attributes = @job_description.attributes 
+    update_attributes = job_params
+    # byebug
+    sanitize_attributes_for_comparison existing_attributes, update_attributes
 
-        if params["job_description"]["attachments_attributes"]["0"]["file"].nil?
-          @job_description.attachments.each do |attachment|
-            @jd_copy.attachments << Attachment.create(file: @job_description.attachments.first.file, job_description_id: @jd_copy.id, copy: true, copy_id: attachment.id)
-          end          
-        else
-          @job_description.attachments.each do |attachment|
-            @jd_copy.attachments << Attachment.create(file: params["job_description"]["attachments_attributes"]["0"]["file"], job_description_id: @jd_copy.id, copy: true, copy_id: attachment.id)
+    if change_in_data @existing_attributes, @update_attributes
+      if @job_description.applicants.any?
+        if jd_copy = JobDescription.find_by(copy: true, copy_id: @job_description.id)
+          jd_copy.attachments.delete_all 
+          jd_copy.delete
+          @jd_copy = JobDescription.new
+          job_description_copy_attributes = job_params
+          job_description_copy_attributes.delete("id")
+          job_description_copy_attributes["copy"] = true 
+          job_description_copy_attributes["copy_id"] = @job_description.id
+          job_description_copy_attributes.delete("attachments_attributes")
+          job_description_copy_attributes["update_button"] = false
+          job_description_copy_attributes["user_id"] = @job_description.user_id 
+          job_description_copy_attributes["company_id"] = @job_description.company_id
+          job_description_copy_attributes["number_of_applicants"] = @job_description.number_of_applicants
+
+          if params["job_description"]["attachments_attributes"]["0"]["file"].nil?
+            @job_description.attachments.each do |attachment|
+              @jd_copy.attachments << Attachment.create(file: @job_description.attachments.first.file, job_description_id: @jd_copy.id, copy: true, copy_id: attachment.id)
+            end          
+          else
+            @job_description.attachments.each do |attachment|
+              @jd_copy.attachments << Attachment.create(file: params["job_description"]["attachments_attributes"]["0"]["file"], job_description_id: @jd_copy.id, copy: true, copy_id: attachment.id)
+            end
           end
-        end
 
-        @jd_copy.update_attributes job_description_copy_attributes
-      else
-        @jd_copy = JobDescription.new
-        job_description_copy_attributes = job_params
-        job_description_copy_attributes.delete("id")
-        job_description_copy_attributes["copy"] = true 
-        job_description_copy_attributes["copy_id"] = @job_description.id
-        job_description_copy_attributes.delete("attachments_attributes")
-        job_description_copy_attributes["update_button"] = false
-        job_description_copy_attributes["user_id"] = @job_description.user_id 
-        job_description_copy_attributes["company_id"] = @job_description.company_id
-        job_description_copy_attributes["number_of_applicants"] = @job_description.number_of_applicants
-
-       if params["job_description"]["attachments_attributes"]["0"]["file"].nil?
-          @job_description.attachments.each do |attachment|
-            @jd_copy.attachments << Attachment.create(file: @job_description.attachments.first.file, job_description_id: @jd_copy.id, copy: true, copy_id: attachment.id)
-          end          
+          @jd_copy.update_attributes job_description_copy_attributes
         else
-          @job_description.attachments.each do |attachment|
-            @jd_copy.attachments << Attachment.create(file: params["job_description"]["attachments_attributes"]["0"]["file"], job_description_id: @jd_copy.id, copy: true, copy_id: attachment.id)
+          @jd_copy = JobDescription.new
+          job_description_copy_attributes = job_params
+          job_description_copy_attributes.delete("id")
+          job_description_copy_attributes["copy"] = true 
+          job_description_copy_attributes["copy_id"] = @job_description.id
+          job_description_copy_attributes.delete("attachments_attributes")
+          job_description_copy_attributes["update_button"] = false
+          job_description_copy_attributes["user_id"] = @job_description.user_id 
+          job_description_copy_attributes["company_id"] = @job_description.company_id
+          job_description_copy_attributes["number_of_applicants"] = @job_description.number_of_applicants
+
+         if params["job_description"]["attachments_attributes"]["0"]["file"].nil?
+            @job_description.attachments.each do |attachment|
+              @jd_copy.attachments << Attachment.create(file: @job_description.attachments.first.file, job_description_id: @jd_copy.id, copy: true, copy_id: attachment.id)
+            end          
+          else
+            @job_description.attachments.each do |attachment|
+              @jd_copy.attachments << Attachment.create(file: params["job_description"]["attachments_attributes"]["0"]["file"], job_description_id: @jd_copy.id, copy: true, copy_id: attachment.id)
+            end
           end
+
+          @jd_copy.update_attributes job_description_copy_attributes
         end
-        
-        @jd_copy.update_attributes job_description_copy_attributes
+        @job_description.update(update_button: false) 
+        JobDescriptionUpdateNotificationService.new({ actor: current_user, action: "pending update", resource: @job_description, resource_type: @job_description.class.name }).notify_admin
+        flash[:alert] = "your update has been saved. but will only reflect on admins authorization"
+        redirect_to company_job_description_url @job_description.company, @job_description
       end
-      @job_description.update(update_button: false) 
-      # JobDescriptionUpdateNotificationService.new({ actor: current_user, action: "pending update", resource: @job_description, resource_type: @job_description.class.name }).notify_admin
-      # flash[:alert] = "your update has been saved. but will only reflect on admins authorization"
-      redirect_to company_job_description_url @job_description.company, @job_description
+    else
+      @job_description.update update_button: false
+      flash[:alert] = "no changes detected"
+      redirect_to :back
     end
+  end
+
+  def sanitize_attributes_for_comparison existing_attributes, update_attributes
+    ["id", "company_id", "created_at", "updated_at", "user_id", "status", "earnings", "salary", "update_button", "number_of_applicants", "actual_worth", "percent_worth", "user_id", "applicant_worth", "applicant_percent_worth", "vacancy_worth",
+      "vacancy_percent_worth", "earnings", "potential_worth", "completed", "vacancies_filled", "edit_user_id", "update_salary", "percent_salary", "update_salary_button", "copy", "copy_id" ].each do |key|
+      existing_attributes.delete(key)  
+    end
+    update_attributes["min_salary"] = update_attributes["min_salary"].to_f
+    update_attributes["max_salary"] = update_attributes["max_salary"].to_f 
+    update_attributes["experience"] = update_attributes["experience"].to_i
+    update_attributes["vacancies"] = update_attributes["vacancies"].to_i
+    update_attributes["expiration_date"] =  DateTime.new(update_attributes["expiration_date(1i)"].to_i, update_attributes["expiration_date(2i)"].to_i, update_attributes["expiration_date(3i)"].to_i, update_attributes["expiration_date(4i)"].to_i, 
+    update_attributes["expiration_date(5i)"].to_i)
+    
+    ["expiration_date(1i)", "expiration_date(2i)", "expiration_date(3i)", "expiration_date(4i)", "expiration_date(5i)" ].each do |key|
+      update_attributes.delete(key)
+    end
+    
+    attachment_attributes = job_params["attachments_attributes"]
+    if job_params["attachments_attributes"]["0"]["file"].nil?
+      update_attributes.delete("attachments_attributes")
+    else
+      attachment_attributes[0] = { "file" => job_params["attachments_attributes"]["0"]["file"].original_filename } 
+    end
+
+  
+    # byebug  
+    @existing_attributes = existing_attributes 
+    @update_attributes = update_attributes
   end
 end

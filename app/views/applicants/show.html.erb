@@ -78,10 +78,8 @@
 				</div>
 			</div>
 			<div class="row">
-			  <%#= link_to [:edit, @jd, @applicant], class: "btn btn-primary btn-xs btn-round pull-right" do %>
-			    <!-- <i class="material-icons">edit</i> edit applicant -->
-			  <%# end %>
-			    <%= link_to "edit applicant", update_button_for_applicants_url(@applicant), method: :patch, class: "btn btn-primary btn-xs btn-round pull-right" %>
+
+			    <%= link_to "edit applicant", update_button_for_applicants_url(@applicant), method: :patch, class: "btn btn-primary btn-xs btn-round pull-right" if @applicant.user == current_user %>
 			</div>
 
 			<div class="row">
