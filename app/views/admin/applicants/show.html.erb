@@ -42,7 +42,7 @@
 														<h4 class="modal-title">Changes</h4>
 													</div>
 													<div class="modal-body">
-													<% if !applicant_copy.nil? %>
+													<% if !@applicant_copy.nil? %>
 													<% pending_updates? @applicant do %>
 														<p>name: <%= @applicant.name != @applicant_copy.name ? "#{@applicant_copy.name}**" : "#{@applicant.name}" %></p>
 														<p>email: <%= @applicant.email != @applicant_copy.email ? "#{@applicant_copy.email}**" : "#{@applicant.email}" %></p>
