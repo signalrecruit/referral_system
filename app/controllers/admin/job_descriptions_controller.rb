@@ -31,7 +31,7 @@ class Admin::JobDescriptionsController < Admin::ApplicationController
           @job_description.earning_algorithm
   	      redirect_to admin_job_description_applicants_url(@job_description)
         else
-          flash[:notice] = "you still have non-zero values for percent worth, potential worth and percent worth per vacancy for role: #{@job_description.job_title}"
+          flash[:notice] = "you still have zero values for percent worth, potential worth and percent worth per vacancy for role: #{@job_description.job_title}"
           redirect_to :back
         end
       else
@@ -40,7 +40,7 @@ class Admin::JobDescriptionsController < Admin::ApplicationController
           flash[:success] = "you successfully updated your company"
           redirect_to :back
         else  
-          flash[:notice] = "you still have non-zero values for percent worth, potential worth and percent worth per vacancy for role: #{@job_description.job_title}"
+          flash[:notice] = "you still have zero values for percent worth, potential worth and percent worth per vacancy for role: #{@job_description.job_title}"
           redirect_to :back
         end
       end
