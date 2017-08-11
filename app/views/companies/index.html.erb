@@ -126,6 +126,10 @@
 							<button class="btn btn-info btn-xs btn-round">
 								testing...
 							</button>	
+							<% elsif applicant.salary_negotiation? %>
+							<button class="btn btn-warning btn-xs btn-round">
+							  negotiation salary...
+							</button>
 							<% elsif applicant.hired? %>
 							<button class="btn btn-success btn-xs btn-round">
 								hired!
