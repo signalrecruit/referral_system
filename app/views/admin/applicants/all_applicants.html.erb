@@ -6,6 +6,7 @@
 	                            <div class="card-content">
 	                                <table class="table">
 	                                    <thead class="text-primary">
+	                                    	<th></th>
 	                                    	<th>Name of Applicant</th>
 	                                    	<th>Company</th>
 	                                    	<th>Role</th>
@@ -21,6 +22,12 @@
 	                                      <% else %>
 	                                        <tr>
 	                                      <% end %>    
+	                                            <td>
+	                                            	<% has_role_on_this? applicant do %>
+	                                            	<button class="btn btn-success btn-xs btn-round">
+	                                            	</button>
+	                                            	<% end %>
+	                                            </td>	                                     
 	                                        	<td>
 	                                        	<% if applicant.job_description.nil? %>
 	                                        	<button class="btn btn-primary btn-xs btn-round">

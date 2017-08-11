@@ -12,7 +12,7 @@ rescue ActiveRecord::RecordNotFound
   end
 
   def has_role_on_this? resource 
-    if Role.where(resource_id: resource.id, resource_type: resource.class.name, role: "owner").any?
+    if Role.where(resource_id: resource.id, resource_type: resource.class.name, role: "owner", user_id: current_user.id).any?
       yield
     end	
   end
