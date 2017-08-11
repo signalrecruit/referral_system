@@ -5,7 +5,7 @@
 			<p class="category"></p>
 		</div>
 		<div class="card-content">
-          <% if @applicant.status == "shortlisted" || @applicant.status == "interviewing"|| @applicant.status == "testing" %>
+          <% if @applicant.status == "none" || @applicant.status == "shortlisted" || @applicant.status == "interviewing"|| @applicant.status == "testing" %>
           <span class=" btn btn-default btn-xs btn-round pull-right">
           <% elsif  @applicant.status == "salary negotiation" %>
           <span class="btn btn-warning btn-xs btn-round pull-right">

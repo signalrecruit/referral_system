@@ -47,8 +47,8 @@
 														<p>min salary: <%= @job_description.min_salary != @job_description_copy.min_salary ? "#{@job_description_copy.min_salary }**" : "#{@job_description.min_salary }" %></p>
 														<p>max salary: <%= @job_description.max_salary != @job_description_copy.max_salary  ? "#{@job_description_copy.max_salary }**" : "#{@job_description.max_salary }" %></p>
 														<p>vacancies: <%= @job_description.vacancies != @job_description_copy.vacancies ? "#{@job_description_copy.vacancies}**" : "#{@job_description.vacancies}" %></p>
-														<p>url: <%= @job_description.role_description != @job_description_copy.role_description ? "#{@job_description_copy.role_description}**" : "#{@job_description.role_description}" %></p>
-														<p>about: <%= @job_description.expiration_date != @job_description_copy.expiration_date ? "#{@job_description_copy.expiration_date}**" : "#{@job_description.expiration_date}" %></p>
+														<p>role description: <%= @job_description.role_description != @job_description_copy.role_description ? "#{@job_description_copy.role_description}**" : "#{@job_description.role_description}" %></p>
+														<p>expiration date: <%= @job_description.expiration_date != @job_description_copy.expiration_date ? "#{@job_description_copy.expiration_date}**" : "#{@job_description.expiration_date}" %></p>
 														<p>uploads: <% @job_description_copy.attachments.each do |attachment| %>
 						                                              <%= link_to File.basename(attachment.file.url), attachment.file.url %>(<%= number_to_human_size(attachment.file.size) %>)
 						                                              <br>
@@ -110,6 +110,15 @@
 			</div>
 
 			<div class="row">
+			  <div class="col-md-12">
+			    <div class="form-group label-floating">
+			      <label class="control-label">role description</label>
+			    	<%= @job_description.role_description %>
+			    </div>	
+			  </div>	
+			</div>
+
+			<div class="row">
 				<div class="col-md-4">
 					<div class="form-group label-floating">
 						<label class="control-label">Uploaded CVs/Resumes</label>
@@ -123,6 +132,15 @@
 						<% end %>
 					</div>
 				</div>
+			</div>
+
+			<div class="row">
+			  <div class="col-md-12">
+			    <div class="form-group label-floating">
+			      <label class="control-label">expiration date</label>
+			      <%= @job_description.expiration_date.strftime("%B %d, %Y @%r") %>	
+			    </div>	
+			  </div>	
 			</div>
 
 			<br/>

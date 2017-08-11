@@ -194,7 +194,7 @@
 	</div>
 </div>
 <% else %>
-<% if @jd.vacancies > @jd.applicants.count && !@applicant.updated? %>
+<% if @jd.vacancies > @jd.applicants.where(copy: false).count && !@applicant.updated? %>
 <div class="col-md-6">
 	<div class="card">
 		<div class="card-header" data-background-color="purple">
@@ -415,7 +415,7 @@
 		</div>
 	</div>
 </div>
-<% elsif @jd.vacancies == @jd.applicants.count && !@applicant.updated? %>
+<% elsif @jd.vacancies == @jd.applicants.where(copy: false).count && !@applicant.updated? %>
 <div class="col-md-6">
 	<div class="card">
 		<div class="card-header" data-background-color="blue">
