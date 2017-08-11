@@ -42,7 +42,8 @@
 	                                        	<% end %>	
 	                                        	</td>
 												<td id="status">
-												<% unless applicant.updated? %>
+												<% if applicant.updated? %>
+												<% else %>
 												<span class="dropdown">
 												  <% if applicant.none? %>
 								                  <button class="dropdown-toggle btn btn-default btn-xs btn-round" data-toggle="dropdown">
