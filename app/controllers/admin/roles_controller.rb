@@ -58,17 +58,38 @@ class Admin::RolesController < Admin::ApplicationController
   end
 
   def unset_ownership_for_associated_resources
-  	if @resource_type == "company"
+  	if @resource_type == "Company"
       if @resource.job_descriptions.any?	
         @resource.job_descriptions.each do |jd|
-          role = Role.find_by role: "owner", user_id: current_user.id, resource_id: @resource.id, resource_type: "JobDescription"
+          role = Role.find_by role: "owner", user_id: current_user.id, resource_id: jd.id, resource_type: "JobDescription"
           role.update(role: "no owner", user_id: nil) if role
           if jd.applicants.any?
             jd.applicants.each do |applicant|
-              role = Role.find_by role: "owner", user_id: current_user.id, resource_id: @resource.id, resource_type: "Applicant"
+              role = Role.find_by role: "owner", user_id: current_user.id, resource_id: applicant.id, resource_type: "Applicant"
               role.update(role: "no owner", user_id: nil) if role
             end	
+          end
+
+          if jd.qualifications.any? 
+            jd.qualifications.each do |qualification|
+              role = Role.find_by role: "owner", user_id: current_user.id, resource_id: qualification.id, resource_type: "Qualification"
+              role.update(role: "no owner", user_id: nil) if role
+            end
           end	
+
+          if jd.requirements.any? 
+            jd.requirements.each do |requirement|
+              role = Role.find_by role: "owner", user_id: current_user.id, resource_id: requirement.id, resource_type: "Requirement"
+              role.update(role: "no owner", user_id: nil) if role
+            end
+          end
+
+          if jd.required_experiences.any? 
+            jd.required_experiences.each do |req_exp|
+              role = Role.find_by role: "owner", user_id: current_user.id, resource_id: req_exp.id, resource_type: "RequiredExperience"
+              role.update(role: "no owner", user_id: nil) if role
+            end
+          end
         end	
       end
     end

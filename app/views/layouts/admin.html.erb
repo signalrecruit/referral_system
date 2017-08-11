@@ -250,7 +250,7 @@
 
 
 						<% flash.each do |key, message| %>
-						<div class="alert alert-<%= key %>">
+						<div id="flash" class="alert alert-<%= key %>">
 							<%= message %>
 						</div>
 						<% end %>
@@ -279,5 +279,13 @@
         	  }
         	})
         });
-	    </script>
+</script>
+
+<script type="text/javascript">
+	    	$(document).ready(function(){
+	    		setTimeout(function(){
+	    			$('#flash').fadeOut(5000);
+	    		}, 5000);
+	    	}); 	
+</script>
 </html>
