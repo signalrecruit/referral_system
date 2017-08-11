@@ -22,16 +22,29 @@
 					<tr>
 					    <td>
 					    <% authorize? company do %>
-					    <span class="dropdown">					      
-					      <button class="dropdown-toggle btn btn-default btn-xs btn-round" data-toggle="dropdown">						  	
+					    <span class="dropdown">	
+					    <% has_role_on_this? company do %>				      
+					      <button class="dropdown-toggle btn btn-success btn-xs btn-round" data-toggle="dropdown">						  	
+						<% end %>
+						<% has_no_role_on_this? company do %>
+						  <button class="dropdown-toggle btn btn-default btn-xs btn-round" data-toggle="dropdown">
+						<% end %>  	
 						  	  <i class="material-icons">keyboard_arrow_down</i>						    
 						  </button>	
 						  <% end %>	
 						  
 						  				  
 						<ul class="dropdown-menu">	
-    					  <li><%= link_to "set ownership", admin_set_role_url(resource_id: company.id, resource_type: company.class.name) %></li>
-    					  <li><%= link_to "unset ownership", admin_unset_role_url(resource_id: company.id, resource_type: company.class.name) %></li>
+    					  <li>
+    					    <% has_no_role_on_this? company do %>
+    					      <%= link_to "set ownership", admin_set_role_url(resource_id: company.id, resource_type: company.class.name) %>
+    					    <% end %>
+    					  </li>
+    					  <li>
+    					    <% has_role_on_this? company do %>
+    					      <%= link_to "unset ownership", admin_unset_role_url(resource_id: company.id, resource_type: company.class.name) %>
+    					    <% end %>
+    					  </li>
 						</ul> 	
 						</span>
 					    </td>

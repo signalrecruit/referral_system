@@ -7,10 +7,10 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 User.create fullname: "Jide Otoki", email: "jide@otoki.com", password: "password", password_confirmation: "password",
-admin: true, admin_status: 2, phonenumber: "0000000000", username: "Super Admin"
+admin: true, admin_status: 2, phonenumber: "0000000000", username: "Super Admin", approval: true
 
 User.create fullname: "Derek Owusu-Frimpong", email: "deepsky_5@live.com", password: "password",
- password_confirmation: "password", admin: true, admin_status: 2, phonenumber: "0204704427", username: "Picaso"
+ password_confirmation: "password", admin: true, admin_status: 2, phonenumber: "0204704427", username: "Picaso", approval: true
 
 User.create fullname: "Elliot Alderson", email: "elliot@alderson.com", password: "password",
  password_confirmation: "password", admin: false, admin_status: 0, phonenumber: "0000000000", username: "Mr. Robot", approval: true

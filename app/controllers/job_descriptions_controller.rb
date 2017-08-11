@@ -219,7 +219,6 @@ class JobDescriptionsController < ApplicationController
     end
 
   
-    # byebug  
     @existing_attributes = existing_attributes 
     @update_attributes = update_attributes
   end

@@ -112,7 +112,7 @@
 														<div class="form-group">
 															<label>Brief Description of Company</label>
 															<div class="form-group label-floating">
-																<%= simple_format(@company.about) %>
+																<%= word_wrap(@company.about, line_width: 30) %>
 															</div>
 														</div>
 													</div>

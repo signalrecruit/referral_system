@@ -10,4 +10,16 @@ module ApplicationHelper
 rescue ActiveRecord::RecordNotFound 
 	false
   end
+
+  def has_role_on_this? resource 
+    if Role.where(resource_id:resource.id, resource_type: resource.class.name, role: "owner").any?
+      yield
+    end	
+  end
+
+  def has_no_role_on_this? resource 
+  	if Role.where(resource_id:resource.id, resource_type: resource.class.name, role: "no owner").any?
+      yield
+    end	
+  end
 end
