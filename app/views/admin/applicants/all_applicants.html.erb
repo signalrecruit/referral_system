@@ -42,8 +42,7 @@
 	                                        	<% end %>	
 	                                        	</td>
 												<td id="status">
-												<% if applicant.updated? %>
-												<% else %>
+												<%# unless applicant.updated? %>
 												<span class="dropdown">
 												  <% if applicant.none? %>
 								                  <button class="dropdown-toggle btn btn-default btn-xs btn-round" data-toggle="dropdown">
@@ -76,7 +75,7 @@
 											    	<% end %>  
 											    <% end %>  	
 												</td>
-											    <% end %>											     
+											    <%# end %>											     
 
 											    <% if applicant.update_salary_button? %>
 											      <%= simple_form_for([:admin, applicant.job_description, applicant]) do |f| %>
