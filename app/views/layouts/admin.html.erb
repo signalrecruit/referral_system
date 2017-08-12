@@ -170,7 +170,7 @@
 									<% if notification.resource_type == "Company" && notification.action == "created" %> 
 									  <%= link_to admin_mark_notification_as_read_url(notification) do %>
 									    <% if notification.read_at.nil? %>
-									    <li style="background: #f5f5f0;">
+									    <li style="background: #DCDCDC;">
 									    <% else %>
 									    <li>
 									    <% end %>
@@ -179,7 +179,7 @@
 									<% elsif notification.resource_type == "Company" && notification.action == "updated" %>
 									   <%= link_to admin_mark_notification_as_read_url(notification) do %> 
 									    <% if notification.read_at.nil? %>
-									    <li style="background: #f5f5f0;">
+									    <li style="background: #DCDCDC;">
 									    <% else %>
 									    <li>
 									    <% end %>
@@ -188,7 +188,7 @@
 									<% elsif notification.resource_type == "JobDescription" && (notification.action == "posted" || notification.action == "updated") %>  
 									  <%= link_to admin_mark_notification_as_read_url(notification) do %>
 									    <% if notification.read_at.nil? %>
-									    <li style="background: #f5f5f0;">
+									    <li style="background: #DCDCDC;">
 									    <% else %>
 									    <li>
 									    <% end %>
@@ -197,7 +197,7 @@
 									<% elsif notification.resource_type == "JobDescription" && notification.action == "pending update" %>
 									  <%= link_to admin_mark_notification_as_read_url(notification) do %>
 									    <% if notification.read_at.nil? %>
-									    <li style="background: #f5f5f0;">
+									    <li style="background: #DCDCDC;">
 									    <% else %>
 									    <li>
 									    <% end %>
@@ -206,7 +206,7 @@
 									<% elsif notification.resource_type == "Applicant" && notification.action == "created" %>
 									  <%= link_to admin_mark_notification_as_read_url(notification) do %>
 									    <% if notification.read_at.nil? %>
-									    <li style="background: #f5f5f0;">
+									    <li style="background: #DCDCDC;">
 									    <% else %>
 									    <li>
 									    <% end %>
@@ -215,7 +215,7 @@
 									<% elsif notification.resource_type == "Applicant" && notification.action == "pending update" %>
 									  <%= link_to admin_mark_notification_as_read_url(notification) do %>
 									    <% if notification.read_at.nil? %>
-									    <li style="background: #f5f5f0;">
+									    <li style="background: #DCDCDC;">
 									    <% else %>
 									    <li>
 									    <% end %>

@@ -7,6 +7,7 @@ class RequirementsController < ApplicationController
 
   def index
     @requirements = @jd.requirements.where(copy: false).all	
+    fresh_when last_modified: @requirements.maximum(:updated_at)
   end
 
   def show
@@ -61,6 +62,7 @@ class RequirementsController < ApplicationController
   def set_requirement
   	set_jd
   	@requirement = @jd.requirements.find(params[:id])
+    fresh_when @requirement
   end
 
   def requirement_params
