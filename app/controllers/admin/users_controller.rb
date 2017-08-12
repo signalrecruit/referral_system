@@ -3,7 +3,8 @@ class Admin::UsersController < Admin::ApplicationController
   layout "admin"
 
   def index
-  	@users = User.all.order(created_at: :asc).where(admin: false, admin_status: 0)
+  	@users = User.all.includes(:companies, :applicants, :job_descriptions).order(created_at: :asc).where(admin: false, admin_status: 0)
+    fresh_when last_modified: @users.maximum(:updated_at)
   end
 
   def show
@@ -41,5 +42,6 @@ class Admin::UsersController < Admin::ApplicationController
 
   def set_user
   	@user = User.find(params[:id])
+    fresh_when @user
   end
 end

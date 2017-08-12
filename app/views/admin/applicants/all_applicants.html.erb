@@ -16,7 +16,7 @@
 	                                    </thead>
 	                                    <tbody>
 	                                    <% if @all_applicants.any? %>
-	                                    <% @all_applicants.each do |applicant| %>
+	                                    <% @all_applicants.includes(:job_description, :company).each do |applicant| %>
 	                                      <% if @applicant_id == applicant.id %>
 	                                        <tr style="background: #FFFF70;">
 	                                      <% else %>
@@ -25,6 +25,7 @@
 	                                            <td>
 	                                            	<% has_role_on_this? applicant do %>
 	                                            	<button class="btn btn-success btn-xs btn-round">
+	                                            	  <i class="material-icons">check_circle</i>
 	                                            	</button>
 	                                            	<% end %>
 	                                            </td>	                                     

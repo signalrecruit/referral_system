@@ -6,9 +6,10 @@ class Admin::CompaniesController < Admin::ApplicationController
 
 
   def index
-  	@companies = Company.all.order(created_at: :asc) - Company.where(copy: true).all
+  	@companies = Company.all.includes(:user).where(copy: false).order(created_at: :asc)
     @company_id = params[:company_id].to_i
     @notifier_id = params[:notifier_id].to_i
+    fresh_when last_modified: @companies.maximum(:updated_at)
   end
 
   def show
@@ -18,6 +19,7 @@ class Admin::CompaniesController < Admin::ApplicationController
     @company_copy = if company_copy = Company.find_by(copy: true, copy_id: @company.id)
                       company_copy
                     end   
+    fresh_when @company_copy if @company_copy
   end
 
   def edit
@@ -124,6 +126,7 @@ class Admin::CompaniesController < Admin::ApplicationController
 
   def set_company
   	@company = Company.find(params[:id])
+    fresh_when @company 
   end
 
   def company_params

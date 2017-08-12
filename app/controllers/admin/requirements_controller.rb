@@ -7,6 +7,7 @@ class Admin::RequirementsController < Admin::ApplicationController
   
   def index
     @requirements = @jd.requirements.all	
+    fresh_when @requiremnts.maximum(:updated_at)
   end
 
   def show
@@ -43,6 +44,7 @@ class Admin::RequirementsController < Admin::ApplicationController
   def set_requirement
   	set_jd
   	@requirement = @jd.requirements.find(params[:id])
+    fresh_when @requirement
   end
 
   def requirement_params

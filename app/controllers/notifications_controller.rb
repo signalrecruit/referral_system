@@ -28,6 +28,7 @@ class NotificationsController < ApplicationController
   def mark_all_as_read
   	respond_to do |format|
   	  @notifications = Notification.where(recipient_id: current_user.id).all.update_all(read_at: DateTime.now)
+      fresh_when last_modified: @notification.maximum(:updated_at)
   	  format.html { redirect_to :back }
   	  format.js { render json: @notifications }
   	end
