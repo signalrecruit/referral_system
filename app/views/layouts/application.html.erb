@@ -257,7 +257,7 @@
 									    <% else %>
 									    <li>
 									    <% end %>  
-									    <span style="font-weight: bold;">The Agency</span> just approved your updates to your job description: <span style="font-weight: bold;">(<%= JobDescription.find(Applicant.find(notification.resource_id).job_description_id).job_title %>/(<%= JobDescription.find(Applicant.find(notification.resource_id).job_description_id).company.company_name %>)</span>
+									    <span style="font-weight: bold;">The Agency</span> just approved your updates to your applicant: <span style="font-weight: bold;"><%= Applicant.find(notification.resource_id).name %>/<%= JobDescription.find(Applicant.find(notification.resource_id).job_description_id).job_title %>)</span>
 									    </li>  
 									  <% end %>                                     
 								    <% end %> 

@@ -111,7 +111,7 @@ class QualificationsController < ApplicationController
   def prevent_addition_of_new_qualification_if_jd_has_applicants
     @job_description = JobDescription.find(params[:job_description_id])
     if @job_description.applicants.any? 
-      flash[:alert] = "changes can not be made since this job description has associated applicants"
+      flash[:alert] = "you can not add new qualifications since job description has associated applicants"
       redirect_to :back
     end
   end
