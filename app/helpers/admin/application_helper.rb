@@ -23,4 +23,22 @@ module Admin::ApplicationHelper
   	  yield	
   	end
   end
+
+  def has_role_on_this? resource 
+    if Role.where(resource_id: resource.id, resource_type: resource.class.name, role: "owner", user_id: current_user.id).any?
+      yield
+    end 
+  end
+
+  def has_no_role_on_this? resource 
+    if Role.where(resource_id: resource.id, resource_type: resource.class.name, role: "no owner").any? 
+      yield
+    end 
+  end
+
+  def no_one_has_no_role? resource 
+    if Role.find_by(resource_id: resource.id, resource_type: resource.class.name).nil? 
+      yield
+    end   
+  end
 end

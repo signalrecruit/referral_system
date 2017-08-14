@@ -5,16 +5,12 @@ class Admin::MessagesController < Admin::ApplicationController
   def index
   	if params[:category] == "received"
       @messages = Message.received_messages_for_admin.includes(:user).where(recipient_id: current_user.id)
-      fresh_when last_modified: @messages.maximum(:updated_at)
     elsif params[:category] == "sent"
       @messages = Message.sent_messages_for_admin.includes(:user).where(user_id: current_user.id)
-      fresh_when last_modified: @messages.maximum(:updated_at)
     elsif params[:category] == "draft"
       @messages = Message.drafted_by_admin.includes(:user).where(user_id: current_user.id)
-      fresh_when last_modified: @messages.maximum(:updated_at)
     elsif params[:category] == "archived"
       @messages = Message.messages_archived_by_admin.includes(:user)
-      fresh_when last_modified: @messages.maximum(:updated_at)
     else 
       retrieve_all_messages  
     end  
@@ -132,7 +128,6 @@ class Admin::MessagesController < Admin::ApplicationController
 
   def set_message
     @message = Message.find(params[:id])
-    fresh_when @message
   end
 
   def set_reply_thread(message)
@@ -143,7 +138,7 @@ class Admin::MessagesController < Admin::ApplicationController
     Message.where(recipient_id: message.user_id, user_id: current_user.id).each do |msg|
       @reply_thread << msg
     end
-    fresh_when last_modified: @reply_thread.includes(:user).order(created_at: :asc).maximum(:updated_at)
+    @reply_thread.includes(:user).order(created_at: :asc)
   end
 
   def retrieve_all_messages
@@ -154,6 +149,6 @@ class Admin::MessagesController < Admin::ApplicationController
     Message.where(user_id: current_user.id, archived: false).each do |msg|
       @messages << msg 
     end
-    fresh_when last_modified: @messages.includes(:user).order(created_at: :asc).maximum(:updated_at)
+    @messages.includes(:user).order(created_at: :asc)
   end
 end

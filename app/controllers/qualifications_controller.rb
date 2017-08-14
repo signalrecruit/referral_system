@@ -8,7 +8,6 @@ class QualificationsController < ApplicationController
 
   def index
   	@qualifications = @jd.qualifications.all
-    fresh_when last_modified: @qualifications.maximum(:updated_at)
   end
 
   def show
@@ -70,7 +69,6 @@ class QualificationsController < ApplicationController
   def set_qualification
   	set_jd
   	@qualification = @jd.qualifications.find(params[:id])
-    fresh_when @qualification
   end
 
   def qualification_params

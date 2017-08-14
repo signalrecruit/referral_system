@@ -142,9 +142,11 @@ class ApplicationController < ActionController::Base
   def total_revenue
     @completed_jds = []
     JobDescription.all.each do |jd|
-      if jd.applicants.all? { |applicant| applicant.hired? }
-        @completed_jds << jd.actual_worth
-      end 
+      if jd.applicants.any?
+        if jd.applicants.all? { |applicant| applicant.hired? }
+          @completed_jds << jd.actual_worth
+        end 
+      end
       @total_revenue = @completed_jds.inject(0){ |sum, x| sum + x }
     end 
   end

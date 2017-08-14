@@ -7,14 +7,12 @@ class Admin::JobDescriptionsController < Admin::ApplicationController
 
   def index
     @all_roles = JobDescription.all.includes(:company).where(completed: true).order(created_at: :asc)
-    fresh_when last_modified: @all_roles.maximum(:updated_at)
   end
 
   def show
     @job_description_copy = if job_description_copy = JobDescription.find_by(copy: true, copy_id: @job_description.id)
                   job_description_copy
                 end   
-    fresh_when @job_description_copy if @job_description_copy
   end
 
   def edit
@@ -106,7 +104,6 @@ class Admin::JobDescriptionsController < Admin::ApplicationController
   def set_job_description
   	set_company
   	@job_description = @company.job_descriptions.find(params[:id])
-    fresh_when @job_description
   end
 
   def job_params

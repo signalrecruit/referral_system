@@ -9,7 +9,6 @@ class Admin::CompaniesController < Admin::ApplicationController
   	@companies = Company.all.includes(:user).where(copy: false).order(created_at: :asc)
     @company_id = params[:company_id].to_i
     @notifier_id = params[:notifier_id].to_i
-    fresh_when last_modified: @companies.maximum(:updated_at)
   end
 
   def show
@@ -19,7 +18,6 @@ class Admin::CompaniesController < Admin::ApplicationController
     @company_copy = if company_copy = Company.find_by(copy: true, copy_id: @company.id)
                       company_copy
                     end   
-    fresh_when @company_copy if @company_copy
   end
 
   def edit
@@ -126,7 +124,6 @@ class Admin::CompaniesController < Admin::ApplicationController
 
   def set_company
   	@company = Company.find(params[:id])
-    fresh_when @company 
   end
 
   def company_params
@@ -157,6 +154,7 @@ class Admin::CompaniesController < Admin::ApplicationController
   end
 
   def set_admin_authorization_parameters
-    Authorization::AdminAuthorizationPolicy.new(current_user, set_company, "Company", self).implement_authorization_policy
+    @company = Company.find(params[:id])
+    Authorization::AdminAuthorizationPolicy.new(current_user, @company, "Company", self).implement_authorization_policy
   end
 end

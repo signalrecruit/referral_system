@@ -6,7 +6,6 @@ class ApplicantsController < ApplicationController
 
   def index
   	@applicants = @jd.applicants.all
-    fresh_when last_modified: @applicants.maximum(:updated_at)
   end
 
   def show
@@ -76,7 +75,6 @@ class ApplicantsController < ApplicationController
   def set_applicant
   	set_jd 
   	@applicant = @jd.applicants.find(params[:id])
-    fresh_when @applicant
   end
 
   def applicant_params

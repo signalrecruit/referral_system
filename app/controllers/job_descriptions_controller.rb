@@ -106,7 +106,6 @@ class JobDescriptionsController < ApplicationController
   def set_job_description
   	set_company
   	@job_description = @company.job_descriptions.find(params[:id])
-    fresh_when @job_description
   end
 
   def job_params

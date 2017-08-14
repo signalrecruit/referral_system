@@ -101,7 +101,7 @@
 								    <% if notification.resource_type == "Company" && notification.action == "contacted" %>
 								      <%= link_to mark_notification_as_read_url(notification) do %>
 								         <% if notification.read_at.nil? %>
-									    <li style="background: #f5f5f0;">
+									    <li style="background: #DCDCDC;;">
 									    <% else %>
 									    <li>
 									    <% end %>	
@@ -111,7 +111,7 @@
 								    <% elsif notification.resource_type == "Company" && notification.action == "deal" %>
 								      <%= link_to mark_notification_as_read_url(notification) do %>
 								        <% if notification.read_at.nil? %>
-									    <li style="background: #f5f5f0;">
+									    <li style="background: #DCDCDC;;">
 									    <% else %>
 									    <li>
 									    <% end %>	
@@ -121,7 +121,7 @@
 								    <% elsif notification.resource_type == "Company" && notification.action == "authorize" %>
 								      <%= link_to mark_notification_as_read_url(notification) do %>
 								        <% if notification.read_at.nil? %>
-									    <li style="background: #f5f5f0;">
+									    <li style="background: #DCDCDC;;">
 									    <% else %>
 									    <li>
 									    <% end %>  
@@ -131,7 +131,7 @@
 								    <% elsif notification.resource_type == "JobDescription" && (notification.action == "posted" || notification.action == "updated") %>
 								      <%= link_to mark_notification_as_read_url(notification) do %>
 								        <% if notification.read_at.nil? %>
-									    <li style="background: #f5f5f0;">
+									    <li style="background: #DCDCDC;;">
 									    <% else %>
 									    <li>
 									    <% end %>	
@@ -140,7 +140,7 @@
 								    <% elsif notification.resource_type == "JobDescription" && notification.action == "authorize" %>
 								      <%= link_to mark_notification_as_read_url(notification) do %>
 								        <% if notification.read_at.nil? %>
-									    <li style="background: #f5f5f0;">
+									    <li style="background: #DCDCDC;;">
 									    <% else %>
 									    <li>
 									    <% end %> 
@@ -150,7 +150,7 @@
 								    <% elsif notification.resource_type == "Applicant" && notification.action == "created" %>
 									  <%= link_to mark_notification_as_read_url(notification) do %>
 									    <% if notification.read_at.nil? %>
-									    <li style="background: #f5f5f0;">
+									    <li style="background: #DCDCDC;;">
 									    <% else %>
 									    <li>
 									    <% end %>
@@ -159,7 +159,7 @@
 									<% elsif notification.resource_type == "Applicant" && notification.action == "shortlisted" %>
 									  <%= link_to mark_notification_as_read_url(notification) do %>
 									    <% if notification.read_at.nil? %>
-									    <li style="background: #f5f5f0;">
+									    <li style="background: #DCDCDC;;">
 									    <% else %>
 									    <li>
 									    <% end %>
@@ -169,7 +169,7 @@
 									<% elsif notification.resource_type == "Applicant" && notification.action == "interviewing" %>
 									  <%= link_to mark_notification_as_read_url(notification) do %>
 									    <% if notification.read_at.nil? %>
-									    <li style="background: #f5f5f0;">
+									    <li style="background: #DCDCDC;;">
 									    <% else %>
 									    <li>
 									    <% end %>
@@ -179,7 +179,7 @@
 									<% elsif notification.resource_type == "Applicant" && notification.action == "testing" %>
 									  <%= link_to mark_notification_as_read_url(notification) do %>
 									    <% if notification.read_at.nil? %>
-									    <li style="background: #f5f5f0;">
+									    <li style="background: #DCDCDC;;">
 									    <% else %>
 									    <li>
 									    <% end %>
@@ -189,7 +189,7 @@
 									<% elsif notification.resource_type == "Applicant" && notification.action == "salary negotiation" %>
 									  <%= link_to mark_notification_as_read_url(notification) do %>
 									    <% if notification.read_at.nil? %>
-									    <li style="background: #f5f5f0;">
+									    <li style="background: #DCDCDC;;">
 									    <% else %>
 									    <li>
 									    <% end %>
@@ -199,7 +199,7 @@
 									<% elsif notification.resource_type == "Applicant" && notification.action == "not hired" %>
 									  <%= link_to mark_notification_as_read_url(notification) do %>
 									    <% if notification.read_at.nil? %>
-									    <li style="background: #f5f5f0;">
+									    <li style="background: #DCDCDC;;">
 									    <% else %>
 									    <li>
 									    <% end %>
@@ -209,7 +209,7 @@
 									<% elsif notification.resource_type == "Applicant" && notification.action == "hired" %>
 									  <%= link_to mark_notification_as_read_url(notification) do %>
 									    <% if notification.read_at.nil? %>
-									    <li style="background: #f5f5f0;">
+									    <li style="background: #DCDCDC;;">
 									    <% else %>
 									    <li>
 									    <% end %>
@@ -223,7 +223,7 @@
 									<% elsif notification.resource_type == "Qualification" && notification.action == "authorize" %>
 									  <%= link_to mark_notification_as_read_url(notification) do %>
 									    <% if notification.read_at.nil? %>
-									    <li style="background: #f5f5f0;">
+									    <li style="background: #DCDCDC;;">
 									    <% else %>
 									    <li>
 									    <% end %> 
@@ -233,7 +233,7 @@
 									<% elsif notification.resource_type == "RequiredExperience" && notification.action == "authorize" %>
 									  <%= link_to mark_notification_as_read_url(notification) do %>
 									    <% if notification.read_at.nil? %>
-									    <li style="background: #f5f5f0;">
+									    <li style="background: #DCDCDC;;">
 									    <% else %>
 									    <li>
 									    <% end %> 
@@ -243,7 +243,7 @@
 									<% elsif notification.resource_type == "Requirement" && notification.action == "authorize" %>
 									  <%= link_to mark_notification_as_read_url(notification) do %>
 									    <% if notification.read_at.nil? %>
-									    <li style="background: #f5f5f0;">
+									    <li style="background: #DCDCDC;;">
 									    <% else %>
 									    <li>
 									    <% end %>  
@@ -253,7 +253,7 @@
 									<% elsif notification.resource_type == "Applicant" && notification.action == "authorize" %>
 									  <%= link_to mark_notification_as_read_url(notification) do %>
 									    <% if notification.read_at.nil? %>
-									    <li style="background: #f5f5f0;">
+									    <li style="background: #DCDCDC;;">
 									    <% else %>
 									    <li>
 									    <% end %>  

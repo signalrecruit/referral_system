@@ -7,7 +7,6 @@ class RequiredExperiencesController < ApplicationController
 
   def index
   	@experiences = @jd.required_experiences.all
-    fresh_when last_modified: @experiences.maximum(:updated_at)
   end
 
   def show
@@ -63,7 +62,6 @@ class RequiredExperiencesController < ApplicationController
   def set_experience
   	set_jd 
   	@experience = @jd.required_experiences.find(params[:id])
-    fresh_when @experience
   end
 
   def exp_params

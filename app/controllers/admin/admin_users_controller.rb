@@ -4,7 +4,6 @@ class Admin::AdminUsersController < Admin::ApplicationController
   
   def index
   	@admins = User.all.includes(:companies).where(admin: true, admin_status: 1)
-    fresh_when last_modified: @admins.maximum(:updated_at)
   end
 
   def show
@@ -60,7 +59,6 @@ class Admin::AdminUsersController < Admin::ApplicationController
 
   def set_user
   	@admin = User.find(params[:id])
-    fresh_when @admin
   end
 
   def user_params

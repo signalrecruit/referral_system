@@ -7,14 +7,12 @@ class Admin::ApplicantsController < Admin::ApplicationController
   	
   def index
   	@applicants = @jd.applicants.where(copy: false).all.order(created_at: :asc)
-    fresh_when last_modified: @applicants.maximum(:updated_at)
   end
 
   def show
     @applicant_copy = if applicant_copy = Applicant.find_by(copy: true, copy_id: @applicant.id)
                   applicant_copy
                 end     
-    fresh_when @applicant_copy
   end
 
   def update
@@ -166,7 +164,6 @@ class Admin::ApplicantsController < Admin::ApplicationController
   def set_applicant
   	set_jd 
   	@applicant = @jd.applicants.find(params[:id])
-    fresh_when @applicant
   end
 
   def applicant_params

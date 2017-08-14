@@ -55,6 +55,5 @@ class BankAccountsController < ApplicationController
 
   def set_account 
   	@bank_account = BankAccount.find(params[:id])
-    fresh_when @bank_account
   end
 end
