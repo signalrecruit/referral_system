@@ -63,7 +63,7 @@ Rails.application.routes.draw do
     end
   end
 
-  devise_for :users, controllers: { registrations: :registrations  }
+  devise_for :users, controllers: { registrations: :registrations, confirmations: :confirmations }
 
   root to: 'dashboard#index'
   # get 'dashboard/activity_feed', to: 'dashboard#activity_feed', as: :activity_feed

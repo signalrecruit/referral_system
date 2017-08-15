@@ -219,7 +219,17 @@
 									    <% else %>
 									    <li>
 									    <% end %>
-									    <span style="font-weight: bold;"><%= notification.actor_username %></span> tried updating this applicant:(<span style="font-weight: bold;"><%= Applicant.find(notification.resource_id).name %></span>)</li>									    
+									    <span style="font-weight: bold;"><%= notification.actor_username %></span> tried updating this applicant:(<span style="font-weight: bold;"><%= Applicant.find(notification.resource_id).name %></span>)</li>				    
+									  <% end %>  
+									<% elsif notification.resource_type == "User" && notification.action == "sign up" %>
+									  <%= link_to admin_mark_notification_as_read_url(notification) do %>
+									    <% if notification.read_at.nil? %>
+									    <li style="background: #DCDCDC;">
+									    <% else %>
+									    <li>
+									    <% end %>
+									    <span style="font-weight: bold;"><%= notification.actor_username %></span> just signed up!</span>
+									    </li>
 									  <% end %>     
 									<% end %>  
 									<% end %>

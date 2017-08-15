@@ -18,7 +18,9 @@ class Admin::NotificationsController < Admin::ApplicationController
       redirect_to admin_company_url(JobDescription.find(@notification.resource_id).company, tab: "job descriptions")      
   	elsif @notification.resource_type == "Applicant" && (@notification.action == "pending update" || @notification.action == "created")
       redirect_to admin_job_description_applicant_url(Applicant.find(@notification.resource_id).job_description, Applicant.find(@notification.resource_id))
-  	end
+  	elsif @notification.resource_type == "User" && @notification.action == "sign up"
+      redirect_to admin_users_url
+    end
   end
 
   def mark_all_as_read
