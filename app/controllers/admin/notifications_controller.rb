@@ -9,7 +9,7 @@ class Admin::NotificationsController < Admin::ApplicationController
     elsif @notification.resource_type == "Company"  
   	  (Company.find(@notification.resource_id)).contacted? ? "#{redirect_to admin_companies_url}" : "#{redirect_to admin_companies_url(notifier_id: Company.find(@notification.resource_id))}"	   
   	elsif @notification.resource_type == "JobDescription" && @notification.action == "posted"
-      if role_exists_for JobDescription.find(@notification.resource_id)
+      if (role_exists_for JobDescription.find(@notification.resource_id)) && (JobDescription.find(@notification.resource_id).percent_worth.to_f == 0.0 && JobDescription.find(@notification.resource_id).vacancy_percent_worth.to_f == 0.0)
   	    JobDescription.find(@notification.resource_id).update(update_button: true, edit_user_id: current_user.id)	
         flash[:success] = "you can go ahead and fill in the necessary values"
   	  end
