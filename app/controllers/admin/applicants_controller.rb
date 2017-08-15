@@ -84,6 +84,7 @@ class Admin::ApplicantsController < Admin::ApplicationController
       ApplicantStatusNotificationService.new({ recipient: @applicant.user, actor: current_user, action: @applicant.status, resource: @applicant, resource_type: @applicant.class.name }).notify_user
       @applicant.job_description.earning_algorithm
       @applicant.pay_user_when_applicant_is_hired
+      track_activity @applicant, "hired", @applicant.user
       redirect_to :back 
     else 
       @applicant.job_description.update(update_button: true, edit_user_id: current_user.id)
@@ -98,6 +99,7 @@ class Admin::ApplicantsController < Admin::ApplicationController
     ApplicantStatusNotificationService.new({ recipient: @applicant.user, actor: current_user, action: @applicant.status, resource: @applicant, resource_type: @applicant.class.name }).notify_user
     @applicant.job_description.earning_algorithm
     @applicant.pay_user_when_applicant_is_hired
+    track_activity @applicant, "unhired", @applicant.user 
     redirect_to :back
   end
 
