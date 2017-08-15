@@ -99,7 +99,7 @@ class Admin::ApplicantsController < Admin::ApplicationController
     ApplicantStatusNotificationService.new({ recipient: @applicant.user, actor: current_user, action: @applicant.status, resource: @applicant, resource_type: @applicant.class.name }).notify_user
     @applicant.job_description.earning_algorithm
     @applicant.pay_user_when_applicant_is_hired
-    track_activity @applicant, "unhired", @applicant.user 
+    track_activity @applicant, "not hired", @applicant.user 
     redirect_to :back
   end
 

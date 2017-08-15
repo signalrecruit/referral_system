@@ -262,13 +262,13 @@
 					  <% end %>	
 					</tr>	
 
-					<% elsif (activity.action == "not hired" || activity.action == "hired") && activity.trackable_type == "Applicant" %>
+					<% elsif (activity.action == "not hired" || activity.action == "hired") && (activity.trackable_type == "Applicant") %>
 					<% if !activity.trackable.nil? %>
 				     <tr>
 						<td>
 							<span class="dropdown">
 								<% if activity.trackable.company.deal? %>
-								  <a href="#" class="dropdown-toggle btn btn-info btn-xs btn-round" data-toggle="dropdown">
+								  <a href="#" class="dropdown-toggle btn btn-warning btn-xs btn-round" data-toggle="dropdown">
 								<% else %>
 								   <a href="#" class="dropdown-toggle btn btn-default btn-xs btn-round" data-toggle="dropdown"> 	
 								<% end %>  
