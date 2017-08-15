@@ -258,12 +258,13 @@
 				<div class="container-fluid">
 					<div class="row">
 
-
+					  <div id="flash">
 						<% flash.each do |key, message| %>
 						<div id="flash" class="alert alert-<%= key %>">
 							<%= message %>
 						</div>
 						<% end %>
+					  </div>
 						<%= yield %>
 					</div>
 				</div>

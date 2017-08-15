@@ -16,7 +16,7 @@ class JobDescriptionsController < ApplicationController
     end
 
     if flash[:alert].nil?
-      flash.now[:warning] = "Hi #{current_user.fullname}. The role #{@job_description.job_title} is incomplete. Complete the form." unless (@job_description.completed? && @job_description.user != current_user)
+      flash.now[:warning] = "Hi #{current_user.fullname}. The role #{@job_description.job_title} is incomplete. Complete the form." unless @job_description.completed?
     end
   end
 
