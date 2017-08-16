@@ -9,7 +9,7 @@
 User.create fullname: "Jide Otoki", email: "jide@mail.com", password: "password", password_confirmation: "password",
 admin: true, admin_status: 2, phonenumber: "0000000000", username: "Super Admin", approval: true
 
-User.create fullname: "Derek Owusu-Frimpong", email: "deepsky_5@live.com", password: "password",
+User.create fullname: "Derek Owusu-Frimpong", email: "deepsky_5@live1.com", password: "password",
  password_confirmation: "password", admin: true, admin_status: 2, phonenumber: "0204704427", username: "Picaso", approval: true
 
 User.create fullname: "Elliot Alderson", email: "elliot@alderson.com", password: "password",
