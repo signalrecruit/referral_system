@@ -3,7 +3,7 @@ class ApplicantsController < ApplicationController
   before_action :copy_changes_to_existing_object, only: [:update]
   before_action :set_jd, except: [:update_button]
   before_action :set_applicant, only: [:show, :edit, :update, :destroy]
-  after_action :log_user_activity, except: [:index, :update_button]
+  after_action :log_user_activity, except: [:index, :update_button, :create, :edit, :update]
 
   def index
   	@applicants = @jd.applicants.all
@@ -27,8 +27,10 @@ class ApplicantsController < ApplicationController
       ApplicantSubServicesAfterCreate.new({ applicant: @applicant, jd: @jd, current_user: current_user }).initiate_sub_services
       ApplicantCreateNotificationService.new({ actor: current_user, action: "created", resource: @applicant, resource_type: "Applicant" }).notify_admins_and_users
       on_success "you successfully added an applicant to this job description", [@jd, @applicant]
+       ActivityLogService.new({ actor: current_user, action: params[:action], resource: @applicant }).log_user_activity
   	else
       on_failure "oops! something went wrong", :new
+       ActivityLogService.new({ actor: current_user, action: "create failed", resource: @applicant }).log_user_activity
   	end
   end
 
@@ -38,6 +40,7 @@ class ApplicantsController < ApplicationController
   def update
   	if @applicant.update(applicant_params)
   	  ApplicantSubServicesAfterUpdate.new({ applicant: @applicant, jd: @jd }).initiate_sub_services
+       ActivityLogService.new({ actor: current_user, action: params[:action], resource: @applicant }).log_user_activity
   	  flash[:success] = "you successfully updated this applicant"
 
       if request.referrer == edit_job_description_applicant_url(@jd, @applicant) || request.referrer == job_description_applicants_url(@jd)
@@ -47,6 +50,7 @@ class ApplicantsController < ApplicationController
       end
   	else
       on_failure "oops! something went wrong", :edit
+       ActivityLogService.new({ actor: current_user, action: "update failed", resource: @applicant }).log_user_activity
   	end
   end
 

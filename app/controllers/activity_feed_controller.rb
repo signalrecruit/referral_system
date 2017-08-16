@@ -4,7 +4,7 @@ class ActivityFeedController < ApplicationController
   
   def index
   	@feed = Activity.order(created_at: :desc)
-  	fresh_when last_modified: @feed.maximum(:updated_at)
+  	# fresh_when last_modified: @feed.maximum(:updated_at)
   end
 
   def show
