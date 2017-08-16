@@ -3,6 +3,7 @@ class ApplicantsController < ApplicationController
   before_action :copy_changes_to_existing_object, only: [:update]
   before_action :set_jd, except: [:update_button]
   before_action :set_applicant, only: [:show, :edit, :update, :destroy]
+  before_action :jd_vacancy_vs_allowable_applicants_check, only: [:new, :create]
   after_action :log_user_activity, except: [:index, :update_button, :create, :edit, :update]
 
   def index
@@ -193,5 +194,13 @@ class ApplicantsController < ApplicationController
     end
     @existing_attributes = existing_attributes 
     @update_attributes = update_attributes
+  end
+
+  def jd_vacancy_vs_allowable_applicants_check
+    @job_description = JobDescription.find(params[:job_description_id])
+    if @job_description.vacancies == @job_description.applicants.where(copy: false).count 
+      flash[:alert] = "no more vacancies for the role: #{@job_description.job_title}"
+      redirect_to activity_feed_url
+    end
   end
 end

@@ -177,6 +177,7 @@
 									<% else %>
 									  <%= link_to new_job_description_applicant_url(activity.trackable.job_description) do %>
 									     <i class="material-icons">add</i>applicant
+									     <%= activity.trackable.job_description.all_vacancies_filled? %>
 									  <% end %>
 									<% end %>
 							      <% end %>  
@@ -323,7 +324,7 @@
 					  <% end %>	
 					</tr>	
 
-					<% elsif activity.action == "create" && (activity.trackable_type == "JobDescription" && activity.permitted? ) %>
+					<% elsif activity.action == "create" && (activity.trackable_type == "JobDescription" && activity.permitted?) %>
 					    <tr>
 					  <% if !activity.trackable.nil? %>
 					    <td><span class="btn btn-success btn-xs btn-round"><%= activity.trackable.company.alias_name %></span> is looking for <%= pluralize(activity.trackable.vacancies, "applicant") %> to fill the role of

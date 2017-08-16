@@ -17,7 +17,7 @@ module AlgorithmForJD
   end
 
   def any_applicant_re_negotiated_salary?
-    self.applicants.any? { |applicant| applicant.salary != 0.0}
+    self.applicants.any? { |applicant| applicant.salary != 0.0 }
   end
 
   def calculate_cumulative_earnings
