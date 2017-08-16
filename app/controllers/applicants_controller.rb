@@ -3,9 +3,11 @@ class ApplicantsController < ApplicationController
   before_action :copy_changes_to_existing_object, only: [:update]
   before_action :set_jd, except: [:update_button]
   before_action :set_applicant, only: [:show, :edit, :update, :destroy]
+  after_action :log_user_activity, except: [:index, :update_button]
 
   def index
   	@applicants = @jd.applicants.all
+    ActivityLogService.new({ actor: current_user, action: "viewed", resource_type: "Applicants" }).log_user_activity
   end
 
   def show
@@ -60,6 +62,7 @@ class ApplicantsController < ApplicationController
       # Please contact admin for help with this.", new_message_url(reply_id: 0)
       # redirect_to [:edit, @applicant.job_description, @applicant]
   	# else
+      ActivityLogService.new({ actor: current_user, resource: @applicant }).log_user_activity
       @applicant.update(update_button: true)
   	  redirect_to [:edit, @applicant.job_description, @applicant]
     # end
@@ -67,6 +70,10 @@ class ApplicantsController < ApplicationController
 
 
   private 
+
+  def log_user_activity
+    ActivityLogService.new({ actor: current_user, action: params[:action], resource: @applicant }).log_user_activity
+  end
   
   def set_jd
   	@jd = JobDescription.find(params[:job_description_id])

@@ -1,5 +1,6 @@
 class ActivityFeedController < ApplicationController
   before_action :authenticate_user!	
+  after_action :log_user_activity, only: [:index]
   
   def index
   	@feed = Activity.order(created_at: :desc)
@@ -7,5 +8,12 @@ class ActivityFeedController < ApplicationController
   end
 
   def show
+  end
+
+
+  private 
+
+  def log_user_activity
+    ActivityLogService.new({ actor: current_user, action: "viewed", resource_type: "Activities" }).log_user_activity
   end
 end

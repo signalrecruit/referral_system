@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170805040747) do
+ActiveRecord::Schema.define(version: 20170816135606) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,16 @@ ActiveRecord::Schema.define(version: 20170805040747) do
 
   add_index "activities", ["trackable_type", "trackable_id"], name: "index_activities_on_trackable_type_and_trackable_id", using: :btree
   add_index "activities", ["user_id"], name: "index_activities_on_user_id", using: :btree
+
+  create_table "activity_logs", force: :cascade do |t|
+    t.string   "actor_fullname"
+    t.integer  "actor_id"
+    t.string   "action"
+    t.integer  "resource_id"
+    t.string   "resource_type"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
 
   create_table "applicant_records", force: :cascade do |t|
     t.integer  "job_description_id"
