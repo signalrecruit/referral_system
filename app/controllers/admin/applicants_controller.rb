@@ -105,7 +105,6 @@ class Admin::ApplicantsController < Admin::ApplicationController
 
   def all_applicants
     @all_applicants = Applicant.all.includes(:company).where(copy: false).all.order(created_at: :asc)
-    fresh_when last_modified: @all_applicants.maximum(:updated_at)
     @applicant_id = params[:applicant_id].to_i
   end
 

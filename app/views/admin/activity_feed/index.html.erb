@@ -166,12 +166,12 @@
 						<% if activity.trackable.user != current_user %>
 							<span class="dropdown">
 								<% if activity.trackable.company.deal? %>
-								  <a href="#" class="dropdown-toggle btn btn-info btn-xs btn-round" data-toggle="dropdown">
+								  <a href="#" class="dropdown-toggle btn btn-warning btn-xs btn-round" data-toggle="dropdown">
 								<% else %>
 								   <a href="#" class="dropdown-toggle btn btn-default btn-xs btn-round" data-toggle="dropdown"> 	
 								<% end %>  
 
-									<%= activity.trackable.name %>w
+									<%= activity.trackable.name %>
 								</a>
 							</span> 
 							<% if activity.action == "hired" %> 

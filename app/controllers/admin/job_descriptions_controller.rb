@@ -26,8 +26,12 @@ class Admin::JobDescriptionsController < Admin::ApplicationController
       if !params[:job_description][:applicant_id].blank?
         if @job_description.potential_worth.to_f != 0.0 && @job_description.percent_worth.to_f != 0.0 && @job_description.vacancy_percent_worth.to_f != 0.0
   	      flash[:success] = "you successfully updated job description, #{(Applicant.find(params[:job_description][:applicant_id].to_i)).name} is hired!"
-          Applicant.find(params[:job_description][:applicant_id].to_i).update(status: "hired") if !params[:job_description][:applicant_id].blank?
-          Applicant.find(params[:job_description][:applicant_id].to_i).pay_user_when_applicant_is_hired if !params[:job_description][:applicant_id].blank?
+          if !params[:job_description][:applicant_id].blank?
+            Applicant.find(params[:job_description][:applicant_id].to_i).update(status: "hired") 
+            Applicant.find(params[:job_description][:applicant_id].to_i).pay_user_when_applicant_is_hired 
+            track_activity Applicant.find(params[:job_description][:applicant_id].to_i), "hired", Applicant.find(params[:job_description][:applicant_id].to_i).user
+            ApplicantStatusNotificationService.new({ recipient: Applicant.find(params[:job_description][:applicant_id].to_i).user, actor: current_user, action: Applicant.find(params[:job_description][:applicant_id].to_i).status, resource: Applicant.find(params[:job_description][:applicant_id].to_i), resource_type: Applicant.find(params[:job_description][:applicant_id].to_i).class.name }).notify_user
+          end
           @job_description.earning_algorithm
   	      redirect_to admin_job_description_applicants_url(@job_description)
         else
@@ -37,7 +41,7 @@ class Admin::JobDescriptionsController < Admin::ApplicationController
       else
         if @job_description.potential_worth.to_f != 0.0 && @job_description.percent_worth.to_f != 0.0 && @job_description.vacancy_percent_worth.to_f != 0.0
           @job_description.earning_algorithm
-          flash[:success] = "you successfully updated your company"
+          flash[:success] = "you successfully updated this job description"
           redirect_to :back
         else  
           flash[:notice] = "you still have zero values for percent worth, potential worth and percent worth per vacancy for role: #{@job_description.job_title}"
