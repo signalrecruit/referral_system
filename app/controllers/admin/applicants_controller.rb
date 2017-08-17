@@ -2,6 +2,8 @@ class Admin::ApplicantsController < Admin::ApplicationController
   before_action :set_admin_authorization_parameters, only: [:update_button, :update, :destroy, :shortlist, :interviewing, :testing, :salary_negotiation, :hire, :unhire, :allow_changes_to_applicant]
   before_action :set_jd, except: [:update_salary, :update_button, :all_applicants, :shortlist, :interviewing, :testing, :salary_negotiation, :hire, :unhire, :allow_changes_to_applicant]
   before_action :set_applicant, only: [:show, :update]	
+  before_action :vacancy_vs_hired_applicants_check, only: [:hire]
+  before_action :response_to_clicking_the_same_action, only: [:testing, :shortlist, :interviewing, :salary_negotiation, :hire, :unhire]
   after_action :update_applicant_record, only: [:testing, :shortlist, :interviewing, :salary_negotiation, :hire, :unhire]
   layout "admin"
   	
@@ -141,6 +143,26 @@ class Admin::ApplicantsController < Admin::ApplicationController
 
 
   private
+
+  def response_to_clicking_the_same_action
+    @applicant = Applicant.find(params[:id])
+    @job_description = @applicant.job_description
+    if (params[:action] == "shortlist" && @applicant.shortlisted?) || (params[:action] == "interviewing" && @applicant.interviewing?) || (params[:action] == "testing" && @applicant.testing?) || (
+      params[:action] == "salary_negotiation" && @applicant.salary_negotiation?) || (params[:action] == "hire" && @applicant.hired?) || (params[:action] == "unhire" && @applicant.not_hired?)
+      flash[:alert] = "already selected this action"
+      redirect_to :back  
+    end
+  end
+
+  def vacancy_vs_hired_applicants_check
+    @applicant = Applicant.find(params[:id])
+    @job_description = @applicant.job_description
+    if @job_description.vacancies == @job_description.applicants.where(status: "hired").count 
+      flash[:alert] = "can't proceed to process #{@applicant.name} because the number of vacancies has been filled with
+       hired applicants"
+      redirect_to :back
+    end
+  end
 
   def track_applicant_hiring_status
     if @applicant.hired?

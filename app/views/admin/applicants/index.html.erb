@@ -54,8 +54,8 @@
 							  	<% end %>  
 							  </button>  	
 							</td>
-								<% if applicant.updated? %>
-								<% else %>
+								<%# if applicant.updated? %>
+								<%# else %>
 								<td>
 									<span class="dropdown">
 									  <% if applicant.none? %>
@@ -92,18 +92,18 @@
 								  <% end %>  
 								</td>
 								<% end %>  
-								<% end %>
+								<%# end %>
 
 
-								 <% if applicant.update_salary_button? %>
-											      <%= simple_form_for([:admin, applicant.job_description, applicant]) do |f| %>
-											        <td><%= f.input :salary, label: false %></td>
-											        <td><%= f.button :submit, "submit", class: "btn btn-primary btn-xs btn-round" %></td>
-											      <% end %>
-											    <% else %>
-											      <td></td>
-											      <td></td>  
-											    <% end %>  
+								<% if applicant.update_salary_button? %>
+								  <%= simple_form_for([:admin, applicant.job_description, applicant]) do |f| %>
+								  <td><%= f.input :salary, label: false %></td>
+								  <td><%= f.button :submit, "submit", class: "btn btn-primary btn-xs btn-round" %></td>
+								  <% end %>
+								<% else %>
+								  <td></td>
+								  <td></td>  
+								<% end %>  
 						</tr>
 						<% end %>
 						<% else %>

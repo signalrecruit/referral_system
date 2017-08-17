@@ -1,6 +1,6 @@
 module AlgorithmForJD
   def all_vacancies_filled?
-    self.vacancies == self.applicants.where(copy: false).count ? true : false
+    self.vacancies == self.applicants.where(copy: false, status: "hired").count ? true : false
   end
 
    # all applicants are hired for this role
