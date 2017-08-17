@@ -194,7 +194,7 @@
 	</div>
 </div>
 <% else %>
-<% if @jd.vacancies > @jd.applicants.where(copy: false).count && !@applicant.updated? %>
+<% if !@applicant.updated? %>
 <div class="col-md-6">
 	<div class="card">
 		<div class="card-header" data-background-color="purple">
@@ -415,8 +415,8 @@
 		</div>
 	</div>
 </div>
-<% elsif @jd.vacancies == @jd.applicants.where(copy: false).count && !@applicant.updated? %>
-<div class="col-md-6">
+<%# elsif @jd.vacancies == @jd.applicants.where(copy: false).count && !@applicant.updated? %>
+<!-- <div class="col-md-6">
 	<div class="card">
 		<div class="card-header" data-background-color="blue">
 		<h4 class="title">
@@ -426,23 +426,23 @@
 			<div class="row">
 				<div class="col-md-4">
 					<div class="form-group label-floating">
-						<label class="control-label"><%= pluralize(@jd.applicants.count, "Applicant") %></label>
-						<% @jd.applicants.each do |applicant| %>
-						  <% if applicant.persisted? %>
-						    <%= link_to [@jd, applicant] do %>
+						<label class="control-label"><%#= pluralize(@jd.applicants.count, "Applicant") %></label>
+						<%# @jd.applicants.each do |applicant| %>
+						  <%# if applicant.persisted? %>
+						    <%#= link_to [@jd, applicant] do %>
 						      <button class="btn btn-primary btn-xs btn-round">
-						        <%= applicant.name %>
+						        <%#= applicant.name %>
 						      </button>
-						    <% end %>
-						  <% end %>
+						    <%# end %>
+						  <%# end %>
 						  <br>
-						<% end %>
+						<%# end %>
 				</div>
 				</div>
 			</div>			
 		</div>
 	</div>
-</div>
+</div> -->
 <% end %>
 <% end %>
 

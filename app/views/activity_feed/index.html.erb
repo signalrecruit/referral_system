@@ -172,14 +172,13 @@
 								  <% if activity.trackable.job_description.role_expired? %>
 								    <i class="material-icons">warning</i> This role has expired!
 							      <% else %>
-							        <% if activity.trackable.job_description.all_vacancies_filled? %>
-							          <p>No more vacancies</p> 
-									<% else %>
+							        <%# if activity.trackable.job_description.all_vacancies_filled? %>
+							          <!-- <p>No more vacancies</p>  -->
+									<%# else %>
 									  <%= link_to new_job_description_applicant_url(activity.trackable.job_description) do %>
 									     <i class="material-icons">add</i>applicant
-									     <%= activity.trackable.job_description.all_vacancies_filled? %>
 									  <% end %>
-									<% end %>
+									<%# end %>
 							      <% end %>  
 								</li>
 							  </ul>
@@ -302,13 +301,13 @@
 							    <% if activity.trackable.job_description.role_expired? %>
 							      <i class="material-icons">warning</i> This role has expired!
 							    <% else %>
-							      <% if activity.trackable.job_description.all_vacancies_filled? %>
-							        <p>No more vacancies</p>
-							      <% else %>  
+							      <%# if activity.trackable.job_description.all_vacancies_filled? %>
+							        <!-- <p>No more vacancies</p> -->
+							      <%# else %>  
 							        <%= link_to new_job_description_applicant_url(activity.trackable.job_description) do %>
 							          <i class="material-icons">add</i>applicant
 							        <% end %>
-							      <% end %>  
+							      <%# end %>  
 							    <% end %>
 							      </li>	
 							    </ul>  
@@ -340,13 +339,13 @@
 									<% if activity.trackable.role_expired? %>
 									  <i class="material-icons">warning</i> This role has expired!
 									<% else %>
-									  <% if activity.trackable.all_vacancies_filled? %>
-									    <p>No more vacancies</p>
-									  <% else %>  
+									  <%# if activity.trackable.all_vacancies_filled? %>
+									    <!-- <p>No more vacancies</p> -->
+									  <%# else %>  
 									    <%= link_to new_job_description_applicant_url(activity.trackable) do %>
 									      <i class="material-icons">add</i>applicant
 									    <% end %>
-									  <% end %> 
+									  <%# end %> 
 									<% end %>  
 
 								
