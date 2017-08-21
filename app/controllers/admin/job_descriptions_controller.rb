@@ -33,7 +33,11 @@ class Admin::JobDescriptionsController < Admin::ApplicationController
             ApplicantStatusNotificationService.new({ recipient: Applicant.find(params[:job_description][:applicant_id].to_i).user, actor: current_user, action: Applicant.find(params[:job_description][:applicant_id].to_i).status, resource: Applicant.find(params[:job_description][:applicant_id].to_i), resource_type: Applicant.find(params[:job_description][:applicant_id].to_i).class.name }).notify_user
           end
           @job_description.earning_algorithm
-  	      redirect_to admin_job_description_applicants_url(@job_description)
+          if session[:track_user_path] == admin_job_description_applicant_url(@job_description, Applicant.find(params[:job_description][:applicant_id].to_i))
+  	        redirect_to [:admin, @job_description, Applicant.find(params[:job_description][:applicant_id].to_i)]
+          else
+            redirect_to :back
+          end
         else
           flash[:notice] = "you still have zero values for percent worth, potential worth and percent worth per vacancy for role: #{@job_description.job_title}"
           redirect_to :back
@@ -49,7 +53,7 @@ class Admin::JobDescriptionsController < Admin::ApplicationController
         end
       end
   	else
-  	  flash.now[:alert] = "oops! sthg went wrong"
+  	  flash[:alert] = "oops! sthg went wrong"
   	  redirect_to :back
   	end
   end

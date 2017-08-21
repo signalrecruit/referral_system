@@ -23,7 +23,6 @@ class Admin::ApplicantsController < Admin::ApplicationController
       @applicant.update(update_button: false, update_salary_button: false)   
       @applicant.update_salary
       @applicant.job_description.calculate_jd_actual_worth
-      flash[:success] = "you successfully updated this applicant"
 
       if request.referrer == edit_job_description_applicant_url(@jd, @applicant) || request.referrer == job_description_applicants_url(@jd)
         redirect_to [@jd, @applicant]
@@ -34,6 +33,8 @@ class Admin::ApplicantsController < Admin::ApplicationController
       @jd.earning_algorithm
       @applicant.pay_user_when_applicant_is_hired
       track_applicant_hiring_status
+      flash[:success] = "you successfully updated this applicant"
+      redirect_to :back
     else
       flash.now[:alert] = "oops! something went wrong"
       render :edit
@@ -81,6 +82,7 @@ class Admin::ApplicantsController < Admin::ApplicationController
   end
 
   def hire
+    session[:track_user_path] = request.referrer
     @applicant = Applicant.find(params[:id])
     if @applicant.job_description.percent_worth.to_f != 0.0 && @applicant.job_description.vacancy_percent_worth.to_f != 0.0
       @applicant.update(status: "hired")

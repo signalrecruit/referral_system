@@ -33,6 +33,8 @@
 						  <%= @message.user.fullname %>
 						<% end %>  
 						<br>
+						<span class="label label-primary">To:</span> <%= @message.recipient_name %>
+						<br>
 						<span class="label label-primary">Sent:</span> <%= @message.created_at.strftime("%B %d, %Y") %>
 						<br>  
 						<span class="label label-primary">Subject:</span> <%= @message.title %>
@@ -56,6 +58,8 @@
 						  <%= message.user.fullname %>
 						<% end %>  
 						<br>
+						<span class="label label-primary">To:</span> <%= message.recipient_name %>
+						<br>
 						<span class="label label-primary">Sent:</span> <%= message.created_at.strftime("%B %d, %Y") %>
 						<br>  
 						<span class="label label-primary">Subject:</span> <%= message.title %>
@@ -74,6 +78,8 @@
 						<% else %>  
 						  <%= message.user.fullname %>
 						<% end %>  
+						<br>
+						<span class="label label-primary">To:</span> <%= message.recipient_name %>
 						<br>
 						<span class="label label-primary">Sent:</span> <%= message.created_at.strftime("%B %d, %Y") %>
 						<br>  

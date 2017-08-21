@@ -2,6 +2,9 @@ class RegistrationsController < Devise::RegistrationsController
   layout :choose_layout
 
   def edit
+    if current_user && (current_user.bank_accounts.empty? && (current_user.payment_option == "bank" || current_user.payment_option == "none"))
+      flash.now[:warning] = "Hello, #{current_user.fullname}. You choose bank as your payment option. Here is a reminder to fill out your bank account details." 
+    end
   end
 
 
