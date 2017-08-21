@@ -6,7 +6,8 @@ class Admin::ApplicantsController < Admin::ApplicationController
   before_action :response_to_clicking_the_same_action, only: [:testing, :shortlist, :interviewing, :salary_negotiation, :hire, :unhire]
   after_action :update_applicant_record, only: [:testing, :shortlist, :interviewing, :salary_negotiation, :hire, :unhire]
   layout "admin"
-  	
+  
+  # REFACTORING NOTE: refactor not-resource public actions into a separate controller 
   def index
   	@applicants = @jd.applicants.where(copy: false).all.order(created_at: :asc)
   end
