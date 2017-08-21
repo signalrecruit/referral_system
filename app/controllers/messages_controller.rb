@@ -138,10 +138,8 @@ class MessagesController < ApplicationController
   end
 
   def retrieve_all_messages
-    @messages = Message.none
-    Message.where(recipient_id: current_user.id, archived: false).each do |msg|
-      @messages << msg
-    end
+    @messages = Message.where(archived: nil) #create an empty active record relation
+    @messages = Message.where(recipient_id: current_user.id, archived: false).all
     Message.where(user_id: current_user.id, archived: false).each do |msg|
       @messages << msg 
     end

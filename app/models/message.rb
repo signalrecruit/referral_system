@@ -44,10 +44,8 @@ class Message < ActiveRecord::Base
 
 
   def self.messages_archived_by_admin
-    @messages = Message.none
-    Message.where(archived: true).joins(:user).where(users: { admin: true }).each do |message|
-      @messages << message
-    end
+    @messages = Message.where(archived: nil)
+    @messages = Message.where(archived: true).joins(:user).where(users: { admin: true }).all
     Message.where(archived: true).joins(:user).where(users: { admin: false }).each do |message|
       @messages << message
     end
