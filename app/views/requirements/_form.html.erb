@@ -13,6 +13,20 @@
 				<% end %>
 			</div> 
 			<% end %>
+
+			<div class="row">
+			  <div class="col-md-12">
+				<% @c = 0 %>
+			    <% if @jd.requirements.any? %>
+			      <% @jd.requirements.where(copy: false).each do |requirement| %>
+				  <% @c += 1 %>	
+				  <div class="row">
+				    <td class="col-md-1"><%= @c %>. <%= requirement.content %></td> 
+				  </div>  
+				  <% end %>
+				<% end %>
+			  </div>	
+			</div>
 			<div class="row">
 				<div class="col-md-4">
 					<div class="form-group label-floating">
@@ -21,13 +35,11 @@
 					</div>
 				</div>
 			</div>
-
-			</div>
-			<div class="clearfix"></div>
-			  <%= f.button :submit, "Save", class: "btn btn-primary btn-xs btn-round pull-right" %>	
-			  <br>
-			  <div class="clearfix"></div>
+			<div class="row">
 			  <%= f.button :submit, "proceed later", class: "btn btn-primary btn-xs btn-round pull-right" %>
+			  <%= f.button :submit, "Save and Add Another Requirement", class: "btn btn-primary btn-xs btn-round pull-right" %>			
+			</div>
+		 </div>
 			<% end %>
 		</div>
 	</div>

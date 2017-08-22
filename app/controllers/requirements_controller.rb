@@ -38,6 +38,13 @@ class RequirementsController < ApplicationController
       else
         on_failure "oops! something went wrong", :new
       end
+    elsif params[:commit] == "Save and Add Another Requirement"
+      if @requirement.save 
+        implement_authorization_policy_if_applicable @requirement 
+        on_success "added compulsory requirement successfully", new_job_description_requirement_url(@jd) 
+      else
+        on_failure "oops! you can't add another compulsory requirement for the reasons below:", :new
+      end          
     end
   end
 
