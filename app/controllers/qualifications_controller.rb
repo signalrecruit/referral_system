@@ -33,12 +33,24 @@ class QualificationsController < ApplicationController
         end  
       end
     elsif params[:commit] == "Save and Next"
+      if @qualification.certificate.blank? && @qualification.field_of_study.blank?
+        flash[:alert] = "no qualification was saved."
+        redirect_to new_job_description_required_experience_url(@jd)
+      else
+        if @qualification.save 
+          implement_authorization_policy_if_applicable @qualification
+          on_success "added qualification successfully", new_job_description_required_experience_url(@jd) 
+        else
+          on_failure "oops! something went wrong", :new
+        end
+      end
+    elsif params[:commit] == "Save and Add Another Requirement"
       if @qualification.save 
         implement_authorization_policy_if_applicable @qualification
-        on_success "added qualification successfully", new_job_description_required_experience_url(@jd) 
+        on_success "added qualification successfully", new_job_description_qualification_url(@jd) 
       else
         on_failure "oops! something went wrong", :new
-      end
+      end  
     end
   end
 

@@ -99,8 +99,11 @@
 				</div>
 			</div>
 
-
-			<%= f.button :submit, "Next", class: "btn btn-primary btn-xs btn-round pull-right" %>
+			<% if f.object.persisted? %>
+			  <%= f.button :submit, "done", class: "btn btn-primary btn-xs btn-round pull-right" %>
+			<% else %>
+               <%= f.button :submit, "next", class: "btn btn-primary btn-xs btn-round pull-right" %>
+			<% end %>
 			<div class="clearfix"></div>
 			<% end %>
 		</div>

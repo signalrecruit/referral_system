@@ -19,16 +19,28 @@
 				<% end %>
 			</div> 
 			<% end %>
+
 			<div class="row">
-				<div class="col-md-4">
+			  <div class="col-md-12">
+				<% @q = 0 %>
+			    <% if @jd.qualifications.any? %>
+			      <% @jd.qualifications.where(copy: false).each do |qualification| %>
+				  <% @q += 1 %>	
+				  <div class="row">
+				    <td class="col-md-1"><%= @q %>. <%= qualification.certificate %></td> <td class="col-md-1">in</td> <td class="col-md-4"><%= qualification.field_of_study %></td> 
+				  </div>  
+				  <% end %>
+				<% end %>
+			  </div>	
+			</div>
+
+			<div class="row">
+				<div class="col-md-2">
 					<div class="form-group label-floating">
 						<label class="control-label">Degree</label>
 						<%= f.input :certificate, placeholder: "BSc", label: false, class: "form-control" %>
 					</div>
 				</div>
-			</div>
-
-			<div class="row">
 				<div class="col-md-4">
 					<div class="form-group label-floating">
 						<label class="control-label">Field of study/Course</label>
@@ -37,11 +49,11 @@
 				</div>
 			</div>
 
+
 			<div class="row">
-			  <%= f.button :submit, "Save and Next", class: "btn btn-primary btn-xs btn-round pull-right" %>	
-			</div>
-			<div class="row">
-			  <%= f.button :submit, "proceed later", class: "btn btn-primary btn-xs btn-round pull-right" %>	
+			  <%= f.button :submit, "proceed later", class: "btn btn-primary btn-xs btn-round pull-right" %>
+			  <%= f.button :submit, "Save and Next", class: "btn btn-primary btn-xs btn-round pull-right" %>
+			  <%= f.button :submit, "Save and Add Another Requirement", class: "btn btn-primary btn-xs btn-round pull-right" %>			
 			</div>
 			<% end %>
 		</div>
