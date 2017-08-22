@@ -18,13 +18,27 @@ class RequirementsController < ApplicationController
 
   def create
     @requirement = @jd.requirements.build(requirement_params)
-    
-    if @requirement.save 
-      implement_authorization_policy_if_applicable @requirement
-      on_success "successfully created a requirement", company_job_description_url(@jd.company, @jd)
-    else
-      on_failure "oops! sthg went wrong", :new
-    end  
+
+    if params[:commit] == "proceed later"
+      if @requirement.content.blank?
+        flash[:alert] = "no requirement was saved."
+        redirect_to [@jd.company, @jd]
+      else
+        if @requirement.save 
+          implement_authorization_policy_if_applicable @requirement
+          on_success "your requirement was saved", [@jd.company, @jd]
+        else
+          on_failure "oops! something went wrong", :new
+        end  
+      end
+    elsif params[:commit] == "Save"
+      if @requirement.save 
+        implement_authorization_policy_if_applicable @requirement
+        on_success "added qualification successfully", [@jd.company, @jd] 
+      else
+        on_failure "oops! something went wrong", :new
+      end
+    end
   end
 
   def edit

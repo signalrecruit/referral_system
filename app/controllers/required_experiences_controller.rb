@@ -19,14 +19,26 @@ class RequiredExperiencesController < ApplicationController
   def create
   	@experience = @jd.required_experiences.build(exp_params)
 
-  	if @experience.save 
-      implement_authorization_policy_if_applicable @experience
-      on_success "added qualification successfully", new_job_description_requirement_url(@jd) if params[:commit] == "Save and Next"
-      on_success "added qualification successfully", [@jd.company, @jd] if params[:commit] == "Save"
-  	else
-      on_failure "oops! something went wrong", :new
-  	end
-
+    if params[:commit] == "proceed later"
+      if @experience.experience.blank? && @experience.years.blank?
+        flash[:alert] = "no required experience was saved."
+        redirect_to [@jd.company, @jd]
+      else
+        if @experience.save 
+          implement_authorization_policy_if_applicable @experience
+          on_success "your required experience was saved", [@jd.company, @jd]
+        else
+          on_failure "oops! something went wrong", :new
+        end  
+      end
+    elsif params[:commit] == "Save and Next"
+      if @experience.save 
+        implement_authorization_policy_if_applicable @experience
+        on_success "added required experience successfully", new_job_description_requirement_url(@jd) 
+      else
+        on_failure "oops! something went wrong", :new
+      end
+    end
   end
 
   def edit
