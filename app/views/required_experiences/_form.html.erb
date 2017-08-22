@@ -19,6 +19,21 @@
 				<% end %>
 			</div> 
 			<% end %>
+
+			<div class="row">
+			  <div class="col-md-12">
+				<% @c = 0 %>
+			    <% if @jd.required_experiences.any? %>
+			      <% @jd.required_experiences.where(copy: false).each do |required_experience| %>
+				  <% @c += 1 %>	
+				  <div class="row">
+				    <td class="col-md-1"><%= @c %>. <%= required_experience.experience %></td> <td class="col-md-1">in</td> <td class="col-md-4"><%= required_experience.years %> years</td> 
+				  </div>  
+				  <% end %>
+				<% end %>
+			  </div>	
+			</div>
+
 			<div class="row">
 				<div class="col-md-6">
 					<div class="form-group label-floating">
@@ -34,10 +49,9 @@
 				</div>
 			</div>
 			<div class="row">
-			  <%= f.button :submit, "Save and Next", class: "btn btn-primary btn-xs btn-round pull-right" %>	
-			</div>
-			<div class="row">
-			  <%= f.button :submit, "proceed later", class: "btn btn-primary btn-xs btn-round pull-right" %>	
+			  <%= f.button :submit, "proceed later", class: "btn btn-primary btn-xs btn-round pull-right" %>
+			  <%= f.button :submit, "Save and Next", class: "btn btn-primary btn-xs btn-round pull-right" %>
+			  <%= f.button :submit, "Save and Add Another Required Experience", class: "btn btn-primary btn-xs btn-round pull-right" %>			
 			</div>
 			<div class="clearfix"></div>
 			<% end %>

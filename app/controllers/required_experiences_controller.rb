@@ -32,12 +32,24 @@ class RequiredExperiencesController < ApplicationController
         end  
       end
     elsif params[:commit] == "Save and Next"
-      if @experience.save 
-        implement_authorization_policy_if_applicable @experience
-        on_success "added required experience successfully", new_job_description_requirement_url(@jd) 
+       if @experience.experience.blank? && @experience.years.blank?
+        flash[:alert] = "no required experience was saved."
+        redirect_to new_job_description_requirement_url(@jd)
       else
-        on_failure "oops! something went wrong", :new
+        if @experience.save 
+          implement_authorization_policy_if_applicable @experience
+          on_success "added required experience successfully", new_job_description_requirement_url(@jd) 
+        else
+          on_failure "oops! something went wrong", :new
+        end
       end
+    elsif params[:commit] == "Save and Add Another Required Experience"
+      if @experience.save 
+        implement_authorization_policy_if_applicable @experience 
+        on_success "added qualification successfully", new_job_description_required_experience_url(@jd) 
+      else
+        on_failure "oops! you can't add another required experience for the reasons below:", :new
+      end          
     end
   end
 

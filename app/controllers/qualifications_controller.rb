@@ -44,12 +44,12 @@ class QualificationsController < ApplicationController
           on_failure "oops! something went wrong", :new
         end
       end
-    elsif params[:commit] == "Save and Add Another Requirement"
+    elsif params[:commit] == "Save and Add Another Qualification"
       if @qualification.save 
         implement_authorization_policy_if_applicable @qualification
         on_success "added qualification successfully", new_job_description_qualification_url(@jd) 
       else
-        on_failure "oops! something went wrong", :new
+        on_failure "oops! you can't add another required experience for the reasons below:", :new
       end  
     end
   end
