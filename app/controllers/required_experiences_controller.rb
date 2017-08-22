@@ -21,7 +21,8 @@ class RequiredExperiencesController < ApplicationController
 
   	if @experience.save 
       implement_authorization_policy_if_applicable @experience
-      on_success "successufully added an experience", company_job_description_url(@jd.company, @jd) 
+      on_success "added qualification successfully", new_job_description_requirement_url(@jd) if params[:commit] == "Save and Next"
+      on_success "added qualification successfully", [@jd.company, @jd] if params[:commit] == "Save"
   	else
       on_failure "oops! something went wrong", :new
   	end

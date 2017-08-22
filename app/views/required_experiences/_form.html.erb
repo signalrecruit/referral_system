@@ -34,11 +34,15 @@
 				</div>
 			</div>
 			<div class="row">
-			  <%= f.button :submit, "Done", class: "btn btn-primary btn-xs btn-round pull-right" %>
+			  <%= f.button :submit, "Save", class: "btn btn-primary btn-xs btn-round pull-right" %>	
 			</div>
 			<div class="row">
-			  <%= link_to "Back", :back, class: "btn btn-primary btn-xs btn-round pull-right" %>				
-			</div>  
+			  <%= f.button :submit, "Save and Next", class: "btn btn-primary btn-xs btn-round pull-right" %>	
+			</div>
+			
+			<div class="row">
+			  <%= link_to "proceed later", [@jd.company, @jd], class: "btn btn-primary btn-xs btn-round pull-right" %>
+			</div>
 			<div class="clearfix"></div>
 			<% end %>
 		</div>

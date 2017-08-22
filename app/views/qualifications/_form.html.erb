@@ -37,9 +37,12 @@
 				</div>
 			</div>
 
-			<%= f.button :submit, "Submit", class: "btn btn-primary btn-xs btn-round pull-right" %>
-			<div class="clearfix"></div>
-			<%= link_to "proceed later", [@jd.company, @jd], class: "btn btn-primary btn-xs btn-round pull-right" %>
+			<div class="row">
+			  <%= f.button :submit, "Save and Next", class: "btn btn-primary btn-xs btn-round pull-right" %>	
+			</div>
+			<div class="row">
+			  <%= f.button :submit, "proceed later", class: "btn btn-primary btn-xs btn-round pull-right" %>	
+			</div>
 			<% end %>
 		</div>
 	</div>

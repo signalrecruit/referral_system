@@ -19,14 +19,27 @@ class QualificationsController < ApplicationController
 
   def create
   	@qualification = @jd.qualifications.build(qualification_params)
-
-  	if @qualification.save 
-      implement_authorization_policy_if_applicable @qualification
-  	  flash[:success] = "added qualification successfully"
-  	  redirect_to [@jd.company, @jd]
-  	else
-      on_success "oops! something went wrong", :new
-  	end
+    
+    if params[:commit] == "proceed later"
+      if @qualification.certificate.blank? && @qualification.field_of_study.blank?
+        flash[:alert] = "no qualification was saved."
+        redirect_to [@jd.company, @jd]
+      else
+        if @qualification.save 
+          implement_authorization_policy_if_applicable @qualification
+          on_success "your qualification was saved", [@jd.company, @jd]
+        else
+          on_failure "oops! something went wrong", :new
+        end  
+      end
+    elsif params[:commit] == "Save and Next"
+      if @qualification.save 
+        implement_authorization_policy_if_applicable @qualification
+        on_success "added qualification successfully", new_job_description_required_experience_url(@jd) 
+      else
+        on_failure "oops! something went wrong", :new
+      end
+    end
   end
 
   def edit
@@ -58,6 +71,7 @@ class QualificationsController < ApplicationController
   	@qualification.update(update_button: true)
   	redirect_to :back
   end
+
 
   
   private 
