@@ -127,7 +127,7 @@ class MessagesController < ApplicationController
   end
 
   def set_reply_thread(message)
-    @reply_thread = Message.none
+    @reply_thread ||= Message.where(archived: nil) #create an empty active record relation
     Message.where(recipient_id: current_user.id, user_id: message.user_id).each do |msg|
       @reply_thread << msg
     end
@@ -138,7 +138,7 @@ class MessagesController < ApplicationController
   end
 
   def retrieve_all_messages
-    @messages = Message.where(archived: nil) #create an empty active record relation
+    @messages ||= Message.where(archived: nil) #create an empty active record relation
     @messages = Message.where(recipient_id: current_user.id, archived: false).all
     Message.where(user_id: current_user.id, archived: false).each do |msg|
       @messages << msg 
