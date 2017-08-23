@@ -76,10 +76,6 @@
 										<% end %>
 										<% end %>
 									</td>
-									<td><%= link_to job_description_requirements_url(jd), class: "btn btn-primary btn-xs btn-round" do %>
-										<i class="material-icons">visibility</i><%= pluralize(jd.requirements.count, "Requirement") %>
-										<% end %>
-									</td>
 									<td>
 										<% if jd.applicants.any? %>
 										<%= link_to job_description_applicants_url(jd), class: "btn btn-primary btn-xs btn-round" do %>
