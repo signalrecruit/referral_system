@@ -174,7 +174,7 @@ class ApplicationController < ActionController::Base
   end
 
   def on_failure msg, path 
-    flash[:alert] = msg 
+    flash.now[:alert] = msg 
     render path
   end
 

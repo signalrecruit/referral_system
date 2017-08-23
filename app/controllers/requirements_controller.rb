@@ -35,7 +35,7 @@ class RequirementsController < ApplicationController
         implement_authorization_policy_if_applicable @requirement
         on_success "added qualification successfully", [@jd.company, @jd] 
       else
-        on_failure "oops! something went wrong", :new
+        on_failure "oops! something went wrong for the reasons below", :new
       end
     elsif params[:commit] == "Save and Add Another Requirement"
       if @requirement.save 
@@ -43,7 +43,18 @@ class RequirementsController < ApplicationController
         on_success "added compulsory requirement successfully", new_job_description_requirement_url(@jd) 
       else
         on_failure "oops! you can't add another compulsory requirement for the reasons below:", :new
-      end          
+      end   
+    elsif params[:commit] == "done"
+      if @requirement.content.blank?
+        redirect_to [@jd.company, @jd]
+      else
+        if @requirement.save 
+          implement_authorization_policy_if_applicable @requirement 
+          redirect_to [@jd.company, @jd]
+        else
+          on_failure "oops! something went wrong for the reasons below", :new
+        end
+      end         
     end
   end
 
