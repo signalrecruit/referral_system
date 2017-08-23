@@ -21,7 +21,6 @@ class RequirementsController < ApplicationController
 
     if params[:commit] == "proceed later"
       if @requirement.content.blank?
-        flash[:alert] = "no requirement was saved."
         redirect_to [@jd.company, @jd]
       else
         if @requirement.save 
@@ -71,6 +70,7 @@ class RequirementsController < ApplicationController
     @requirement.update(update_button: true)
     redirect_to :back
   end
+
 
 
   private

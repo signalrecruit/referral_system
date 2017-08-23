@@ -49,8 +49,9 @@
 				</div>
 			</div>
 			<div class="row">
+			  <%= link_to "Back", new_job_description_qualification_url(@jd), class: "btn btn-primary btn-xs btn-round" %>
 			  <%= f.button :submit, "proceed later", class: "btn btn-primary btn-xs btn-round pull-right" %>
-			  <%= f.button :submit, "Save and Next", class: "btn btn-primary btn-xs btn-round pull-right" %>
+			  <%= f.button :submit, "Next", class: "btn btn-primary btn-xs btn-round pull-right" %>
 			  <%= f.button :submit, "Save and Add Another Required Experience", class: "btn btn-primary btn-xs btn-round pull-right" %>			
 			</div>
 			<div class="clearfix"></div>

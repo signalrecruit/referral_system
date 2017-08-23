@@ -51,8 +51,9 @@
 
 
 			<div class="row">
+			  <%= link_to "return to JD", [@jd.company, @jd], class: "btn btn-primary btn-xs btn-round" %>
 			  <%= f.button :submit, "proceed later", class: "btn btn-primary btn-xs btn-round pull-right" %>
-			  <%= f.button :submit, "Save and Next", class: "btn btn-primary btn-xs btn-round pull-right" %>
+			  <%= f.button :submit, "Next", class: "btn btn-primary btn-xs btn-round pull-right" %>
 			  <%= f.button :submit, "Save and Add Another Qualification", class: "btn btn-primary btn-xs btn-round pull-right" %>			
 			</div>
 			<% end %>

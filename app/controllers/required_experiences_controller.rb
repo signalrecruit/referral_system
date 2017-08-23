@@ -21,7 +21,6 @@ class RequiredExperiencesController < ApplicationController
 
     if params[:commit] == "proceed later"
       if @experience.experience.blank? && @experience.years.blank?
-        flash[:alert] = "no required experience was saved."
         redirect_to [@jd.company, @jd]
       else
         if @experience.save 
@@ -31,9 +30,8 @@ class RequiredExperiencesController < ApplicationController
           on_failure "oops! something went wrong", :new
         end  
       end
-    elsif params[:commit] == "Save and Next"
+    elsif params[:commit] == "Next"
        if @experience.experience.blank? && @experience.years.blank?
-        flash[:alert] = "no required experience was saved."
         redirect_to new_job_description_requirement_url(@jd)
       else
         if @experience.save 

@@ -32,9 +32,8 @@ class QualificationsController < ApplicationController
           on_failure "oops! something went wrong", :new
         end  
       end
-    elsif params[:commit] == "Save and Next"
+    elsif params[:commit] == "Next"
       if @qualification.certificate.blank? && @qualification.field_of_study.blank?
-        flash[:alert] = "no qualification was saved."
         redirect_to new_job_description_required_experience_url(@jd)
       else
         if @qualification.save 
