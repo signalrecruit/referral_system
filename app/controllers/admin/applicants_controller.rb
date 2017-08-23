@@ -23,18 +23,16 @@ class Admin::ApplicantsController < Admin::ApplicationController
       @applicant.update(update_button: false, update_salary_button: false)   
       @applicant.update_salary
       @applicant.job_description.calculate_jd_actual_worth
-
+      @jd.earning_algorithm
+      @applicant.pay_user_when_applicant_is_hired
+      track_applicant_hiring_status
+      flash[:success] = "you successfully updated this applicant"
       if request.referrer == edit_job_description_applicant_url(@jd, @applicant) || request.referrer == job_description_applicants_url(@jd)
         redirect_to [@jd, @applicant]
       else
         @applicant.not_hired? ? "#{redirect_to new_admin_applicant_comment_url(@applicant)}" : "#{redirect_to :back}"
         @applicant.update_applicant_history @jd
       end
-      @jd.earning_algorithm
-      @applicant.pay_user_when_applicant_is_hired
-      track_applicant_hiring_status
-      flash[:success] = "you successfully updated this applicant"
-      redirect_to :back
     else
       flash.now[:alert] = "oops! something went wrong"
       render :edit

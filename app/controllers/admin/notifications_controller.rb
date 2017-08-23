@@ -15,7 +15,7 @@ class Admin::NotificationsController < Admin::ApplicationController
   	  end
       redirect_to admin_company_url(JobDescription.find(@notification.resource_id).company, tab: "job descriptions") 
     elsif @notification.resource_type == "JobDescription" && (@notification.action == "updated" || @notification.action == "pending update")
-      redirect_to admin_company_url(JobDescription.find(@notification.resource_id).company, tab: "job descriptions")      
+      redirect_to admin_company_job_description_url(JobDescription.find(@notification.resource_id).company, JobDescription.find(@notification.resource_id))      
   	elsif @notification.resource_type == "Applicant" && (@notification.action == "pending update" || @notification.action == "created")
       redirect_to admin_job_description_applicant_url(Applicant.find(@notification.resource_id).job_description, Applicant.find(@notification.resource_id))
   	elsif @notification.resource_type == "User" && @notification.action == "sign up"
