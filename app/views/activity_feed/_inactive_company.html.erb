@@ -1,0 +1,21 @@
+ <tr>
+ 	<% if !activity.trackable.nil? %>
+ 	<td><span class="btn btn-primary btn-xs btn-round">The Agency</span> just made a deal with
+ 		<% if activity.trackable.user != current_user %>
+ 		<span class="dropdown">
+ 			<a href="#" class="dropdown-toggle btn btn-success btn-xs btn-round" data-toggle="dropdown">
+ 				<%= activity.trackable.alias_name %>
+ 			</a>
+ 		</span>
+ 		<% else %>
+ 		<span class="text-primary btn btn-success btn-xs btn-round"><%= activity.trackable.alias_name %>	
+ 		</span>
+ 		<% end %> brought in by <span class="btn btn-primary btn-xs btn-round"><%= activity.trackable.user.username %></span>
+ 	</td>
+ 	<td>
+ 		<button class="btn btn-default btn-sm btn-round">
+ 			<%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %>
+ 		</button>  
+ 	</td>
+ 	<% end %>	
+ </tr>

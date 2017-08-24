@@ -13,444 +13,50 @@
 			    <tbody>
 				<% if @feed.any? %>
 				  <% @feed.each do |activity| %>
-				    <% if activity.action == "create" && activity.trackable_type == "Company" %>   
-					<tr>
-					  <% if !activity.trackable.nil? %>
-					    <td><span class="btn btn-primary btn-xs btn-round">
-					          <%= activity.user.username %>
-					        </span> just brought in 
-					    <% if activity.trackable.user != current_user %>
-						  <span class="dropdown">
-						    <a href="#" class="dropdown-toggle btn btn-success btn-xs btn-round" data-toggle="dropdown">
-							  <%= activity.trackable.alias_name %>
-							</a>
-						  </span>
-						<% else %>
-						  <span class="btn btn-success btn-xs btn-round"><%= activity.trackable.alias_name %>	
-						  </span>
-						<% end %>NOTE: no deal has been made yet!
-						</td>
-						<td>
-						<button class="btn btn-default btn-sm btn-round">
-						  <%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %>	
-						</button>
-						</td>
-					  <% end %>	
-					</tr>
+				    <% if activity.action == "create" && activity.trackable_type == "Company" %>  
+
+					  <%= render "created_company", activity: activity %>
 
 					<% elsif activity.action == "no deal" && activity.trackable_type == "Company" %>    
-					    <tr>
-					  <% if !activity.trackable.nil? %>
-						<td><span class="btn btn-success btn-xs btn-round"><%= activity.user.username %></span> just brought in <span class="text-primary">
-						  <button class="btn btn-default btn-xs btn-round">
-						  	<%= activity.trackable.alias_name %>
-						  </button>
-						  </span> 
-							NOTE: This deal has been cancelled.!
-						</td> 
-						<td>
-						<button class="btn btn-default btn-sm btn-round">  
-						  <%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %>
-						</button>
-						</td> 
-					  <% end %>	
-					   </tr>	
-
+					  
+					    <%= render "no_deal_for_company", activity: activity %>
+					
 					<% elsif activity.action == "inactive" && activity.trackable_type == "Company" %>
-					    <tr>
-					  <% if !activity.trackable.nil? %>
-					    <td><span class="btn btn-primary btn-xs btn-round">The Agency</span> just made a deal with
-						<% if activity.trackable.user != current_user %>
-						  <span class="dropdown">
-						    <a href="#" class="dropdown-toggle btn btn-success btn-xs btn-round" data-toggle="dropdown">
-							  <%= activity.trackable.alias_name %>
-							</a>
-						  </span>
-						<% else %>
-						  <span class="text-primary btn btn-success btn-xs btn-round"><%= activity.trackable.alias_name %>	
-						  </span>
-						<% end %> brought in by <span class="btn btn-primary btn-xs btn-round"><%= activity.trackable.user.username %></span>
-						</td>
-						<td>
-						<button class="btn btn-default btn-sm btn-round">
-						  <%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %>
-						</button>  
-						</td>
-					  <% end %>	
-					    </tr>
+					   
+					  <%= render "inactive_company", activity: activity %>
 
 					<% elsif activity.action == "update" && activity.trackable_type == "Company" %>   
-					    <tr>
-					  <% if !activity.trackable.nil? %>
-					 	<td><span class="btn btn-primary btn-xs btn-round"><%= activity.user.username %></span> just brought in 
-					    <% if activity.trackable.user != current_user %>
-						  <span class="dropdown">
-							<a href="#" class="dropdown-toggle btn btn-success btn-xs btn-round" data-toggle="dropdown">
-							  <%= activity.trackable.alias_name %>
-							</a>
-						  </span>
-						<% else %>
-						  <span class="text-primary btn btn-success btn-xs btn-round"><%= activity.trackable.alias_name %>	
-						  </span>
-						<% end %>NOTE: no deal has been made yet!
-						</td>
-						<td>
-						<button class="btn btn-default btn-sm btn-round">
-						  <%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %>
-						</button>  
-						</td>
-					  <% end %>	
-					    </tr>
+					    
+					    <%= render "updated_company", activity: activity %>
 
 					<% elsif activity.action == "deal" && activity.trackable_type == "Company" %>
-					    <tr>					  
-					  <% if !activity.trackable.nil? %>
-						<td><span class="btn btn-primary btn-xs btn-round">The Agency</span> just made a deal with
-						<% if activity.trackable.user != current_user %>
-						  <span class="dropdown">
-							<a href="#" class="dropdown-toggle btn btn-success btn-xs btn-round" data-toggle="dropdown">
-							  <%= activity.trackable.alias_name %>
-							</a>
-						  </span>
-						<% else %>
-						  <span class="text-primary btn btn-success btn-xs btn-round"><%= activity.trackable.alias_name %>	
-						  </span>
-						<% end %> brought in by <span class="btn btn-primary btn-xs btn-round"><%= activity.trackable.user.username %></span>
-						</td>
-						<td>
-						<button class="btn btn-default btn-sm btn-round"> 
-						  <%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %>
-			            </button>   	
-						</td>
-					  <% end %>	
-					    </tr>
+					    
+					    <%= render "deal_for_company", activity: activity %>
 
 					<% elsif activity.action == "added an applicant" && activity.trackable_type == "Applicant" %>
-					  <% if !activity.trackable.nil? %>
-					    <tr>
-						<td><span class="btn btn-primary btn-xs btn-round"><%= activity.user.username %></span> just brought in 
-						
-						<% if activity.trackable.company.user != current_user %>
-						  <span class="dropdown">
-							<% if activity.trackable.company.deal? %>
-							  <% @applicant = Applicant.find_by name: activity.trackable.name %>
-							  <% @jd = (Applicant.find_by name: activity.trackable.name).job_description %>
-
-							  <% if !@jd.nil? %>
-							  <%= link_to job_description_applicant_url(@jd, @applicant) do %>
-								<button class="dropdown-toggle btn btn-warning btn-xs btn-round">
-								  <%= activity.trackable.name %>
-								</button>
-							  <% end %>
-							  <% end %>  
-							<% else %>
-							  <%= link_to job_description_applicant_url(@jd, @applicant) do %>
-								<button class="dropdown-toggle btn btn-default btn-xs btn-round"> 	
-								  <%= activity.trackable.name %>
-								</button>
-							  <% end %>  
-							<% end %>  
-							</span> to 
-							
-							<% if activity.trackable.company.deal? %>
-							  <span class="btn btn-success btn-round btn-xs">
-							<% else %>
-							   <span class="btn btn-default btn-round btn-xs"> 	
-							<% end %>  	
-							  <%= activity.trackable.company.alias_name %></span> for a role as:
-							
-							<span class="dropdown">
-							<% if activity.trackable.company.deal? %>
-							  <a href="#" class="dropdown-toggle btn btn-info btn-xs btn-round" data-toggle="dropdown">
-							<% else %>
-						      <a href="#" class="dropdown-toggle btn btn-default btn-xs btn-round" data-toggle="dropdown"> 	
-							<% end %>  
-							  <%= activity.trackable.job_description.try(:job_title) %>
-							  </a>
-							  <ul class="dropdown-menu">
-							    <li>
-								  <% if activity.trackable.job_description.role_expired? %>
-								    <i class="material-icons">warning</i> This role has expired!
-							      <% else %>
-							        <% if activity.trackable.job_description.all_vacancies_filled? %>
-							          <p>No more vacancies</p> 
-									<% else %>
-									  <%= link_to new_job_description_applicant_url(activity.trackable.job_description) do %>
-									     <i class="material-icons">add</i>applicant
-									  <% end %>
-									<% end %>
-							      <% end %>  
-								</li>
-							  </ul>
-							</span>
-						<% else %>
-						  <% if activity.trackable.company.deal? %>
-						    <span class="btn btn-warning btn-round btn-xs">
-						   <% else %>
-							<span class="btn btn-default btn-round btn-xs"> 	
-						   <% end %>  	
-						     <%= activity.trackable.name %>	
-						    </span> to 
-						  
-						   <% if activity.trackable.company.deal? %>
-							  <span class="btn btn-success btn-round btn-xs">
-							<% else %>
-							  <span class="btn btn-default btn-round btn-xs"> 	
-							<% end %>  	
-							<%= activity.trackable.company.alias_name %></span>  for a role as: 
-						    
-						    <% if activity.trackable.company.deal? %>
-							  <span class="btn btn-info btn-round btn-xs">
-							<% else %>
-							  <span class="btn btn-default btn-round btn-xs"> 	
-							<% end %>  	
-							  <%= activity.trackable.job_description.try(:job_title) %>
-						      </span>
-						<% end %>	
-						</td>
-						<td>
-					    <button class="btn btn-default btn-sm btn-round">		
-						  <%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %>
-						</button>  
-						</td>
-					    <% end %>	
-					</tr>	
+					 
+					  <%= render "added_applicant", activity: activity %>
 
 					<% elsif activity.action == "update" && activity.trackable_type == "Applicant" %>
-					    <tr>
-					    <% if !activity.trackable.nil? %>
-						<td><span class="btn btn-primary btn-xs btn-round"><%= activity.user.username %></span> just brought in 
-						<% if activity.trackable.company.user != current_user %>
-							<span class="dropdown">
-								<a href="#" class="dropdown-toggle btn btn-warning btn-xs btn-round" data-toggle="dropdown">
-									<%= activity.trackable.name %>
-								</a>
-							</span> to <span class="btn btn-success btn-round btn-xs"><%= activity.trackable.company.alias_name %></span> for a role as:
-							<span class="dropdown">
-								<a href="#" class="dropdown-toggle btn btn-default btn-xs btn-round" data-toggle="dropdown">
-									<%= activity.trackable.job_description.job_title %>
-								</a>
-								<ul class="dropdown-menu">
-									<li>
-									  <% if activity.trackable.job_description.role_expired? %>
-									    <i class="material-icons">warning</i> This role has expired!
-									  <% else %>
-									    <% if activity.trackable.job_description.all_vacancies_filled? %>
-									      <p>No more vacancies</p>
-									    <% else %>  
-									      <%= link_to new_job_description_applicant_url(activity.trackable.job_description) do %>
-									        <i class="material-icons">add</i>applicant
-									      <% end %>
-									    <% end %>  
-									  <% end %>  									  									
-									</li>
-								</ul>
-							</span>
-						<% else %>
-						  <span class="text-primary btn btn-warning btn-xs btn-round"><%= activity.trackable.name %>	
-						  </span> to <span class="btn btn-success btn-round btn-xs"><%= activity.trackable.company.alias_name %></span>  for a role as: 
-						  <span class="btn btn-default btn-xs btn-round">
-						    <%= activity.trackable.job_description.job_title %>
-						  </span>
-						<% end %>	
-						</td>
-						<td>
-						<button class="btn btn-default btn-sm btn-round">	
-						  <%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %>
-						</button>  
-						</td>
-					  <% end %>	
-					</tr>	
+					    	
+					  <%= render "updated_applicant", activity: activity %>	
 
 					<% elsif (activity.action == "not hired" || activity.action == "hired") && (activity.trackable_type == "Applicant") %>
-					<% if !activity.trackable.nil? %>
-				     <tr>
-						<td>
-							<span class="dropdown">
-								<% if activity.trackable.company.deal? %>
-								  <a href="#" class="dropdown-toggle btn btn-warning btn-xs btn-round" data-toggle="dropdown">
-								<% else %>
-								   <a href="#" class="dropdown-toggle btn btn-default btn-xs btn-round" data-toggle="dropdown"> 	
-								<% end %>  
-
-									<%= activity.trackable.name %>
-								</a>
-							</span> 
-							<% if activity.action == "hired" %> 
-							just got
-							<button class="btn btn-success btn-xs btn-round">
-							<% elsif activity.action == "not hired" %>
-							was
-							<button class="btn btn-danger btn-xs btn-round">
-							<% end %>	
-							  <%= activity.action %>
-							</button> 
-							   for a role as: 
-							<% if activity.trackable.company.deal? %>
-							<span class="dropdown">
-							  <span class="dropdown-toggle btn btn-info btn-xs btn-round" data-toggle="dropdown">
-							<% else %>  
-							  	<span class="dropdown-toggle btn btn-default btn-xs btn-round" data-toggle="dropdown">
-							<% end %>  	
-							  <%= activity.trackable.job_description.job_title %>
-							  </span>
-
-							  <% if activity.trackable.company.user != current_user %>
-							   <ul class="dropdown-menu">
-							      <li>
-							    <% if activity.trackable.job_description.role_expired? %>
-							      <i class="material-icons">warning</i> This role has expired!
-							    <% else %>
-							      <% if activity.trackable.job_description.all_vacancies_filled? %>
-							        <p>No more vacancies</p>
-							      <% else %>  
-							        <%= link_to new_job_description_applicant_url(activity.trackable.job_description) do %>
-							          <i class="material-icons">add</i>applicant
-							        <% end %>
-							      <% end %>  
-							    <% end %>
-							      </li>	
-							    </ul>  
-							  <% else %>
-							  <% end %>
-							</span>						 						    
-						</td>
-						<td>
-					    <button class="btn btn-default btn-sm btn-round">		
-						  <%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %>
-						</button>  
-						</td>
-					  <% end %>	
-					</tr>	
+					
+					  <%= render "hired_vs_not_hired_applicant", activity: activity %>	
 
 					<% elsif activity.action == "create" && (activity.trackable_type == "JobDescription" && activity.permitted?) %>
-					    <tr>
-					  <% if !activity.trackable.nil? %>
-					    <td><span class="btn btn-success btn-xs btn-round"><%= activity.trackable.company.alias_name %></span> is looking for <%= pluralize(activity.trackable.vacancies, "applicant") %> to fill the role of
-					    <% if activity.trackable.company.user != current_user %>
-					      <span class="dropdown">
-								<a href="#" class="dropdown-toggle btn btn-info btn-xs btn-round" data-toggle="dropdown">
-									<%= activity.trackable.job_title %>
-								</a>
-								<ul class="dropdown-menu">
-									<li>
-									<% if activity.trackable.applicants.any? %>
-
-									<% if activity.trackable.role_expired? %>
-									  <i class="material-icons">warning</i> This role has expired!
-									<% else %>
-									  <% if activity.trackable.all_vacancies_filled? %>
-									    <p>No more vacancies</p>
-									  <% else %>  
-									    <%= link_to new_job_description_applicant_url(activity.trackable) do %>
-									      <i class="material-icons">add</i>applicant
-									    <% end %>
-									  <% end %> 
-									<% end %>  
-
-								
-
-									<% elsif activity.trackable.applicants.empty? %> 
-
-									<% if activity.role_expired? %>
-									  <i class="material-icons">warning</i>this role has expired!
-									  <% else %>
-									    <%= link_to new_job_description_applicant_url(activity.trackable) do %>
-									      <i class="material-icons">add</i>applicant
-									    <% end %>
-									  <% end %>  
-									<% end %>	
-									</li>
-								</ul>
-							</span>
-						<% else %>
-						  <span class="btn btn-info btn-xs btn-round"><%= activity.trackable.job_title %></span>
-					    <% end %>
-					    </td>
-					    <td>
-					    <button class="btn btn-default btn-sm btn-round"> 	
-					      <%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %>
-					    </button>  
-					    </td>
-					  <% end %>	
-					</tr>
+					    
+					  <%= render "created_job_description", activity: activity %>  
 
 					<% elsif activity.action == "inactive" && activity.trackable_type == "JobDescription" %>
-					  <tr>
-					  <% if !activity.trackable.nil? %>
-					    <td>
-					    <% if activity.action = "inactive" %> 	
-					      <span class="btn btn-default btn-xs btn-round">
-					    <% else %>
-					      <span class="btn btn-success btn-xs btn-round">  
-					    <% end %>  	
-					    <%= activity.trackable.company.alias_name %></span> is looking for <%= pluralize(activity.trackable.vacancies, "applicant") %> to fill the role of
-					    <% if activity.trackable.company.user != current_user %>
-					      <span class="dropdown">
-								<a href="#" class="dropdown-toggle btn btn-default btn-xs btn-round" data-toggle="dropdown">
-									<%= activity.trackable.job_title %>
-								</a>
-							</span>
-						<% else %>
-						  <span class="btn btn-default btn-xs btn-round"><%= activity.trackable.job_title %></span>
-					    <% end %>
-					    </td>
-					    <td>
-					    <button class="btn btn-default btn-sm btn-round">	
-					      <%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %>
-					    </button>  
-					    </td>
-					  <% end %>	
-					</tr>	
+					  
+					  <%= render "inactive_job_description", activity: activity %>
 
 					<% elsif activity.action == "update" && activity.trackable_type == "JobDescription" %>
-					  <tr>
-					  <% if !activity.trackable.nil? %>
-					    <td><span class="btn btn-success btn-xs btn-round"><%= activity.trackable.company.alias_name %></span> is looking for <%= pluralize(activity.trackable.vacancies, "applicant") %> to fill the role of
-					    <% if activity.trackable.company.user != current_user %>
-					      <span class="dropdown">
-								<a href="#" class="dropdown-toggle btn btn-default btn-xs btn-round" data-toggle="dropdown">
-									<%= activity.trackable.job_title %>
-								</a>
-								<ul class="dropdown-menu">
-									<li>
-									<% if activity.trackable.applicants.any? %>
+					  
+					  <%= render "updated_job_description", activity: activity %>
 
-									  <% if activity.role_expired? %>
-									    <i class="material-icons">warning</i> This role has expired!
-									  <% else %>
-									    <% if activity.trackable.all_vacancies_filled? %>
-	 								      <p>No more vacancies</p>
-	 								    <% else %>  
-	 								      <%= link_to new_job_description_applicant_url(activity.trackable) do %>
-									        <i class="material-icons">add</i>applicant
-									      <% end %>
-									    <% end %>  
-									<% end %>  
-									
-									<% elsif activity.trackable.applicants.empty? %> 
-									  <% if activity.role_expired? %>
-									    <i class="material-icons">warning</i> This role has expired!
-									  <% else %>									
-									    <%= link_to new_job_description_applicant_url(activity.trackable) do %>
-									      <i class="material-icons">add</i>applicant
-									    <% end %>
-									  <% end %>  
-									<% end %>	
-									</li>
-								</ul>
-							</span>
-						<% else %>
-						  <span class="btn btn-default btn-xs btn-round"><%= activity.trackable.job_title %></span>
-					    <% end %>
-					    </td>
-					    <td>
-					    <button class="btn btn-default btn-sm btn-round">	
-					      <%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %>
-					    </button>  
-					    </td>
-					  <% end %>	
-					</tr>
 					<% end %>	
 					<% end %>
 			    <% else %>

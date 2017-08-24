@@ -1,0 +1,59 @@
+				     <tr>
+				     	<% if !activity.trackable.nil? %>
+				     	<td>
+				     		<span class="dropdown">
+				     			<% if activity.trackable.company.deal? %>
+				     			<a href="#" class="dropdown-toggle btn btn-warning btn-xs btn-round" data-toggle="dropdown">
+				     				<% else %>
+				     				<a href="#" class="dropdown-toggle btn btn-default btn-xs btn-round" data-toggle="dropdown"> 	
+				     					<% end %>  
+
+				     					<%= activity.trackable.name %>
+				     				</a>
+				     			</span> 
+				     			<% if activity.action == "hired" %> 
+				     			just got
+				     			<button class="btn btn-success btn-xs btn-round">
+				     				<% elsif activity.action == "not hired" %>
+				     				was
+				     				<button class="btn btn-danger btn-xs btn-round">
+				     					<% end %>	
+				     					<%= activity.action %>
+				     				</button> 
+				     				for a role as: 
+				     				<% if activity.trackable.company.deal? %>
+				     				<span class="dropdown">
+				     					<span class="dropdown-toggle btn btn-info btn-xs btn-round" data-toggle="dropdown">
+				     						<% else %>  
+				     						<span class="dropdown-toggle btn btn-default btn-xs btn-round" data-toggle="dropdown">
+				     							<% end %>  	
+				     							<%= activity.trackable.job_description.job_title %>
+				     						</span>
+
+				     						<% if activity.trackable.company.user != current_user %>
+				     						<ul class="dropdown-menu">
+				     							<li>
+				     								<% if activity.trackable.job_description.role_expired? %>
+				     								<i class="material-icons">warning</i> This role has expired!
+				     								<% else %>
+				     								<% if activity.trackable.job_description.all_vacancies_filled? %>
+				     								<p>No more vacancies</p>
+				     								<% else %>  
+				     								<%= link_to new_job_description_applicant_url(activity.trackable.job_description) do %>
+				     								<i class="material-icons">add</i>applicant
+				     								<% end %>
+				     								<% end %>  
+				     								<% end %>
+				     							</li>	
+				     						</ul>  
+				     						<% else %>
+				     						<% end %>
+				     					</span>						 						    
+				     				</td>
+				     				<td>
+				     					<button class="btn btn-default btn-sm btn-round">		
+				     						<%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %>
+				     					</button>  
+				     				</td>
+				     				<% end %>	
+				     			</tr>	

@@ -1,0 +1,89 @@
+  <tr>
+  	<% if !activity.trackable.nil? %>
+  	<td><span class="btn btn-primary btn-xs btn-round"><%= activity.user.username %></span> just brought in 
+  		
+  		<% if activity.trackable.company.user != current_user %>
+  		<span class="dropdown">
+  			<% if activity.trackable.company.deal? %>
+  			<% @applicant = Applicant.find_by name: activity.trackable.name %>
+  			<% @jd = (Applicant.find_by name: activity.trackable.name).job_description %>
+
+  			<% if !@jd.nil? %>
+  			<%= link_to job_description_applicant_url(@jd, @applicant) do %>
+  			<button class="dropdown-toggle btn btn-warning btn-xs btn-round">
+  				<%= activity.trackable.name %>
+  			</button>
+  			<% end %>
+  			<% end %>  
+  			<% else %>
+  			<%= link_to job_description_applicant_url(@jd, @applicant) do %>
+  			<button class="dropdown-toggle btn btn-default btn-xs btn-round"> 	
+  				<%= activity.trackable.name %>
+  			</button>
+  			<% end %>  
+  			<% end %>  
+  		</span> to 
+  		
+  		<% if activity.trackable.company.deal? %>
+  		<span class="btn btn-success btn-round btn-xs">
+  			<% else %>
+  			<span class="btn btn-default btn-round btn-xs"> 	
+  				<% end %>  	
+  				<%= activity.trackable.company.alias_name %></span> for a role as:
+  				
+  				<span class="dropdown">
+  					<% if activity.trackable.company.deal? %>
+  					<a href="#" class="dropdown-toggle btn btn-info btn-xs btn-round" data-toggle="dropdown">
+  						<% else %>
+  						<a href="#" class="dropdown-toggle btn btn-default btn-xs btn-round" data-toggle="dropdown"> 	
+  							<% end %>  
+  							<%= activity.trackable.job_description.try(:job_title) %>
+  						</a>
+  						<ul class="dropdown-menu">
+  							<li>
+  								<% if activity.trackable.job_description.role_expired? %>
+  								<i class="material-icons">warning</i> This role has expired!
+  								<% else %>
+  								<% if activity.trackable.job_description.all_vacancies_filled? %>
+  								<p>No more vacancies</p> 
+  								<% else %>
+  								<%= link_to new_job_description_applicant_url(activity.trackable.job_description) do %>
+  								<i class="material-icons">add</i>applicant
+  								<% end %>
+  								<% end %>
+  								<% end %>  
+  							</li>
+  						</ul>
+  					</span>
+  					<% else %>
+  					<% if activity.trackable.company.deal? %>
+  					<span class="btn btn-warning btn-round btn-xs">
+  						<% else %>
+  						<span class="btn btn-default btn-round btn-xs"> 	
+  							<% end %>  	
+  							<%= activity.trackable.name %>	
+  						</span> to 
+  						
+  						<% if activity.trackable.company.deal? %>
+  						<span class="btn btn-success btn-round btn-xs">
+  							<% else %>
+  							<span class="btn btn-default btn-round btn-xs"> 	
+  								<% end %>  	
+  								<%= activity.trackable.company.alias_name %></span>  for a role as: 
+  								
+  								<% if activity.trackable.company.deal? %>
+  								<span class="btn btn-info btn-round btn-xs">
+  									<% else %>
+  									<span class="btn btn-default btn-round btn-xs"> 	
+  										<% end %>  	
+  										<%= activity.trackable.job_description.try(:job_title) %>
+  									</span>
+  									<% end %>	
+  								</td>
+  								<td>
+  									<button class="btn btn-default btn-sm btn-round">		
+  										<%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %>
+  									</button>  
+  								</td>
+  								<% end %>	
+  							</tr>	

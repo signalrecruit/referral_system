@@ -1,0 +1,16 @@
+<tr>
+	<% if !activity.trackable.nil? %>
+	<td><span class="btn btn-success btn-xs btn-round"><%= activity.user.username %></span> just brought in <span class="text-primary">
+		<button class="btn btn-default btn-xs btn-round">
+			<%= activity.trackable.alias_name %>
+		</button>
+	</span> 
+	NOTE: This deal has been cancelled.!
+</td> 
+<td>
+	<button class="btn btn-default btn-sm btn-round">  
+		<%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %>
+	</button>
+</td> 
+<% end %>	
+</tr>	
