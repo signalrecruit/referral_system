@@ -123,109 +123,45 @@
 									  <%= render "created_applicant", notification: notification %>
 									    
 									<% elsif notification.resource_type == "Applicant" && notification.action == "shortlisted" %>
-									  <%= link_to mark_notification_as_read_url(notification) do %>
-									    <% if notification.read_at.nil? %>
-									    <li style="background: #DCDCDC;;">
-									    <% else %>
-									    <li>
-									    <% end %>
-									    <span style="font-weight: bold;"><%= Applicant.find(notification.resource_id).name %></span> has been <span style="font-weight: bold;">shortlisted</span>
-									    </li>  
-									  <% end %>   
+									  
+									  <%= render "shortlisted_applicant", notification: notification %>
+
 									<% elsif notification.resource_type == "Applicant" && notification.action == "interviewing" %>
-									  <%= link_to mark_notification_as_read_url(notification) do %>
-									    <% if notification.read_at.nil? %>
-									    <li style="background: #DCDCDC;;">
-									    <% else %>
-									    <li>
-									    <% end %>
-									    <span style="font-weight: bold;"><%= Applicant.find(notification.resource_id).name %></span> is <span style="font-weight: bold;">interviewing</span>
-									    </li>  
-									  <% end %>
+									  
+									  <%= render "interviewing_applicant", notification: notification %>
+
 									<% elsif notification.resource_type == "Applicant" && notification.action == "testing" %>
-									  <%= link_to mark_notification_as_read_url(notification) do %>
-									    <% if notification.read_at.nil? %>
-									    <li style="background: #DCDCDC;;">
-									    <% else %>
-									    <li>
-									    <% end %>
-									    <span style="font-weight: bold;"><%= Applicant.find(notification.resource_id).name %></span> is being <span style="font-weight: bold;">examined</span>
-									    </li>  
-									  <% end %>      
+									  
+									  <%= render "testing_applicant", notification: notification %>
+
 									<% elsif notification.resource_type == "Applicant" && notification.action == "salary negotiation" %>
-									  <%= link_to mark_notification_as_read_url(notification) do %>
-									    <% if notification.read_at.nil? %>
-									    <li style="background: #DCDCDC;;">
-									    <% else %>
-									    <li>
-									    <% end %>
-									    <span style="font-weight: bold;"><%= Applicant.find(notification.resource_id).name %></span> is <span style="font-weight: bold;">negotiating salary</span>
-									    </li>  
-									  <% end %> 
+									  
+									  <%= render "negotiating_applicant", notification: notification %>
+
 									<% elsif notification.resource_type == "Applicant" && notification.action == "not hired" %>
-									  <%= link_to mark_notification_as_read_url(notification) do %>
-									    <% if notification.read_at.nil? %>
-									    <li style="background: #DCDCDC;;">
-									    <% else %>
-									    <li>
-									    <% end %>
-									    <span style="font-weight: bold;"><%= Applicant.find(notification.resource_id).name %></span> was <span style="font-weight: bold;">not hired</span>
-									    </li>  
-									  <% end %>       
+									  
+									  <%= render "applicant_not_hired", notification: notification %>
+
 									<% elsif notification.resource_type == "Applicant" && notification.action == "hired" %>
-									  <%= link_to mark_notification_as_read_url(notification) do %>
-									    <% if notification.read_at.nil? %>
-									    <li style="background: #DCDCDC;;">
-									    <% else %>
-									    <li>
-									    <% end %>
-									    <% if Applicant.find(notification.resource_id).user == current_user %>  
-									      <span style="font-weight: bold;"><%= Applicant.find(notification.resource_id).name %></span> has been <span style="font-weight: bold;">hired</span>
-									    <% else %>
-									      <span style="font-weight: bold;"><%= Applicant.find(notification.resource_id).name %></span> who applied to your role(<span style="font-weight: bold;"><%= Applicant.find(notification.resource_id).job_description.job_title %></span>/<span style="font-weight: bold;"><%= Applicant.find(notification.resource_id).company.company_name %></span>) has been <span style="font-weight: bold;">hired</span>. 
-									    <% end %>  
-									    </li>  
-									  <% end %>   
+									  
+									  <%= render "hired_applicant", notification: notification %>
+									
 									<% elsif notification.resource_type == "Qualification" && notification.action == "authorize" %>
-									  <%= link_to mark_notification_as_read_url(notification) do %>
-									    <% if notification.read_at.nil? %>
-									    <li style="background: #DCDCDC;;">
-									    <% else %>
-									    <li>
-									    <% end %> 
-									    <span style="font-weight: bold;">The Agency</span> just approved your updates to your job description: <span style="font-weight: bold;">(<%= JobDescription.find(Qualification.find(notification.resource_id).job_description_id).job_title %>/<%= JobDescription.find(Qualification.find(notification.resource_id).job_description_id).company.company_name %>)</span>
-									    </li>
-									  <% end %>  
+									 
+									 <%= render "authorize_qualification", notification: notification %>
+
 									<% elsif notification.resource_type == "RequiredExperience" && notification.action == "authorize" %>
-									  <%= link_to mark_notification_as_read_url(notification) do %>
-									    <% if notification.read_at.nil? %>
-									    <li style="background: #DCDCDC;;">
-									    <% else %>
-									    <li>
-									    <% end %> 
-									    <span style="font-weight: bold;">The Agency</span> just approved your updates to your job description: <span style="font-weight: bold;">(<%= JobDescription.find(RequiredExperience.find(notification.resource_id).job_description_id).job_title %>/<%= JobDescription.find(RequiredExperience.find(notification.resource_id).job_description_id).company.company_name %>)</span>
-									    </li>
-									  <% end %>     
+									  
+									  <%= render "authorize_req_exp", notification: notification %>
+
 									<% elsif notification.resource_type == "Requirement" && notification.action == "authorize" %>
-									  <%= link_to mark_notification_as_read_url(notification) do %>
-									    <% if notification.read_at.nil? %>
-									    <li style="background: #DCDCDC;;">
-									    <% else %>
-									    <li>
-									    <% end %>  
-									    <span style="font-weight: bold;">The Agency</span> just approved your updates to your job description: <span style="font-weight: bold;">(<%= JobDescription.find(Requirement.find(notification.resource_id).job_description_id).job_title %>/(<%= JobDescription.find(Requirement.find(notification.resource_id).job_description_id).company.company_name %>)</span>
-									    </li> 
-									  <% end %> 
+									  
+									  <%= render "authorize_requirement", notification: notification %>
+
 									<% elsif notification.resource_type == "Applicant" && notification.action == "authorize" %>
-									  <%= link_to mark_notification_as_read_url(notification) do %>
-									    <% if notification.read_at.nil? %>
-									    <li style="background: #DCDCDC;;">
-									    <% else %>
-									    <li>
-									    <% end %>  
-									    <span style="font-weight: bold;">The Agency</span> just approved your updates to your applicant: <span style="font-weight: bold;"><%= Applicant.find(notification.resource_id).name %>/<%= JobDescription.find(Applicant.find(notification.resource_id).job_description_id).job_title %>)</span>
-									    </li>  
-									  <% end %>                                     
+									  
+									  <%= render "authorize_applicant", notification: notification %>
+
 								    <% end %> 
 								    <% end %>
 								  <% end %>	

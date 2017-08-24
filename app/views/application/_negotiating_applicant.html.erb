@@ -1,0 +1,9 @@
+<%= link_to mark_notification_as_read_url(notification) do %>
+  <% if notification.read_at.nil? %>
+  <li style="background: #DCDCDC;;">
+  <% else %>
+  <li>
+  <% end %>
+	<span style="font-weight: bold;"><%= Applicant.find(notification.resource_id).name %></span> is <span style="font-weight: bold;">negotiating salary</span>
+  </li>  
+<% end %> 
