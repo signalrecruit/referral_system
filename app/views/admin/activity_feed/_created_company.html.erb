@@ -1,0 +1,12 @@
+<tr>
+	<% if !activity.trackable.nil? %>
+	<td><span class="btn btn-primary btn-xs btn-round"><%= activity.user.username %></span> just brought in <span class="text-primary"><%= link_to activity.trackable.company_name, admin_company_url(activity.trackable ,tab: "company"), class: "btn btn-success btn-xs btn-round" %></span> 
+		NOTE: no deal has been made yet!
+	</td> 
+	<td>
+		<button class="btn btn-default btn-xs btn-round">	
+			<%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %>
+		</button>  
+	</td> 
+	<% end %>	
+</tr>

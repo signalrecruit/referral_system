@@ -1,0 +1,20 @@
+<tr>
+	<% if !activity.trackable.nil? %>
+	<td><span class="btn btn-success btn-xs btn-round"><%= activity.trackable.company.company_name %></span> is looking for <%= pluralize(activity.trackable.vacancies, "applicant") %> to fill the role of
+		<% if activity.trackable.company.user != current_user %>
+		<span class="dropdown">
+			<a href="#" class="dropdown-toggle btn btn-info btn-xs btn-round" data-toggle="dropdown">
+				<%= activity.trackable.job_title %>
+			</a>
+		</span>
+		<% else %>
+		<span class="btn btn-info btn-xs btn-round"><%= activity.trackable.job_title %></span>
+		<% end %>
+	</td>
+	<td>
+		<button class="btn btn-default btn-sm btn-round">	
+			<%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %>
+		</button>  
+	</td>
+	<% end %>	
+</tr>
