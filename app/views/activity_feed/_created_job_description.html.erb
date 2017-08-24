@@ -1,0 +1,50 @@
+<tr>
+	<% if !activity.trackable.nil? %>
+	<td><span class="btn btn-success btn-xs btn-round"><%= activity.trackable.company.alias_name %></span> is looking for <%= pluralize(activity.trackable.vacancies, "applicant") %> to fill the role of
+		<% if activity.trackable.company.user != current_user %>
+		<span class="dropdown">
+			<a href="#" class="dropdown-toggle btn btn-info btn-xs btn-round" data-toggle="dropdown">
+				<%= activity.trackable.job_title %>
+			</a>
+			<ul class="dropdown-menu">
+				<li>
+					<% if activity.trackable.applicants.any? %>
+
+					<% if activity.trackable.role_expired? %>
+					<i class="material-icons">warning</i> This role has expired!
+					<% else %>
+					<% if activity.trackable.all_vacancies_filled? %>
+					<p>No more vacancies</p>
+					<% else %>  
+					<%= link_to new_job_description_applicant_url(activity.trackable) do %>
+					<i class="material-icons">add</i>applicant
+					<% end %>
+					<% end %> 
+					<% end %>  
+
+					
+
+					<% elsif activity.trackable.applicants.empty? %> 
+
+					<% if activity.role_expired? %>
+					<i class="material-icons">warning</i>this role has expired!
+					<% else %>
+					<%= link_to new_job_description_applicant_url(activity.trackable) do %>
+					<i class="material-icons">add</i>applicant
+					<% end %>
+					<% end %>  
+					<% end %>	
+				</li>
+			</ul>
+		</span>
+		<% else %>
+		<span class="btn btn-info btn-xs btn-round"><%= activity.trackable.job_title %></span>
+		<% end %>
+	</td>
+	<td>
+		<button class="btn btn-default btn-sm btn-round"> 	
+			<%= activity.updated_at.strftime("%B %d, %Y") %> at <%= activity.updated_at.strftime("%r") %>
+		</button>  
+	</td>
+	<% end %>	
+</tr>
