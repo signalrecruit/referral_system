@@ -1,0 +1,8 @@
+ <%= link_to mark_notification_as_read_url(notification) do %>
+   <% if notification.read_at.nil? %>
+   <li style="background: #DCDCDC;;">
+   <% else %>
+   <li>
+   <% end %>
+ 	<span style="font-weight: bold;"><%= notification.actor_username %></span> just brought in <span style="font-weight: bold;"><%= Applicant.find(notification.resource_id).name %></span> for role as <span style="font-weight: bold;"><%= Applicant.find(notification.resource_id).job_description.job_title %>/<span style="font-weight: bold;"><%= Applicant.find(notification.resource_id).company.company_name %></span></span> </li>    
+<% end %>  

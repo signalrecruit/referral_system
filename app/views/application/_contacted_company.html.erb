@@ -1,0 +1,9 @@
+<%= link_to mark_notification_as_read_url(notification) do %>
+  <% if notification.read_at.nil? %>
+  <li style="background: #DCDCDC;;">
+  <% else %>
+  <li>
+  <% end %>	
+	<span style="font-weight: bold;">The Agency</span> just <span style="font-weight: bold;">contacted</span> your company<span style="font-weight: bold;">(<%= Company.find(notification.resource_id).company_name %>)</span>
+  </li>
+<% end %>
