@@ -168,69 +168,33 @@
 								  <% @all_notifications.last(10).each do |notification| %>
 								  <% if_resource_exists?(notification) do %>
 									<% if notification.resource_type == "Company" && notification.action == "created" %> 
-									  <%= link_to admin_mark_notification_as_read_url(notification) do %>
-									    <% if notification.read_at.nil? %>
-									    <li style="background: #DCDCDC;">
-									    <% else %>
-									    <li>
-									    <% end %>
-									    <span style="font-weight: bold;"><%= notification.actor_username %></span> just brought in a company(<span style="font-weight: bold;"><%= Company.find(notification.resource_id).company_name %></span>)</li>
-									  <% end %>  
+									  
+									  <%= render "admin/notification_partials/created_company", notification: notification %>
+
 									<% elsif notification.resource_type == "Company" && notification.action == "updated" %>
-									   <%= link_to admin_mark_notification_as_read_url(notification) do %> 
-									    <% if notification.read_at.nil? %>
-									    <li style="background: #DCDCDC;">
-									    <% else %>
-									    <li>
-									    <% end %>
-									    <span style="font-weight: bold;"><%= notification.actor_username %></span> tried updating company(<span style="font-weight: bold;"><%= Company.find(notification.resource_id).company_name %></span>)</li>
-									   <% end %>
+									  
+									  <%= render "admin/notification_partials/updated_company", notification: notification %>
+
 									<% elsif notification.resource_type == "JobDescription" && (notification.action == "posted" || notification.action == "updated") %>  
-									  <%= link_to admin_mark_notification_as_read_url(notification) do %>
-									    <% if notification.read_at.nil? %>
-									    <li style="background: #DCDCDC;">
-									    <% else %>
-									    <li>
-									    <% end %>
-									    <span style="font-weight: bold;"><%= notification.actor_username %></span> just <%= notification.action %>  a role: <span style="font-weight: bold;"><%= JobDescription.find(notification.resource_id).job_title %></span> from <span style="font-weight: bold;"><%= JobDescription.find(notification.resource_id).company.company_name %></span> </li>    
-									  <% end %>
+									  
+									  <%= render "admin/notification_partials/posted_vs_updated_job_description.html.erb", notification: notification %>
+
 									<% elsif notification.resource_type == "JobDescription" && notification.action == "pending update" %>
-									  <%= link_to admin_mark_notification_as_read_url(notification) do %>
-									    <% if notification.read_at.nil? %>
-									    <li style="background: #DCDCDC;">
-									    <% else %>
-									    <li>
-									    <% end %>
-									    <span style="font-weight: bold;"><%= notification.actor_username %></span> tried updating this role:(<span style="font-weight: bold;"><%= JobDescription.find(notification.resource_id).job_title %></span>)</li>									    
-									  <% end %>
+									  
+									  <%= render "admin/notification_partials/pending_update_jd", notification: notification %>
+
 									<% elsif notification.resource_type == "Applicant" && notification.action == "created" %>
-									  <%= link_to admin_mark_notification_as_read_url(notification) do %>
-									    <% if notification.read_at.nil? %>
-									    <li style="background: #DCDCDC;">
-									    <% else %>
-									    <li>
-									    <% end %>
-									    <span style="font-weight: bold;"><%= notification.actor_username %></span> just brought in <span style="font-weight: bold;"><%= Applicant.find(notification.resource_id).name %></span> for role as <span style="font-weight: bold;"><%= Applicant.find(notification.resource_id).job_description.job_title %></span> </li>    
-									  <% end %> 
+									  
+									  <%= render "admin/notification_partials/created_applicant", notification: notification %>
+
 									<% elsif notification.resource_type == "Applicant" && notification.action == "pending update" %>
-									  <%= link_to admin_mark_notification_as_read_url(notification) do %>
-									    <% if notification.read_at.nil? %>
-									    <li style="background: #DCDCDC;">
-									    <% else %>
-									    <li>
-									    <% end %>
-									    <span style="font-weight: bold;"><%= notification.actor_username %></span> tried updating this applicant:(<span style="font-weight: bold;"><%= Applicant.find(notification.resource_id).name %></span>)</li>				    
-									  <% end %>  
+									  
+									  <%= render "admin/notification_partials/pending_udpate_applicant", notification: notification %>
+
 									<% elsif notification.resource_type == "User" && notification.action == "sign up" %>
-									  <%= link_to admin_mark_notification_as_read_url(notification) do %>
-									    <% if notification.read_at.nil? %>
-									    <li style="background: #DCDCDC;">
-									    <% else %>
-									    <li>
-									    <% end %>
-									    <span style="font-weight: bold;"><%= notification.actor_username %></span> just signed up!</span>
-									    </li>
-									  <% end %>     
+									  
+									  <%= render "admin/notification_partials/user_signup", notification: notification %>
+									      
 									<% end %>  
 									<% end %>
 								  <% end %>	
@@ -277,6 +241,8 @@
 <%= javascript_include_tag "admin/chartist.min" %>
 <%= javascript_include_tag "admin/bootstrap-notify" %>
 <%= javascript_include_tag "admin/material-dashboard" %>
+
+
 
 <script type="text/javascript">
         $('.dropdown').click(function(e) {
