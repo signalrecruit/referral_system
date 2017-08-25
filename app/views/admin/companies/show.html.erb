@@ -5,7 +5,7 @@
 <% else %>
 
 <div class="col-lg-12 col-md-12">
-<a name="job descriptions"></a>
+	<a name="job descriptions"></a>
 	<div class="card card-nav-tabs">
 		<div class="card-header" data-background-color="purple">
 			<div class="nav-tabs-navigation">
@@ -18,7 +18,7 @@
 								Company
 								<div class="ripple-container"></div></a> -->
 								<%= link_to admin_company_url(@company, tab: "company") do %>
-								  <i class="material-icons">business</i>
+								<i class="material-icons">business</i>
 								Company: <%= @company.company_name %>
 								<div class="ripple-container"></div>
 								<% end %>
@@ -28,11 +28,11 @@
 									<i class="material-icons"></i>
 									<%#= pluralize(@company.job_descriptions.count, "Job Description") %>
 									<div class="ripple-container"></div></a> -->
-							    <%= link_to admin_company_url(@company, tab: "job descriptions") do %>
-							      <i class="material-icons"></i>
+									<%= link_to admin_company_url(@company, tab: "job descriptions") do %>
+									<i class="material-icons"></i>
 									<%= pluralize(@company.job_descriptions.where.not(copy: true, completed: false).count, "Job Description") %>
 									<div class="ripple-container"></div></a>
-							    <% end %>
+									<% end %>
 								</li>
 												<!-- <li class="">
 													<a href="#settings" data-toggle="tab">
@@ -56,19 +56,19 @@
 												<%# end %>
 											</div>
 											<div class="card-content">
-											<% authorize? @company do %>
-											<% pending_updates? @company do %>
-											<div class="pull-right">
-											  <button type="button" class="btn btn-info btn-xs btn-round" data-toggle="modal" data-target="#myModal"><i class="material-icons">visibility</i>changes</button> 	
-											</div> 
-											<% end %>
-											<% end %>
+												<% authorize? @company do %>
+												<% pending_updates? @company do %>
+												<div class="pull-right">
+													<button type="button" class="btn btn-info btn-xs btn-round" data-toggle="modal" data-target="#myModal"><i class="material-icons">visibility</i>changes</button> 	
+												</div> 
+												<% end %>
+												<% end %>
 												<div class="row">
 													<div class="col-md-3">
 														<div class="form-group label-floating">
 															<label class="control-label">Name Of Company</label>
 															<button class="btn btn-primary btn-xs btn-round">
-															  <%= @company.company_name %>	
+																<%= @company.company_name %>	
 															</button>
 														</div>
 													</div>
@@ -118,16 +118,16 @@
 													</div>
 												</div>
 												<div class="row">
-												  <%= link_to admin_update_button_for_company_url(@company), method: :patch, class: "btn btn-primary btn-xs btn-round pull-right" do %>
-												    <i class="material-icons">edit</i> company details
-												  <% end %>
+													<%= link_to admin_update_button_for_company_url(@company), method: :patch, class: "btn btn-primary btn-xs btn-round pull-right" do %>
+													<i class="material-icons">edit</i> company details
+													<% end %>
 												</div>
 												<div class="row"> 
-												  <%= link_to admin_company_url(@company, tab: "job descriptions"), class: "btn btn-primary btn-xs btn-round pull-right" do %>
-												   <i class="material-icons"></i>
-												  <%= pluralize(@company.job_descriptions.count, "Role") %>
-												  <div class="ripple-container"></div></a>
-												  <% end %>
+													<%= link_to admin_company_url(@company, tab: "job descriptions"), class: "btn btn-primary btn-xs btn-round pull-right" do %>
+													<i class="material-icons"></i>
+													<%= pluralize(@company.job_descriptions.where(copy: true).count, "Role") %>
+													<div class="ripple-container"></div></a>
+													<% end %>
 												</div>  
 
 												<div class="clearfix"></div>
@@ -146,7 +146,7 @@
 														<h4 class="modal-title">Changes</h4>
 													</div>
 													<div class="modal-body">
-													<% if !@company_copy.nil? %>
+														<% if !@company_copy.nil? %>
 														<p>company name: <%= @company.company_name != @company_copy.company_name ? "#{@company_copy.company_name}**" : "#{@company.company_name}" %></p>
 														<p>name of client: <%= @company.clientname != @company_copy.clientname ? "#{@company_copy.clientname}**" : "#{@company.clientname}" %></p>
 														<p>email: <%= @company.email != @company_copy.email ? "#{@company_copy.email}**" : "#{@company.email}" %></p>
@@ -156,10 +156,10 @@
 														<p>about: <%= @company.about != @company_copy.about ? "#{@company_copy.about}**" : "#{@company.about}" %></p>
 													</div>
 													<div class="modal-footer">
-													  <%= link_to admin_allow_changes_to_company_url(@company), method: :patch do %>
+														<%= link_to admin_allow_changes_to_company_url(@company), method: :patch do %>
 														<button type="button" class="btn btn-default btn-xs btn-round" data-dismiss="modal">Allow Changes</button>
-													  <% end %>	
-													  <% end %>
+														<% end %>	
+														<% end %>
 													</div>
 												</div>
 
@@ -184,67 +184,67 @@
 													<th></th>
 												</thead>
 												<tbody>
-													<% if @company.job_descriptions.where.not(copy: true, completed: false).any? %>
+													<% if @company.job_descriptions.where(copy: false, completed: true).any? %>
 													<% @company.job_descriptions.where.not(copy: true, completed: false).order(created_at: :asc).each do |jd| %>
-											        <% if jd.updated? && jd.edit_user_id == current_user.id %>
-											        <tr style="background-color: #FFFF70">
-											        <% else %>
-													<tr>
-													<% end %>
-														<td>
-														  <%= link_to admin_company_job_description_url(jd.company, jd) do %>
-														    <button class="btn btn-primary btn-xs btn-round" title="<%= "#{jd.job_title}" %>">
-														      <%= truncate(jd.job_title, length: 12, omission: "...") %>
-														    </button>
-														  <% end %>
-														</td>
-														
-														<td>
-														  <%= jd.min_salary %>
-														</td>
+													<% if jd.updated? && jd.edit_user_id == current_user.id %>
+													<tr style="background-color: #FFFF70">
+														<% else %>
+														<tr>
+															<% end %>
+															<td>
+																<%= link_to admin_company_job_description_url(jd.company, jd) do %>
+																<button class="btn btn-primary btn-xs btn-round" title="<%= "#{jd.job_title}" %>">
+																	<%= truncate(jd.job_title, length: 12, omission: "...") %>
+																</button>
+																<% end %>
+															</td>
 
-														<td>
-														  <%= jd.max_salary %>		  	
-														</td>
+															<td>
+																<%= jd.min_salary %>
+															</td>
 
-														<td>
-														  <%= jd.vacancies %>
-														</td>
+															<td>
+																<%= jd.max_salary %>		  	
+															</td>
 
-														<% if jd.updated? && jd.edit_user_id == current_user.id %>
+															<td>
+																<%= jd.vacancies %>
+															</td>
+
+															<% if jd.updated? && jd.edit_user_id == current_user.id %>
 															<%= simple_form_for([:admin, jd.company, jd]) do |f| %>
 															<td>
-															  <%= f.input :potential_worth, label: false %>
+																<%= f.input :potential_worth, label: false %>
 															</td>
 															<td>  
-															  <%= f.input :percent_worth, label: false %><span class="percent-adjustment">%</span>
+																<%= f.input :percent_worth, label: false %><span class="percent-adjustment">%</span>
 															</td>
 															<td>
-															  <button class="btn btn-success btn-xs btn-round">
-															    GHS <%= jd.actual_worth %>	
-															  </button>		
+																<button class="btn btn-success btn-xs btn-round">
+																	GHS <%= jd.actual_worth %>	
+																</button>		
 															</td>
 															<td>
-															  <%#= f.input :vacancy_worth, label: false %>
-															   <% if jd.any_applicant_re_negotiated_salary? %>
-																  <span class="dropdown">
-																     <a href="#" class="dropdown-toggle btn btn-success btn-xs btn-round" data-toggle="dropdown">
-																      avg GHS<%= jd.average_vacancy_worth %><i class="material-icons">keyboard_arrow_down</i>	
-																    </a>
-																    <ul class="dropdown-menu">
-																      <% jd.applicants.each do |applicant| %>
-																        <li>GHS <%= applicant.salary %>--<%= applicant.name %></li>	
-																      <% end %>
-																    </ul>
-																    </span>
-																  <% else %>
-																    <button class="btn btn-success btn-xs btn-round">
-																      GHS <%= jd.vacancy_worth %>	
-																    </button>  
-																  <% end %>
+																<%#= f.input :vacancy_worth, label: false %>
+																<% if jd.any_applicant_re_negotiated_salary? %>
+																<span class="dropdown">
+																	<a href="#" class="dropdown-toggle btn btn-success btn-xs btn-round" data-toggle="dropdown">
+																		avg GHS<%= jd.average_vacancy_worth %><i class="material-icons">keyboard_arrow_down</i>	
+																	</a>
+																	<ul class="dropdown-menu">
+																		<% jd.applicants.each do |applicant| %>
+																		<li>GHS <%= applicant.salary %>--<%= applicant.name %></li>	
+																		<% end %>
+																	</ul>
+																</span>
+																<% else %>
+																<button class="btn btn-success btn-xs btn-round">
+																	GHS <%= jd.vacancy_worth %>	
+																</button>  
+																<% end %>
 															</td>
 															<td>
-															  <%= f.input :vacancy_percent_worth, label: false %><span class="percent-adjustment">%</span>
+																<%= f.input :vacancy_percent_worth, label: false %><span class="percent-adjustment">%</span>
 															</td>
 															<td><%= f.hidden_field :applicant_id, :value => @applicant_id %></td>
 															<td>
@@ -253,86 +253,154 @@
 															<% end %>
 															<% else %>
 															<td>
-															  <button class="btn btn-warning btn-xs btn-round">
-																GHS <%= jd.potential_worth || "0.00" %>
-															  </button>
+																<button class="btn btn-warning btn-xs btn-round">
+																	GHS <%= jd.potential_worth || "0.00" %>
+																</button>
 															</td> 
 															<td>
-															   <button class="btn btn-success btn-xs btn-round">
-																<%= jd.percent_worth || "0.00" %>%
-															  </button>	
+																<button class="btn btn-success btn-xs btn-round">
+																	<%= jd.percent_worth || "0.00" %>%
+																</button>	
 															</td>  	
 															<td>
-															  <button class="btn btn-success btn-xs btn-round">
-															    GHS <%= jd.actual_worth || "0.00" %>
-															    <% if jd.applicants.any? { |applicant| applicant.salary == 0.0 } %>
-															      **
-															    <% end %>	
-															  </button>	
+																<button class="btn btn-success btn-xs btn-round">
+																	GHS <%= jd.actual_worth || "0.00" %>
+																	<% if jd.applicants.any? { |applicant| applicant.salary == 0.0 } %>
+																	**
+																	<% end %>	
+																</button>	
 															</td>
 															<td>
 																
-																  <% if jd.any_applicant_re_negotiated_salary? %>
-																  <span class="dropdown">
-																     <a href="#" class="dropdown-toggle btn btn-success btn-xs btn-round" data-toggle="dropdown">
-																      avg GHS<%= jd.average_vacancy_worth %><i class="material-icons">keyboard_arrow_down</i>	
-																    </a>
-																    <ul class="dropdown-menu">
-																      <% jd.applicants.each do |applicant| %>
-																        <li>GHS <%= applicant.salary %>--<%= applicant.name %></li>	
-																      <% end %>
-																    </ul>
-																    </span>
-																  <% else %>
-																    <button class="btn btn-success btn-xs btn-round">
-																      GHS <%= jd.vacancy_worth %>	
-																    </button>  
-																  <% end %>
+																<% if jd.any_applicant_re_negotiated_salary? %>
+																<span class="dropdown">
+																	<a href="#" class="dropdown-toggle btn btn-success btn-xs btn-round" data-toggle="dropdown">
+																		avg GHS<%= jd.average_vacancy_worth %><i class="material-icons">keyboard_arrow_down</i>	
+																	</a>
+																	<ul class="dropdown-menu">
+																		<% jd.applicants.each do |applicant| %>
+																		<li>GHS <%= applicant.salary %>--<%= applicant.name %></li>	
+																		<% end %>
+																	</ul>
+																</span>
+																<% else %>
+																<button class="btn btn-success btn-xs btn-round">
+																	GHS <%= jd.vacancy_worth %>	
+																</button>  
+																<% end %>
 																
 															</td>
 															<td>
-															  <button class="btn btn-success btn-xs btn-round">
-															    <%= jd.vacancy_percent_worth || "0.00" %>%	
-															  </button>	
+																<button class="btn btn-success btn-xs btn-round">
+																	<%= jd.vacancy_percent_worth || "0.00" %>%	
+																</button>	
 															</td>
 															<td>
-															<%= link_to admin_update_button_for_jd_url(jd), method: :patch do %>
-															<button type="button" title="Edit Worth/percent worth" class="btn btn-primary btn-simple btn-xs">
-																<i class="material-icons">edit</i>
-															</button>
-															<% end %>
+																<%= link_to admin_update_button_for_jd_url(jd), method: :patch do %>
+																<button type="button" title="Edit Worth/percent worth" class="btn btn-primary btn-simple btn-xs">
+																	<i class="material-icons">edit</i>
+																</button>
+																<% end %>
 															</td>
 															<% end %>  	
-														<td>
-														<% unless jd.updated? && jd.edit_user_id == current_user.id %>
-														  <%= link_to admin_job_description_applicants_url(jd), class: "btn btn-primary btn-xs btn-round" do  %>	
-														    <i class="material-icons">visibility</i><%= pluralize(jd.applicants.count, "Applicant") %>
-														  <% end %>
+															<td>
+																<% unless jd.updated? && jd.edit_user_id == current_user.id %>
+																<%= link_to admin_job_description_applicants_url(jd), class: "btn btn-primary btn-xs btn-round" do  %>	
+																<i class="material-icons">visibility</i><%= pluralize(jd.applicants.count, "Applicant") %>
+																<% end %>
+																<% end %>  
+															</td>
+														</tr>
+														<% end %>	
+
+														<% elsif @company.job_descriptions.where(copy: false, completed: false).any? %>
+														<% @company.job_descriptions.where(copy: false, completed: false).each do |jd| %>
+														  <tr>
+															<td>
+															  <%= link_to "#" do %>
+																<button class="btn btn-default btn-xs btn-round" title="<%= "#{jd.job_title}" %>">
+																	<%= truncate(jd.job_title, length: 12, omission: "...") %>
+																</button>
+															  <% end %>	
+															</td>
+															<td>
+															  <%= jd.min_salary %>	
+															</td>
+															<td>
+															  <%= jd.max_salary %>	
+															</td>
+															<td>
+															  <%= jd.vacancies %>	
+															</td>
+															<td>
+															  <button class="btn btn-default btn-xs btn-round">
+															    GHS <%= jd.actual_worth %>	
+															  </button>		
+															</td>
+															<td>
+															  <button class="btn btn-default btn-xs btn-round">
+															    <%= jd.percent_worth || "0.00" %>%
+															  </button>	
+															</td>
+															<td>
+															  <button class="btn btn-default btn-xs btn-round">
+															    GHS <%= jd.actual_worth || "0.00" %>
+																<% if jd.applicants.any? { |applicant| applicant.salary == 0.0 } %>
+																	**
+																<% end %>	
+															  </button>		
+															</td>
+															<td>
+															  <% if jd.any_applicant_re_negotiated_salary? %>
+																<span class="dropdown">
+																	<a href="#" class="dropdown-toggle btn btn-default btn-xs btn-round" data-toggle="dropdown">
+																		avg GHS<%= jd.average_vacancy_worth %><i class="material-icons">keyboard_arrow_down</i>	
+																	</a>
+																	<ul class="dropdown-menu">
+																		<% jd.applicants.each do |applicant| %>
+																		<li>GHS <%= applicant.salary %>--<%= applicant.name %></li>	
+																		<% end %>
+																	</ul>
+																</span>
+																<% else %>
+																<button class="btn btn-default btn-xs btn-round">
+																	GHS <%= jd.vacancy_worth %>	
+																</button>  
+																<% end %>	
+															</td>
+															<td>
+															  <button class="btn btn-default btn-xs btn-round">
+															    <%= jd.vacancy_percent_worth || "0.00" %>%	
+															  </button>		
+															</td>
+															<td>
+															  <span class="btn btn-default btn-xs btn-round">
+															    uncompleted jd	
+															  </span>	
+															</td>
+														  </tr>
 														<% end %>  
-														</td>
-													</tr>
-													<% end %>	
 
-													<% else %>
-													<tr>
-														<td>No data</td>
-														<td>No data</td>
-														<td>No data</td>
-														<td>No data</td>
-														<td>No data</td>
-														<td>No data</td>
-														<td>No data</td>
-														<td>No data</td>
-														<td>No data</td>
-														<td>No data</td>
-													</tr>
+														<% else %>
+														<tr>
+															<td>No data</td>
+															<td>No data</td>
+															<td>No data</td>
+															<td>No data</td>
+															<td>No data</td>
+															<td>No data</td>
+															<td>No data</td>
+															<td>No data</td>
+															<td>No data</td>
+															<td>No data</td>
+														</tr>
 
-													<% end %>
-												</tbody>
-											</table>
-											<%#= link_to "Add Job Description", new_admin_company_job_description_url(@company), class: "btn btn-primary pull-right" %>
-										</div>
-										<div class="tab-pane" id="settings">
+														<% end %>
+													</tbody>
+												</table>
+												<%#= link_to "Add Job Description", new_admin_company_job_description_url(@company), class: "btn btn-primary pull-right" %>
+											</div>
+											<div class="tab-pane" id="settings">
 											<!-- <table class="table">
 												<tbody>
 													<tr>
