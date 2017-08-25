@@ -84,21 +84,39 @@ class Admin::JobDescriptionsController < Admin::ApplicationController
      @job_description_copy = if job_description_copy = JobDescription.find_by(copy: true, copy_id: @job_description.id)
                                job_description_copy
                              end   
-     if (@job_description.job_title != @job_description_copy.job_title) || (@job_description.experience != @job_description_copy.experience) || (@job_description.min_salary != 
-       @job_description_copy.min_salary) || (@job_description.max_salary != @job_description_copy.max_salary) || (@job_description.vacancies != @job_description_copy.vacancies) || (@job_description.role_description != 
-     @job_description_copy.role_description) || (@job_description.expiration_date != @job_description_copy.expiration_date) || (@job_description.attachments.first.file != @job_description_copy.attachments.first.file)
+     if @job_description_copy.attachments.any?
+       if (@job_description.job_title != @job_description_copy.job_title) || (@job_description.experience != @job_description_copy.experience) || (@job_description.min_salary != 
+         @job_description_copy.min_salary) || (@job_description.max_salary != @job_description_copy.max_salary) || (@job_description.vacancies != @job_description_copy.vacancies) || (@job_description.role_description != 
+       @job_description_copy.role_description) || (@job_description.expiration_date != @job_description_copy.expiration_date) || (@job_description.attachments.first.file != @job_description_copy.attachments.first.file)
 
-       job_description_copy_attributes = @job_description_copy.attributes 
-       job_description_copy_attributes.delete("id")
-       job_description_copy_attributes["copy"] = false 
-       job_description_copy_attributes["copy_id"] = nil
-       @job_description.update(job_description_copy_attributes)
-       @job_description.attachments.first.update(file: @job_description_copy.attachments.first.file)
-       @job_description.update(completed: true)
-       @job_description_copy.attachments.delete_all
-       @job_description_copy.delete
-       AuthorizeJobDescriptionUpdateNotificationService.new({ actor: current_user, action: "authorize", resource: @job_description, resource_type: @job_description.class.name }).notify_user
-       flash[:success] = "changes have been incorporated."
+         job_description_copy_attributes = @job_description_copy.attributes 
+         job_description_copy_attributes.delete("id")
+         job_description_copy_attributes["copy"] = false 
+         job_description_copy_attributes["copy_id"] = nil
+         @job_description.update(job_description_copy_attributes)
+         @job_description.attachments.first.update(file: @job_description_copy.attachments.first.file) 
+         @job_description.update(completed: true)
+         @job_description_copy.attachments.delete_all
+         @job_description_copy.delete
+         AuthorizeJobDescriptionUpdateNotificationService.new({ actor: current_user, action: "authorize", resource: @job_description, resource_type: @job_description.class.name }).notify_user
+        flash[:success] = "changes have been incorporated."
+      end
+    else
+      if (@job_description.job_title != @job_description_copy.job_title) || (@job_description.experience != @job_description_copy.experience) || (@job_description.min_salary != 
+         @job_description_copy.min_salary) || (@job_description.max_salary != @job_description_copy.max_salary) || (@job_description.vacancies != @job_description_copy.vacancies) || (@job_description.role_description != 
+       @job_description_copy.role_description) || (@job_description.expiration_date != @job_description_copy.expiration_date) 
+
+         job_description_copy_attributes = @job_description_copy.attributes 
+         job_description_copy_attributes.delete("id")
+         job_description_copy_attributes["copy"] = false 
+         job_description_copy_attributes["copy_id"] = nil
+         @job_description.update(job_description_copy_attributes)
+         @job_description.update(completed: true)
+         @job_description_copy.attachments.delete_all
+         @job_description_copy.delete
+         AuthorizeJobDescriptionUpdateNotificationService.new({ actor: current_user, action: "authorize", resource: @job_description, resource_type: @job_description.class.name }).notify_user
+        flash[:success] = "changes have been incorporated."
+      end
     end
     redirect_to :back
   end
