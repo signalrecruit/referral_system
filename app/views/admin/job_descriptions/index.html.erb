@@ -1,7 +1,7 @@
 <div class="col-md-12">
 	                        <div class="card">
 	                            <div class="card-header" data-background-color="purple">
-	                                <h4 class="title"><%= pluralize(@all_roles.count, "Roles") %></h4>
+	                                <h4 class="title"><%= pluralize(@completed_roles.count, "Roles") %></h4>
 	                            </div>
 	                            <div class="card-content">
 	                                <table class="table">
@@ -14,8 +14,8 @@
 											<th></th>
 	                                    </thead>
 	                                    <tbody>
-	                                    <% if @all_roles.any? %>
-	                                      <% @all_roles.each do |role| %>
+	                                    <% if @completed_roles.any? %>
+	                                      <% @completed_roles.each do |role| %>
 	                                        <tr>
 	                                        	<td>
 	                                        	  <%= link_to [:admin, role.company, role] do %>
@@ -86,6 +86,67 @@
 												</td>
 	                                        </tr>
 	                                      <% end %> 
+	                                    <% elsif @uncompleted_roles.any?  %>
+	                                    <% @uncompleted_roles.each do |role| %>
+	                                      <tr>
+	                                      	<td>
+	                                      	  <button class="btn btn-default btn-round btn-xs">
+	                                            <%= role.job_title %>	
+	                                          </button>	
+	                                      	</td>
+	                                      	<td>
+	                                      	  <button class="btn btn-default btn-round btn-xs">
+	                                            <%= role.company.company_name %>	
+	                                          </button>	             	
+	                                      	</td>
+	                                      	<td>
+	                                      		<% if role.role_expired? %>
+	                                      		<button class="btn btn-default btn-round btn-xs">
+	                                      			role expired  	
+	                                      		</button>
+	                                      		<% else %>	
+	                                      		<button class="btn btn-default btn-round btn-xs">
+	                                      			role available  	
+	                                      		</button>
+	                                      		<% end %>		
+	                                      	</td>
+	                                      	<td>
+	                                      	  <button class="btn btn-default btn-round btn-xs">
+											    <%= role.vacancies - role.applicants.count %>	
+											  </button>		
+	                                      	</td>
+	                                      	<td>
+	                                      	  <span class="dropdown">
+												    <a href="#" class="dropdown-toggle btn btn-default btn-xs btn-round" data-toggle="dropdown">
+												  	  <%= role.applicants.count %><i class="material-icons">keyboard_arrow_down</i>
+												    </a>
+												    <ul class="dropdown-menu">
+												      <% if role.applicants.any? %>
+												        <% role.applicants.each do |applicant| %>
+												          <li>
+												            <%= link_to [:admin, applicant.job_description, applicant ] do %>
+												              <% if applicant.interviewing? || applicant.testing? || applicant.shortlisted? || applicant.none? %>
+												              <button class="btn btn-default btn-xs btn-round">
+												              <% elsif applicant.salary_negotiation? %>	
+												              <button class="btn btn-warning btn-xs btn-round">
+												              <% elsif applicant.hired? %>
+												              <button class="btn btn-info btn-xs btn-round">
+												              <% elsif applicant.not_hired? %>
+												              <button class="btn btn-danger btn-xs btn-round">
+												              <% end %>
+												                 <%= applicant.name %>	
+												              </button>	
+												            <% end %>										          	
+												          </li>
+												        <% end %>
+												      <% else %>
+												        <li>No applicants</li>  
+												      <% end %>  
+												    </ul>	
+												  </span>	
+	                                      	</td>
+	                                      </tr>  
+	                                    <% end %>  
 	                                    <% else %>
 	                                      <tr>
 	                                      	<td>no data</td>

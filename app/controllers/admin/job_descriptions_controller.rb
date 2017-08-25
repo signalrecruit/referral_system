@@ -6,7 +6,8 @@ class Admin::JobDescriptionsController < Admin::ApplicationController
   layout "admin"
 
   def index
-    @all_roles = JobDescription.all.includes(:company).where(completed: true).order(created_at: :asc)
+    @completed_roles = JobDescription.all.includes(:company).where(copy: false, completed: true).order(created_at: :asc)
+    @uncompleted_roles = JobDescription.all.includes(:company).where(copy: false, completed: false).order(created_at: :asc)
   end
 
   def show

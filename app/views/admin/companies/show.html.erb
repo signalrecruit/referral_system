@@ -30,7 +30,7 @@
 									<div class="ripple-container"></div></a> -->
 									<%= link_to admin_company_url(@company, tab: "job descriptions") do %>
 									<i class="material-icons"></i>
-									<%= pluralize(@company.job_descriptions.where.not(copy: true, completed: false).count, "Job Description") %>
+									<%= pluralize(@company.job_descriptions.where(copy: false, completed: true).count, "Job Description") %>
 									<div class="ripple-container"></div></a>
 									<% end %>
 								</li>
@@ -125,7 +125,7 @@
 												<div class="row"> 
 													<%= link_to admin_company_url(@company, tab: "job descriptions"), class: "btn btn-primary btn-xs btn-round pull-right" do %>
 													<i class="material-icons"></i>
-													<%= pluralize(@company.job_descriptions.where(copy: true).count, "Role") %>
+													<%= pluralize(@company.job_descriptions.where(copy: false, completed: true).count, "Role") %>
 													<div class="ripple-container"></div></a>
 													<% end %>
 												</div>  
