@@ -124,6 +124,7 @@ class ApplicationController < ActionController::Base
     else
       activity = Activity.find_by trackable_id: trackable_id, trackable_type: trackable_type, action: action
       @activity = activity
+      activity.update permitted: true if !activity.permitted? && activity.trackable_type == "JobDescription"
       return true if activity
     end
   end

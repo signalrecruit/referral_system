@@ -3,7 +3,7 @@ class ActivityFeedController < ApplicationController
   after_action :log_user_activity, only: [:index]
   
   def index
-  	@feed = Activity.order(created_at: :desc)
+  	@feed = Activity.order(updated_at: :desc)
   	# fresh_when last_modified: @feed.maximum(:updated_at)
   end
 
