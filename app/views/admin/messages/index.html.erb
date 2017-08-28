@@ -10,13 +10,13 @@
 
 <%= link_to admin_messages_url(category: "received") do %>
   <button class="btn btn-warning btn-xs btn-round">
-  	Inbox <span class="inbox_notification"><%= Message.where(recipient_name: "Admin(#{current_user.fullname})").count %></span>
+  	Inbox <span class="inbox_notification"><%= Message.where(recipient_name: "Admin(#{current_user.fullname})", archived: false, draft: false).count %></span>
   </button>
 <% end %>
 
 <%= link_to admin_messages_url(category: "sent") do %>
   <button class="btn btn-info btn-xs btn-round">
-  	Outbox <span class="outbox_notification"><%= current_user.messages.where(draft: false).count %></span>
+  	Outbox <span class="outbox_notification"><%= current_user.messages.where(draft: false, archived: false).count %></span>
   </button>
 <% end %>
 
@@ -28,7 +28,7 @@
 
 <%= link_to admin_messages_url(category: "archived") do %>
   <button class="btn btn-danger btn-xs btn-round">
-  	Archived Messages <span class="archived_notification"><%= current_user.messages.where(archived: true).count %></span>
+  	Archived Messages <span class="archived_notification"><%= Message.messages_archived_by_admin.where(recipient_name: "Admin(#{current_user.fullname})").count %></span>
   </button>
 <% end %>
 
