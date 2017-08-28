@@ -30,6 +30,20 @@
 					<% end %>
 				</div>
 
+				<% if current_user_has_no_role? @applicant %>
+				  <% if @applicant.status == "none" || @applicant.status == "shortlisted" || @applicant.status == "interviewing"|| @applicant.status == "testing" %>
+				  <span class=" btn btn-default btn-xs btn-round pull-right">
+				  <% elsif  @applicant.status == "salary negotiation" %>
+				  <span class="btn btn-warning btn-xs btn-round pull-right">
+				  <% elsif @applicant.status == "hired" %>
+				  <span class="btn btn-info btn-xs btn-round pull-right">
+				  <% elsif @applicant.status == "unhired" %>
+				  <span class="btn btn-danger btn-xs btn-round pull-right">
+				  <% end %>
+				  <%= @applicant.status %>
+				  </span>
+				<% end %>
+
 					<% authorize? @applicant do %>
 					<span class="dropdown pull-right" style="margin-top: -20px;">
 					<% if @applicant.none? %>

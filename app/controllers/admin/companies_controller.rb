@@ -102,9 +102,7 @@ class Admin::CompaniesController < Admin::ApplicationController
      @company_copy = if company_copy = Company.find_by(copy: true, copy_id: @company.id)
                       company_copy
                     end   
-     if (@company.company_name != @company_copy.company_name) || (@company.clientname != @company_copy.clientname) || (@company.email != 
-      @company_copy.email) || (@company.role != @company_copy.role) || (@company.phonenumber != @company_copy.phonenumber) || (@company.url != 
-      @company_copy.url) || (@company.about != @company_copy.about)
+     if company_attributes_not_equal_to_company_copy_attributes
 
        company_copy_attributes = @company_copy.attributes 
        company_copy_attributes.delete("id")
@@ -121,6 +119,12 @@ class Admin::CompaniesController < Admin::ApplicationController
 
 
   private
+
+  def company_attributes_not_equal_to_company_copy_attributes
+     (@company.company_name != @company_copy.company_name) || (@company.clientname != @company_copy.clientname) || (@company.email != 
+      @company_copy.email) || (@company.role != @company_copy.role) || (@company.phonenumber != @company_copy.phonenumber) || (@company.url != 
+      @company_copy.url) || (@company.about != @company_copy.about)
+  end
 
   def set_company
   	@company = Company.find(params[:id])

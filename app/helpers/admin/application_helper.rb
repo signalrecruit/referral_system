@@ -41,4 +41,12 @@ module Admin::ApplicationHelper
       yield
     end   
   end
+
+  def current_user_has_no_role? resource 
+    if Role.find_by(resource_id: resource.id, resource_type: resource.class.name, user_id: current_user.id)
+      false 
+    else 
+      true 
+    end
+  end
 end
