@@ -1,6 +1,7 @@
 class QualificationsController < ApplicationController
   before_action :authenticate_user!
   before_action :prevent_addition_of_new_qualification_if_jd_has_applicants, only: [:new, :create]
+  before_action :prevent_deletion_of_qualifications_if_jd_has_applicants, only: [:destroy]
   before_action :copy_changes_to_existing_object, only: [:update]
   before_action :set_jd, except: [:update_button] 
   before_action :set_qualification, only: [:show, :edit, :update, :destroy]
@@ -48,7 +49,7 @@ class QualificationsController < ApplicationController
         implement_authorization_policy_if_applicable @qualification
         on_success "added qualification successfully", new_job_description_qualification_url(@jd) 
       else
-        on_failure "oops! you can't add another required experience for the reasons below:", :new
+        on_failure "oops! you can't add another qualification for the reasons below:", :new
       end  
     end
   end
@@ -136,7 +137,15 @@ class QualificationsController < ApplicationController
   def prevent_addition_of_new_qualification_if_jd_has_applicants
     @job_description = JobDescription.find(params[:job_description_id])
     if @job_description.applicants.any? 
-      flash[:alert] = "you can not add new qualifications since job description has associated applicants"
+      flash[:alert] = "you can not add new qualifications since job description has associated applicants. However, you can make edits to existing qualifications."
+      redirect_to :back
+    end
+  end
+
+  def prevent_deletion_of_qualifications_if_jd_has_applicants
+    @job_description = JobDescription.find(params[:job_description_id])
+    if @job_description.applicants.any? 
+      flash[:alert] = "you can not delete any qualification since this job description has associated applicants. However, you can make edits to existing qualifications."
       redirect_to :back
     end
   end

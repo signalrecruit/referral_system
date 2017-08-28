@@ -78,7 +78,11 @@ class JobDescriptionsController < ApplicationController
       CompleteJobDescriptionService.new({ job_description: @job_description }).complete_jd
       JobDescriptionCreateNotificationService.new( {actor: current_user, action: "posted", resource: @job_description, resource_type: @job_description.class.name} ).notify_admins_and_users
       track_activity @job_description, "create", current_user.id if !activity_exists? @job_description.id, "JobDescription", "create"
-      flash[:success] = "you have successfully completed the job description for the role #{@job_description.job_title}"
+      if job_description_has_a_copy?
+        flash[:success] = "your changes have been saved pending admin approval."
+      else   
+        flash[:success] = "you have successfully completed the job description for the role #{@job_description.job_title}"
+      end
     else
       flash[:alert] = "this job description lacks info under either Required Qualifications, Required Experiences, and/or Compulsory Requirements"
     end
@@ -221,5 +225,10 @@ class JobDescriptionsController < ApplicationController
   
     @existing_attributes = existing_attributes 
     @update_attributes = update_attributes
+  end
+
+  def job_description_has_a_copy?
+    JobDescription.find_by(copy: true, copy_id: @job_description.id) || @job_description.
+    qualifications.find_by(copy: true) || @job_description.required_experiences.find_by(copy: true) || @job_description.requirements.find_by(copy: true)
   end
 end
