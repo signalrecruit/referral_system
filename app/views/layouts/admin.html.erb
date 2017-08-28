@@ -122,7 +122,7 @@
 		    		</li>
 		    		<li>
 		    		  <% if current_user.admin? %>
-		    		  <%= link_to admin_messages_url do %>
+		    		  <%= link_to admin_messages_url(category: "received") do %>
 		    		    <i class="material-icons">email</i>
 		    		    <p>Messages</p>
 		    		  <% end %>	

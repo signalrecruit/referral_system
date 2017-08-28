@@ -2,39 +2,50 @@
    <i class="material-icons">add</i>compose message
 <% end %>
 
-<%= link_to admin_messages_url do %>
-  <button class="btn btn-success btn-xs btn-round">
+<%#= link_to admin_messages_url do %>
+  <!-- <button class="btn btn-success btn-xs btn-round">
   	All Messages
-  </button>
-<% end %>
+  </button> -->
+<%# end %>
 
 <%= link_to admin_messages_url(category: "received") do %>
   <button class="btn btn-warning btn-xs btn-round">
-  	Inbox
+  	Inbox <span class="inbox_notification"><%= Message.where(recipient_name: "Admin(#{current_user.fullname})").count %></span>
   </button>
 <% end %>
 
 <%= link_to admin_messages_url(category: "sent") do %>
   <button class="btn btn-info btn-xs btn-round">
-  	Outbox
+  	Outbox <span class="outbox_notification"><%= current_user.messages.where(draft: false).count %></span>
   </button>
 <% end %>
 
 <%= link_to admin_messages_url(category: "draft") do %>
   <button class="btn btn-default btn-xs btn-round">
-  	Draft
+  	Draft <span class="draft_notification"><%= current_user.messages.where(draft: true).count %></span>
   </button>
 <% end %>
 
 <%= link_to admin_messages_url(category: "archived") do %>
   <button class="btn btn-danger btn-xs btn-round">
-  	Archived Messages
+  	Archived Messages <span class="archived_notification"><%= current_user.messages.where(archived: true).count %></span>
   </button>
 <% end %>
 
 <div class="col-md-12">
 	<div class="card">
-		<div class="card-header" data-background-color="purple">
+	    <% if current_page?(admin_messages_url(category: "received")) %>
+	    <div class="card-header" data-background-color="orange">
+	    <% elsif current_page?(admin_messages_url(category: "sent")) %>
+	    <div class="card-header" data-background-color="blue">
+	    <% elsif current_page?(admin_messages_url(category: "draft")) %>
+	    <div class="card-header" data-background-color="grey">
+	    <% elsif current_page?(admin_messages_url(category: "archived")) %>
+	    <div class="card-header" data-background-color="red">	
+	    <% else %>
+	    <div class="card-header" data-background-color="purple">
+	    <% end %>
+		
 			<h4 class="title">Messages</h4>
 		</div>
 		<div class="card-content table-responsive">

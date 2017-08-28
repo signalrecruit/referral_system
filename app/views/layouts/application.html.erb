@@ -56,7 +56,12 @@
 		    		<li>
 		    		  <% if user_signed_in? && current_user.approved? %>
 		    		    <%= link_to messages_url do %>
-		    			    <p><i class="material-icons">email</i><span class="badge"><%= Message.where(recipient_id: current_user.id, draft: false, read: false).count %></span> Unread Messages</p>
+		    			    <p>
+		    			    <% if Message.where(recipient_id: current_user.id, draft: false, read: false).count == 0 %>
+		    			    <i class="material-icons">email</i><span class="badge"><%= Message.where(recipient_id: current_user.id, draft: false, read: false).count %></span> Unread Messages</p>
+		    			    <% else %>	
+		    			    <i class="material-icons">email</i><span class="badge" style="background: #F44336"><%= Message.where(recipient_id: current_user.id, draft: false, read: false).count %></span> Unread Messages</p>
+		    			    <% end %>
 		    			<% end %>	
 		    		  <% end %>  	
 		    		</li>

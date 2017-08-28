@@ -55,7 +55,7 @@ class Admin::MessagesController < Admin::ApplicationController
 
   	if @message.save
   	  flash[:success] = "successfully sent #{@message.recipient_name}"
-  	  redirect_to admin_messages_url	
+  	  redirect_to :back	
   	else 	
   	  flash[:alert] = "oops! sthg went wrong"
 
