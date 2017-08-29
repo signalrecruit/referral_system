@@ -1,4 +1,4 @@
-<%= link_to new_admin_message_url, class: "btn btn-primary btn-xs btn-round" do %>
+<%= link_to new_admin_message_url(reply_id: 0), class: "btn btn-primary btn-xs btn-round" do %>
    <i class="material-icons">add</i>compose message
 <% end %>
 
@@ -28,7 +28,7 @@
 
 <%= link_to admin_messages_url(category: "archived") do %>
   <button class="btn btn-danger btn-xs btn-round">
-  	Archived Messages <span class="archived_notification"><%= Message.messages_archived_by_admin.where(recipient_name: "Admin(#{current_user.fullname})").count %></span>
+  	Archived Messages <span class="archived_notification"><%= @messages.count %></span>
   </button>
 <% end %>
 
