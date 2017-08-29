@@ -28,7 +28,8 @@
 
 <%= link_to admin_messages_url(category: "archived") do %>
   <button class="btn btn-danger btn-xs btn-round">
-  	Archived Messages <span class="archived_notification"><%= @messages.count %></span>
+  	Archived Messages <span class="archived_notification"><%= Message.where(archived: true, archived_by_user: false, sent_by: "#{current_user.fullname}(Admin)").all.count + 
+    Message.where(archived: true, archived_by_user: false, recipient_name: "Admin(#{current_user.fullname})").all.count %></span>
   </button>
 <% end %>
 

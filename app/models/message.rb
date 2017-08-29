@@ -43,8 +43,9 @@ class Message < ActiveRecord::Base
 
 
 
-  def self.messages_archived_by_admin
-    Message.where(archived: true, archived_by_user: false).all
+  def self.messages_archived_by_admin(current_user)
+    Message.where(archived: true, archived_by_user: false, sent_by: "#{current_user.fullname}(Admin)").all + 
+    Message.where(archived: true, archived_by_user: false, recipient_name: "Admin(#{current_user.fullname})").all
   end
 
   def self.messages_archived_by_user

@@ -10,9 +10,8 @@ class Admin::MessagesController < Admin::ApplicationController
     elsif params[:category] == "draft"
       @messages = Message.drafted_by_admin.includes(:user).where(user_id: current_user.id)
     elsif params[:category] == "archived"
-      @inbox_messages = Message.messages_archived_by_admin.where(recipient_name: "Admin(#{current_user.fullname})")
-      @outbox_messages = Message.messages_archived_by_admin.where(sent_by: "#{current_user.fullname}(Admin)")    
-      @messages = @archive_messages = @inbox_messages + @outbox_messages
+      @messages = Message.messages_archived_by_admin(current_user)   
+      @archived_messages = @messages   
     else 
       retrieve_all_messages  
     end  
