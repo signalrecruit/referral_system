@@ -7,13 +7,13 @@
         <label class="control-label"><span class="btn btn-primary btn-xs btn-round">TO:</span></label>
         <br>
         <%= f.input :recipient_name, collection: User.where(admin: false).pluck(:fullname), label: false, required: true, autofocus: true, class: "form-control" %>
-        <%= f.hidden_field :from_messages_index, value: request.referrer %>
+        <%= f.hidden_field :no_reply_target, value: @no_reply_target %>
       </div>
     </div>
 
      <div class="col-md-4">
       <div class="form-group label-floating">
-        <label class="control-label"><span class="btn btn-primary btn-xs btn-round">TITLE:</span></label>
+        <label class="control-label"><span class="btn btn-primary btn-xs btn-round">SUBJECT:</span></label>
         <br>
         <%= f.input :title, label: false, required: true, autofocus: true, class: "form-control" %>
       </div>
@@ -33,9 +33,7 @@
   <div class="row">
      <div class="col-md-12">
       <div class="form-group label-floating">
-        <label class="control-label"><span class="btn btn-primary btn-xs btn-round">Save As Draft?</span></label>
-        <br>
-        <%= f.input :draft, label: false, required: true, class: "form-control" %>
+        <label class="control-label"><%= f.input_field :draft, label: false, as: :boolean, boolean_style: :inline, required: true %> <span style="color: black; font-size: 12px;">Save As Draft?</span></label>
       </div>
     </div>
   </div>

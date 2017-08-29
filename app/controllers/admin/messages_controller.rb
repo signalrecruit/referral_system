@@ -24,8 +24,9 @@ class Admin::MessagesController < Admin::ApplicationController
   def new
   	@message = current_user.messages.build
     
-    if URI(request.referrer).path == URI(admin_messages_url).path
-      session[:from_messages_index] = request.referrer  
+    # if URI(request.referrer).path == URI(admin_messages_url(category: "received")).path
+    if params[:reply_id].to_i == 0
+      @no_reply_target = session[:no_reply_target] = params[:reply_id].to_i  
     else  
       @reply_id = params[:reply_id].to_i
       @reply_message = Message.find(@reply_id) 
@@ -38,7 +39,7 @@ class Admin::MessagesController < Admin::ApplicationController
   def create
   	@message = current_user.messages.build(message_params) 
     
-    if session[:from_messages_index] == params[:message][:from_messages_index]
+    if session[:no_reply_target] == params[:message][:no_reply_target].to_i
     else
 
       # refactor this piece of code 
