@@ -55,10 +55,10 @@ class Admin::MessagesController < Admin::ApplicationController
   	find_recipient(@message) if @reply_message.nil?
 
   	if @message.save
-  	  flash[:success] = "successfully sent #{@message.recipient_name}"
+  	  flash[:success] = "successfully sent #{@message.recipient_name} a message."
   	  redirect_to :back	
   	else 	
-  	  flash[:alert] = "oops! sthg went wrong"
+  	  flash[:alert] = "oops! your message was not delivered to #{@message.recipient_name} for the reasons below:"
 
       # refactor this piece of code
       @message.reply_id = params[:message][:reply_id]
@@ -68,7 +68,7 @@ class Admin::MessagesController < Admin::ApplicationController
       @message.user_id = params[:message][:user_id]
       @message.sent_by = params[:message][:sent_by]
       @reply_message = Message.find(@message.reply_id.to_i) if params[:message][:reply_id]
-      set_reply_thread @reply_message
+      set_reply_thread @reply_message if @reply_message
 
   	  render :new	
   	end  	
@@ -132,7 +132,7 @@ class Admin::MessagesController < Admin::ApplicationController
   end
 
   def set_reply_thread(message)
-     @reply_thread ||= Message.where(archived: nil)
+    @reply_thread ||= Message.where(archived: nil)
     Message.where(recipient_id: current_user.id, user_id: message.user_id).each do |msg|
       @reply_thread << msg
     end

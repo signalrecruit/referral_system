@@ -1,5 +1,14 @@
 <div class="card-content">
   <%= simple_form_for([:admin, message]) do |f| %>
+  <% if f.object.errors.any? %>
+  <div class="alert alert-danger">  
+    <% f.object.errors.full_messages.uniq.each do |msg| %>
+    <%= msg %>
+    <br>
+    <% end %>
+  </div> 
+  <% end %>
+      
   <% if @reply_message.nil? %>
    <div class="row">
     <div class="col-md-3">
