@@ -85,7 +85,7 @@ class Admin::MessagesController < Admin::ApplicationController
   	  if request.referrer == edit_admin_message_url(@message, page: "from show")
   	  	redirect_to [:admin, @message]
   	  else
-  	    redirect_to admin_messages_url
+  	    redirect_to admin_messages_url(category: "received")
   	  end	
   	else
   	  flash[:alert] = "oops! something went wrong"

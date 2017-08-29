@@ -285,8 +285,11 @@
 			      <label class="control-label">Requirement Score</label><br>
 			      <label style="font-size: 12px;">(Tick the following box(es) if the applicant fufills the requirements below)</label>
 			          <%= f.simple_fields_for :requirement_scores, @applicant.requirement_scores do |ff| %>
+			           <div class="row">
+			            <%= ff.input_field :score, label: false, as: :boolean, boolean_style: :inline, checked_value: 1.0, unchecked_value: 0.0 %>
 			            <%= ff.object.requirement_content %>
-			            <%= ff.input :score, label: false, as: :boolean, checked_value: 1.0, unchecked_value: 0.0 %>
+			          </div>
+			          <br>			           
 			            <%= ff.hidden_field :requirement_content, :value => ff.object.requirement_content %>
 			            <%= ff.hidden_field :requirement_id, :value => ff.object.requirement_id %>
 			            <%= ff.hidden_field :job_description_id, :value => ff.object.job_description_id %>
