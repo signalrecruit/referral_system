@@ -58,7 +58,7 @@ class Admin::MessagesController < Admin::ApplicationController
   	  flash[:success] = "successfully sent #{@message.recipient_name} a message."
   	  redirect_to :back	
   	else 	
-  	  flash[:alert] = "oops! your message was not delivered to #{@message.recipient_name} for the reasons below:"
+  	  flash[:alert] = "oops! your message was not delivered to #{@message.recipient_name} for the reason(s) below:"
 
       # refactor this piece of code
       @message.reply_id = params[:message][:reply_id]
