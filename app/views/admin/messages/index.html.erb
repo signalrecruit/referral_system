@@ -2,12 +2,6 @@
    <i class="material-icons">add</i>compose message
 <% end %>
 
-<%#= link_to admin_messages_url do %>
-  <!-- <button class="btn btn-success btn-xs btn-round">
-  	All Messages
-  </button> -->
-<%# end %>
-
 <%= link_to admin_messages_url(category: "received") do %>
   <button class="btn btn-warning btn-xs btn-round">
   	Inbox <span class="inbox_notification"><%= Message.where(recipient_name: "Admin(#{current_user.fullname})", archived: false, draft: false).count %></span>

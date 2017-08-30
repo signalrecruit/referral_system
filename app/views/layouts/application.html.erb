@@ -19,7 +19,7 @@
 		    -->
 
 		    <div class="logo">
-		    	<%= link_to "Jobberman", root_url, class: "simple-text" %>		    </div>
+		    	BETA<%= link_to "Jobberman", root_url, class: "simple-text" %>		    </div>
 
 		    <div class="sidebar-wrapper">
 		    	<ul class="nav">
@@ -55,7 +55,7 @@
 		    		</li>
 		    		<li>
 		    		  <% if user_signed_in? && current_user.approved? %>
-		    		    <%= link_to messages_url do %>
+		    		    <%= link_to messages_url(category: "received") do %>
 		    			    <p>
 		    			    <% if Message.where(recipient_id: current_user.id, draft: false, read: false).count == 0 %>
 		    			    <i class="material-icons">email</i><span class="badge"><%= Message.where(recipient_id: current_user.id, draft: false, read: false).count %></span> Unread Messages</p>
