@@ -16,11 +16,11 @@
   </button>
 <% end %>
 
-<%= link_to messages_url(category: "archived") do %>
-  <button class="btn btn-danger btn-xs btn-round">
-  	Archived Messages <span class="archived_notification"><%= Message.where(archived: true, archived_by: current_user.fullname, sent_by: "#{current_user.fullname}").all.count + Message.where(archived: true, archived_by: current_user.fullname, recipient_name: "#{current_user.fullname}").all.count %></span>
-  </button>
-<% end %>
+<%#= link_to messages_url(category: "archived") do %>
+  <!-- <button class="btn btn-danger btn-xs btn-round">
+  	Archived Messages <span class="archived_notification"><%#= Message.where(archived: true, archived_by: current_user.fullname, sent_by: "#{current_user.fullname}").all.count + Message.where(archived: true, archived_by: current_user.fullname, recipient_name: "#{current_user.fullname}").all.count %></span>
+  </button> -->
+<%# end %>
 <div class="col-md-12">
 	<div class="card">
 		<% if current_page?(messages_url(category: "received")) %>
@@ -29,8 +29,8 @@
 	    <div class="card-header" data-background-color="blue">
 	    <% elsif current_page?(messages_url(category: "draft")) %>
 	    <div class="card-header" data-background-color="grey">
-	    <% elsif current_page?(messages_url(category: "archived")) %>
-	    <div class="card-header" data-background-color="red">	
+	    <%# elsif current_page?(messages_url(category: "archived")) %>
+	    <!-- <div class="card-header" data-background-color="red">	 -->
 	    <% else %>
 	    <div class="card-header" data-background-color="purple">
 	    <% end %>
@@ -38,7 +38,7 @@
 		</div>
 		<div class="card-content table-responsive">
 			<table class="table">
-				<thead class="text-primary">
+				<thead class="text-<%= @x %>">
 					<th>From</th>
 					<th>Message</th>
 					<th>Status</th>
@@ -51,12 +51,60 @@
 					<tr>
 						<td>
 						<% if message.user_id == current_user.id %>
-						    <%= link_to "Me", "#", class: "btn btn-primary btn-xs btn-round" %>
+						    <%= link_to "#" do %>
+						      <% if current_page?(messages_url(category: "received")) %>
+						      <span class="btn btn-warning btn-xs btn-round">
+						      <% elsif current_page?(messages_url(category: "sent")) %>
+						      <span class="btn btn-info btn-xs btn-round">
+						      <% elsif current_page?(messages_url(category: "draft")) %>
+						      <span class="btn btn-default btn-xs btn-round">
+						      <%# elsif current_page?(messages_url(category: "archived")) %>
+						      <!-- <span class="btn btn-danger btn-xs btn-round"> -->
+						      <% end %>
+						        Me 
+						        </span>
+						    <% end %>
 						  <% else %>
-						    <%= link_to message.sent_by, "#", class: "btn btn-primary btn-xs btn-round" %>
+						      <%= link_to "#" do %>
+						      <% if current_page?(messages_url(category: "received")) %>
+						      <span class="btn btn-warning btn-xs btn-round">
+						      <% elsif current_page?(messages_url(category: "sent")) %>
+						      <span class="btn btn-info btn-xs btn-round">
+						      <% elsif current_page?(messages_url(category: "draft")) %>
+						      <span class="btn btn-default btn-xs btn-round">
+						      <%# elsif current_page?(messages_url(category: "archived")) %>
+						      <!-- <span class="btn btn-danger btn-xs btn-round"> -->
+						      <% end %>
+						        <%= message.sent_by %>
+						      </span>  
+						      <% end %>
 						  <% end %>  
 						</td>
-						<td class="text-primary"><strong><%= message.title %></strong>***<%= link_to truncate(message.content, length: 40), message_url(message, message_id: message.id) %>
+						<% if current_page?(messages_url(category: "received")) %>
+						<td class="text-warning">
+						<% elsif current_page?(messages_url(category: "sent")) %>
+						<td class="text-info">
+						<% elsif current_page?(messages_url(category: "draft")) %>
+						<td class="text-default">
+						<%# elsif current_page?(messages_url(category: "archived")) %>
+						<!-- <td class="text-danger"> -->
+						<% end %>
+						<strong><%= message.title %></strong>***
+
+
+						<%= link_to message_url(message, message_id: message.id) do %>
+						<% if current_page?(messages_url(category: "received")) %>
+						<span class="text-warning">
+						<% elsif current_page?(messages_url(category: "sent")) %>
+						<span class="text-info">
+						<% elsif current_page?(messages_url(category: "draft")) %>
+						<span class="text-default">
+						<%# elsif current_page?(messages_url(category: "archived")) %>
+						<!-- <span class="text-danger"> -->
+						<% end %>
+						  <%= truncate(message.content, length: 40) %>
+						</span>  
+						<% end %>
 
 						<% unless params[:category] == "received" || message.user.admin? %>
 						  <% unless !message.draft? %>
@@ -73,70 +121,70 @@
 						    <% end %>
 						  <% end %>  	
 
-						  <% if message.archived_by == current_user.fullname %>
-						    <%= link_to [:unarchive, message], method: :patch, data: { confirm: "Are you sure you want to unarchive this message?"} do %>
-						      <button type="button" title="Unarchive" class="btn btn-primary btn-simple btn-xs">  
+						  <%# if message.archived_by == current_user.fullname %>
+						    <%#= link_to unarchive_message_url(message), method: :patch, data: { confirm: "Are you sure you want to unarchive this message?"} do %>
+						      <!-- <button type="button" title="Unarchive" class="btn btn-<%= @x %> btn-simple btn-xs">  
 						        <i class="material-icons">unarchive</i>
-						      </button>  
-						    <% end %> 
-						  <% else %> 
-						    <%= link_to [:archive, message], method: :patch, data: { confirm: "Are you sure you want to archive this message?"} do %>
-						      <button type="button" title="Archive" class="btn btn-primary btn-simple btn-xs">  
+						      </button> -->  
+						    <%# end %> 
+						  <%# else %> 
+						    <%#= link_to archive_message_url(message), method: :patch, data: { confirm: "Are you sure you want to archive this message?"} do %>
+						      <!-- <button type="button" title="Archive" class="btn btn-<%= @x %> btn-simple btn-xs">  
 						        <i class="material-icons">archive</i>
-						      </button>  
-						    <% end %>
-						  <% end %>
+						      </button> -->  
+						    <%# end %>
+						  <%# end %>
 						<% end %>  
 
-						<% if message.user.admin? %>
-						  <% if message.archived_by == current_user.fullname %>
-						    <%= link_to [:unarchive, message], method: :patch, data: { confirm: "Are you sure you want to unarchive this message?"} do %>
-						      <button type="button" title="Unarchive" class="btn btn-primary btn-simple btn-xs">  
+						<%# if message.user.admin? %>
+						  <%# if message.archived_by == current_user.fullname %>
+						    <%#= link_to unarchive_message_url(message), method: :patch, data: { confirm: "Are you sure you want to unarchive this message?"} do %>
+						      <!-- <button type="button" title="Unarchive" class="btn btn-<%= @x %> btn-simple btn-xs">  
 						        <i class="material-icons">unarchive</i>
-						      </button>  
-						    <% end %> 
-						  <% else %> 
-						    <%= link_to [:archive, message], method: :patch, data: { confirm: "Are you sure you want to archive this message?"} do %>
-						      <button type="button" title="Archive" class="btn btn-primary btn-simple btn-xs">  
+						      </button> -->  
+						    <%# end %> 
+						  <%# else %> 
+						    <%#= link_to archive_message_url(message), method: :patch, data: { confirm: "Are you sure you want to archive this message?"} do %>
+						      <!-- <button type="button" title="Archive" class="btn btn-<%= @x %> btn-simple btn-xs">  
 						        <i class="material-icons">archive</i>
-						      </button>  
-						    <% end %>
-						  <% end %>
-						<% end %>
+						      </button> -->  
+						    <%# end %>
+						  <%# end %>
+						<%# end %>
 						</td>
 						<td>
 						  <% if message.save_as_draft? %>
-						    <button class="btn btn-default btn-xs btn-round">
+						    <button class="btn btn-<%= @x %> btn-xs btn-round">
 						      draft	
 						    </button>
 						  <% elsif !message.save_as_draft? && !message.user.admin? %>	
-						    <button class="btn btn-info btn-xs btn-round">
+						    <button class="btn btn-<%= @x %> btn-xs btn-round">
 						      sent 	
 						    </button>
 						  <% elsif !message.save_as_draft? && message.user.admin? %>
-						    <button class="btn btn-warning btn-xs btn-round">
+						    <button class="btn btn-<%= @x %> btn-xs btn-round">
 						      received	
 						    </button>  
 						  <% end %>	
 
-						  <% if message.read_message? && message.user.admin? %>
-						    <%= link_to [message] do %>
-						      <button class="btn btn-info btn-xs btn-round">
+						  <%# if message.read_message? && message.user.admin? %>
+						    <%#= link_to [message] do %>
+						      <!-- <button class="btn btn-<%= @x %> btn-xs btn-round">
 						        read 	
-						      </button>
-						    <% end %>  
-						  <% elsif !message.read_message? && !message.user.admin? %>	
-						    <%= link_to [message] do %>  
-						      <button class="btn btn-danger btn-xs btn-round">
+						      </button> -->
+						    <%# end %>  
+						  <%# elsif !message.read_message? && !message.user.admin? %>	
+						    <%#= link_to [message] do %>  
+						      <!-- <button class="btn btn-danger btn-xs btn-round">
 						        unread 	
-						      </button>
-						    <% end %>  
-						  <% end %>	
+						      </button> -->
+						    <%# end %>  
+						  <%# end %>	
 						  </td>  
 						  <td>
 						<% if message.save_as_draft? %>	
 						  <%= link_to send_message_url(message), method: :patch, data: { confirm: "Are you sure you want to send this message to #{message.recipient_name}?" } do %>
-						    <span class="btn btn-success btn-xs btn-round">
+						    <span class="btn btn-default btn-xs btn-round">
 						      send?
 						    </span>
 						  <% end %> 

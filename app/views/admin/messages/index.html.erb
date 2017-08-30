@@ -20,12 +20,12 @@
   </button>
 <% end %>
 
-<%= link_to admin_messages_url(category: "archived") do %>
-  <button class="btn btn-danger btn-xs btn-round">
-  	Archived Messages <span class="archived_notification"><%= Message.where(archived: true, archived_by: current_user.fullname, sent_by: "#{current_user.fullname}(Admin)").all.count + 
+<%#= link_to admin_messages_url(category: "archived") do %>
+  <!-- <button class="btn btn-danger btn-xs btn-round">
+  	Archived Messages <span class="archived_notification"><%#= Message.where(archived: true, archived_by: current_user.fullname, sent_by: "#{current_user.fullname}(Admin)").all.count + 
     Message.where(archived: true, archived_by: current_user.fullname, recipient_name: "Admin(#{current_user.fullname})").all.count %></span>
-  </button>
-<% end %>
+  </button> -->
+<%# end %>
 
 <div class="col-md-12">
 	<div class="card">
@@ -35,8 +35,8 @@
 	    <div class="card-header" data-background-color="blue">
 	    <% elsif current_page?(admin_messages_url(category: "draft")) %>
 	    <div class="card-header" data-background-color="grey">
-	    <% elsif current_page?(admin_messages_url(category: "archived")) %>
-	    <div class="card-header" data-background-color="red">	
+	    <%# elsif current_page?(admin_messages_url(category: "archived")) %>
+	    <!-- <div class="card-header" data-background-color="red">	 -->
 	    <% else %>
 	    <div class="card-header" data-background-color="purple">
 	    <% end %>
@@ -52,8 +52,8 @@
 				  <thead class="text-info">
 				<% elsif current_page?(admin_messages_url(category: "draft")) %>
 				  <thead class="text-default">
-				<% elsif current_page?(admin_messages_url(category: "archived")) %>
-				  <thead class="text-danger">
+				<%# elsif current_page?(admin_messages_url(category: "archived")) %>
+				  <!-- <thead class="text-danger"> -->
 			    <% else %>
 			    <thead class="text-primary">  
 				<% end %>
@@ -76,8 +76,8 @@
 						      <span class="btn btn-info btn-xs btn-round">
 						      <% elsif current_page?(admin_messages_url(category: "draft")) %>
 						      <span class="btn btn-default btn-xs btn-round">
-						      <% elsif current_page?(admin_messages_url(category: "archived")) %>
-						      <span class="btn btn-danger btn-xs btn-round">
+						      <%# elsif current_page?(admin_messages_url(category: "archived")) %>
+						      <!-- <span class="btn btn-danger btn-xs btn-round"> -->
 						      <% end %>
 						        Me 
 						        </span>
@@ -85,13 +85,13 @@
 						  <% else %>
 						    <%= link_to "#" do %>
 						      <% if current_page?(admin_messages_url(category: "received")) %>
-						      <span class="text-warning">
+						      <span class="btn btn-warning btn-xs btn-round">
 						      <% elsif current_page?(admin_messages_url(category: "sent")) %>
-						      <span class="text-info">
+						      <span class="btn btn-info btn-xs btn-round">
 						      <% elsif current_page?(admin_messages_url(category: "draft")) %>
-						      <span class="text-default">
-						      <% elsif current_page?(admin_messages_url(category: "archived")) %>
-						      <span class="text-danger">
+						      <span class="btn btn-default btn-xs btn-round">
+						      <%# elsif current_page?(admin_messages_url(category: "archived")) %>
+						      <!-- <span class="btn btn-danger btn-xs btn-round"> -->
 						      <% end %>
 						      <%= message.user.fullname %>
 						      </span>
@@ -105,8 +105,8 @@
 						<td class="text-info">
 						<% elsif current_page?(admin_messages_url(category: "draft")) %>
 						<td class="text-default">
-						<% elsif current_page?(admin_messages_url(category: "archived")) %>
-						<td class="text-danger">
+						<%# elsif current_page?(admin_messages_url(category: "archived")) %>
+						<!-- <td class="text-danger"> -->
 						<% end %>
 						<strong><%= message.title %></strong>***
 						<%= link_to admin_message_url(message, message_id: message.id) do %>
@@ -117,8 +117,8 @@
 						  <span class="text-info">
 						  <% elsif current_page?(admin_messages_url(category: "draft")) %> 
 						  <span class="text-default">
-						  <% elsif current_page?(admin_messages_url(category: "archived")) %>
-						  <span class="text-danger">
+						  <%# elsif current_page?(admin_messages_url(category: "archived")) %>
+						  <!-- <span class="text-danger"> -->
 						  <% end %>
 						    <%= truncate(message.content, length: 40) %>
 						  </span>  
@@ -139,35 +139,35 @@
 						    <% end %>
 						  <% end %>  	
 
-						  <% if message.archived? %>
-						    <%= link_to [:admin, :unarchive, message], method: :patch, data: { confirm: "Are you sure you want to unarchive this message?"} do %>
+						  <%# if message.archived? %>
+						    <%#= link_to [:admin, :unarchive, message], method: :patch, data: { confirm: "Are you sure you want to unarchive this message?"} do %><!-- 
 						      <button type="button" title="Unarchive" class="btn btn-danger btn-simple btn-xs">  
 						        <i class="material-icons">unarchive</i>
-						      </button>  
-						    <% end %> 
-						  <% else %> 
-						    <%= link_to [:admin, :archive, message], method: :patch, data: { confirm: "Are you sure you want to archive this message?"} do %>
-						      <button type="button" title="Archive" class="btn btn-<%= @x %> btn-simple btn-xs">  
+						      </button> -->  
+						    <%# end %> 
+						  <%# else %> 
+						    <%#= link_to [:admin, :archive, message], method: :patch, data: { confirm: "Are you sure you want to archive this message?"} do %>
+						      <!-- <button type="button" title="Archive" class="btn btn-<%= @x %> btn-simple btn-xs">  
 						        <i class="material-icons">archive</i>
-						      </button>  
-						    <% end %>
-						  <% end %>
+						      </button> -->  
+						    <%# end %>
+						  <%# end %>
 						<% end %>  
 
 						<% if !message.user.admin? %>
-						  <% if message.archived? %>
-						    <%= link_to [:admin, :unarchive, message], method: :patch, data: { confirm: "Are you sure you want to unarchive this message?"} do %>
-						      <button type="button" title="Unarchive" class="btn btn-info btn-simple btn-xs">  
+						  <%# if message.archived? %>
+						    <%#= link_to [:admin, :unarchive, message], method: :patch, data: { confirm: "Are you sure you want to unarchive this message?"} do %>
+						      <!-- <button type="button" title="Unarchive" class="btn btn-<%= @x %> btn-simple btn-xs">  
 						        <i class="material-icons">unarchive</i>
-						      </button>  
-						    <% end %> 
-						  <% else %> 
-						    <%= link_to [:admin, :archive, message], method: :patch, data: { confirm: "Are you sure you want to archive this message?"} do %>
-						      <button type="button" title="Archive" class="btn btn-<%= @x %> btn-simple btn-xs">  
+						      </button> -->  
+						    <%# end %> 
+						  <%# else %> 
+						    <%#= link_to [:admin, :archive, message], method: :patch, data: { confirm: "Are you sure you want to archive this message?"} do %>
+						      <!-- <button type="button" title="Archive" class="btn btn-<%= @x %> btn-simple btn-xs">  
 						        <i class="material-icons">archive</i>
-						      </button>  
-						    <% end %>
-						  <% end %>
+						      </button>   -->
+						    <%# end %>
+						  <%# end %>
 						<% end %>
 						</td>
 						<td>
@@ -177,8 +177,8 @@
 						    <button class="btn btn-info btn-xs btn-round">
 						    <% elsif current_page?(admin_messages_url(category: "draft")) %>
 						    <button class="btn btn-default btn-xs btn-round">	
-						    <% elsif current_page?(admin_messages_url(category: "archived")) %>
-						    <button class="btn btn-danger btn-xs btn-round">
+						    <%# elsif current_page?(admin_messages_url(category: "archived")) %>
+						    <!-- <button class="btn btn-danger btn-xs btn-round"> -->
 						    <% end %>
 
 						    <% if message.save_as_draft? %>
@@ -206,8 +206,8 @@
 						  <td class="text-info">
 						  <% elsif current_page?(admin_messages_url(category: "draft")) %> 
 						  <td class="text-default">
-						  <% elsif current_page?(admin_messages_url(category: "archived")) %>
-						  <td class="text-danger">
+						  <%# elsif current_page?(admin_messages_url(category: "archived")) %>
+						  <!-- <td class="text-danger"> -->
 						  <% end %>
 						<%= message.created_at.strftime("%B %d, %Y -%T") %></td>
 					</tr>

@@ -4,7 +4,7 @@ class Admin::MessagesController < Admin::ApplicationController
 
   def index
   	if params[:category] == "received"
-      @messages = Message.received_messages_for_admin.includes(:user).where(recipient_id: current_user.id)
+      @messages = Message.received_messages_for_admin(current_user)
       @x = "warning"
     elsif params[:category] == "sent"
       @messages = Message.sent_messages_for_admin.includes(:user).where(user_id: current_user.id)

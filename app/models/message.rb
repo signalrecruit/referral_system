@@ -13,12 +13,12 @@ class Message < ActiveRecord::Base
   	return false if !self.read?
   end
 
-  def self.received_messages_for_admin
-    Message.where(archived: false).all
+  def self.received_messages_for_admin(current_user)
+    Message.where(archived: false, draft: false, recipient_name: "Admin(#{current_user.fullname})").all
   end
 
   def self.received_messages_for_user(current_user)
-   Message.where(recipient_name: current_user.fullname)
+   Message.where(recipient_name: current_user.fullname, draft: false).all
   end
 
 
