@@ -1,14 +1,7 @@
 <div class="col-md-12">
 	<div class="card">
 		<div class="card-header" data-background-color="purple">
-			<h4 class="title">Message STATUS: 
-				<% if @message.save_as_draft? %>
-				draft	
-				<% elsif !@message.save_as_draft? && @message.user.admin? %>	
-				sent 	
-				<% elsif !@message.save_as_draft? && !@message.user.admin? %>
-				received	
-				<% end %>			
+			<h4 class="title">Messages		
 			</h4>
 			<p class="category"></p>
 		</div>

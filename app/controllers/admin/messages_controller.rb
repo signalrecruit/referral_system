@@ -61,7 +61,7 @@ class Admin::MessagesController < Admin::ApplicationController
 
   	if @message.save
   	  flash[:success] = "successfully sent #{@message.recipient_name} a message."
-  	  redirect_to admin_messages_url(category: "received")
+  	  redirect_to :back
   	else 	
   	  flash[:alert] = "oops! your message was not delivered to #{@message.recipient_name} for the reason(s) below:"
 
