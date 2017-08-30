@@ -191,7 +191,16 @@
 						<% else %>
 						<% end %>
 						</td>	
-						<td><%= message.created_at.strftime("%B %d, %Y -%T") %></td>
+						  <% if current_page?(messages_url(category: "received")) %>
+						  <td class="text-warning">
+						  <% elsif current_page?(messages_url(category: "sent")) %>
+						  <td class="text-info">
+						  <% elsif current_page?(messages_url(category: "draft")) %> 
+						  <td class="text-default">
+						  <%# elsif current_page?(messages_url(category: "archived")) %>
+						  <!-- <td class="text-danger"> -->
+						  <% end %>
+						<%= message.created_at.strftime("%B %d, %Y -%T") %></td>
 					</tr>
 					<% end %>
 				<% else %>
