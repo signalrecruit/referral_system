@@ -5086,6 +5086,77 @@ footer .btn {
     margin-right: -20px;
   }
 }
+.inbox_notification {
+    position: absolute;
+    top: -15px;
+    border: 1px solid #FFF;
+    right: -5px;
+    font-size: 9px;
+    background: #ffa726;
+    color: #FFFFFF;
+    min-width: 20px;
+    padding: 0px 5px;
+    height: 20px;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 19px;
+    vertical-align: middle;
+    display: block;
+}
+
+.outbox_notification {
+    position: absolute;
+    top: -15px;
+    border: 1px solid #FFF;
+    right: -5px;
+    font-size: 9px;
+    background: #26c6da;
+    color: #FFFFFF;
+    min-width: 20px;
+    padding: 0px 5px;
+    height: 20px;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 19px;
+    vertical-align: middle;
+    display: block;
+}
+
+.draft_notification {
+    position: absolute;
+    top: -15px;
+    border: 1px solid #FFF;
+    right: -5px;
+    font-size: 9px;
+    background: #999999;
+    color: #FFFFFF;
+    min-width: 20px;
+    padding: 0px 5px;
+    height: 20px;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 19px;
+    vertical-align: middle;
+    display: block;
+}
+
+.archived_notification {
+    position: absolute;
+    top: -15px;
+    border: 1px solid #FFF;
+    right: -5px;
+    font-size: 9px;
+    background: #ef5350;
+    color: #FFFFFF;
+    min-width: 20px;
+    padding: 0px 5px;
+    height: 20px;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 19px;
+    vertical-align: middle;
+    display: block;
+}
 /* Place all the styles related to the admin/application controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
