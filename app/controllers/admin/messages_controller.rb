@@ -5,13 +5,17 @@ class Admin::MessagesController < Admin::ApplicationController
   def index
   	if params[:category] == "received"
       @messages = Message.received_messages_for_admin.includes(:user).where(recipient_id: current_user.id)
+      @x = "warning"
     elsif params[:category] == "sent"
       @messages = Message.sent_messages_for_admin.includes(:user).where(user_id: current_user.id)
+      @x = "info"
     elsif params[:category] == "draft"
       @messages = Message.drafted_by_admin.includes(:user).where(user_id: current_user.id)
+      @x = "default"
     elsif params[:category] == "archived"
       @messages = Message.messages_archived_by_admin(current_user)   
       @archived_messages = @messages   
+      @x = "danger"
     else 
       retrieve_all_messages  
     end  
@@ -57,7 +61,7 @@ class Admin::MessagesController < Admin::ApplicationController
 
   	if @message.save
   	  flash[:success] = "successfully sent #{@message.recipient_name} a message."
-  	  redirect_to :back	
+  	  redirect_to admin_messages_url(category: "received")
   	else 	
   	  flash[:alert] = "oops! your message was not delivered to #{@message.recipient_name} for the reason(s) below:"
 
@@ -104,12 +108,12 @@ class Admin::MessagesController < Admin::ApplicationController
   end
 
   def archive_message
-    @message.update(archived: true)
+    @message.update(archived: true, archived_by: current_user.fullname, unarchived_by: nil)
     redirect_to :back
   end 
 
   def unarchive_message
-    @message.update(archived: false)
+    @message.update(archived: false, unarchived_by: current_user.fullname, archived_by: nil)
     redirect_to :back 
   end
 

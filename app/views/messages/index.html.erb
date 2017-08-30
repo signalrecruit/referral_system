@@ -1,6 +1,6 @@
 <%= link_to messages_url(category: "received") do %>
   <button class="btn btn-warning btn-xs btn-round">
-  	Inbox <span class="inbox_notification"><%= Message.where(recipient_name: "#{current_user.fullname}", archived: false, draft: false).count %></span>
+  	Inbox <span class="inbox_notification"><%= Message.received_messages_for_user(current_user).count %></span>
   </button>
 <% end %>
 
@@ -12,13 +12,13 @@
 
 <%= link_to messages_url(category: "draft") do %>
   <button class="btn btn-default btn-xs btn-round">
-  	Draft <span class="draft_notification"><%= current_user.messages.where(draft: true).count %></span>
+  	Draft <span class="draft_notification"><%= Message.drafted_by_user(current_user).count %></span>
   </button>
 <% end %>
 
 <%= link_to messages_url(category: "archived") do %>
   <button class="btn btn-danger btn-xs btn-round">
-  	Archived Messages <span class="archived_notification"><%= Message.where(archived: true, archived_by_user: true, sent_by: "#{current_user.fullname}").all.count + Message.where(archived: true, archived_by_user: true, recipient_name: "#{current_user.fullname}").all.count %></span>
+  	Archived Messages <span class="archived_notification"><%= Message.where(archived: true, archived_by: current_user.fullname, sent_by: "#{current_user.fullname}").all.count + Message.where(archived: true, archived_by: current_user.fullname, recipient_name: "#{current_user.fullname}").all.count %></span>
   </button>
 <% end %>
 <div class="col-md-12">
@@ -73,7 +73,7 @@
 						    <% end %>
 						  <% end %>  	
 
-						  <% if message.archived_by_user? %>
+						  <% if message.archived_by == current_user.fullname %>
 						    <%= link_to [:unarchive, message], method: :patch, data: { confirm: "Are you sure you want to unarchive this message?"} do %>
 						      <button type="button" title="Unarchive" class="btn btn-primary btn-simple btn-xs">  
 						        <i class="material-icons">unarchive</i>
@@ -89,7 +89,7 @@
 						<% end %>  
 
 						<% if message.user.admin? %>
-						  <% if message.archived_by_user? %>
+						  <% if message.archived_by == current_user.fullname %>
 						    <%= link_to [:unarchive, message], method: :patch, data: { confirm: "Are you sure you want to unarchive this message?"} do %>
 						      <button type="button" title="Unarchive" class="btn btn-primary btn-simple btn-xs">  
 						        <i class="material-icons">unarchive</i>

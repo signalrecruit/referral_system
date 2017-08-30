@@ -5,13 +5,13 @@ class MessagesController < ApplicationController
   def index
     # @messages = Message.all.where(recipient_id: current_user.id, draft: false).order(created_at: :asc)
     if params[:category] == "received"
-      @messages = Message.received_messages_for_user.where(recipient_id: current_user.id)
+      @messages = Message.received_messages_for_user(current_user)
     elsif params[:category] == "sent"
       @messages = Message.sent_messages_for_user.where(user_id: current_user.id)
     elsif params[:category] == "draft"
-      @messages = Message.drafted_by_user.where(user_id: current_user.id)
+      @messages = Message.drafted_by_user(current_user)
     elsif params[:category] == "archived"
-      @messages = Message.messages_archived_by_user.includes(:user)
+      @messages = Message.messages_archived_by_user(current_user)     
     else 
       retrieve_all_messages   
     end  
@@ -105,12 +105,12 @@ class MessagesController < ApplicationController
   end
 
   def archive_message
-    @message.update(archived_by_user: true)
+    @message.update(archived: true, archived_by_user: true)
     redirect_to :back
   end 
 
   def unarchive_message
-    @message.update(archived_by_user: false)
+    @message.update(archived: false, archived_by_user: false)
     redirect_to :back 
   end
 

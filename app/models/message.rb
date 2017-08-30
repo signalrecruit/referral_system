@@ -14,41 +14,42 @@ class Message < ActiveRecord::Base
   end
 
   def self.received_messages_for_admin
-    Message.where(archived: false).joins(:user).where(users: { admin: false })
+    Message.where(archived: false).all
   end
 
-  def self.received_messages_for_user
-    Message.where(archived_by_user: false).joins(:user).where(users: { admin: true })
+  def self.received_messages_for_user(current_user)
+   Message.where(recipient_name: current_user.fullname)
   end
 
 
 
   def self.sent_messages_for_admin
-    Message.where(draft: false, archived: false).joins(:user).where(users: { admin: true })
+    Message.where(draft: false, archived: false)
   end
 
   def self.sent_messages_for_user
-    Message.where(draft: false, archived_by_user: false).joins(:user).where(users: { admin: false })  
+    Message.where(draft: false)
   end
 
 
 
   def self.drafted_by_admin
-    Message.where(draft: true, archived: false).joins(:user).where(users: { admin: true })
+    Message.where(draft: true, archived: false)
   end
 
-  def self.drafted_by_user
-    Message.where(draft: true, archived_by_user: false).joins(:user).where(users: { admin: false })
+  def self.drafted_by_user(current_user)
+    Message.where(draft: true, archived: false, sent_by: "#{current_user.fullname}").all 
   end
 
 
 
   def self.messages_archived_by_admin(current_user)
-    Message.where(archived: true, archived_by_user: false, sent_by: "#{current_user.fullname}(Admin)").all + 
-    Message.where(archived: true, archived_by_user: false, recipient_name: "Admin(#{current_user.fullname})").all
+    Message.where(archived: true, archived_by: current_user.fullname, sent_by: "#{current_user.fullname}(Admin)").all + 
+    Message.where(archived: true, archived_by: current_user.fullname, recipient_name: "Admin(#{current_user.fullname})").all
   end
 
-  def self.messages_archived_by_user
-    Message.where(archived: true, archived_by_user: true).all
+  def self.messages_archived_by_user(current_user)
+    Message.where(archived: true, archived_by: current_user.fullname, sent_by: "#{current_user.fullname}").all + 
+    Message.where(archived: true, archived_by: current_user.fullname, recipient_name: "#{current_user.fullname}").all
   end
 end
