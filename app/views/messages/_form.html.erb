@@ -110,21 +110,57 @@
     </div>
   </div> -->
   <% @reply_thread.map do |message| %>
+     <% if message.user.admin? %>
       <div class="row">
         <div class="col-md-12">
           <div class="form-group label-floating">
-            <span class="label label-primary">From:</span> <%= message.user.fullname %>
+            <span class="label label-info">From:</span>
+            <% if message.user == current_user %>
+              Me
+            <% else %>  
+              <%= message.user.fullname %>
+            <% end %>  
             <br>
-            <span class="label label-primary">Sent:</span> <%= message.created_at.strftime("%B %d, %Y") %>
+            <span class="label label-info">To:</span> <%= message.recipient_name %>
+            <br>
+            <span class="label label-info">Sent:</span> <%= message.created_at.strftime("%B %d, %Y") %>
             <br>  
-            <span class="label label-primary">Subject:</span> <%= message.title %>
+            <span class="label label-info">Subject:</span><strong class="text-info"><%= message.title %></strong>
             <br>
             <%= message.content %>
-
           </div>
         </div>  
       </div>
-      <h6 style="font-size: 10px;"><%= message.created_at.strftime("%B %d, %Y") %>(<%= time_ago_in_words message.created_at %> ago) | <%= message.created_at.strftime("%T") %></h6>
+      <!-- message in thread -->
+      <% else %>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group label-floating">
+            <span class="label label-warning">From:</span> 
+            <% if message.user == current_user %>
+              Me
+            <% else %>  
+              <%= message.user.fullname %>
+            <% end %>  
+            <br>
+            <span class="label label-warning">To:</span> <%= message.recipient_name %>
+            <br>
+            <span class="label label-warning">Sent:</span> <%= message.created_at.strftime("%B %d, %Y") %>
+            <br>  
+            <span class="label label-warning">Subject:</span> <strong class="text-warning"><%= message.title %></strong>
+            <br>
+            <%= message.content %>
+          </div>
+        </div>  
+      </div>
+      <% end %>
+      <% if message.user.admin? %>
+      <h6 class="text-info" style="font-size: 10px;">
+      <% else %>
+      <h6 class="text-warning" style="font-size: 10px;">
+      <% end %>
+      <%= message.created_at.strftime("%B %d, %Y") %>(<%= time_ago_in_words message.created_at %> ago) | <%= message.created_at.strftime("%T") %></h6>
+      <hr>
       <% end %>
       <hr>
   <% end %>
