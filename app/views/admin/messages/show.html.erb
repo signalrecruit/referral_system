@@ -56,7 +56,7 @@
 						<br>
 						<span class="label label-info">Sent:</span> <%= message.created_at.strftime("%B %d, %Y") %>
 						<br>  
-						<span class="label label-info">Subject:</span><strong><%= message.title %></strong>
+						<span class="label label-info">Subject:</span><strong class="text-info"><%= message.title %></strong>
 						<br>
 						<%= message.content %>
 					</div>
@@ -78,17 +78,22 @@
 						<br>
 						<span class="label label-warning">Sent:</span> <%= message.created_at.strftime("%B %d, %Y") %>
 						<br>  
-						<span class="label label-warning">Subject:</span> <strong><%= message.title %></strong>
+						<span class="label label-warning">Subject:</span> <strong class="text-warning"><%= message.title %></strong>
 						<br>
 						<%= message.content %>
 					</div>
 				</div>	
 			</div>
 			<% end %>
-			<h6 style="font-size: 10px;"><%= message.created_at.strftime("%B %d, %Y") %>(<%= time_ago_in_words message.created_at %> ago) | <%= message.created_at.strftime("%T") %></h6>
+			<% if message.user.admin? %>
+			<h6 class="text-info" style="font-size: 10px;">
+			<% else %>
+			<h6 class="text-warning" style="font-size: 10px;">
 			<% end %>
-			<% end %>
+			<%= message.created_at.strftime("%B %d, %Y") %>(<%= time_ago_in_words message.created_at %> ago) | <%= message.created_at.strftime("%T") %></h6>
 			<hr>
+			<% end %>
+			<% end %>
 
 			<div class="clearfix">
 			  <div class="pull-right">
