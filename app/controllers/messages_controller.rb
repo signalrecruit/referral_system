@@ -132,13 +132,9 @@ class MessagesController < ApplicationController
 
   def set_reply_thread(message)
     @reply_thread ||= Message.where(archived: nil) #create an empty active record relation
-    Message.where(recipient_id: current_user.id, user_id: message.user_id).each do |msg|
-      @reply_thread << msg
-    end
-    Message.where(recipient_id: message.user_id, user_id: current_user.id).each do |msg|
-      @reply_thread << msg
-    end
-    @reply_thread.includes(:user).order(created_at: :asc)
+    @reply_thread = Message.where(recipient_id: current_user.id, user_id: message.user_id).all +
+    Message.where(recipient_id: message.user_id, user_id: current_user.id).all
+    @reply_thread.sort!{ |a, b| b.updated_at <=> a.updated_at }
   end
 
   def retrieve_all_messages
