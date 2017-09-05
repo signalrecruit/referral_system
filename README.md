@@ -39,7 +39,7 @@
 
   cd app_dir
 
-  git clone https://github.com/paa-yaw/referralsysteml.git
+  git clone https://github.com/paa-yaw/referralsystem.git
   
   cd app_dir/referralsystem
 
@@ -49,7 +49,7 @@
 
 ```  
 # User Credentials
-  * [check here](https://github.com/paa-yaw/referralsysteml/blob/master/app_description.md#user-credentials)
+  * [check here](https://github.com/paa-yaw/referralsystem/blob/master/app_description.md#user-credentials)
 
 
 # Database initialization
