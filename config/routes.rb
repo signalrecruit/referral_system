@@ -39,7 +39,14 @@ Rails.application.routes.draw do
     get 'notifications/mark_all_as_seen', to: 'notifications#mark_all_as_seen', as: :mark_all_as_seen
     get 'roles/set_role', to: 'roles#set_role', as: :set_role
     get 'roles/unset_role', to: 'roles#unset_role', as: :unset_role
-
+    
+    scope module: "admin" do 
+      resources :messages do 
+        member do 
+          patch 'read_by_admin_at'
+        end
+      end
+    end
 
     
     # resources :users, only: [] do 
@@ -93,6 +100,7 @@ Rails.application.routes.draw do
   get 'notifications/mark_all_as_read', to: 'notifications#mark_all_as_read', as: :mark_all_as_read
   get 'notifications/mark_all_as_seen', to: 'notifications#mark_all_as_seen', as: :mark_all_as_seen
   
+  patch 'messages/:id/read_by_user', to: 'messages#read_by_user', as: :read_by_user
 
 
   resources :user, only: [] do 
