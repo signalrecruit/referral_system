@@ -4,7 +4,7 @@
 # Project Name: Referral System
 
 # Brief Description
- * [Brief Description Here](https://github.com/paa-yaw/referralsystem/blob/master/app_description.md)
+ * [Brief Description Here](https://github.com/signalrecruit/referral_system/blob/master/app_description.md)
 
 
 
@@ -17,7 +17,7 @@
 
 # System Dependencies
 
-* check [Here](https://github.com/paa-yaw/referralsystem/blob/master/Gemfile)
+* check [Here](https://github.com/signalrecruit/referral_system/blob/master/Gemfile)
 
 # App Configuration and Setup
 
@@ -49,7 +49,7 @@
 
 ```  
 # User Credentials
-  * [check here](https://github.com/paa-yaw/referralsystem/blob/master/app_description.md#user-credentials)
+  * [check here](https://github.com/signalrecruit/referral_system/blob/master/app_description.md#user-credentials)
 
 
 # Database initialization
