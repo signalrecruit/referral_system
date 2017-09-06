@@ -2,7 +2,7 @@ class Admin::BugReportsController < Admin::ApplicationController
   layout "admin"
 
   def index
-  	@bug_reports = BugReport.all.order(created: :asc)
+  	@bug_reports = BugReport.all.order(created_at: :asc)
   end
 
   def show 
