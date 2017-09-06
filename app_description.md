@@ -32,3 +32,6 @@
  ## Users
 * email: "elliot@alderson.com", password: "password"
 * email: "darlene@alderson.com", password: "password"
+
+## Dev
+* email: "rubydev@email.com", password: "password"
