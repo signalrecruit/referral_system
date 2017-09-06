@@ -66,10 +66,11 @@
 		    		    <%= link_to messages_url(category: "received") do %>
 		    			    <p>
 		    			    <% if Message.where(recipient_id: current_user.id, draft: false, read: false).count == 0 %>
-		    			    <i class="material-icons">email</i><span class="badge"><%= Message.where(recipient_id: current_user.id, draft: false, read: false).count %></span> Unread Messages</p>
+		    			    <i class="material-icons">email</i><span class="badge"><%= Message.where(recipient_id: current_user.id, draft: false, read: false).count %></span> Unread Messages
 		    			    <% else %>	
-		    			    <i class="material-icons">email</i><span class="badge" style="background: #F44336"><%= Message.where(recipient_id: current_user.id, draft: false, read: false).count %></span> Unread Messages</p>
+		    			    <i class="material-icons">email</i><span class="badge" style="background: #F44336"><%= Message.where(recipient_id: current_user.id, draft: false, read: false).count %></span> Unread Messages
 		    			    <% end %>
+		    			    </p>
 		    			<% end %>	
 		    		  <% end %>  	
 		    		</li>
