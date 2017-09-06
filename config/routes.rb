@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
 
+  get 'bug_report/show'
+
+  namespace :admin do
+  get 'bug_reports/index'
+  end
+
   namespace :admin do 
     get 'dashboard/dashboard', to: 'dashboard#dashboard', as: :dashboard
     # get 'dashboard/activity_feed', to: 'dashboard#activity_feed', as: :activity_feed
@@ -39,6 +45,7 @@ Rails.application.routes.draw do
     get 'notifications/mark_all_as_seen', to: 'notifications#mark_all_as_seen', as: :mark_all_as_seen
     get 'roles/set_role', to: 'roles#set_role', as: :set_role
     get 'roles/unset_role', to: 'roles#unset_role', as: :unset_role
+
     
     scope module: "admin" do 
       resources :messages do 
@@ -71,6 +78,7 @@ Rails.application.routes.draw do
     end
 
     resources :activity_logs, only: [:index, :show]
+    resources :bug_reports, only: [:index, :show]
   end
 
   devise_for :users, controllers: { registrations: :registrations, confirmations: :confirmations }
@@ -120,8 +128,7 @@ Rails.application.routes.draw do
     resources :requirement_scores
   end
 
-  resources :attachments, only: [:new, :show, :destroy]
-
+  resources :attachments, only: [:new, :show, :destroy] 
 
   match "*path", to: "application#routing_error", via: :all if Rails.env.production?
 end

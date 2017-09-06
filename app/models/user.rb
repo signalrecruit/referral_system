@@ -5,7 +5,8 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
-  enum admin_status: [:user, :normal_admin, :super_admin]
+  enum admin_status: [:user, :normal_admin, :super_admin, :dev]
+
   has_many :companies, dependent: :destroy
   has_many :activities, as: :trackable, dependent: :destroy
   has_many :applicants, dependent: :destroy

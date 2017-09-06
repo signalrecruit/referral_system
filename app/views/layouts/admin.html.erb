@@ -144,6 +144,14 @@
 		    		  <% end %>  
 		    		  <% end %>	
 		    		</li>
+		    		<li>
+		    		  <% if current_user.dev? %>
+		    		  <%= link_to admin_bug_reports_url do %>
+		    		    <i class="material-icons">bug_report</i>
+		    		    <p>Bug Report</p>
+		    		  <% end %>  
+		    		  <% end %>		
+		    		</li>
 		    	</ul>
 		    </div>
 		</div>

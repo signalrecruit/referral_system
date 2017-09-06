@@ -1,0 +1,44 @@
+	                <div class="row">
+	                    <div class="col-md-12">
+	                        <div class="card">
+	                            <div class="card-header" data-background-color="red">
+	                                <h4 class="title"><i class="material-icons">bug_report</i>
+														Bug Report</h4>
+	                                <p class="category">a brief report of all errors caught during running of application and user browsing sessions</p>
+	                            </div>
+	                            <div class="card-content table-responsive">
+	                                <table class="table">
+	                                    <thead class="text-primary">
+	                                    	<th>Issue number</th>
+	                                    	<th>Error</th>	                                    	
+											<th>StackTrace</th>
+											<th>Timestamp</th>
+	                                    </thead>
+	                                    <tbody>
+	                                      <% if @bug_reports.any? %>
+	                                      <% @bug_reports.each do |bug| %>  
+	                                        <tr>
+	                                        	<td>#<%= link_to bug.id, [:admin, bug] %></td>
+	                                        	<td><%= bug.error_message %></td>
+	                                        	<td><%= bug.stacktrace.first %></td>
+	                                        	<td>
+	                                            <button class="btn btn-default btn-sm btn-round">		
+	                                        	  <%= bug.created_at.strftime("%B %d, %Y") %>  at <%= bug.updated_at.strftime("%r") %></td>
+												</button>											
+	                                        </tr>
+	                                      <% end %>  
+	                                      <% else %>
+	                                        <tr>
+	                                        	<td>no data</td>
+	                                        	<td>no data</td>
+	                                        	<td>no data</td>
+												<td>no data</td>
+	                                        </tr>
+	                                      <% end %>  
+	                                    </tbody>
+	                                </table>
+
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
