@@ -13,11 +13,15 @@ module Error
       flash[:alert] = "error: you tried navigating a route that does not exist. The system has recorded this issue for later resolution!"
       bug = BugReport.create error_message: exception.message, stacktrace: exception.backtrace, resolution_status: "unresolved"
 
-      if current_user.admin?
-      	redirect_to admin_dashboard_url
-      else	
+      if current_user
+        if current_user.admin?
+          redirect_to admin_dashboard_url
+        else  
+          redirect_to root_url
+        end
+      else
         redirect_to root_url
-      end  
+      end    
     end
 
     private 
@@ -26,9 +30,13 @@ module Error
       flash[:alert] = "oops! something went wrong. Error: #{exception.message}. The system has recorded this issue for later resolution!"
       bug = BugReport.create error_message: exception.message, stacktrace: exception.backtrace, resolution_status: "unresolved"
       Rails.logger.error 
-      if current_user.admin?
-      	redirect_to admin_dashboard_url
-      else	
+      if current_user
+        if current_user.admin?
+      	  redirect_to admin_dashboard_url
+        else	
+          redirect_to root_url
+        end
+      else
         redirect_to root_url
       end         	
     end
@@ -37,11 +45,15 @@ module Error
       flash[:alert] = "the resource you are looking for doesn't exist.The system has recorded this issue for later resolution!"
       bug = BugReport.create error_message: exception.message, stacktrace: exception.backtrace, resolution_status: "unresolved"
 
-      if current_user.admin?
-      	redirect_to admin_dashboard_url
-      else	
+      if current_user
+        if current_user.admin?
+          redirect_to admin_dashboard_url
+        else  
+          redirect_to root_url
+        end
+      else
         redirect_to root_url
-      end  
+      end    
     end
   end
 end
