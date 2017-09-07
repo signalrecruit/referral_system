@@ -55,3 +55,11 @@
     margin-top: -40px;
  }
 
+ .logo1{
+    position: absolute;
+    top: 30%;
+    left: 10%;
+    transform:  translateX(-50%) translateY(-60%) rotate(-60deg);
+    color: orange;
+    font-size: 28px;
+ }

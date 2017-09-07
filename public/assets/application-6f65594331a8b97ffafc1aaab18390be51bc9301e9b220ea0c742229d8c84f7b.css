@@ -5265,6 +5265,15 @@ footer .btn {
 .dropdown:hover .dropbtn {
     background-color: #3e8e41;
 }
+
+.logo1{
+    position: absolute;
+    top: 30%;
+    left: 10%;
+    transform:  translateX(-50%) translateY(-60%) rotate(-60deg);
+    color: orange;
+    font-size: 28px;
+ }
 /*!
  * Bootstrap v3.3.5 (http://getbootstrap.com)
  * Copyright 2011-2015 Twitter, Inc.
@@ -10482,74 +10491,11 @@ footer .btn {
     margin-top: -40px;
  }
 
-.inbox_notification {
+ .logo1{
     position: absolute;
-    top: -15px;
-    border: 1px solid #FFF;
-    right: -5px;
-    font-size: 9px;
-    background: #ffa726;
-    color: #FFFFFF;
-    min-width: 20px;
-    padding: 0px 5px;
-    height: 20px;
-    border-radius: 10px;
-    text-align: center;
-    line-height: 19px;
-    vertical-align: middle;
-    display: block;
-}
-
-.outbox_notification {
-    position: absolute;
-    top: -15px;
-    border: 1px solid #FFF;
-    right: -5px;
-    font-size: 9px;
-    background: #26c6da;
-    color: #FFFFFF;
-    min-width: 20px;
-    padding: 0px 5px;
-    height: 20px;
-    border-radius: 10px;
-    text-align: center;
-    line-height: 19px;
-    vertical-align: middle;
-    display: block;
-}
-
-.draft_notification {
-    position: absolute;
-    top: -15px;
-    border: 1px solid #FFF;
-    right: -5px;
-    font-size: 9px;
-    background: #999999;
-    color: #FFFFFF;
-    min-width: 20px;
-    padding: 0px 5px;
-    height: 20px;
-    border-radius: 10px;
-    text-align: center;
-    line-height: 19px;
-    vertical-align: middle;
-    display: block;
-}
-
-.archived_notification {
-    position: absolute;
-    top: -15px;
-    border: 1px solid #FFF;
-    right: -5px;
-    font-size: 9px;
-    background: #ef5350;
-    color: #FFFFFF;
-    min-width: 20px;
-    padding: 0px 5px;
-    height: 20px;
-    border-radius: 10px;
-    text-align: center;
-    line-height: 19px;
-    vertical-align: middle;
-    display: block;
-}
+    top: 30%;
+    left: 10%;
+    transform:  translateX(-50%) translateY(-60%) rotate(-60deg);
+    color: orange;
+    font-size: 28px;
+ }
