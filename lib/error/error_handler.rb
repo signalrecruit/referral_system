@@ -2,10 +2,10 @@ module Error
   module ErrorHandler
     def self.included base 
       base.class_eval do 
-        # unless !Rails.env.production?  
+        unless !Rails.env.production?  
       	  rescue_from StandardError, with: :unknown_error
           rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
-        # end
+        end
       end
     end
 

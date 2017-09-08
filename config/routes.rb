@@ -47,13 +47,13 @@ Rails.application.routes.draw do
     get 'roles/unset_role', to: 'roles#unset_role', as: :unset_role
 
     
-    scope module: "admin" do 
-      resources :messages do 
-        member do 
-          patch 'read_by_admin_at'
-        end
-      end
-    end
+    # scope module: "admin" do 
+    #   resources :messages do 
+    #     member do 
+    #       patch 'read_by_admin_at'
+    #     end
+    #   end
+    # end
 
     
     # resources :users, only: [] do 
