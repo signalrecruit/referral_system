@@ -4,6 +4,6 @@ class BankAccount < ActiveRecord::Base
   validates :account_number, format: { with: /\A[-+]?[0-9]*\.?[0-9]+\Z/, message: "only allows numbers" }
 
   def updated?
-    return true if self.update_button?
+    self.update_button?
   end
 end
