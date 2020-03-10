@@ -35,11 +35,11 @@ class JobDescription < ActiveRecord::Base
   end
 
   def updated?
-  	return true if self.update_button?
+  	self.update_button?
   end
 
   def role_expired?
-    return true if self.expiration_date < Time.now 
+    self.expiration_date < Time.now 
   end
 
   def remove_related_activities_from_newsfeed
