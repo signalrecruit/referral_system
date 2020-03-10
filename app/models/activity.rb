@@ -5,6 +5,6 @@ class Activity < ActiveRecord::Base
 
   def role_expired?
     jd = JobDescription.find(self.trackable_id) 
-    return true if jd.expiration_date < DateTime.now
+    jd.expiration_date < DateTime.now
   end
 end
