@@ -5,6 +5,6 @@ class RequiredExperience < ActiveRecord::Base
   validates :years, numericality: { greater_than_or_equal_to: 0 }
 
   def updated?
-  	return true if self.update_button?
+  	self.update_button?
   end
 end
