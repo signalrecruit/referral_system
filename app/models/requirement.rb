@@ -5,6 +5,6 @@ class Requirement < ActiveRecord::Base
   validates :content, presence: true
 
   def updated?
-  	return true if self.update_button?
+  	self.update_button?
   end
 end
