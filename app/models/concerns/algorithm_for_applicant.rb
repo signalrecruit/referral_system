@@ -1,34 +1,34 @@
 module AlgorithmForApplicant
   def none? 
-    return true if self.status == "none"
+    self.status == "none"
   end 
 
   def shortlisted?
-  	return true if self.status == "shortlisted"
+  	self.status == "shortlisted"
   end
 
   def interviewing?
-  	return true if self.status == "interviewing"
+  	self.status == "interviewing"
   end
 
   def testing?
-  	return true if self.status == "testing"
+  	self.status == "testing"
   end
 
   def salary_negotiation?
-    return true if self.status == "salary negotiation"
+    self.status == "salary negotiation"
   end
 
   def hired?
-  	return true if self.status == "hired"
+  	self.status == "hired"
   end
 
   def not_hired?
-  	return true if self.status == "not hired"
+  	self.status == "not hired"
   end  
 
   def applicant_hired?
-    self.hired? ? true : false
+    self.hired?
   end
 
   def calculate_cumulative_earnings
