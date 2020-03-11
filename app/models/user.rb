@@ -24,19 +24,19 @@ class User < ActiveRecord::Base
 
 
   def updated?
-  	return true if self.update_button?
+  	self.update_button?
   end
 
   def profile_completed?
-    return true if self.done?
+    self.done?
   end
 
   def approved?
-    return true if self.approval?
+    self.approval?
   end
 
   def disapproved?
-    return true if !self.approval?
+    !self.approval?
   end
 
   def unique_username_generation
