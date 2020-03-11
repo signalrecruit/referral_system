@@ -16,7 +16,7 @@ module UserStatistics
   end
 
   def has_any_successful_deals?
-    self.job_descriptions.where(completed: true).any? ? true : false  
+    self.job_descriptions.where(completed: true).any?  
   end
 
   def number_of_companies
